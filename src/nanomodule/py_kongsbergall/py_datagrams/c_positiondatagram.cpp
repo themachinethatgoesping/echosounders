@@ -124,7 +124,7 @@ void init_c_positiondatagram(nanobind::module_& m)
              &PositionDatagram::operator==,
              DOC_PositionDatagram(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(PositionDatagram)
         // default binary functions

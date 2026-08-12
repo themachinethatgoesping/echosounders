@@ -108,7 +108,7 @@ void init_c_extradetectionsdetectionclasses(nanobind::module_& m)
              &ExtraDetectionsDetectionClasses::operator==,
              DOC_ExtraDetectionsDetectionClasses(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(ExtraDetectionsDetectionClasses)
         // default printing functions

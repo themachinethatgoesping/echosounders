@@ -100,7 +100,7 @@ void init_c_kmallwatercolumncalibration(nanobind::module_& m)
                       &KMALLWaterColumnCalibration::operator==,
                       DOC_KMALLWaterColumnCalibration(operator_eq),
                       nb::arg("other"))
-             // ----- pybind macros -----
+             // ----- nanobind macros -----
              // default copy functions
              __PYCLASS_DEFAULT_COPY__(KMALLWaterColumnCalibration)
              // default binary functions

@@ -114,7 +114,7 @@ void init_c_xml_datagram(nanobind::module_& m)
         //         &XML_Node::operator==,
         //         DOC(themachinethatgoesping, echosounders, simradraw, datagrams, xml_datagrams,
         //         XML_Node, operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Node)
         // default binary functions

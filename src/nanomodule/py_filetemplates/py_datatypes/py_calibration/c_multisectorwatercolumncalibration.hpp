@@ -421,7 +421,7 @@ void init_multisectorcalibration(nanobind::module_& m, const std::string& name)
                       &T_MultiSectorCalibration<t_calibration>::operator==,
                       DOC_I_MultiSectorCalibration(operator_eq),
                       nb::arg("other"))
-             // ----- pybind macros -----
+             // ----- nanobind macros -----
              // default copy functions
              __PYCLASS_DEFAULT_COPY__(T_MultiSectorCalibration<t_calibration>)
              // default binary functions

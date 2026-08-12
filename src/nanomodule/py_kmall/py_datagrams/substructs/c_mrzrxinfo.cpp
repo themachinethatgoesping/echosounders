@@ -118,7 +118,7 @@ void init_c_mrzrxinfo(nanobind::module_& m)
              &MRZRxInfo::operator==,
              DOC_MRZRxInfo(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         __PYCLASS_DEFAULT_COPY__(MRZRxInfo)
         __PYCLASS_DEFAULT_PRINTING__(MRZRxInfo)
         ;

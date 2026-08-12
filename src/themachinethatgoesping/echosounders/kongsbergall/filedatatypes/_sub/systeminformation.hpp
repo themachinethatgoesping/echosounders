@@ -92,7 +92,7 @@ class TxSignalParameterVector
  * information necessary to efficiently read water column data from the file. It does not hold the
  * actual water column samples
  *
- * Note this is a private substructure and is thus not part of the public API or pybind11 interface.
+ * Note this is a private substructure and is thus not part of the public API or nanobind interface.
  *
  */
 class SystemInformation

@@ -103,7 +103,7 @@ void init_c_kongsbergallwatercolumncalibration(nanobind::module_& m)
                       &KongsbergAllWaterColumnCalibration::operator==,
                       DOC_KongsbergAllWaterColumnCalibration(operator_eq),
                       nb::arg("other"))
-             // ----- pybind macros -----
+             // ----- nanobind macros -----
              // default copy functions
              __PYCLASS_DEFAULT_COPY__(KongsbergAllWaterColumnCalibration)
              // default binary functions

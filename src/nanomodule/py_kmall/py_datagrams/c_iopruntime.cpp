@@ -82,7 +82,7 @@ void init_c_iopruntime(nanobind::module_& m)
              &IOpRuntime::operator==,
              DOC_IOpRuntime(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(IOpRuntime)
         // default binary functions

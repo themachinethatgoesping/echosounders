@@ -96,7 +96,7 @@ void init_c_surfacesoundspeeddatagram(nanobind::module_& m)
              &SurfaceSoundSpeedDatagram::operator==,
              DOC_SurfaceSoundSpeedDatagram(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SurfaceSoundSpeedDatagram)
         // default binary functions

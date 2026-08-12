@@ -131,7 +131,7 @@ void py_create_class_kmallPingFileData(nanobind::module_& m, const std::string& 
         //      &KMALLPing::operator==,
         //      DOC(themachinethatgoesping, echosounders, kmall, filedatatypes,
         //      KMALLPing, operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_KMALLPingFileData)
         // default binary functions

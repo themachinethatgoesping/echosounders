@@ -80,7 +80,7 @@ void init_c_watercolumndatagramtransmitsector(nanobind::module_& m)
              &WatercolumnDatagramTransmitSector::operator==,
              DOC_WatercolumnDatagramTransmitSector(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(WatercolumnDatagramTransmitSector)
         // default printing functions

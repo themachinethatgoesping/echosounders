@@ -82,7 +82,7 @@ void init_c_XMLConfigurationActivePingMode(nanobind::module_& m)
                  XMLConfigurationActivePingMode,
                  parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XMLConfigurationActivePingMode)
         // default binary functions

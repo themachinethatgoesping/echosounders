@@ -90,7 +90,7 @@ void init_c_mrangeanddepth(nanobind::module_& m)
              &MRangeAndDepth::operator==,
              DOC_MRangeAndDepth(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(MRangeAndDepth)
         // default binary functions

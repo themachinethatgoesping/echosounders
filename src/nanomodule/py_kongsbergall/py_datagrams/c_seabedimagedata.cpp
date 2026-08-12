@@ -134,7 +134,7 @@ void init_c_seabedimagedata(nanobind::module_& m)
              &SeabedImageData::operator==,
              DOC_SeabedImageData(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SeabedImageData)
         // default binary functions

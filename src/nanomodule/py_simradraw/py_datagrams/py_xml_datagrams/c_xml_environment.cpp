@@ -79,7 +79,7 @@ void init_c_xml_environment(nanobind::module_& m)
              &XML_Environment::parsed_completely,
              DOC(LOCAL_CLASS_DOC_PREFIX, parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Environment)
         // default binary functions

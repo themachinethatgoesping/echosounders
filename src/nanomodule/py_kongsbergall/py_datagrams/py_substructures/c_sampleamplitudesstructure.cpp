@@ -99,7 +99,7 @@ void init_c_sampleamplitudesstructure_per_sample_type(std::string_view name, nan
              &SampleAmplitudesStructure<t_sample>::operator==,
              DOC_SampleAmplitudesStructure(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SampleAmplitudesStructure<t_sample>)
         // default printing functions

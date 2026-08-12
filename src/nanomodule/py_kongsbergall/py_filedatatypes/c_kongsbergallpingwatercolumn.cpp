@@ -105,7 +105,7 @@ void py_create_class_kongsbergallpingwatercolumn(nanobind::module_& m,
         //      &KongsbergAllPingWatercolumn::operator==,
         //      DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes,
         //      KongsbergAllPingWatercolumn, operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_KongsbergAllPingWatercolumn)
         // default binary functions

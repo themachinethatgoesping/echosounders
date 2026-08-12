@@ -69,7 +69,7 @@ void py_create_class_simradrawping(nb::module_& m, const std::string& CLASS_NAME
         //      &SimradRawPing::operator==,
         //      DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes,  SimradRawPing,
         //      operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_SimradRawPing)
         // default binary functions

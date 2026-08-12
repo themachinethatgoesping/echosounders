@@ -50,11 +50,9 @@ void test_speed_all(const SimradRawFileHandler<datastreams::MappedFileStream>& i
     auto prg = themachinethatgoesping::tools::progressbars::ProgressIndicator();
     prg.init(0., double(it.size()), "test reading");
 
-    double t = 0;
     for (size_t i = 0; i < it.size(); ++i)
     {
-        auto dg = it.at(int64_t(i));
-        t += dg.get_timestamp();
+        it.at(int64_t(i));
         prg.tick();
     }
 

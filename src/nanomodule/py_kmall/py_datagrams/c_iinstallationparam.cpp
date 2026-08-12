@@ -142,7 +142,7 @@ void init_c_iinstallationparam(nanobind::module_& m)
              &IInstallationParam::operator==,
              DOC_IInstallationParam(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(IInstallationParam)
         // default binary functions

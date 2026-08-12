@@ -223,7 +223,7 @@ void init_c_ssoundvelocitytransducer(nanobind::module_& m)
              DOC_SSoundVelocityTransducer(operator_eq),
              nb::arg("other"))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copying
         __PYCLASS_DEFAULT_COPY__(SSoundVelocityTransducer)
         // default streaming

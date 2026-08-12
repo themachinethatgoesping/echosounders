@@ -50,7 +50,7 @@ void add_file_index_types(nanobind::module_& m, const std::string& CLASS_NAME)
              DOC_FilePackageIndex(operator_eq),
              nb::arg("other"))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_FilePackageIndex)
         // default binary functions

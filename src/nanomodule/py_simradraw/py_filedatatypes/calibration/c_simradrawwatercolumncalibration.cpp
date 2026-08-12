@@ -332,7 +332,7 @@ void init_c_simradrawwatercolumncalibration(nanobind::module_& m)
                  &SimradRawWaterColumnCalibration::operator==,
                  DOC_SimradRawWaterColumnCalibration(operator_eq),
                  nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SimradRawWaterColumnCalibration)
         // default binary functions

@@ -391,7 +391,7 @@ void init_c_mrzpinginfo(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &MRZPingInfo::operator==, DOC_MRZPingInfo(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(MRZPingInfo)
         // default binary functions

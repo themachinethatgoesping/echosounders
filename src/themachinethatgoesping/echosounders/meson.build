@@ -432,7 +432,6 @@ headers = [
   'simradraw/filedatatypes/simradrawpingfiledata.hpp',
   'simradraw/filedatatypes/simradrawpingwatercolumn.hpp',
   'simradraw/filedatatypes/calibration/functions.hpp',
-  'simradraw/filedatatypes/calibration/simradrawcalibrationinfo.hpp',
   'simradraw/filedatatypes/calibration/simradrawwatercolumncalibration.hpp',
   'simradraw/filedatatypes/calibration/.docstrings/functions.doc.hpp',
   'simradraw/filedatatypes/calibration/.docstrings/simradrawcalibrationinfo.doc.hpp',

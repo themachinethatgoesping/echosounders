@@ -62,7 +62,7 @@ void init_c_raw3datapowerandangle(nanobind::module_& m)
         .def_rw("power", &RAW3DataPowerAndAngle::_power, DOC_RAW3DataPowerAndAngle(power))
         .def_rw("angle", &RAW3DataPowerAndAngle::_angle, DOC_RAW3DataPowerAndAngle(angle))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RAW3DataPowerAndAngle)
         // default binary functions

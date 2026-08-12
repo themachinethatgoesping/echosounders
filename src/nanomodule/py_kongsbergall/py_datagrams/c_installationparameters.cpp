@@ -186,7 +186,7 @@ void init_c_installationparameters(nanobind::module_& m)
              &InstallationParameters::operator==,
              DOC_InstallationParameters(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(InstallationParameters)
         // default binary functions

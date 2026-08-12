@@ -95,7 +95,7 @@ void init_c_qualityfactordatagram(nanobind::module_& m)
              &QualityFactorDatagram::operator==,
              DOC_QualityFactorDatagram(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(QualityFactorDatagram)
         // default binary functions

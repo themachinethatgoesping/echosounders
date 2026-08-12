@@ -238,7 +238,7 @@ void init_c_mrzsoundingscontainer(nanobind::module_& m)
              &MRZSoundingsContainer::operator==,
              DOC_MRZSoundingsContainer(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // copy
         __PYCLASS_DEFAULT_COPY__(MRZSoundingsContainer)
         // print

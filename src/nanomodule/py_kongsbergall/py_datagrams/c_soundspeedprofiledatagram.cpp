@@ -124,7 +124,7 @@ void init_c_soundspeedprofiledatagram(nanobind::module_& m)
              &SoundSpeedProfileDatagram::operator==,
              DOC_SoundSpeedProfileDatagram(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SoundSpeedProfileDatagram)
         // default binary functions

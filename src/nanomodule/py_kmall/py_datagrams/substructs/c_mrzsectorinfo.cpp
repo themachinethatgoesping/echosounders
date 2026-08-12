@@ -155,7 +155,7 @@ void init_c_mrzsectorinfo(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &MRZSectorInfo::operator==, DOC_MRZSectorInfo(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // copy
         __PYCLASS_DEFAULT_COPY__(MRZSectorInfo)
         // print

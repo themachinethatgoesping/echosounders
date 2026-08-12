@@ -127,7 +127,7 @@ void init_c_rawrangeandanglebeamscontainer(nanobind::module_& m)
              &RawRangeAndAngleBeamsContainer::operator==,
              DOC_RawRangeAndAngleBeamsContainer(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         __PYCLASS_DEFAULT_COPY__(RawRangeAndAngleBeamsContainer)
         __PYCLASS_DEFAULT_PRINTING__(RawRangeAndAngleBeamsContainer)
         ;

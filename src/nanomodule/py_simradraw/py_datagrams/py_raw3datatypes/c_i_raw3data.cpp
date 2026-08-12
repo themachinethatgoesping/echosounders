@@ -41,7 +41,7 @@ void init_c_i_raw3data(nanobind::module_& m)
         .def("get_power", &i_RAW3Data::get_power, DOC_i_RAW3Data(get_power), nb::arg("dB") = false)
         .def("get_angle", &i_RAW3Data::get_angle, DOC_i_RAW3Data(get_angle))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         //__PYCLASS_DEFAULT_COPY__(i_RAW3Data)
         // default binary functions

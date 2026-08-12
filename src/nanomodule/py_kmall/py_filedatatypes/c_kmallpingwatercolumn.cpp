@@ -93,7 +93,7 @@ void py_create_class_kmallpingwatercolumn(nanobind::module_& m, const std::strin
         //      &KMALLPingWatercolumn::operator==,
         //      DOC(themachinethatgoesping, echosounders, kmall, filedatatypes,
         //      KMALLPingWatercolumn, operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_KMALLPingWatercolumn)
         // default binary functions

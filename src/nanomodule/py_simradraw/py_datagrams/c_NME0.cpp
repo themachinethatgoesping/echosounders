@@ -54,7 +54,7 @@ void init_c_NME0(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &NME0::operator==, DOC_NME0(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(NME0)
         // default binary functions

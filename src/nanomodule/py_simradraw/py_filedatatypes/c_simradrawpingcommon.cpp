@@ -44,7 +44,7 @@ void py_create_class_simradrawpingcommon(nb::module_& m, const std::string& CLAS
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingCommon))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_SimradRawPingCommon)
         //end

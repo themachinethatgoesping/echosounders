@@ -49,7 +49,7 @@ void init_c_raw3datapower(nanobind::module_& m)
         // ----- properties -----
         .def_rw("power", &RAW3DataPower::_power, DOC_RAW3DataPower(power))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RAW3DataPower)
         // default binary functions

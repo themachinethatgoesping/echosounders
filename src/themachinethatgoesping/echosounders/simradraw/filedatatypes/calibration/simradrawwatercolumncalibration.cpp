@@ -1,5 +1,4 @@
 #include "simradrawwatercolumncalibration.hpp"
-#include "simradrawcalibrationinfo.hpp"
 
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions.hpp>
 #include <themachinethatgoesping/tools/helper/floatcompare.hpp>
@@ -330,90 +329,6 @@ void SimradRawWaterColumnCalibration::setup_simrad_calibration()
     check_initialization();
 }
 
-// ----- lazy calibration info builder -----
-SimradRawCalibrationInfo SimradRawWaterColumnCalibration::build_calibration_info() const
-{
-    SimradRawCalibrationInfo info;
-
-    // register value-based steps (we only have values at this point, not the
-    // original XML objects, so we use the *_from_values variants throughout)
-    info.on_set_transducer_from_values(
-        _transducer_gain_db, _sa_correction_db, _equivalent_beam_angle_db, _frequency_nominal_hz);
-    info.on_set_environment_from_values(
-        _reference_depth_m, _temperature_c, _salinity_psu, _acidity_ph);
-    if (_forced_sound_velocity_m_s.has_value() || _forced_absorption_db_m.has_value())
-        info.on_set_environment_forced(
-            _forced_sound_velocity_m_s.value_or(std::numeric_limits<float>::quiet_NaN()),
-            _forced_absorption_db_m.value_or(std::numeric_limits<float>::quiet_NaN()));
-    info.on_set_runtime_from_values(_frequency_hz,
-                                    _transmit_power_w,
-                                    _nominal_pulse_duration_s,
-                                    _slope_factor,
-                                    _sample_interval_s);
-    info.on_set_filter_from_values(_filter_stage_1_decimation_factor,
-                                   _filter_stage_1_coefficients.size(),
-                                   _filter_stage_2_decimation_factor,
-                                   _filter_stage_2_coefficients.size());
-    info.on_set_power_calibration_parameters(
-        _n_complex_samples.value_or(0),
-        // reverse impedance_factor from stored pcf: pcf = 10*log10(Z/n) => Z = n * 10^(pcf/10)
-        (_n_complex_samples.value_or(0) > 0 && _power_conversion_factor_db.has_value())
-            ? std::optional<float>(_n_complex_samples.value() *
-                                   std::pow(10.f, _power_conversion_factor_db.value() / 10.f))
-            : std::nullopt);
-    info.on_set_optional_parameters(_rounded_latitude_deg, _rounded_longitude_deg);
-
-    if (_forced_sound_velocity_m_s.has_value())
-        info.on_force_sound_velocity(_forced_sound_velocity_m_s);
-    if (_forced_absorption_db_m.has_value())
-        info.on_force_absorption(_forced_absorption_db_m);
-    if (_forced_effective_pulse_duration_s.has_value())
-        info.on_force_effective_pulse_duration(_forced_effective_pulse_duration_s);
-
-    // formulas (only when initialized)
-    if (_initialized)
-    {
-        float pcf       = _power_conversion_factor_db.value_or(0.f);
-        float sound_vel = get_sound_velocity_m_s();
-        float abs_db_m  = get_absorption_db_m();
-        float freq_corr = std::isfinite(_corr_transducer_gain_db)
-                              ? 20.f * std::log10(_frequency_hz / _frequency_nominal_hz)
-                              : std::numeric_limits<float>::quiet_NaN();
-        float sp_off    = std::numeric_limits<float>::quiet_NaN();
-        float sv_off    = std::numeric_limits<float>::quiet_NaN();
-
-        if (has_ap_calibration())
-        {
-            static const float pi_factor =
-                -10.f * std::log10(16.f * std::numbers::pi_v<float> * std::numbers::pi_v<float>);
-            sp_off = -2 * _corr_transducer_gain_db - pi_factor -
-                     10.f * std::log10(_transmit_power_w * _wavelength_m * _wavelength_m);
-        }
-        if (has_av_calibration())
-        {
-            sv_off = -2 * _sa_correction_db - _corr_equivalent_beam_angle_db -
-                     10.f * std::log10(sound_vel * get_effective_pulse_duration_s() * 0.5f);
-        }
-
-        info.on_setup_simrad_calibration(pcf,
-                                         sound_vel,
-                                         abs_db_m,
-                                         _wavelength_m,
-                                         freq_corr,
-                                         _corr_transducer_gain_db,
-                                         _corr_equivalent_beam_angle_db,
-                                         _transmit_power_w,
-                                         _sa_correction_db,
-                                         get_effective_pulse_duration_s(),
-                                         sp_off,
-                                         sv_off,
-                                         has_power_calibration(),
-                                         has_ap_calibration(),
-                                         has_av_calibration());
-    }
-
-    return info;
-}
 
 // ----- ops -----
 bool SimradRawWaterColumnCalibration::operator==(const SimradRawWaterColumnCalibration& other) const

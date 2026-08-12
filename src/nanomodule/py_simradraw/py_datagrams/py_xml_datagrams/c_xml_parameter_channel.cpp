@@ -105,7 +105,7 @@ void init_c_xml_parameter_channel(nanobind::module_& m)
              &XML_Parameter_Channel::parsed_completely,
              DOC_XML_Parameter_Channel(parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Parameter_Channel)
         // default binary functions

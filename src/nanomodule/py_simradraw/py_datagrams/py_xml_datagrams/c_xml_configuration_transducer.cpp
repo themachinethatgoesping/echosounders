@@ -87,7 +87,7 @@ void init_c_xml_configuration_transducer(nanobind::module_& m)
              &XML_Configuration_Transducer::parsed_completely,
              DOC(LOCAL_CLASS_DOC_PREFIX, parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Configuration_Transducer)
         // default binary functions

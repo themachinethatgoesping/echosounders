@@ -330,7 +330,7 @@ void init_c_runtimeparameters(nanobind::module_& m)
         .def("hash_content_only",
              &RuntimeParameters::hash_content_only,
              DOC_RuntimeParameters(hash_content_only))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RuntimeParameters)
         // default binary functions

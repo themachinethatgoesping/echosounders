@@ -91,7 +91,7 @@ void init_c_xml_environment_transducer(nanobind::module_& m)
                  XML_Environment_Transducer,
                  parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Environment_Transducer)
         // default binary functions

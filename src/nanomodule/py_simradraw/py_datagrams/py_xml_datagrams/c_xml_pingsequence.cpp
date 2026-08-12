@@ -82,7 +82,7 @@ void init_c_xml_pingsequence(nanobind::module_& m)
                  XML_PingSequence,
                  parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_PingSequence)
         // default binary functions

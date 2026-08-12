@@ -98,7 +98,7 @@ void init_c_singlebeamechosounderdepth(nanobind::module_& m)
              &SingleBeamEchoSounderDepth::operator==,
              DOC_SingleBeamEchoSounderDepth(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SingleBeamEchoSounderDepth)
         // default binary functions

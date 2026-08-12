@@ -47,7 +47,7 @@ void init_c_cheave(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &CHeave::operator==, DOC_CHeave(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(CHeave)
         // default binary functions

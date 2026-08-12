@@ -112,7 +112,7 @@ void create_PingContainerType(nanobind::module_& m, const std::string& ITERATOR_
                         .def(nb::init<>(), DOC_PingContainer(PingContainer))
                         .def(nb::init<std::vector<std::shared_ptr<T_PingType>>>(),
                  DOC_PingContainer(PingContainer))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(T_CONTAINER)
         // default binary functions

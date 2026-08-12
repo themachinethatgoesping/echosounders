@@ -42,7 +42,7 @@ void init_c_MRU0(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &MRU0::operator==, DOC_MRU0(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(MRU0)
         // default binary functions

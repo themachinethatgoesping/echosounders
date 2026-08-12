@@ -126,7 +126,7 @@ void init_c_rawrangeandangle(nanobind::module_& m)
              &RawRangeAndAngle::operator==,
              DOC_RawRangeAndAngle(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RawRangeAndAngle)
         // default binary functions

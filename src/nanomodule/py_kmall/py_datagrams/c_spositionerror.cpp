@@ -143,7 +143,7 @@ void init_c_spositionerror(nanobind::module_& m)
              &SPositionError::operator==,
              DOC_SPositionError(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SPositionError)
         // default binary functions

@@ -198,7 +198,7 @@ void init_c_pingsampleselector(nanobind::module_& m)
         // ----- operators -----
         .def(nanobind::self == nanobind::self, DOC_PingSampleSelector(operator_eq))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(PingSampleSelector)
         // default binary functions

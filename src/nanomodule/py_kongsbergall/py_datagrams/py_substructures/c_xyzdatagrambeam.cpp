@@ -118,7 +118,7 @@ void init_c_xyzdatagrambeam(nanobind::module_& m)
              &XYZDatagramBeam::operator==,
              DOC_XYZDatagramBeam(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XYZDatagramBeam)
         // default printing functions

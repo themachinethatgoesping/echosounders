@@ -97,7 +97,7 @@ void init_c_xml_sensor(nanobind::module_& m)
                  XML_Sensor,
                  parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Sensor)
         // default binary functions

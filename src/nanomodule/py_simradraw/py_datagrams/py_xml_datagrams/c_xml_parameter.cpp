@@ -59,7 +59,7 @@ void init_c_xml_parameter(nanobind::module_& m)
                  XML_Parameter,
                  parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Parameter)
         // default binary functions

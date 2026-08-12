@@ -288,7 +288,7 @@ void init_c_pustatusoutput(nanobind::module_& m)
              &PUStatusOutput::operator==,
              DOC_PUStatusOutput(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(PUStatusOutput)
         // default binary functions

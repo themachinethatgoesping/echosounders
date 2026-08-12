@@ -90,7 +90,7 @@ void init_c_mwatercolumn(nanobind::module_& m)
              &MWaterColumn::operator==,
              DOC_MWaterColumn(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(MWaterColumn)
         // default binary functions

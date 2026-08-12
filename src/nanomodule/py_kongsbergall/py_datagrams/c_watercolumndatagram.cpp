@@ -156,7 +156,7 @@ void init_c_watercolumndatagram(nanobind::module_& m)
              &WatercolumnDatagram::operator==,
              DOC_WatercolumnDatagram(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(WatercolumnDatagram)
         // default binary functions

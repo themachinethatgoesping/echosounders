@@ -80,7 +80,7 @@ void init_c_raw3datacomplexfloat32(nanobind::module_& m)
                        &RAW3DataComplexFloat32::_complex_samples,
                        DOC_RAW3DataComplexFloat32(complex_samples))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RAW3DataComplexFloat32)
         // default binary functions

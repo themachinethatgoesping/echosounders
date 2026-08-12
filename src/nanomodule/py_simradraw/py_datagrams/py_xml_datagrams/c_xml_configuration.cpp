@@ -234,7 +234,7 @@ void init_c_xml_configuration(nanobind::module_& m)
                  XML_Configuration,
                  parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Configuration)
         // default binary functions

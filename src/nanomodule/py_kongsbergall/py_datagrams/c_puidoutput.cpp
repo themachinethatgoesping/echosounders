@@ -146,7 +146,7 @@ void init_c_puidoutput(nanobind::module_& m)
 
         // ----- operators -----
      .def("__eq__", &PUIDOutput::operator==, DOC_PUIDOutput(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(PUIDOutput)
         // default binary functions

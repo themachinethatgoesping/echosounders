@@ -95,7 +95,7 @@ void init_c_kongsbergallunknown(nanobind::module_& m)
                  KongsbergAllUnknown,
                  operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(KongsbergAllUnknown)
         // default binary functions

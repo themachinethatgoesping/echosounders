@@ -79,7 +79,7 @@ void init_c_depthorheightdatagram(nanobind::module_& m)
              &DepthOrHeightDatagram::operator==,
              DOC_DepthOrHeightDatagram(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(DepthOrHeightDatagram)
         // default binary functions

@@ -109,7 +109,7 @@ void init_c_transceiverinformation(nanobind::module_& m)
                  &t_TransceiverInformation::operator==,
                  DOC_transceiverinformation(operator_eq),
                  nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_TransceiverInformation)
         // default binary functions

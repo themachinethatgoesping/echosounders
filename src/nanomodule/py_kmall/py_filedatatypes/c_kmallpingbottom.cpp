@@ -52,7 +52,7 @@ void py_create_class_kmallpingbottom(nanobind::module_& m, const std::string& CL
         //      &KMALLPingBottom::operator==,
         //      DOC(themachinethatgoesping, echosounders, kmall, filedatatypes,  KMALLPingBottom,
         //      operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_KMALLPingBottom)
         // default binary functions

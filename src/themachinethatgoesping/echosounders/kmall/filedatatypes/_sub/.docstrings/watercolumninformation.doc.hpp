@@ -1,4 +1,4 @@
-//sourcehash: 786be254f772effc545ae80e1eca6f51a84d777910fe666bca5939138c343c10
+//sourcehash: 7a8bd3027205bda25eda2a20e8aeb215e927dae973eeb4e078da944ee2f443f0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,7 +47,7 @@ to store information necessary to efficiently read water column data
 from the file. It does not hold the actual water column samples
 
 Note this is a private substructure and is thus not part of the public
-API or pybind11 interface.)doc";
+API or nanobind interface.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_WaterColumnInformation = R"doc()doc";
 

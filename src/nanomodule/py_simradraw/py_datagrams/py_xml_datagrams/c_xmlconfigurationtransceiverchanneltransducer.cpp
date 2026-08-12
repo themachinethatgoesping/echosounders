@@ -247,7 +247,7 @@ void init_c_xmlconfigurationtransceiverchanneltransducer(nanobind::module_& m)
                  XMLConfigurationTransceiverChannelTransducer,
                  parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XMLConfigurationTransceiverChannelTransducer)
         // default binary functions

@@ -67,7 +67,7 @@ void init_c_RAW3(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &RAW3::operator==, DOC_RAW3(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RAW3)
         // default binary functions

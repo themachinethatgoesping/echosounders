@@ -26,8 +26,6 @@ using namespace themachinethatgoesping::echosounders::kmall;
 using datagrams::SKMBinary;
 
 #define DOC_SKMBinary(ARG)                                                                         \
-    DOC(themachinethatgoesping, echosounders, kmall, datagrams, KMBinary, ARG)
-#define DOC_SKMBinary(ARG)                                                                         \
     DOC(themachinethatgoesping, echosounders, kmall, datagrams, SKMBinary, ARG)
 #define DOC_SKMBinarySensorFormat(ARG)                                                             \
     DOC(themachinethatgoesping, echosounders, kmall, datagrams, SKMBinary, t_sensor_format, ARG)
@@ -507,7 +505,7 @@ void init_c_skmbinary(nanobind::module_& m)
         // ----- operators -----
         .def("__eq__", &SKMBinary::operator==, DOC_SKMBinary(operator_eq), nb::arg("other"))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         __PYCLASS_DEFAULT_COPY__(SKMBinary) __PYCLASS_DEFAULT_BINARY__(SKMBinary)
             __PYCLASS_DEFAULT_PRINTING__(SKMBinary);
 }

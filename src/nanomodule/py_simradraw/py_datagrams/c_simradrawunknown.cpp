@@ -43,7 +43,7 @@ void init_c_simradrawunknown(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &SimradRawUnknown::operator==, DOC_SimradRawUnknown(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SimradRawUnknown)
         // default binary functions

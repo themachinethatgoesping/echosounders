@@ -162,7 +162,7 @@ void create_DatagramContainerTypes(nanobind::module_& m, const std::string& CONT
         m,
         container_name_stream.c_str(),
         DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, DatagramContainer))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(T_CONTAINER_STREAM)
         // default binary functions
@@ -177,7 +177,7 @@ void create_DatagramContainerTypes(nanobind::module_& m, const std::string& CONT
         m,
         container_name_mapped.c_str(),
         DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, DatagramContainer))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(T_CONTAINER_MAPPED)
         // default binary functions

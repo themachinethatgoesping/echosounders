@@ -91,7 +91,7 @@ void init_c_xml_configuration_sensor_telegramvalue(nanobind::module_& m)
                  XML_Configuration_Sensor_TelegramValue,
                  parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Configuration_Sensor_TelegramValue)
         // default binary functions

@@ -117,7 +117,7 @@ void init_c_rawrangeandangletransmitsector(nanobind::module_& m)
              &RawRangeAndAngleTransmitSector::operator==,
              DOC_RawRangeAndAngleTransmitSector(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RawRangeAndAngleTransmitSector)
         // default printing functions

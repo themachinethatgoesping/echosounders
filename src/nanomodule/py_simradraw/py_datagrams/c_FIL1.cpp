@@ -53,7 +53,7 @@ void init_c_FIL1(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &FIL1::operator==, DOC_FIL1(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(FIL1)
         // default binary functions

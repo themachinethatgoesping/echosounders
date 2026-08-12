@@ -138,7 +138,7 @@ void init_c_networkattitudevelocitydatagram(nanobind::module_& m)
              DOC_NetworkAttitudeVelocityDatagram(operator_eq),
              nb::arg("other"))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(NetworkAttitudeVelocityDatagram)
         // default binary functions

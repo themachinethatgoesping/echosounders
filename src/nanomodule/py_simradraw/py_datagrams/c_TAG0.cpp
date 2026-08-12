@@ -37,7 +37,7 @@ void init_c_TAG0(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &TAG0::operator==, DOC_TAG0(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(TAG0)
         // default binary functions

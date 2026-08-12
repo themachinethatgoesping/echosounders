@@ -104,7 +104,7 @@ void init_c_xyzdatagram(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &XYZDatagram::operator==, DOC_XYZDatagram(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XYZDatagram)
         // default binary functions

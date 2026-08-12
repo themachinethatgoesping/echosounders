@@ -58,7 +58,7 @@ void init_c_mrzextradetclassinfo(nanobind::module_& m)
              &MRZExtraDetClassInfo::operator==,
              DOC_MRZExtraDetClassInfo(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         __PYCLASS_DEFAULT_COPY__(MRZExtraDetClassInfo)
         __PYCLASS_DEFAULT_PRINTING__(MRZExtraDetClassInfo)
         ;

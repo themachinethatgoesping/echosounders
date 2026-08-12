@@ -48,7 +48,7 @@ void init_c_raw3dataskipped(nanobind::module_& m)
         .def(nb::init<>(), DOC_RAW3DataSkipped(RAW3DataSkipped))
         .def("__eq__", &RAW3DataSkipped::operator==, nb::arg("other"))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RAW3DataSkipped)
         // default binary functions

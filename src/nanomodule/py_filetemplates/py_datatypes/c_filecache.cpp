@@ -87,7 +87,7 @@ void init_c_filecache(nanobind::module_& m)
                  &FileCache::get_cache_buffer_header,
                  DOC_FileCache(cache_buffer_header))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(FileCache)
         // default binary functions

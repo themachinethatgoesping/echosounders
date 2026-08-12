@@ -131,7 +131,7 @@ void init_c_cposition(nanobind::module_& m)
 
         // ----- operators -----
         .def("__eq__", &CPosition::operator==, DOC_CPosition(operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(CPosition)
         // default binary functions

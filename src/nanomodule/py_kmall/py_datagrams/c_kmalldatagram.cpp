@@ -105,7 +105,7 @@ void init_c_kmalldatagram(nanobind::module_& m)
             &KMALLDatagram::operator==,
             DOC(themachinethatgoesping, echosounders, kmall, datagrams, KMALLDatagram, operator_eq),
             nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(KMALLDatagram)
         // default binary functions

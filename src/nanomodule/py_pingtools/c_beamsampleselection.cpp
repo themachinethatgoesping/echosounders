@@ -108,7 +108,7 @@ void init_c_beamsampleselection(nanobind::module_& m)
              DOC_BeamSampleSelection(operator_eq),
              nb::arg("other"))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(BeamSampleSelection)
         // default binary functions

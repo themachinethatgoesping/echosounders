@@ -42,7 +42,7 @@ void init_c_raw3dataangle(nanobind::module_& m)
         // ----- properties -----
         .def_rw("angle", &RAW3DataAngle::_angle, DOC_RAW3DataAngle(angle))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(RAW3DataAngle)
         // default binary functions

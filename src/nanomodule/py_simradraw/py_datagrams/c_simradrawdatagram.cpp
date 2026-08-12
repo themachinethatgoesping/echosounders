@@ -94,7 +94,7 @@ void init_c_SimradRawDatagram(nanobind::module_& m)
              &SimradRawDatagram::operator==,
              DOC_SimradRawDatagram(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(SimradRawDatagram)
         // default binary functions

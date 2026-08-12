@@ -93,7 +93,7 @@ void init_c_headingdatagram(nanobind::module_& m)
              &HeadingDatagram::operator==,
              DOC_HeadingDatagram(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(HeadingDatagram)
         // default binary functions

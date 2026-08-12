@@ -86,7 +86,7 @@ void init_filepackagecache(nanobind::module_& m, const std::string& typestr = ""
                  &t_FilePackageCache::get_package_buffer,
                  DOC_FilePackageCache(get_package_buffer))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_FilePackageCache)
         // default binary functions

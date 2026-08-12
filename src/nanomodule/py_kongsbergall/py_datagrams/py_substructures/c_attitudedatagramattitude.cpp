@@ -86,7 +86,7 @@ void init_c_attitudedatagramattitude(nanobind::module_& m)
              &AttitudeDatagramAttitude::operator==,
              DOC_AttitudeDatagramAttitude(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(AttitudeDatagramAttitude)
         // default printing functions

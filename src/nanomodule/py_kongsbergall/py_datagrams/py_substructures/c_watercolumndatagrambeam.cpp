@@ -111,7 +111,7 @@ void init_c_watercolumndatagrambeam(nanobind::module_& m)
              &WatercolumnDatagramBeam::operator==,
              DOC_WatercolumnDatagramBeam(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(WatercolumnDatagramBeam)
         // default printing functions

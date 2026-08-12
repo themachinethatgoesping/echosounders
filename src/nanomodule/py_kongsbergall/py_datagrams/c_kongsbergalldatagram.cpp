@@ -182,7 +182,7 @@ void init_c_kongsbergalldatagram(nanobind::module_& m)
                  KongsbergAllDatagram,
                  operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(KongsbergAllDatagram)
         // default binary functions

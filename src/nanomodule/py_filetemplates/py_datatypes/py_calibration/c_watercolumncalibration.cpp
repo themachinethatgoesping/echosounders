@@ -440,7 +440,7 @@ void init_c_watercolumncalibration(nanobind::module_& m)
                       &WaterColumnCalibration::operator==,
                       DOC_WaterColumnCalibration(operator_eq),
                       nb::arg("other"))
-             // ----- pybind macros -----
+             // ----- nanobind macros -----
              // default copy functions
              __PYCLASS_DEFAULT_COPY__(WaterColumnCalibration)
              // default binary functions

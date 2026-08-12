@@ -110,7 +110,7 @@ void init_c_extraparameters(nanobind::module_& m)
              &ExtraParameters::operator==,
              DOC_ExtraParameters(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(ExtraParameters)
         // default binary functions

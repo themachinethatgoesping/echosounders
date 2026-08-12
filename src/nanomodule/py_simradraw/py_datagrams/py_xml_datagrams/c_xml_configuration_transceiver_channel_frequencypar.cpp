@@ -148,7 +148,7 @@ void init_c_xml_configuration_transceiver_channel_frequencypar(nanobind::module_
                  XML_Configuration_Transceiver_Channel_FrequencyPar,
                  parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Configuration_Transceiver_Channel_FrequencyPar)
         // default binary functions

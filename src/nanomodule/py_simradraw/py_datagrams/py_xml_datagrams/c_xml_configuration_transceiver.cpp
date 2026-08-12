@@ -106,7 +106,7 @@ void init_c_xml_configuration_transceiver(nanobind::module_& m)
              &XML_Configuration_Transceiver::parsed_completely,
              DOC_XML_Configuration_Transceiver(parsed_completely))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(XML_Configuration_Transceiver)
         // default binary functions

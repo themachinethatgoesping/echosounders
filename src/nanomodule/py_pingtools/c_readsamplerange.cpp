@@ -49,7 +49,7 @@ void init_c_readsamplerange(nanobind::module_& m)
              DOC_ReadSampleRange(operator_eq),
              nb::arg("other"))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(ReadSampleRange)
         // default binary functions

@@ -73,7 +73,7 @@ void py_create_class_simradrawpingwatercolumn(nb::module_& m, const std::string&
         //      &SimradRawPingWatercolumn::operator==,
         //      DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes,
         //      SimradRawPingWatercolumn, operator_eq), nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(t_SimradRawPingWatercolumn)
         // default binary functions

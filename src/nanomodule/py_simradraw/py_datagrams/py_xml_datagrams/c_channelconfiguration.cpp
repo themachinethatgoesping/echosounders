@@ -103,7 +103,7 @@ void init_c_channelconfiguration(nanobind::module_& m)
                                    ChannelConfiguration,
                                    get_transducer_offsets_struct))
 
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(ChannelConfiguration)
         // default binary functions

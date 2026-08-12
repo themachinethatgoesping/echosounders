@@ -266,7 +266,7 @@ void init_c_amplitudecalibration(nanobind::module_& m)
                  &AmplitudeCalibration::operator==,
                  DOC_AmplitudeCalibration(operator_eq),
                  nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         // default copy functions
         __PYCLASS_DEFAULT_COPY__(AmplitudeCalibration)
         // default binary functions

@@ -95,7 +95,7 @@ void init_c_seabedimagedatabeamscontainer(nanobind::module_& m)
              &SeabedImageDataBeamsContainer::operator==,
              DOC_SeabedImageDataBeamsContainer(operator_eq),
              nb::arg("other"))
-        // ----- pybind macros -----
+        // ----- nanobind macros -----
         __PYCLASS_DEFAULT_COPY__(SeabedImageDataBeamsContainer)
         __PYCLASS_DEFAULT_PRINTING__(SeabedImageDataBeamsContainer)
         ;
