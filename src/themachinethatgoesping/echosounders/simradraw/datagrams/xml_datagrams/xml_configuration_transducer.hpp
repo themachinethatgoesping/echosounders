@@ -59,11 +59,11 @@ struct XML_Configuration_Transducer
 
     // ----- methods -----
     /**
-     * @brief Return the offsets as navigation::datastructures::PositionalOffsets structure
+     * @brief Return the offsets as navigation::datastructures::SensorPose structure
      *
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_sensor_offsets() const;
+    navigation::datastructures::SensorPose get_sensor_offsets() const;
 
     // ----- xml parsing -----
 

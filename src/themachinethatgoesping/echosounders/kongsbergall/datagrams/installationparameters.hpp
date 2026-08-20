@@ -294,51 +294,51 @@ class InstallationParameters : public KongsbergAllDatagram
      * @brief Get the compass sensor offsets (Gyrocompass)
      * Includes heading offset only
      *
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_compass_offsets() const;
+    navigation::datastructures::SensorPose get_compass_offsets() const;
 
     /**
      * @brief Get the depth sensor offsets
      *
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_depth_sensor_offsets() const;
+    navigation::datastructures::SensorPose get_depth_sensor_offsets() const;
 
     /**
      * @brief Get the attitude sensor offsets of sensor 1 or 2
      *
      * @param sensor_number o_KongsbergAllActiveSensor (enum)
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_attitude_sensor_offsets(
+    navigation::datastructures::SensorPose get_attitude_sensor_offsets(
         o_KongsbergAllActiveSensor sensor) const;
 
     /**
      * @brief Get the attitude sensor offsets of sensor 1 or 2
      *
      * @param sensor_number must be 1 or 2
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_attitude_sensor_offsets(
+    navigation::datastructures::SensorPose get_attitude_sensor_offsets(
         uint8_t sensor_number) const;
 
     /**
      * @brief Get the position system offsets of system 1, 2 or 3
      *
      * @param position_system_number must be 1, 2 or 3
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_position_system_offsets(
+    navigation::datastructures::SensorPose get_position_system_offsets(
         uint8_t position_system_number) const;
 
     /**
      * @brief Get the transducer offsets of transducer 0, 1, 2 or 3
      *
      * @param position_system_number must be 0, 1, 2 or 3
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_transducer_offsets(
+    navigation::datastructures::SensorPose get_transducer_offsets(
         uint8_t     transducer_number,
         std::string transducer_name = "") const;
 
@@ -406,9 +406,9 @@ class InstallationParameters : public KongsbergAllDatagram
      * @param has_xyz sensor has xyz offsets
      * @param has_ypr sensor has yaw pitch roll offsets
      * 
-     * @return PositionalOffsets
+     * @return SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_sensor_offsets(
+    navigation::datastructures::SensorPose get_sensor_offsets(
         const std::string& sensor_name,
         const std::string& sensor_prefix,
         bool               has_xyz = true,

@@ -339,13 +339,13 @@ std::string InstallationParameters::get_rx_array_size() const
     }
 }
 
-navigation::datastructures::PositionalOffsets InstallationParameters::get_compass_offsets() const
+navigation::datastructures::SensorPose InstallationParameters::get_compass_offsets() const
 {
-    using navigation::datastructures::PositionalOffsets;
-    return PositionalOffsets("Gyrocompass", 0, 0, 0, get_value_float("GCG", 0.f), 0, 0);
+    using navigation::datastructures::SensorPose;
+    return SensorPose("Gyrocompass", 0, 0, 0, get_value_float("GCG", 0.f), 0, 0);
 }
 
-navigation::datastructures::PositionalOffsets InstallationParameters::get_depth_sensor_offsets()
+navigation::datastructures::SensorPose InstallationParameters::get_depth_sensor_offsets()
     const
 {
     // TODO: this option should be supported
@@ -364,7 +364,7 @@ navigation::datastructures::PositionalOffsets InstallationParameters::get_depth_
     return get_sensor_offsets("Depth sensor", "DS", true, false);
 }
 
-navigation::datastructures::PositionalOffsets InstallationParameters::get_attitude_sensor_offsets(
+navigation::datastructures::SensorPose InstallationParameters::get_attitude_sensor_offsets(
     o_KongsbergAllActiveSensor sensor) const
 {
     switch (sensor.value)
@@ -382,7 +382,7 @@ navigation::datastructures::PositionalOffsets InstallationParameters::get_attitu
     }
 }
 
-navigation::datastructures::PositionalOffsets InstallationParameters::get_attitude_sensor_offsets(
+navigation::datastructures::SensorPose InstallationParameters::get_attitude_sensor_offsets(
     uint8_t sensor_number) const
 {
     using tools::helper::string_to_floattype;
@@ -434,7 +434,7 @@ navigation::datastructures::PositionalOffsets InstallationParameters::get_attitu
     }
 }
 
-navigation::datastructures::PositionalOffsets InstallationParameters::get_position_system_offsets(
+navigation::datastructures::SensorPose InstallationParameters::get_position_system_offsets(
     uint8_t position_system_number) const
 {
     using tools::helper::string_to_floattype;
@@ -469,11 +469,11 @@ navigation::datastructures::PositionalOffsets InstallationParameters::get_positi
     );
 }
 
-navigation::datastructures::PositionalOffsets InstallationParameters::get_transducer_offsets(
+navigation::datastructures::SensorPose InstallationParameters::get_transducer_offsets(
     uint8_t     transducer_number,
     std::string transducer_name) const
 {
-    using navigation::datastructures::PositionalOffsets;
+    using navigation::datastructures::SensorPose;
 
     if (transducer_number > 3)
     {
@@ -488,7 +488,7 @@ navigation::datastructures::PositionalOffsets InstallationParameters::get_transd
     if (transducer_name.empty())
         transducer_name = "Transducer " + std::to_string(transducer_number);
 
-    return PositionalOffsets(transducer_name,
+    return SensorPose(transducer_name,
                              get_value_float(sensor_prefix + std::string("X"), 0.f),
                              get_value_float(sensor_prefix + std::string("Y"), 0.f),
                              get_value_float(sensor_prefix + std::string("Z"), 0.f),
@@ -640,13 +640,13 @@ int InstallationParameters::get_value_int(const std::string& key, int default_va
     return stoi(value);
 }
 
-navigation::datastructures::PositionalOffsets InstallationParameters::get_sensor_offsets(
+navigation::datastructures::SensorPose InstallationParameters::get_sensor_offsets(
     const std::string& sensor_name,
     const std::string& sensor_prefix,
     bool               has_xyz,
     bool               has_ypr) const
 {
-    using navigation::datastructures::PositionalOffsets;
+    using navigation::datastructures::SensorPose;
     using tools::helper::string_to_floattype;
 
     float x = 0., y = 0., z = 0., yaw = 0., pitch = 0., roll = 0.;
@@ -665,7 +665,7 @@ navigation::datastructures::PositionalOffsets InstallationParameters::get_sensor
         roll  = get_value_float(sensor_prefix + std::string("R"), 0.f);
     }
 
-    return PositionalOffsets(sensor_name, x, y, z, yaw, pitch, roll);
+    return SensorPose(sensor_name, x, y, z, yaw, pitch, roll);
 }
 
 InstallationParameters InstallationParameters::from_stream(std::istream&        is,

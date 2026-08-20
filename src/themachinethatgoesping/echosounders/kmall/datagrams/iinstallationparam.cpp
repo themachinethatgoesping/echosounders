@@ -204,10 +204,10 @@ bool IInstallationParam::is_dual_rx() const
     }
 }
 
-std::map<std::string, navigation::datastructures::PositionalOffsets>
+std::map<std::string, navigation::datastructures::SensorPose>
 IInstallationParam::get_transducer_offsets() const
 {
-    std::map<std::string, navigation::datastructures::PositionalOffsets> offsets;
+    std::map<std::string, navigation::datastructures::SensorPose> offsets;
 
     for (auto& [key, value] : get_transducer_serial_numbers())
     {
@@ -499,10 +499,10 @@ std::map<std::string, std::string> IInstallationParam::parse_sensor_string(
     return result;
 }
 
-navigation::datastructures::PositionalOffsets IInstallationParam::get_transducer_offsets(
+navigation::datastructures::SensorPose IInstallationParam::get_transducer_offsets(
     const std::string& transducer_key) const
 {
-    using navigation::datastructures::PositionalOffsets;
+    using navigation::datastructures::SensorPose;
     using tools::helper::string_to_floattype;
 
     auto decoded = get_install_txt_decoded_cached();
@@ -540,13 +540,13 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_transducer
     if (params.count("R"))
         roll = string_to_floattype<float>(params["R"]);
 
-    return PositionalOffsets(name, x, y, z, yaw, pitch, roll);
+    return SensorPose(name, x, y, z, yaw, pitch, roll);
 }
 
-navigation::datastructures::PositionalOffsets IInstallationParam::get_position_system_offsets(
+navigation::datastructures::SensorPose IInstallationParam::get_position_system_offsets(
     uint8_t position_system_number) const
 {
-    using navigation::datastructures::PositionalOffsets;
+    using navigation::datastructures::SensorPose;
     using tools::helper::string_to_floattype;
 
     if (position_system_number < 1 || position_system_number > 4)
@@ -585,13 +585,13 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_position_s
     if (params.count("Z"))
         z = string_to_floattype<float>(params["Z"]);
 
-    return PositionalOffsets(name, x, y, z, 0.f, 0.f, 0.f);
+    return SensorPose(name, x, y, z, 0.f, 0.f, 0.f);
 }
 
-navigation::datastructures::PositionalOffsets IInstallationParam::get_attitude_sensor_offsets(
+navigation::datastructures::SensorPose IInstallationParam::get_attitude_sensor_offsets(
     uint8_t sensor_number) const
 {
-    using navigation::datastructures::PositionalOffsets;
+    using navigation::datastructures::SensorPose;
     using tools::helper::string_to_floattype;
 
     if (sensor_number < 1 || sensor_number > 4)
@@ -637,12 +637,12 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_attitude_s
     if (params.count("R"))
         roll = string_to_floattype<float>(params["R"]);
 
-    return PositionalOffsets(name, x, y, z, yaw, pitch, roll);
+    return SensorPose(name, x, y, z, yaw, pitch, roll);
 }
 
-navigation::datastructures::PositionalOffsets IInstallationParam::get_depth_sensor_offsets() const
+navigation::datastructures::SensorPose IInstallationParam::get_depth_sensor_offsets() const
 {
-    using navigation::datastructures::PositionalOffsets;
+    using navigation::datastructures::SensorPose;
     using tools::helper::string_to_floattype;
 
     auto decoded = get_install_txt_decoded_cached();
@@ -670,7 +670,7 @@ navigation::datastructures::PositionalOffsets IInstallationParam::get_depth_sens
     if (params.count("Z"))
         z = string_to_floattype<float>(params["Z"]);
 
-    return PositionalOffsets("Depth sensor", x, y, z, 0.f, 0.f, 0.f);
+    return SensorPose("Depth sensor", x, y, z, 0.f, 0.f, 0.f);
 }
 
 float IInstallationParam::get_water_line_vertical_location_in_meters() const

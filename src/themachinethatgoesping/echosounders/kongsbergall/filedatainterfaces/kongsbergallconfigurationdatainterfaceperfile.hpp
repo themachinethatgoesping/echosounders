@@ -306,7 +306,7 @@ void init_runtime_parameters()
     {
 
         navigation::SensorConfiguration config;
-        using navigation::datastructures::PositionalOffsets;
+        using navigation::datastructures::SensorPose;
 
         // Reset the per-TRX TX/RX name map; populated below per STC case.
         _txrx_target_names_per_trx_channel.clear();
@@ -335,7 +335,7 @@ void init_runtime_parameters()
                 auto tx = param.get_transducer_offsets(1, "TX");
                 auto rx = param.get_transducer_offsets(2, "RX");
 
-                auto trx = PositionalOffsets::from_txrx(
+                auto trx = SensorPose::from_txrx(
                     tx, rx, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
 
                 _txrx_target_names_per_trx_channel[trx.name] = { tx.name, rx.name };
@@ -383,9 +383,9 @@ void init_runtime_parameters()
                 auto rx2 = param.get_transducer_offsets(
                     3, "RX-" + std::to_string(param.get_rx2_serial_number()));
 
-                auto trx1 = PositionalOffsets::from_txrx(
+                auto trx1 = SensorPose::from_txrx(
                     tx, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
-                auto trx2 = PositionalOffsets::from_txrx(
+                auto trx2 = SensorPose::from_txrx(
                     tx, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
 
                 _txrx_target_names_per_trx_channel[trx1.name] = { tx.name, rx1.name };
@@ -410,9 +410,9 @@ void init_runtime_parameters()
                 auto rx2 = param.get_transducer_offsets(
                     3, "RX-" + std::to_string(param.get_rx2_serial_number()));
 
-                auto trx1 = PositionalOffsets::from_txrx(
+                auto trx1 = SensorPose::from_txrx(
                     tx1, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
-                auto trx2 = PositionalOffsets::from_txrx(
+                auto trx2 = SensorPose::from_txrx(
                     tx2, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
 
                 _txrx_target_names_per_trx_channel[trx1.name] = { tx1.name, rx1.name };

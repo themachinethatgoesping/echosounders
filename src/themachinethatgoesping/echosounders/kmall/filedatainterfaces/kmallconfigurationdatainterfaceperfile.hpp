@@ -224,7 +224,7 @@ class KMALLConfigurationDataInterfacePerFile
     navigation::SensorConfiguration read_sensor_configuration() final
     {
         navigation::SensorConfiguration config;
-        using navigation::datastructures::PositionalOffsets;
+        using navigation::datastructures::SensorPose;
 
         /* get the installation parameters datagram */
         auto param = this->read_installation_parameters();
@@ -254,7 +254,7 @@ class KMALLConfigurationDataInterfacePerFile
             case t_KMALLSystemTransducerConfiguration::SingleTxSingleRx: {
                 auto tx  = transducer_offsets["TX"];
                 auto rx  = transducer_offsets["RX"];
-                auto trx = PositionalOffsets::from_txrx(tx, rx, "T" + rx.name);
+                auto trx = SensorPose::from_txrx(tx, rx, "T" + rx.name);
                 config.add_target(tx.name, std::move(tx));
                 config.add_target(rx.name, std::move(rx));
                 config.add_target(trx.name, std::move(trx));
@@ -287,7 +287,7 @@ class KMALLConfigurationDataInterfacePerFile
         // Note: unlike the .all format, the kmall #SKM (KM binary) attitude samples are logged
         // uncorrected ("All parameters are uncorrected. For processing of data, installation
         // offsets, installation angles and attitude values are needed to correct the data for
-        // motion." - kmall #SKM datagram spec). We therefore leave PositionalOffsets::
+        // motion." - kmall #SKM datagram spec). We therefore leave SensorPose::
         // ypr_offsets_applied at its default (false) so the SensorConfiguration applies the offsets.
         if (_active_attitude_sensor_number > 0)
         {

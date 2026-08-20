@@ -1,4 +1,4 @@
-//sourcehash: e8ca30c9023753d474249a1804699502db7acc3cbfb1fdff0595d534cbdae44d
+//sourcehash: 3055eda50f68e69315632a856d8745eb6489212b756bb9fc8427b3f85f6616da
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -76,11 +76,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagra
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Transducer_from_stream = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Transducer_get_sensor_offsets =
-R"doc(Return the offsets as navigation::datastructures::PositionalOffsets
-structure
+R"doc(Return the offsets as navigation::datastructures::SensorPose structure
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Transducer_initialize = R"doc()doc";
 

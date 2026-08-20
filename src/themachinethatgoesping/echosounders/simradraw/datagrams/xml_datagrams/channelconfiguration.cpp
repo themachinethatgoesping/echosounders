@@ -35,7 +35,7 @@ ChannelConfiguration ChannelConfiguration::from_stream(std::istream& is)
 
     channel._channel_id =
         tools::classhelper::stream::container_from_stream<std::string>(is);
-    channel._sensor_offsets = navigation::datastructures::PositionalOffsets::from_stream(is);
+    channel._sensor_offsets = navigation::datastructures::SensorPose::from_stream(is);
     channel._channel        = XML_Configuration_Transceiver_Channel::from_stream(is);
     channel._transceiver    = XML_Configuration_Transceiver::from_stream(is);
     channel._transducer_offsets = XML_Configuration_Transducer::from_stream(is);

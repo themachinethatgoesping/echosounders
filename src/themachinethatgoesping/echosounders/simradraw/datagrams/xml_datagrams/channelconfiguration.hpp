@@ -27,7 +27,7 @@ namespace xml_datagrams {
 class ChannelConfiguration
 {
     std::string                                   _channel_id;
-    navigation::datastructures::PositionalOffsets _sensor_offsets;
+    navigation::datastructures::SensorPose _sensor_offsets;
 
     XML_Configuration_Transceiver_Channel _channel;
     XML_Configuration_Transceiver         _transceiver;
@@ -42,7 +42,7 @@ class ChannelConfiguration
     ~ChannelConfiguration() = default;
 
     const std::string& get_channel_id() const { return _channel_id; }
-    const navigation::datastructures::PositionalOffsets& get_sensor_offsets() const
+    const navigation::datastructures::SensorPose& get_sensor_offsets() const
     {
         return _sensor_offsets;
     }

@@ -73,7 +73,7 @@ class IInstallationParam : public KMALLDatagram
     bool                                 is_dual_rx() const;
     o_KMALLSystemTransducerConfiguration get_system_transducer_configuration() const;
     std::map<std::string, std::string>   get_transducer_serial_numbers() const;
-    std::map<std::string, navigation::datastructures::PositionalOffsets> get_transducer_offsets() const;
+    std::map<std::string, navigation::datastructures::SensorPose> get_transducer_offsets() const;
 
     // ----- processed data access -----
     /**
@@ -127,9 +127,9 @@ class IInstallationParam : public KMALLDatagram
      * Parses TRAI_TX1, TRAI_TX2, TRAI_RX1, TRAI_RX2, or TRAI_HD1 entries
      *
      * @param transducer_key Key like "TRAI_HD1", "TRAI_TX1", etc.
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_transducer_offsets(
+    navigation::datastructures::SensorPose get_transducer_offsets(
         const std::string& transducer_key) const;
 
     /**
@@ -138,9 +138,9 @@ class IInstallationParam : public KMALLDatagram
      * Parses POSI_1, POSI_2, POSI_3, or POSI_4 entries
      *
      * @param position_system_number Position system number (1-4)
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_position_system_offsets(
+    navigation::datastructures::SensorPose get_position_system_offsets(
         uint8_t position_system_number) const;
 
     /**
@@ -149,9 +149,9 @@ class IInstallationParam : public KMALLDatagram
      * Parses ATTI_1, ATTI_2, ATTI_3, or ATTI_4 entries
      *
      * @param sensor_number Sensor number (1-4)
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_attitude_sensor_offsets(
+    navigation::datastructures::SensorPose get_attitude_sensor_offsets(
         uint8_t sensor_number) const;
 
     /**
@@ -159,9 +159,9 @@ class IInstallationParam : public KMALLDatagram
      *
      * Parses DPHI entry
      *
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_depth_sensor_offsets() const;
+    navigation::datastructures::SensorPose get_depth_sensor_offsets() const;
 
     /**
      * @brief Get the waterline offset (SWLZ from EMXI)

@@ -18,12 +18,12 @@ namespace simradraw {
 namespace datagrams {
 namespace xml_datagrams {
 
-navigation::datastructures::PositionalOffsets XML_Configuration_Transducer::get_sensor_offsets() const
+navigation::datastructures::SensorPose XML_Configuration_Transducer::get_sensor_offsets() const
 {
     // TODO: check angle directions
     // TODO: include transducer mounting and transducer orientation?
     // TODO: do we need HeadingQuickCalibration? And if so how to use it?
-    return navigation::datastructures::PositionalOffsets(TransducerName,
+    return navigation::datastructures::SensorPose(TransducerName,
                                                          TransducerOffsetX,
                                                          TransducerOffsetY,
                                                          TransducerOffsetZ,

@@ -100,7 +100,7 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
     // test parsing
     REQUIRE(dat == InstallationParameters(dat.from_binary(dat.to_binary())));
 
-    using themachinethatgoesping::navigation::datastructures::PositionalOffsets;
+    using themachinethatgoesping::navigation::datastructures::SensorPose;
     using themachinethatgoesping::tools::helper::approx;
 
     // test decoding sensor offsets
@@ -108,67 +108,67 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
     {
         CAPTURE(dat.get_attitude_sensor_offsets(1).info_string());
         CHECK(dat.get_attitude_sensor_offsets(1) ==
-              PositionalOffsets("Attitude sensor 1", 0, 0, 0, -0.23, -0.2, -0.15));
+              SensorPose("Attitude sensor 1", 0, 0, 0, -0.23, -0.2, -0.15));
     }
     SECTION("Attitude sensor 2")
     {
         CAPTURE(dat.get_attitude_sensor_offsets(2).info_string(3));
         CHECK(dat.get_attitude_sensor_offsets(2) ==
-              PositionalOffsets("Attitude sensor 2", -7.887, 0.875, -5.968, 0., 0., 0.));
+              SensorPose("Attitude sensor 2", -7.887, 0.875, -5.968, 0., 0., 0.));
     }
     SECTION("Depth sensor")
     {
         CAPTURE(dat.get_depth_sensor_offsets().info_string(3));
         CHECK(dat.get_depth_sensor_offsets() ==
-              PositionalOffsets("Depth sensor", 0, 0, 0, 0, 0, 0));
+              SensorPose("Depth sensor", 0, 0, 0, 0, 0, 0));
     }
     SECTION("Position system 1")
     {
         CAPTURE(dat.get_position_system_offsets(1).info_string(3));
         CHECK(dat.get_position_system_offsets(1) ==
-              PositionalOffsets("Position system 1", -7.887, 0.875, -5.968, 0., 0., 0.));
+              SensorPose("Position system 1", -7.887, 0.875, -5.968, 0., 0., 0.));
     }
     SECTION("Position system 2")
     {
         CAPTURE(dat.get_position_system_offsets(2).info_string(3));
         CHECK(dat.get_position_system_offsets(2) ==
-              PositionalOffsets("Position system 2", 0, 0, 0, 0, 0, 0));
+              SensorPose("Position system 2", 0, 0, 0, 0, 0, 0));
     }
     SECTION("Position system 3")
     {
         CAPTURE(dat.get_position_system_offsets(3).info_string(3));
         CHECK(dat.get_position_system_offsets(3) ==
-              PositionalOffsets("Position system 3", -2.567, -1.153, -30.331, 0., 0., 0.));
+              SensorPose("Position system 3", -2.567, -1.153, -30.331, 0., 0., 0.));
     }
     // SECTION("Transducer 0")
     // {
     //     CAPTURE(dat.get_transducer_offsets(0).info_string(3));
     //     CHECK(dat.get_transducer_offsets(0) ==
-    //           PositionalOffsets("Transducer 0", -2.567, -1.153, -30.331, 0., 0., 0.));
+    //           SensorPose("Transducer 0", -2.567, -1.153, -30.331, 0., 0., 0.));
     // }
     SECTION("Transducer 1")
     {
         CAPTURE(dat.get_transducer_offsets(1).info_string(3));
         CHECK(dat.get_transducer_offsets(1) ==
-              PositionalOffsets("Transducer 1", 0.377, 0.008, 0.426, 180.52, -1.68, -0.84));
+              SensorPose("Transducer 1", 0.377, 0.008, 0.426, 180.52, -1.68, -0.84));
     }
     SECTION("Transducer 2")
     {
         CAPTURE(dat.get_transducer_offsets(2).info_string(3));
         CHECK(dat.get_transducer_offsets(2) ==
-              PositionalOffsets("Transducer 2", 0.246, -0.374, 0.301, 0.32, 3.21, 35.61));
+              SensorPose("Transducer 2", 0.246, -0.374, 0.301, 0.32, 3.21, 35.61));
     }
     SECTION("Transducer 3")
     {
         CAPTURE(dat.get_transducer_offsets(3).info_string(3));
         CHECK(dat.get_transducer_offsets(3) ==
-              PositionalOffsets("Transducer 3", 0.235, 0.387, 0.307, 1.29, 3.19, -34.18));
+              SensorPose("Transducer 3", 0.235, 0.387, 0.307, 1.29, 3.19, -34.18));
     }
 
     SECTION("Gyrocompass")
     {
         CAPTURE(dat.get_compass_offsets().info_string());
-        CHECK(dat.get_compass_offsets() == PositionalOffsets("Gyrocompass", 0, 0, 0, 0, 0, 0));
+        CHECK(dat.get_compass_offsets() == SensorPose("Gyrocompass", 0, 0, 0, 0, 0, 0));
     }
 
     SECTION("individual parameters")
@@ -194,10 +194,10 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
     //     auto sc = dat.get_sensor_configuration();
     //     CAPTURE(sc.info_string(3));
     //     CHECK(sc.get_target("TX") ==
-    //           PositionalOffsets("TX", 0.377, 0.008, 0.426, 180.52, -1.68, -0.84));
+    //           SensorPose("TX", 0.377, 0.008, 0.426, 180.52, -1.68, -0.84));
     //     CHECK(sc.get_target("RX port") ==
-    //           PositionalOffsets("RX port", 0.246, -0.374, 0.301, 0.32, 3.21, 35.61));
+    //           SensorPose("RX port", 0.246, -0.374, 0.301, 0.32, 3.21, 35.61));
     //     CHECK(sc.get_target("RX starboard") ==
-    //           PositionalOffsets("RX starboard", 0.235, 0.387, 0.307, 1.29, 3.19, -34.18));
+    //           SensorPose("RX starboard", 0.235, 0.387, 0.307, 1.29, 3.19, -34.18));
     // }
 }

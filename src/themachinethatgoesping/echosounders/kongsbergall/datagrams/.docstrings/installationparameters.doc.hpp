@@ -1,4 +1,4 @@
-//sourcehash: 3ee6e499450ac38588e89b251be2a940c10563e9e4cf2426ffa5e04aad0f1495
+//sourcehash: 788d0a2baa23e43444d65a0a7d94917b0477fd0ccfeb4770d1381a54537bf19a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -114,7 +114,7 @@ Args:
     sensor_number: o_KongsbergAllActiveSensor (enum)
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_attitude_sensor_offsets_2 =
 R"doc(Get the attitude sensor offsets of sensor 1 or 2
@@ -123,7 +123,7 @@ Args:
     sensor_number: must be 1 or 2
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_checksum = R"doc()doc";
 
@@ -132,13 +132,13 @@ R"doc(Get the compass sensor offsets (Gyrocompass) Includes heading offset
 only
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_depth_sensor_offsets =
 R"doc(Get the depth sensor offsets
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_etx = R"doc()doc";
 
@@ -149,7 +149,7 @@ Args:
     position_system_number: must be 1, 2 or 3
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_rx1_serial_number = R"doc()doc";
 
@@ -174,7 +174,7 @@ Args:
     has_ypr: sensor has yaw pitch roll offsets
 
 Returns:
-    PositionalOffsets)doc";
+    SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_system_main_head_serial_number = R"doc()doc";
 
@@ -208,7 +208,7 @@ Args:
     position_system_number: must be 0, 1, 2 or 3
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_tx2_serial_number = R"doc()doc";
 

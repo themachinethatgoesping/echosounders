@@ -62,14 +62,14 @@ struct XML_Configuration_Sensor
 
     // ----- methods -----
     /**
-     * @brief Return the sensor offsets as navigation::datastructures::PositionalOffsets structure
+     * @brief Return the sensor offsets as navigation::datastructures::SensorPose structure
      *
-     * @return navigation::datastructures::PositionalOffsets
+     * @return navigation::datastructures::SensorPose
      */
-    navigation::datastructures::PositionalOffsets get_sensor_offsets() const
+    navigation::datastructures::SensorPose get_sensor_offsets() const
     {
         // TODO: check angle directions
-        return navigation::datastructures::PositionalOffsets(Name, X, Y, Z, AngleZ, AngleY, AngleX);
+        return navigation::datastructures::SensorPose(Name, X, Y, Z, AngleZ, AngleY, AngleX);
     }
 
     // ----- xml decode methods -----

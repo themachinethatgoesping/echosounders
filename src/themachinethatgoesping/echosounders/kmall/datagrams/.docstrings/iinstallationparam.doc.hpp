@@ -1,4 +1,4 @@
-//sourcehash: fd2e841645a0761c0397feaf32168dd0ec5c43f0051377328eec98cc4d6f3c07
+//sourcehash: ca059594781f6557540327574bc5922863a0a2819c4e6a4b95ee80a1f6486d27
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -96,7 +96,7 @@ Args:
     sensor_number: Sensor number (1-4)
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_available_transducer_keys =
 R"doc(Get a list of available transducer keys present in the installation
@@ -117,7 +117,7 @@ R"doc(Get the depth sensor offsets
 Parses DPHI entry
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_info = R"doc()doc";
 
@@ -164,7 +164,7 @@ Args:
     position_system_number: Position system number (1-4)
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_pu_serial_number =
 R"doc(Get the PU serial number (SN field)
@@ -193,7 +193,7 @@ Args:
     transducer_key: Key like "TRAI_HD1", "TRAI_TX1", etc.
 
 Returns:
-    navigation::datastructures::PositionalOffsets)doc";
+    navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_serial_numbers = R"doc()doc";
 

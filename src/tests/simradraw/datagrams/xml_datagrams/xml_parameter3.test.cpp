@@ -1039,9 +1039,9 @@ TEST_CASE("ChannelConfiguration should support common functions", TESTTAG)
     REQUIRE(channel2.info_string().size() != 0);
 
     // --- test data access ---
-    themachinethatgoesping::navigation::datastructures::PositionalOffsets offsets_1(
+    themachinethatgoesping::navigation::datastructures::SensorPose offsets_1(
         "ES38-7", 7.88, 1.09, 5.87, 0.50, 1.50, -0.50);
-    themachinethatgoesping::navigation::datastructures::PositionalOffsets offsets_2(
+    themachinethatgoesping::navigation::datastructures::SensorPose offsets_2(
         "ES70-7C", 8.22, 1.47, 5.88, 0.00, 1.00, 0.60);
 
     REQUIRE(channel1.get_channel_id() == "WBT 400040-15 ES38-7_ES");
