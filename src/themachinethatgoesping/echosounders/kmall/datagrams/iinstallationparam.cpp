@@ -543,6 +543,56 @@ navigation::datastructures::SensorPose IInstallationParam::get_transducer_offset
     return SensorPose(name, x, y, z, yaw, pitch, roll);
 }
 
+std::map<std::string, navigation::datastructures::SensorPose>
+IInstallationParam::get_subarray_offsets() const
+{
+    using navigation::datastructures::SensorPose;
+    using tools::helper::string_to_floattype;
+
+    const auto&                       decoded = get_install_txt_decoded_cached();
+    std::map<std::string, SensorPose> offsets;
+
+    // read the (kx,ky,kz) fields from a parsed sensor string into offsets[out_key]; skip if none.
+    auto add_offset = [&](const std::map<std::string, std::string>& p,
+                          const char*                               kx,
+                          const char*                               ky,
+                          const char*                               kz,
+                          std::string_view                          name,
+                          const std::string&                        out_key) {
+        auto ix = p.find(kx), iy = p.find(ky), iz = p.find(kz);
+        if (ix == p.end() && iy == p.end() && iz == p.end())
+            return;
+        float x          = ix != p.end() ? string_to_floattype<float>(ix->second) : 0.f;
+        float y          = iy != p.end() ? string_to_floattype<float>(iy->second) : 0.f;
+        float z          = iz != p.end() ? string_to_floattype<float>(iz->second) : 0.f;
+        offsets[out_key] = SensorPose(name, x, y, z, 0.f, 0.f, 0.f);
+    };
+
+    // TRAI_TX1: transmit subarrays port/center/starboard
+    if (auto it = decoded.find("TRAI_TX1"); it != decoded.end())
+    {
+        auto p = parse_sensor_string(it->second);
+        add_offset(p, "IPX", "IPY", "IPZ", "tx-port", "0");
+        add_offset(p, "ICX", "ICY", "ICZ", "tx-center", "1");
+        add_offset(p, "ISX", "ISY", "ISZ", "tx-starboard", "2");
+    }
+    // TRAI_RX1: receive phase center
+    if (auto it = decoded.find("TRAI_RX1"); it != decoded.end())
+    {
+        auto p = parse_sensor_string(it->second);
+        add_offset(p, "IX", "IY", "IZ", "rx", "RX");
+    }
+    // TRAI_HD1: single-head system stores the (port) transmit subarray and the receive phase center
+    if (auto it = decoded.find("TRAI_HD1"); it != decoded.end())
+    {
+        auto p = parse_sensor_string(it->second);
+        add_offset(p, "ITX", "ITY", "ITZ", "tx-port", "0");
+        add_offset(p, "IRX", "IRY", "IRZ", "rx", "RX");
+    }
+
+    return offsets;
+}
+
 navigation::datastructures::SensorPose IInstallationParam::get_position_system_offsets(
     uint8_t position_system_number) const
 {

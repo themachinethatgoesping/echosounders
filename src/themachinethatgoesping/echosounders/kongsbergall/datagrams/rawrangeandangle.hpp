@@ -107,6 +107,20 @@ class RawRangeAndAngle : public KongsbergAllDatagram
     xt::xtensor<float, 1> get_beam_crosstrack_angles(
         const std::vector<uint32_t>& beam_numbers) const;
 
+    /**
+     * @brief Per-beam physical TX array index (looked up via each beam's transmit sector).
+     *
+     * For EM 2040 this identifies which of the three transmit arrays (0 = port, 1 = centre,
+     * 2 = starboard) formed each beam — the .all equivalent of the kmall per-sounding tx_sub_array.
+     * The sector-to-array mapping can be reversed (e.g. sectors 0,1,2 -> arrays 2,1,0) for a
+     * 180°-mounted TX, so this must be read per beam rather than assumed from the sector number.
+     *
+     * @param beam_numbers optional beam selection (empty = all beams)
+     * @return xt::xtensor<uint8_t, 1> TX array index per beam
+     */
+    xt::xtensor<uint8_t, 1> get_beam_tx_array_index(
+        const std::vector<uint32_t>& beam_numbers = {}) const;
+
     // ----- convenient data access -----
     uint16_t get_ping_counter() const;
     uint16_t get_system_serial_number() const;

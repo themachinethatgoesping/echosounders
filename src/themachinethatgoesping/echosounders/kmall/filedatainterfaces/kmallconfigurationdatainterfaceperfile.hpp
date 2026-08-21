@@ -270,6 +270,27 @@ class KMALLConfigurationDataInterfacePerFile
                                 param.get_system_transducer_configuration().name()));
         }
 
+        // ----- transmit/receive subarray phase-center offsets -----
+        // Prefer the per-subarray internal lever arms stored in the installation text; fill any
+        // gaps (e.g. an EM2040P single-head file only stores the port subarray) from the hardcoded
+        // model preset. compute_target_pose can then place the transmit pose on the actual transmit
+        // subarray (per sector) and the receive pose on the receive-array phase center.
+        {
+            auto subarrays =
+                navigation::SensorConfiguration::get_model_subarray_offsets(param.get_system_name());
+            for (auto& [subarray_id, offset] : param.get_subarray_offsets())
+                subarrays[subarray_id] = std::move(offset); // file wins over the model preset
+            if (!subarrays.empty())
+                for (const auto& target_id : config.get_target_ids())
+                    if (target_id != "0")
+                        config.set_target_subarrays(target_id, subarrays);
+        }
+
+        // record system name and transducer configuration for downstream use
+        config.set_model_name(param.get_system_name());
+        config.set_transducer_configuration(
+            std::string(param.get_system_transducer_configuration().name()));
+
         // add the depth sensor (if available)
         try
         {

@@ -101,6 +101,14 @@ RawRangeAndAngleTransmitSectorsContainer::get_transmit_sector_number_tensor(
         sector_numbers);
 }
 
+xt::xtensor<uint8_t, 1> RawRangeAndAngleTransmitSectorsContainer::get_tx_array_index_tensor(
+    const std::vector<uint32_t>& sector_numbers) const
+{
+    return build_tensor<uint8_t>(
+        [](const RawRangeAndAngleTransmitSector& s) { return s.get_tx_array_index(); },
+        sector_numbers);
+}
+
 xt::xtensor<float, 1> RawRangeAndAngleTransmitSectorsContainer::get_signal_bandwidth_tensor(
     const std::vector<uint32_t>& sector_numbers) const
 {

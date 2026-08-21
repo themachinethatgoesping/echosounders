@@ -87,6 +87,10 @@ void init_c_rawrangeandangletransmitsectorscontainer(nanobind::module_& m)
              &RawRangeAndAngleTransmitSectorsContainer::get_transmit_sector_number_tensor,
              DOC_RawRangeAndAngleTransmitSectorsContainer(get_transmit_sector_number_tensor),
              nb::arg("sector_numbers") = std::vector<uint32_t>{})
+        .def("get_tx_array_index_tensor",
+             &RawRangeAndAngleTransmitSectorsContainer::get_tx_array_index_tensor,
+             DOC_RawRangeAndAngleTransmitSectorsContainer(get_tx_array_index_tensor),
+             nb::arg("sector_numbers") = std::vector<uint32_t>{})
         .def("get_signal_bandwidth_tensor",
              &RawRangeAndAngleTransmitSectorsContainer::get_signal_bandwidth_tensor,
              DOC_RawRangeAndAngleTransmitSectorsContainer(get_signal_bandwidth_tensor),

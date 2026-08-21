@@ -88,6 +88,21 @@ xt::xtensor<float, 1> RawRangeAndAngle::get_beam_crosstrack_angles(
     return angles;
 }
 
+xt::xtensor<uint8_t, 1> RawRangeAndAngle::get_beam_tx_array_index(
+    const std::vector<uint32_t>& beam_numbers) const
+{
+    const auto  sector_per_beam = _beams.get_transmit_sector_number_tensor(beam_numbers);
+    const auto& sectors         = _transmit_sectors.get_transmit_sectors();
+    auto array_index = xt::xtensor<uint8_t, 1>::from_shape({ sector_per_beam.size() });
+    for (std::size_t i = 0; i < sector_per_beam.size(); ++i)
+    {
+        const auto sector = sector_per_beam.unchecked(i);
+        array_index.unchecked(i) =
+            sector < sectors.size() ? sectors[sector].get_tx_array_index() : uint8_t{ 0 };
+    }
+    return array_index;
+}
+
 uint16_t RawRangeAndAngle::get_ping_counter() const { return _ping_counter; }
 
 uint16_t RawRangeAndAngle::get_system_serial_number() const { return _system_serial_number; }

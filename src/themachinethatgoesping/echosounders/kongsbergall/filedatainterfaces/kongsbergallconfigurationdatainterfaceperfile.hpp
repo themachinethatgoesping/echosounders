@@ -435,6 +435,24 @@ void init_runtime_parameters()
                                 this->get_file_path()));
         }
 
+        // ----- transmit/receive subarray phase-center offsets -----
+        // The .all installation datagram has no per-subarray lever arms, so use the hardcoded
+        // per-model preset (empty for unknown models). compute_target_pose can then place the
+        // transmit pose on the actual transmit subarray (per sector) and the receive pose on the
+        // receive-array phase center.
+        {
+            auto subarrays = navigation::SensorConfiguration::get_model_subarray_offsets(
+                param.get_model_number_as_string());
+            if (!subarrays.empty())
+                for (const auto& target_id : config.get_target_ids())
+                    if (target_id != "0")
+                        config.set_target_subarrays(target_id, subarrays);
+        }
+
+        // record system name and transducer configuration for downstream use
+        config.set_model_name(param.get_model_number_as_string());
+        config.set_transducer_configuration(fmt::format("STC{}", param.get_value_int("STC", 0)));
+
         // add the compass
         // The .all format logs the heading already corrected for the heading offset entered by the
         // operator (see EM datagram spec), so flag the offset as pre-applied to avoid a second

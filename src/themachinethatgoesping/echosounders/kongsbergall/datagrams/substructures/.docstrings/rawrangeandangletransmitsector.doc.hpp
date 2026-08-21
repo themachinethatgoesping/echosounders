@@ -1,4 +1,4 @@
-//sourcehash: 1e9e0f1ede1cab66da7611d76fcb0d6758033ee229b2ec228f0d4e9e9f70a513
+//sourcehash: 55743f844f9f3e84ded269c2188829a89945431d0771a826c74354b064375d72
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -88,6 +88,13 @@ Returns:
     _tilt_angle * 0.01 (float))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_transmit_sector_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_tx_array_index =
+R"doc(Physical TX array index of this transmit sector (Kongsberg "Transmit
+sector number / TX array index"). For EM 2040 this is the transmit
+array that formed the sector (0 = port, 1 = centre, 2 = starboard);
+for other systems it is just the transmit-sector loop index. This is
+the .all equivalent of the kmall MRZ tx_sub_array.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_tx_signal_type = R"doc()doc";
 

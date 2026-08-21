@@ -58,6 +58,8 @@ class RawRangeAndAngleTransmitSectorsContainer
         const std::vector<uint32_t>& sector_numbers = {}) const;
     xt::xtensor<uint8_t, 1> get_transmit_sector_number_tensor(
         const std::vector<uint32_t>& sector_numbers = {}) const;
+    xt::xtensor<uint8_t, 1> get_tx_array_index_tensor(
+        const std::vector<uint32_t>& sector_numbers = {}) const;
     xt::xtensor<float, 1> get_signal_bandwidth_tensor(
         const std::vector<uint32_t>& sector_numbers = {}) const;
 

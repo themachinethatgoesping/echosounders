@@ -90,6 +90,9 @@ void init_c_rawrangeandangletransmitsector(nanobind::module_& m)
         .def("get_transmit_sector_number",
              &RawRangeAndAngleTransmitSector::get_transmit_sector_number,
              DOC_RawRangeAndAngleTransmitSector(transmit_sector_number))
+        .def("get_tx_array_index",
+             &RawRangeAndAngleTransmitSector::get_tx_array_index,
+             DOC_RawRangeAndAngleTransmitSector(get_tx_array_index))
         .def("set_signal_bandwidth",
              &RawRangeAndAngleTransmitSector::set_signal_bandwidth,
              DOC_RawRangeAndAngleTransmitSector(signal_bandwidth))

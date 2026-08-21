@@ -1,4 +1,4 @@
-//sourcehash: ca059594781f6557540327574bc5922863a0a2819c4e6a4b95ee80a1f6486d27
+//sourcehash: 6afd68aab53532e3aa17e90057566d502a1900579c41c387128d73c31482e78c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -173,6 +173,21 @@ Returns:
     int PU serial number)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_status = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_subarray_offsets =
+R"doc(Get the transmit/receive subarray phase-center offsets from the
+installation text.
+
+Parses the internal subarray lever arms embedded in the TRAI_TX1
+(IPx/ICx/ISx for the transmit port/center/starboard subarrays),
+TRAI_RX1 (Ix for the receive phase center) and TRAI_HD1 (ITx/IRx for a
+single-head system) entries.
+
+Returns:
+    map keyed "0" (tx port), "1" (tx center), "2" (tx starboard), "RX"
+    (receive phase center); only the keys present in the file are
+    returned. Offsets are SensorPoses in the transducer frame (x
+    forward, y starboard, z down, metres).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_system_name =
 R"doc(Get the system name (EMXV field)

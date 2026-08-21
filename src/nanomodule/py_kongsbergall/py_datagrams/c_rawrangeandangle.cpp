@@ -51,6 +51,10 @@ void init_c_rawrangeandangle(nanobind::module_& m)
                      &RawRangeAndAngle::get_beam_crosstrack_angles, nb::const_),
              DOC_RawRangeAndAngle(get_beam_crosstrack_angles_2),
                 nb::arg("beam_numbers"))
+        .def("get_beam_tx_array_index",
+             &RawRangeAndAngle::get_beam_tx_array_index,
+             DOC_RawRangeAndAngle(get_beam_tx_array_index),
+             nb::arg("beam_numbers") = std::vector<uint32_t>{})
 
         // --- convenient data access ---
         .def("set_ping_counter",

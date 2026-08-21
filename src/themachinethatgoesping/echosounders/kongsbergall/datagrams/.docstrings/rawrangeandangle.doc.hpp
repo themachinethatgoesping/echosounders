@@ -1,4 +1,4 @@
-//sourcehash: 8b03b90fba2813de94cbc1711da2d67af1a048c816eaffd0a2e94297525b81be
+//sourcehash: 8ea946ba3ad82bd60948aa86394ce35208d8354cf870e8b9faebc14679e0c067
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -85,6 +85,23 @@ Args:
 
 Returns:
     xt::xtensor<float, 1>)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RawRangeAndAngle_get_beam_tx_array_index =
+R"doc(Per-beam physical TX array index (looked up via each beam's transmit
+sector).
+
+For EM 2040 this identifies which of the three transmit arrays (0 =
+port, 1 = centre, 2 = starboard) formed each beam — the .all
+equivalent of the kmall per-sounding tx_sub_array. The sector-to-array
+mapping can be reversed (e.g. sectors 0,1,2 -> arrays 2,1,0) for a
+180°-mounted TX, so this must be read per beam rather than assumed
+from the sector number.
+
+Args:
+    beam_numbers: optional beam selection (empty = all beams)
+
+Returns:
+    xt::xtensor<uint8_t, 1> TX array index per beam)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RawRangeAndAngle_get_beams = R"doc()doc";
 

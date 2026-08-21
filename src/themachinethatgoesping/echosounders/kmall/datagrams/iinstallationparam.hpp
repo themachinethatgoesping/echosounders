@@ -133,6 +133,19 @@ class IInstallationParam : public KMALLDatagram
         const std::string& transducer_key) const;
 
     /**
+     * @brief Get the transmit/receive subarray phase-center offsets from the installation text.
+     *
+     * Parses the internal subarray lever arms embedded in the TRAI_TX1 (IPx/ICx/ISx for the
+     * transmit port/center/starboard subarrays), TRAI_RX1 (Ix for the receive phase center) and
+     * TRAI_HD1 (ITx/IRx for a single-head system) entries.
+     *
+     * @return map keyed "0" (tx port), "1" (tx center), "2" (tx starboard), "RX" (receive phase
+     * center); only the keys present in the file are returned. Offsets are SensorPoses in the
+     * transducer frame (x forward, y starboard, z down, metres).
+     */
+    std::map<std::string, navigation::datastructures::SensorPose> get_subarray_offsets() const;
+
+    /**
      * @brief Get the position system offsets for a given position system number
      *
      * Parses POSI_1, POSI_2, POSI_3, or POSI_4 entries

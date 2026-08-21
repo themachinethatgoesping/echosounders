@@ -1,4 +1,4 @@
-//sourcehash: 0471bfe08eea65bdcec744f4124f093544c643970acbb02e426a030fba6781b7
+//sourcehash: 651a5a02dea9438558a786fca99ac550737717b1155af145a81afb7bec720f1f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -77,6 +77,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSectorsContainer_get_transmit_sector_number_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSectorsContainer_get_transmit_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSectorsContainer_get_tx_array_index_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSectorsContainer_get_tx_signal_type_tensor = R"doc()doc";
 

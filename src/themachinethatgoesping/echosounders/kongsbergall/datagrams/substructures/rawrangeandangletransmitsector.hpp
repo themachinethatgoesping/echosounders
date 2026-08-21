@@ -59,6 +59,14 @@ class RawRangeAndAngleTransmitSector
     uint8_t  get_transmit_sector_number() const;
     float    get_signal_bandwidth() const;
 
+    /**
+     * @brief Physical TX array index of this transmit sector (Kongsberg "Transmit sector number /
+     * TX array index"). For EM 2040 this is the transmit array that formed the sector (0 = port,
+     * 1 = centre, 2 = starboard); for other systems it is just the transmit-sector loop index. This
+     * is the .all equivalent of the kmall MRZ tx_sub_array.
+     */
+    uint8_t  get_tx_array_index() const { return _transmit_sector_number; }
+
     void set_tilt_angle(int16_t tilt_angle);
     void set_focus_range(uint16_t focus_range);
     void set_signal_length(float signal_length);
