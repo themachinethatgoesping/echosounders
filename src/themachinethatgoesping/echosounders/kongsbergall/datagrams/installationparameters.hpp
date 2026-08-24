@@ -350,6 +350,32 @@ class InstallationParameters : public KongsbergAllDatagram
     uint8_t get_active_position_system_number() const;
 
     /**
+     * @brief Check whether the positions of the specified position system are motion compensated.
+     *
+     * This corresponds to the "P{n}M" installation parameter ("Position system n motion
+     * compensation"). When enabled (P{n}M = 1), the logged position has been adjusted by the PU
+     * for the offset between the antenna and the vessel reference point (i.e. the roll/pitch
+     * induced lever arm is compensated). When disabled (P{n}M = 0), the logged position is the
+     * raw antenna position and the antenna lever arm must be applied to reference it to the
+     * vessel reference point.
+     *
+     * @param position_system_number must be 1, 2 or 3
+     * @return true if the positions are motion compensated (P{n}M = 1), false otherwise (also
+     * false if the parameter is not present)
+     */
+    bool get_position_system_motion_compensation(uint8_t position_system_number) const;
+
+    /**
+     * @brief Check whether the positions of the active position system are motion compensated.
+     *
+     * Convenience wrapper that resolves the active position system (APS) and returns its
+     * "P{n}M" motion compensation flag. See get_position_system_motion_compensation.
+     *
+     * @return true if the active position system's positions are motion compensated
+     */
+    bool get_active_position_system_motion_compensation() const;
+
+    /**
      * @brief Get the active roll pitch sensor (2, 3, 8 or 9) here returned as an enum
      *
      * @return o_KongsbergAllActiveSensor

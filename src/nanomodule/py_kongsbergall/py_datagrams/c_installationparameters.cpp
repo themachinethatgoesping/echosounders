@@ -116,6 +116,13 @@ void init_c_installationparameters(nanobind::module_& m)
         .def("get_active_position_system_number",
              &InstallationParameters::get_active_position_system_number,
              DOC_InstallationParameters(get_active_position_system_number))
+        .def("get_position_system_motion_compensation",
+             &InstallationParameters::get_position_system_motion_compensation,
+             DOC_InstallationParameters(get_position_system_motion_compensation),
+             nb::arg("position_system_number"))
+        .def("get_active_position_system_motion_compensation",
+             &InstallationParameters::get_active_position_system_motion_compensation,
+             DOC_InstallationParameters(get_active_position_system_motion_compensation))
         .def("get_active_attitude_velocity_sensor",
              &InstallationParameters::get_active_attitude_velocity_sensor,
              DOC_InstallationParameters(get_active_attitude_velocity_sensor))

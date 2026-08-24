@@ -1,4 +1,4 @@
-//sourcehash: 788d0a2baa23e43444d65a0a7d94917b0477fd0ccfeb4770d1381a54537bf19a
+//sourcehash: 10d9239b9b7a2f3da071c23d30e0f78b51f17822d15445ffad92990138a82949
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -102,6 +102,18 @@ enum
 Returns:
     o_KongsbergAllActiveSensor)doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_position_system_motion_compensation =
+R"doc(Check whether the positions of the active position system are motion
+compensated.
+
+Convenience wrapper that resolves the active position system (APS) and
+returns its "P{n}M" motion compensation flag. See
+get_position_system_motion_compensation.
+
+Returns:
+    true if the active position system's positions are motion
+    compensated)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_position_system_number =
 R"doc(Get the active position system number (APS + 1)
 Returns:
@@ -141,6 +153,25 @@ Returns:
     navigation::datastructures::SensorPose)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_etx = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_position_system_motion_compensation =
+R"doc(Check whether the positions of the specified position system are
+motion compensated.
+
+This corresponds to the "P{n}M" installation parameter ("Position
+system n motion compensation"). When enabled (P{n}M = 1), the logged
+position has been adjusted by the PU for the offset between the
+antenna and the vessel reference point (i.e. the roll/pitch induced
+lever arm is compensated). When disabled (P{n}M = 0), the logged
+position is the raw antenna position and the antenna lever arm must be
+applied to reference it to the vessel reference point.
+
+Args:
+    position_system_number: must be 1, 2 or 3
+
+Returns:
+    true if the positions are motion compensated (P{n}M = 1), false
+    otherwise (also false if the parameter is not present))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_position_system_offsets =
 R"doc(Get the position system offsets of system 1, 2 or 3

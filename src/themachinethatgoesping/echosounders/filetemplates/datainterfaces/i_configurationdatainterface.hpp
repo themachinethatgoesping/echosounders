@@ -67,6 +67,10 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
             auto trx_sensor_configuration = base_sensor_configuration;
             trx_sensor_configuration.add_target("Transducer",
                                                 trx_sensor_configuration.get_target(target_id));
+            // carry the source target's subarray phase-center offsets onto the alias
+            if (base_sensor_configuration.has_target_subarrays(target_id))
+                trx_sensor_configuration.set_target_subarrays(
+                    "Transducer", base_sensor_configuration.get_target_subarrays(target_id));
             result[target_id] = trx_sensor_configuration;
         }
 

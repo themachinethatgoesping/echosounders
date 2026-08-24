@@ -1,4 +1,4 @@
-//sourcehash: 6afd68aab53532e3aa17e90057566d502a1900579c41c387128d73c31482e78c
+//sourcehash: 6be0a107a55e0f40af9395ac1b6fde185e12df72503c0abdbdd0d277c400a1a6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -79,6 +79,16 @@ Reads the U=ACTIVE field from ATTI_n entries
 Returns:
     uint8_t Attitude sensor number (1-4), or 0 if none active)doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_active_position_system_motion_compensation =
+R"doc(Check whether the positions of the active position system are motion
+compensated.
+
+Resolves the active position system (U=ACTIVE) and returns its
+C=On/Off flag.
+
+Returns:
+    true if the active position system has C=On)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_active_position_system_number =
 R"doc(Get the active position system number (1-4)
 
@@ -154,6 +164,22 @@ R"doc(Get all known install_txt key explanations
 Returns:
     const std::map<std::string, std::string>& Map of keys to their
     explanations)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_position_system_motion_compensation =
+R"doc(Check whether the positions of the specified position system are
+motion compensated.
+
+Reads the "C" field (C=On/Off, "compensation for motion") from the
+POSI_n entry. When On, the position has been adjusted for the offset
+between the antenna and the vessel reference point (equivalent to the
+.all P{n}M=1 flag).
+
+Args:
+    position_system_number: Position system number (1-4)
+
+Returns:
+    true if C=On, false otherwise (also false if POSI_n or C is
+    absent))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_position_system_offsets =
 R"doc(Get the position system offsets for a given position system number

@@ -140,6 +140,15 @@ TEST_CASE("InstallationParameters should support parse installation_parameters c
         CHECK(dat.get_position_system_offsets(3) ==
               SensorPose("Position system 3", -2.567, -1.153, -30.331, 0., 0., 0.));
     }
+    SECTION("Position system motion compensation")
+    {
+        // installation string has P1M=0, P2M=0, P3M=1 and APS=0 (active system = 1)
+        CHECK(dat.get_position_system_motion_compensation(1) == false);
+        CHECK(dat.get_position_system_motion_compensation(2) == false);
+        CHECK(dat.get_position_system_motion_compensation(3) == true);
+        CHECK(dat.get_active_position_system_number() == 1);
+        CHECK(dat.get_active_position_system_motion_compensation() == false);
+    }
     // SECTION("Transducer 0")
     // {
     //     CAPTURE(dat.get_transducer_offsets(0).info_string(3));

@@ -193,6 +193,27 @@ class IInstallationParam : public KMALLDatagram
     int8_t get_active_position_system_number() const;
 
     /**
+     * @brief Check whether the positions of the specified position system are motion compensated.
+     *
+     * Reads the "C" field (C=On/Off, "compensation for motion") from the POSI_n entry. When On, the
+     * position has been adjusted for the offset between the antenna and the vessel reference point
+     * (equivalent to the .all P{n}M=1 flag).
+     *
+     * @param position_system_number Position system number (1-4)
+     * @return true if C=On, false otherwise (also false if POSI_n or C is absent)
+     */
+    bool get_position_system_motion_compensation(uint8_t position_system_number) const;
+
+    /**
+     * @brief Check whether the positions of the active position system are motion compensated.
+     *
+     * Resolves the active position system (U=ACTIVE) and returns its C=On/Off flag.
+     *
+     * @return true if the active position system has C=On
+     */
+    bool get_active_position_system_motion_compensation() const;
+
+    /**
      * @brief Get the active attitude sensor number (1-4)
      *
      * Reads the U=ACTIVE field from ATTI_n entries

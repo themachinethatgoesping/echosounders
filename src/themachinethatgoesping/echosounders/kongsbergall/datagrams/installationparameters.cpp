@@ -502,6 +502,26 @@ uint8_t InstallationParameters::get_active_position_system_number() const
     return std::stoi(get_value_string("APS")) + 1;
 }
 
+bool InstallationParameters::get_position_system_motion_compensation(
+    uint8_t position_system_number) const
+{
+    if (position_system_number > 3 || position_system_number < 1)
+    {
+        throw std::invalid_argument(
+            fmt::format("get_position_system_motion_compensation: Invalid position "
+                        "system number: {} (must be 1, 2 or 3)",
+                        position_system_number));
+    }
+
+    std::string key = "P" + std::to_string(position_system_number) + "M";
+    return get_value_int(key, 0) != 0;
+}
+
+bool InstallationParameters::get_active_position_system_motion_compensation() const
+{
+    return get_position_system_motion_compensation(get_active_position_system_number());
+}
+
 o_KongsbergAllActiveSensor InstallationParameters::get_active_pitch_roll_sensor() const
 {
     std::string active_sensor = get_value_string("ARO");
@@ -548,7 +568,7 @@ o_KongsbergAllActiveSensor InstallationParameters::get_active_heave_sensor() con
 
 o_KongsbergAllActiveSensor InstallationParameters::get_active_heading_sensor() const
 {
-    std::string active_sensor = get_value_string("AHE");
+    std::string active_sensor = get_value_string("AHS");
 
     switch (active_sensor[0])
     {

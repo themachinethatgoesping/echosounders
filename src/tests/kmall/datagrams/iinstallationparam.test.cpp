@@ -91,6 +91,9 @@ TEST_CASE("IInstallationParam should support common functions", TESTTAG)
     // get_*_offsets(n) getters, i.e. get_*_offsets(get_active_*_number()) selects the active sensor.
     REQUIRE(dat.get_active_position_system_number() == 1); // POSI_1:U=ACTIVE
     REQUIRE(dat.get_active_attitude_sensor_number() == 1); // ATTI_1:U=ACTIVE
+    // POSI_1 has C=On -> motion compensated; the active system resolves to it
+    REQUIRE(dat.get_position_system_motion_compensation(1) == true);
+    REQUIRE(dat.get_active_position_system_motion_compensation() == true);
     REQUIRE(dat.get_position_system_offsets(dat.get_active_position_system_number()).name ==
             "Position system 1");
     REQUIRE(dat.get_attitude_sensor_offsets(dat.get_active_attitude_sensor_number()).name ==

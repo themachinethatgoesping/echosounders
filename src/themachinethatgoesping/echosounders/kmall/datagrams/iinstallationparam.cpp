@@ -765,6 +765,27 @@ int8_t IInstallationParam::get_active_position_system_number() const
     return 0; // None active
 }
 
+bool IInstallationParam::get_position_system_motion_compensation(
+    uint8_t position_system_number) const
+{
+    auto        decoded = get_install_txt_decoded_cached();
+    std::string key     = fmt::format("POSI_{}", position_system_number);
+    auto        it      = decoded.find(key);
+    if (it == decoded.end())
+        return false;
+    auto params = parse_sensor_string(it->second);
+    auto cit    = params.find("C");
+    return cit != params.end() && cit->second == "On";
+}
+
+bool IInstallationParam::get_active_position_system_motion_compensation() const
+{
+    int8_t n = get_active_position_system_number();
+    if (n <= 0)
+        return false;
+    return get_position_system_motion_compensation(static_cast<uint8_t>(n));
+}
+
 int8_t IInstallationParam::get_active_attitude_sensor_number() const
 {
     auto decoded = get_install_txt_decoded_cached();
