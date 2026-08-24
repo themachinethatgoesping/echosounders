@@ -435,22 +435,39 @@ void init_runtime_parameters()
                                 this->get_file_path()));
         }
 
+        // The .all model number does not distinguish the EM2040 variants (EM2040P and EM2040M both
+        // report number 2040) -- only the STC (system transducer configuration) does. Refine the
+        // model name accordingly so the correct subarray preset is selected; the .kmall format
+        // reports the variant directly (EMXV), which is why an EM2040P reads as EM2040 from .all but
+        // EM2040P from .kmall.
+        std::string model_name = param.get_model_number_as_string();
+        if (param.get_model_number() == 2040)
+        {
+            switch (param.get_value_int("STC", 0))
+            {
+                case 5: // PortableSingleHead
+                    model_name = "EM2040P";
+                    break;
+                case 6: // Modular
+                    model_name = "EM2040M";
+                    break;
+                default:
+                    break;
+            }
+        }
+
         // ----- transmit/receive subarray phase-center offsets -----
         // The .all installation datagram has no per-subarray lever arms, so use the hardcoded
-        // per-model preset (empty for unknown models). compute_target_pose can then place the
-        // transmit pose on the actual transmit subarray (per sector) and the receive pose on the
-        // receive-array phase center.
+        // per-model preset (empty for unknown models). Attach the transmit subarrays ("0"/"1"/"2")
+        // only to transmit targets and the receive phase center ("RX") only to receive targets so a
+        // head never carries the other array's offset; TRX targets (a combined tx+rx head) get both.
         {
-            auto subarrays = navigation::SensorConfiguration::get_model_subarray_offsets(
-                param.get_model_number_as_string());
-            if (!subarrays.empty())
-                for (const auto& target_id : config.get_target_ids())
-                    if (target_id != "0")
-                        config.set_target_subarrays(target_id, subarrays);
+            auto subarrays = navigation::SensorConfiguration::get_model_subarray_offsets(model_name);
+            config.set_subarrays_by_role(subarrays);
         }
 
         // record system name and transducer configuration for downstream use
-        config.set_model_name(param.get_model_number_as_string());
+        config.set_model_name(model_name);
         config.set_transducer_configuration(fmt::format("STC{}", param.get_value_int("STC", 0)));
 
         // add the compass
@@ -477,6 +494,10 @@ void init_runtime_parameters()
         // add the position sensor
         config.set_position_source(
             param.get_position_system_offsets(_active_position_system_number));
+        // flag whether the logged positions are already motion compensated (P{n}M=1): then the beam
+        // x,y are referenced to the vessel reference point and no antenna lever arm must be applied.
+        config.set_position_source_motion_compensated(
+            param.get_active_position_system_motion_compensation());
 
         // store whether the measured transducer/surface sound speed should be integrated into the
         // sound velocity profile for ray tracing (SHC installation parameter: 0 = used [default],

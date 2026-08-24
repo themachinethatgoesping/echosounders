@@ -206,6 +206,43 @@ class KongsbergAllNavigationDataInterfacePerFile
             times_pos, latitudes, longitudes, headings_pos, qualities);
         sort_and_deduplicate_time_series(times_pitch_roll, pitchs, rolls);
         sort_and_deduplicate_time_series(times_heading_attitude, headings_attitudes);
+
+        // Some installations log the (active-flagged) network attitude datagram with a placeholder
+        // all-zero heave while the real heave sits in the serial Attitude (41H) datagram -- observed
+        // on the Yolla EM2040C: the network heave is exactly 0 but the Attitude datagram heave is
+        // real. In that case the zero network heave "wins" (its heave sensor is flagged active) and
+        // blocks the Attitude fallback, so the transducer depth stops reacting to heave. Detect the
+        // degenerate all-zero series and re-collect heave from the Attitude datagram (ignoring its
+        // active flag).
+        const auto heave_all_zero = [](const std::vector<double>& h) {
+            for (double v : h)
+                if (v > 1e-6 || v < -1e-6)
+                    return false;
+            return true;
+        };
+        if (!heaves.empty() && heave_all_zero(heaves))
+        {
+            times_heave.clear();
+            heaves.clear();
+            std::vector<float>  ignore_heading, ignore_pitch, ignore_roll;
+            std::vector<double> ignore_times_heading, ignore_times_pitch_roll;
+            this->add_attitudes<datagrams::AttitudeDatagram>(
+                t_KongsbergAllDatagramIdentifier::AttitudeDatagram,
+                ignore_heading,
+                ignore_pitch,
+                ignore_roll,
+                heaves,
+                ignore_times_heading,
+                ignore_times_pitch_roll,
+                times_heave,
+                false, // look_for_heading_sensor
+                false, // look_for_roll_pitch_sensor
+                true,  // look_for_heave_sensor
+                false, // use_inactive_heading_sensor
+                false, // use_inactive_roll_pitch_sensor
+                true); // use_inactive_heave_sensor
+        }
+
         sort_and_deduplicate_time_series(times_heave, heaves);
 
         navi.set_data_attitude(std::move(times_pitch_roll), std::move(pitchs), std::move(rolls));
