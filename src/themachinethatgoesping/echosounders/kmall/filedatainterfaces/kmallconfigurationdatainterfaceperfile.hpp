@@ -273,17 +273,14 @@ class KMALLConfigurationDataInterfacePerFile
         // ----- transmit/receive subarray phase-center offsets -----
         // Prefer the per-subarray internal lever arms stored in the installation text; fill any
         // gaps (e.g. an EM2040P single-head file only stores the port subarray) from the hardcoded
-        // model preset. compute_target_pose can then place the transmit pose on the actual transmit
-        // subarray (per sector) and the receive pose on the receive-array phase center.
+        // model preset. Attach the transmit subarrays ("0"/"1"/"2") only to transmit targets and the
+        // receive phase center ("RX") only to receive targets; TRX targets (combined tx+rx) get both.
         {
             auto subarrays =
                 navigation::SensorConfiguration::get_model_subarray_offsets(param.get_system_name());
             for (auto& [subarray_id, offset] : param.get_subarray_offsets())
                 subarrays[subarray_id] = std::move(offset); // file wins over the model preset
-            if (!subarrays.empty())
-                for (const auto& target_id : config.get_target_ids())
-                    if (target_id != "0")
-                        config.set_target_subarrays(target_id, subarrays);
+            config.set_subarrays_by_role(subarrays);
         }
 
         // record system name and transducer configuration for downstream use
@@ -330,6 +327,9 @@ class KMALLConfigurationDataInterfacePerFile
             {
                 config.set_position_source(
                     param.get_position_system_offsets(_active_position_system_number));
+                // .kmall positions are motion compensated when POSI C=On (position re reference point)
+                config.set_position_source_motion_compensated(
+                    param.get_active_position_system_motion_compensation());
             }
             catch (const std::invalid_argument&)
             {

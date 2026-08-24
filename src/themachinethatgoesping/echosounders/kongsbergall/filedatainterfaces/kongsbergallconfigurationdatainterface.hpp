@@ -71,6 +71,10 @@ class KongsbergAllConfigurationDataInterface
             auto trx_sensor_configuration = base_sensor_configuration;
             trx_sensor_configuration.add_target("Transducer",
                                                 trx_sensor_configuration.get_target(target_id));
+            // carry the source target's subarray phase-center offsets onto the "Transducer" alias
+            if (base_sensor_configuration.has_target_subarrays(target_id))
+                trx_sensor_configuration.set_target_subarrays(
+                    "Transducer", base_sensor_configuration.get_target_subarrays(target_id));
 
             // If we know which TX/RX targets compose this TRX channel, register
             // them as \"TX\" and \"RX\" aliases on the per-channel configuration.
@@ -79,11 +83,21 @@ class KongsbergAllConfigurationDataInterface
             {
                 const auto& [tx_name, rx_name] = it->second;
                 if (base_sensor_configuration.has_target(tx_name))
+                {
                     trx_sensor_configuration.add_target(
                         "TX", base_sensor_configuration.get_target(tx_name));
+                    if (base_sensor_configuration.has_target_subarrays(tx_name))
+                        trx_sensor_configuration.set_target_subarrays(
+                            "TX", base_sensor_configuration.get_target_subarrays(tx_name));
+                }
                 if (base_sensor_configuration.has_target(rx_name))
+                {
                     trx_sensor_configuration.add_target(
                         "RX", base_sensor_configuration.get_target(rx_name));
+                    if (base_sensor_configuration.has_target_subarrays(rx_name))
+                        trx_sensor_configuration.set_target_subarrays(
+                            "RX", base_sensor_configuration.get_target_subarrays(rx_name));
+                }
             }
 
             result[target_id] = trx_sensor_configuration;
