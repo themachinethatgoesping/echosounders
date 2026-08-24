@@ -1,4 +1,4 @@
-//sourcehash: 55743f844f9f3e84ded269c2188829a89945431d0771a826c74354b064375d72
+//sourcehash: 0663e4324f0a641d1f43d58e1204884598f893ba89b54d10c9a005324facc461
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -91,10 +91,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_tx_array_index =
 R"doc(Physical TX array index of this transmit sector (Kongsberg "Transmit
-sector number / TX array index"). For EM 2040 this is the transmit
-array that formed the sector (0 = port, 1 = centre, 2 = starboard);
-for other systems it is just the transmit-sector loop index. This is
-the .all equivalent of the kmall MRZ tx_sub_array.)doc";
+sector number / TX array index", datagram 78 Repeat cycle 1). Per the
+EM spec (850-160692), for the EM 2040 this byte does NOT encode the
+transmit sector but the array index (0 = port, 1 = centre, 2 =
+starboard); the transmit-sector number is instead the implicit order
+of the Repeat cycle 1 entries. The mapping can be reversed, e.g. array
+indices 2,1,0 for sectors 0,1,2 (typically a 180° TX heading offset).
+In the receive-beam section (Repeat cycle 2) "Transmit sector number"
+still means the sector, so group beams by get_transmit_sector_number()
+and look their array up here. For non-EM 2040 systems this equals the
+transmit-sector loop index. This is the .all equivalent of the kmall
+MRZ tx_sub_array.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_substructures_RawRangeAndAngleTransmitSector_get_tx_signal_type = R"doc()doc";
 
