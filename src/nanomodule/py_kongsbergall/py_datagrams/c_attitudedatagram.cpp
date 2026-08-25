@@ -76,7 +76,8 @@ void init_c_attitudedatagram(nanobind::module_& m)
                  themachinethatgoesping::echosounders::kongsbergall::datagrams::substructures::
                      AttitudeDatagramAttitude>>(&AttitudeDatagram::set_attitudes),
              DOC_AttitudeDatagram(attitudes))
-        .def("attitudes",
+        .def_prop_rw("attitudes",
+             &AttitudeDatagram::attitudes,
              &AttitudeDatagram::attitudes,
              DOC_AttitudeDatagram(attitudes),
              nb::rv_policy::reference_internal)

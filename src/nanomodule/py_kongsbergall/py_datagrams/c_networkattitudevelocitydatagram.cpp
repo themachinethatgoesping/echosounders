@@ -76,9 +76,19 @@ void init_c_networkattitudevelocitydatagram(nanobind::module_& m)
              DOC_NetworkAttitudeVelocityDatagram(attitudes),
              nb::rv_policy::reference_internal)
         .def("set_attitudes",
-             &NetworkAttitudeVelocityDatagram::set_attitudes,
+             nb::overload_cast<
+                 const themachinethatgoesping::echosounders::kongsbergall::datagrams::substructures::
+                     NetworkAttitudeVelocityDatagramAttitudesContainer&>(
+                 &NetworkAttitudeVelocityDatagram::set_attitudes),
              DOC_NetworkAttitudeVelocityDatagram(attitudes))
-        .def("attitudes",
+        .def("set_attitudes",
+             nb::overload_cast<std::vector<
+                 themachinethatgoesping::echosounders::kongsbergall::datagrams::substructures::
+                     NetworkAttitudeVelocityDatagramAttitude>>(
+                 &NetworkAttitudeVelocityDatagram::set_attitudes),
+             DOC_NetworkAttitudeVelocityDatagram(attitudes))
+        .def_prop_rw("attitudes",
+             &NetworkAttitudeVelocityDatagram::attitudes,
              &NetworkAttitudeVelocityDatagram::attitudes,
              DOC_NetworkAttitudeVelocityDatagram(attitudes),
              nb::rv_policy::reference_internal)

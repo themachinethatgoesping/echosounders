@@ -55,6 +55,8 @@ void init_c_attitudedatagramattitudescontainer(
     nanobind::module_& m); // c_attitudedatagramattitudescontainer.cpp
 void init_c_networkattitudevelocitydatagramattitude(
     nanobind::module_& m); // c_networkattitudevelocitydatagramattitude.cpp
+void init_c_networkattitudevelocitydatagramattitudescontainer(
+    nanobind::module_& m); // c_networkattitudevelocitydatagramattitudescontainer.cpp
 
 // -- create submodule --
 void init_m_kongsbergalldatagramsSubstructures(nanobind::module_& m)
@@ -88,6 +90,7 @@ void init_m_kongsbergalldatagramsSubstructures(nanobind::module_& m)
     init_c_attitudedatagramattitude(subm);
     init_c_attitudedatagramattitudescontainer(subm);
     init_c_networkattitudevelocitydatagramattitude(subm);
+    init_c_networkattitudevelocitydatagramattitudescontainer(subm);
 }
 
 }

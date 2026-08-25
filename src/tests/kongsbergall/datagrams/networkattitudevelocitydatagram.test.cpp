@@ -20,6 +20,7 @@ TEST_CASE("NetworkAttitudeVelocityDatagram should support common functions", TES
     // initialize class structure
     auto dat      = NetworkAttitudeVelocityDatagram();
     auto attitude = substructures::NetworkAttitudeVelocityDatagramAttitude();
+    auto attitude2 = substructures::NetworkAttitudeVelocityDatagramAttitude();
 
     // set some variables
     dat.set_bytes(100);
@@ -32,13 +33,36 @@ TEST_CASE("NetworkAttitudeVelocityDatagram should support common functions", TES
 
     attitude.set_time(101);
     attitude.set_pitch(191);
-    dat.set_attitudes({ attitude });
+    attitude2.set_time(51);
+    attitude2.set_pitch(300);
+    dat.set_attitudes({ attitude, attitude2 });
 
     // test inequality
     // REQUIRE(dat != NetworkAttitudeVelocityDatagram());
 
     // test copy
     REQUIRE(dat == NetworkAttitudeVelocityDatagram(dat));
+
+    // --- vectorized container access ---
+    REQUIRE(dat.attitudes()[0].get_time_in_seconds() == Catch::Approx(0.101));
+    REQUIRE(dat.attitudes()[0].get_pitch_in_degrees() == Catch::Approx(1.91));
+
+    const auto time_tensor  = dat.get_attitudes().get_time_tensor();
+    const auto pitch_tensor = dat.get_attitudes().get_pitch_in_degrees_tensor();
+    REQUIRE(time_tensor.size() == 2);
+    REQUIRE(pitch_tensor.size() == 2);
+    REQUIRE(time_tensor[0] == Catch::Approx(101.0));
+    REQUIRE(pitch_tensor[0] == Catch::Approx(1.91));
+
+    const auto sorted_idx = dat.get_attitudes().get_indices_sorted_by_time({ 0, 1 });
+    REQUIRE(sorted_idx.size() == 2);
+    CHECK(sorted_idx[0] == 1);
+    CHECK(sorted_idx[1] == 0);
+
+    const auto pitch_sorted = dat.get_attitudes().get_pitch_in_degrees_tensor(sorted_idx);
+    REQUIRE(pitch_sorted.size() == 2);
+    CHECK(pitch_sorted[0] == Catch::Approx(3.0));
+    CHECK(pitch_sorted[1] == Catch::Approx(1.91));
 
     dat.print(std::cerr);
     dat.from_binary(dat.to_binary());

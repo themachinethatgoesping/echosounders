@@ -23,6 +23,7 @@
 #include "kongsbergalldatagram.hpp"
 
 #include "substructures/networkattitudevelocitydatagramattitude.hpp"
+#include "substructures/networkattitudevelocitydatagramattitudescontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -48,7 +49,7 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
     uint8_t  _spare;
 
     // Number_of_entries x Attitude
-    std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>
+    substructures::NetworkAttitudeVelocityDatagramAttitudesContainer
         _attitudes; ///< N x Attitude data
 
     uint8_t  _spare_align = 0;
@@ -86,8 +87,10 @@ class NetworkAttitudeVelocityDatagram : public KongsbergAllDatagram
     void set_spare_align(uint8_t spare_align);
 
     // substructures
-    std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>& attitudes();
-    const std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>& get_attitudes() const;
+    substructures::NetworkAttitudeVelocityDatagramAttitudesContainer& attitudes();
+    const substructures::NetworkAttitudeVelocityDatagramAttitudesContainer& get_attitudes() const;
+    void set_attitudes(
+        const substructures::NetworkAttitudeVelocityDatagramAttitudesContainer& attitudes);
     void set_attitudes(
         std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude> attitudes);
 

@@ -104,22 +104,28 @@ void NetworkAttitudeVelocityDatagram::set_spare_align(uint8_t spare_align)
     _spare_align = spare_align;
 }
 
-std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>&
+substructures::NetworkAttitudeVelocityDatagramAttitudesContainer&
 NetworkAttitudeVelocityDatagram::attitudes()
 {
     return _attitudes;
 }
 
-const std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude>&
+const substructures::NetworkAttitudeVelocityDatagramAttitudesContainer&
 NetworkAttitudeVelocityDatagram::get_attitudes() const
 {
     return _attitudes;
 }
 
 void NetworkAttitudeVelocityDatagram::set_attitudes(
+    const substructures::NetworkAttitudeVelocityDatagramAttitudesContainer& attitudes)
+{
+    _attitudes = attitudes;
+}
+
+void NetworkAttitudeVelocityDatagram::set_attitudes(
     std::vector<substructures::NetworkAttitudeVelocityDatagramAttitude> attitudes)
 {
-    _attitudes = std::move(attitudes);
+    _attitudes.set_attitudes(attitudes);
 }
 
 unsigned int NetworkAttitudeVelocityDatagram::get_attitude_velocity_sensor_number() const
@@ -197,10 +203,10 @@ NetworkAttitudeVelocityDatagram NetworkAttitudeVelocityDatagram::from_stream(std
             8 * sizeof(uint8_t));
 
     // read the attitude entries
-    datagram._attitudes.reserve(datagram._number_of_entries);
+    datagram._attitudes.attitudes().reserve(datagram._number_of_entries);
     for (size_t i = 0; i < datagram._number_of_entries; ++i)
     {
-        datagram._attitudes.emplace_back(
+        datagram._attitudes.attitudes().emplace_back(
             substructures::NetworkAttitudeVelocityDatagramAttitude::from_stream(is));
     }
 
@@ -291,7 +297,7 @@ tools::classhelper::ObjectPrinter NetworkAttitudeVelocityDatagram::__printer__(u
 
     printer.register_section("substructures");
     printer.register_value(
-        "attitudes", _attitudes.size(), "NetworkAttitudeVelocityDatagramAttitude");
+        "attitudes", _attitudes.get_number_of_attitudes(), "NetworkAttitudeVelocityDatagramAttitude");
 
     return printer;
 }

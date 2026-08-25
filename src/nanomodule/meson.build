@@ -57,6 +57,7 @@ sources = [
   'py_kongsbergall/py_datagrams/py_substructures/c_extradetectionsextradetections.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_extradetectionsextradetectionscontainer.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_networkattitudevelocitydatagramattitude.cpp',
+  'py_kongsbergall/py_datagrams/py_substructures/c_networkattitudevelocitydatagramattitudescontainer.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_rawrangeandanglebeam.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_rawrangeandanglebeamscontainer.cpp',
   'py_kongsbergall/py_datagrams/py_substructures/c_rawrangeandangletransmitsector.cpp',
