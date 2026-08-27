@@ -250,27 +250,21 @@ tools::classhelper::ObjectPrinter MRangeAndDepth::__printer__(unsigned int float
     printer.register_section("Ping info (.ping_info)");
     printer.append(_ping_info.__printer__(float_precision, superscript_exponents));
 
-    printer.register_section(
-        fmt::format("Sector infos (.tx_sectors - {} sectors)", _tx_sectors.get_number_of_tx_sectors()));
-    for (const auto& sector : _tx_sectors.get_tx_sectors())
-    {
-        printer.register_section(fmt::format("Content sector -{}-", sector.get_tx_sector_number()),
-                                 '.');
-        printer.append(sector.__printer__(float_precision, superscript_exponents));
-    }
+    printer.register_section(fmt::format("Sector infos (.tx_sectors - {} sectors)",
+                                         _tx_sectors.get_number_of_tx_sectors()));
+    printer.append(_tx_sectors.__printer__(float_precision, superscript_exponents));
 
     printer.register_section("Rx info (.rx_info)");
     printer.append(_rx_info.__printer__(float_precision, superscript_exponents));
 
     printer.register_section("Extra detection classes (.extra_det_class_info)");
-    printer.register_value("extra_det_class_info (vector)",
-                           fmt::format("size={}", _extra_det_class_info.get_number_of_extra_det_class_info()),
-                           "classes");
+    printer.register_value(
+        "extra_det_class_info (vector)",
+        fmt::format("size={}", _extra_det_class_info.get_number_of_extra_det_class_info()),
+        "classes");
 
     printer.register_section("Soundings (.soundings)");
-    printer.register_value("soundings (vector)",
-                           fmt::format("size={}", _soundings.get_soundings().size()),
-                           "soundings");
+    printer.append(_soundings.__printer__(float_precision, superscript_exponents));
 
     printer.register_section("Seabed image samples");
     printer.register_container("seabed_image_samples_dezi_db", _seabed_image_samples_dezi_db);

@@ -44,15 +44,17 @@ void MWaterColumn::__write_tx_info__(std::ostream& os) const
 void MWaterColumn::__read_sectors__(std::istream& is)
 {
     const auto n_sectors = _tx_info.get_number_of_tx_sectors();
-    _tx_sectors.resize(n_sectors);
+    auto&      sectors   = _tx_sectors.tx_sectors();
+    sectors.resize(n_sectors);
 
-    is.read(reinterpret_cast<char*>(_tx_sectors.data()), sizeof(MWCSectorInfo) * n_sectors);
+    is.read(reinterpret_cast<char*>(sectors.data()), sizeof(MWCSectorInfo) * n_sectors);
 }
 
 void MWaterColumn::__write_sectors__(std::ostream& os) const
 {
-    os.write(reinterpret_cast<const char*>(_tx_sectors.data()),
-             sizeof(MWCSectorInfo) * _tx_sectors.size());
+    const auto& sectors = _tx_sectors.get_tx_sectors();
+    os.write(reinterpret_cast<const char*>(sectors.data()),
+             sizeof(MWCSectorInfo) * sectors.size());
 }
 
 void MWaterColumn::__read_rxinfo__(std::istream& is)
@@ -177,14 +179,9 @@ tools::classhelper::ObjectPrinter MWaterColumn::__printer__(unsigned int float_p
     printer.register_section("Tx info (.tx_info)");
     printer.append(_tx_info.__printer__(float_precision, superscript_exponents));
 
-    printer.register_section(
-        fmt::format("Sector infos (.tx_sectors - {} sectors)", _tx_sectors.size()));
-    for (const auto& sector : _tx_sectors)
-    {
-        printer.register_section(fmt::format("Content sector -{}-", sector.get_tx_sector_number()),
-                                 '.');
-        printer.append(sector.__printer__(float_precision, superscript_exponents));
-    }
+    printer.register_section(fmt::format("Sector infos (.tx_sectors - {} sectors)",
+                                         _tx_sectors.get_number_of_tx_sectors()));
+    printer.append(_tx_sectors.__printer__(float_precision, superscript_exponents));
 
     printer.register_section("Rx info (.rx_info)");
     printer.append(_rx_info.__printer__(float_precision, superscript_exponents));
@@ -195,8 +192,9 @@ tools::classhelper::ObjectPrinter MWaterColumn::__printer__(unsigned int float_p
     //                        "classes");
 
     printer.register_section("Beam data (.beam_data)");
-    printer.register_value(
-        "beam_data (vector)", fmt::format("size={}", _beam_data.get_beams().size()), "beams");
+    printer.append(_beam_data.__printer__(float_precision, superscript_exponents));
+    // printer.register_value(
+    //     "beam_data (vector)", fmt::format("size={}", _beam_data.get_beams().size()), "beams");
 
     // printer.register_section("Seabed image samples");
     // printer.register_container("seabed_image_samples_dezi_db", _seabed_image_samples_dezi_db);

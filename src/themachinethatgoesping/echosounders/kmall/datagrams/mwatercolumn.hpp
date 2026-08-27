@@ -24,6 +24,7 @@
 #include "substructs/mwcrxinfo.hpp"
 #include "substructs/mwcsectorinfo.hpp"
 #include "substructs/mwctxinfo.hpp"
+#include "substructs/mwctxsectorscontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -43,7 +44,7 @@ class MWaterColumn : public KMALLMultibeamDatagram
 
   protected:
     substructs::MWCTxInfo                  _tx_info;
-    std::vector<substructs::MWCSectorInfo> _tx_sectors;
+    substructs::MWCTxSectorsContainer      _tx_sectors;
     substructs::MWCRxInfo                  _rx_info;
     substructs::MWCRxBeamDataContainer     _beam_data;
 
@@ -61,14 +62,15 @@ class MWaterColumn : public KMALLMultibeamDatagram
     void                         set_tx_info(const substructs::MWCTxInfo& info) { _tx_info = info; }
 
     // // tx sectors
-    const std::vector<substructs::MWCSectorInfo>& get_tx_sectors() const { return _tx_sectors; }
-    std::vector<substructs::MWCSectorInfo>&       tx_sectors() { return _tx_sectors; }
-    void set_tx_sectors(const std::vector<substructs::MWCSectorInfo>& sectors)
+    const substructs::MWCTxSectorsContainer& get_tx_sectors() const { return _tx_sectors; }
+    substructs::MWCTxSectorsContainer&       tx_sectors() { return _tx_sectors; }
+    void set_tx_sectors(const substructs::MWCTxSectorsContainer& sectors)
     {
         _tx_sectors = sectors;
-        _tx_info.set_number_of_tx_sectors(_tx_sectors.size());
+        const size_t n = _tx_sectors.tx_sectors().size();
+        _tx_info.set_number_of_tx_sectors(n);
         static constexpr size_t dbytes = sizeof(substructs::MWCTxInfo) + sizeof(uint32_t);
-        _tx_info.set_bytes_content(dbytes + _tx_sectors.size() * sizeof(substructs::MWCSectorInfo));
+        _tx_info.set_bytes_content(dbytes + n * sizeof(substructs::MWCSectorInfo));
 
         set_bytes_datagram(KMALLDatagram::__size + +KMALLMultibeamDatagram::__size +
                            _tx_info.get_bytes_content());

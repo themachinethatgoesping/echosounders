@@ -143,6 +143,7 @@ sources = [
   'py_kmall/py_datagrams/substructs/c_mwcrxinfo.cpp',
   'py_kmall/py_datagrams/substructs/c_mwcsectorinfo.cpp',
   'py_kmall/py_datagrams/substructs/c_mwctxinfo.cpp',
+  'py_kmall/py_datagrams/substructs/c_mwctxsectorscontainer.cpp',
   'py_kmall/py_filedatatypes/c_kmallfileinfodata.cpp',
   'py_kmall/py_filedatatypes/c_kmallping.cpp',
   'py_kmall/py_filedatatypes/c_kmallpingbottom.cpp',

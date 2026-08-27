@@ -149,7 +149,11 @@ MWaterColumn make_datagram()
     auto beam_data = make_beam_container();
 
     dat.set_tx_info(tx_info);
-    dat.set_tx_sectors(sectors);
+    {
+        MWCTxSectorsContainer ts_container;
+        ts_container.set_tx_sectors(sectors);
+        dat.set_tx_sectors(ts_container);
+    }
     dat.set_rx_info(rx_info);
     dat.set_beam_data(beam_data);
 
@@ -192,8 +196,8 @@ TEST_CASE("MWaterColumn serializes and exposes beam metadata", TESTTAG)
     }
 
     const auto& sectors = dat.get_tx_sectors();
-    REQUIRE(sectors.size() == kNumSectors);
-    CHECK(sectors.front().get_tilt_angle_re_tx_deg() == Catch::Approx(-20.0F));
+    REQUIRE(sectors.get_number_of_tx_sectors() == kNumSectors);
+    CHECK(sectors.get_tx_sectors().front().get_tilt_angle_re_tx_deg() == Catch::Approx(-20.0F));
 
     const auto& beams = dat.get_beam_data().get_beams();
     REQUIRE(beams.size() == kNumBeams);

@@ -21,7 +21,7 @@ _WCIInfos::_WCIInfos(const datagrams::MWaterColumn& water_column_datagram)
     _tvg_offset_in_db          = water_column_datagram.get_rx_info().get_tvg_offset_db();
     _sampling_interval         = 1 / water_column_datagram.get_rx_info().get_sample_freq_hz();
 
-    _transmit_sectors           = water_column_datagram.get_tx_sectors();
+    _transmit_sectors           = water_column_datagram.get_tx_sectors().get_tx_sectors();
     _number_of_transmit_sectors = _transmit_sectors.size();
 }
 

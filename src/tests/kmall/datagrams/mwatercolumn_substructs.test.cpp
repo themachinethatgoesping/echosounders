@@ -5,6 +5,7 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
+#include <cmath>
 #include <vector>
 
 #include <xtensor/containers/xtensor.hpp>
@@ -14,6 +15,7 @@
 #include <themachinethatgoesping/echosounders/kmall/datagrams/substructs/mwcrxinfo.hpp>
 #include <themachinethatgoesping/echosounders/kmall/datagrams/substructs/mwcsectorinfo.hpp>
 #include <themachinethatgoesping/echosounders/kmall/datagrams/substructs/mwctxinfo.hpp>
+#include <themachinethatgoesping/echosounders/kmall/datagrams/substructs/mwctxsectorscontainer.hpp>
 
 using namespace themachinethatgoesping::echosounders::kmall::datagrams::substructs;
 
@@ -138,4 +140,63 @@ TEST_CASE("MWCRxBeamDataContainer aggregates tensors", TESTTAG)
     const auto sectors = container.get_transmit_sector_number_tensor();
     CHECK(sectors(0) == 0);
     CHECK(sectors(1) == 1);
+}
+
+TEST_CASE("MWCTxSectorsContainer aggregates tensors", TESTTAG)
+{
+    MWCSectorInfo s0;
+    s0.set_tilt_angle_re_tx_deg(-20.0F);
+    s0.set_centre_frequency_hz(30000.0F);
+    s0.set_tx_beam_width_along_deg(1.5F);
+    s0.set_tx_sector_number(0);
+    s0.set_padding(0);
+
+    MWCSectorInfo s1;
+    s1.set_tilt_angle_re_tx_deg(-17.5F);
+    s1.set_centre_frequency_hz(30250.0F);
+    s1.set_tx_beam_width_along_deg(1.6F);
+    s1.set_tx_sector_number(1);
+    s1.set_padding(-1);
+
+    MWCTxSectorsContainer container;
+    container.set_tx_sectors({ s0, s1 });
+
+    CHECK(container.get_number_of_tx_sectors() == 2);
+    REQUIRE(container.get_tx_sectors().size() == 2);
+
+    const auto tilt = container.get_tilt_angle_re_tx_deg_tensor();
+    REQUIRE(tilt.size() == 2);
+    CHECK(tilt(0) == Catch::Approx(-20.0F));
+    CHECK(tilt(1) == Catch::Approx(-17.5F));
+
+    const auto freq = container.get_centre_frequency_hz_tensor();
+    CHECK(freq(0) == Catch::Approx(30000.0F));
+    CHECK(freq(1) == Catch::Approx(30250.0F));
+
+    const auto beam_width = container.get_tx_beam_width_along_deg_tensor();
+    CHECK(beam_width(0) == Catch::Approx(1.5F));
+    CHECK(beam_width(1) == Catch::Approx(1.6F));
+
+    const auto sector_numbers = container.get_tx_sector_number_tensor();
+    CHECK(sector_numbers(0) == 0);
+    CHECK(sector_numbers(1) == 1);
+
+    const auto padding = container.get_padding_tensor();
+    CHECK(padding(0) == 0);
+    CHECK(padding(1) == -1);
+
+    // indexed access: out-of-range index yields NaN for float, 0 for integral fields
+    const auto tilt_indexed = container.get_tilt_angle_re_tx_deg_tensor({ 1, 5 });
+    REQUIRE(tilt_indexed.size() == 2);
+    CHECK(tilt_indexed(0) == Catch::Approx(-17.5F));
+    CHECK(std::isnan(tilt_indexed(1)));
+
+    const auto sector_indexed = container.get_tx_sector_number_tensor({ 1, 5 });
+    CHECK(sector_indexed(0) == 1);
+    CHECK(sector_indexed(1) == 0);
+
+    CHECK(container.info_string().size() != 0);
+
+    MWCTxSectorsContainer copy = container;
+    CHECK(copy == container);
 }

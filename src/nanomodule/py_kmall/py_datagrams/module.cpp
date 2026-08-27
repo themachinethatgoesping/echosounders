@@ -30,6 +30,7 @@ void init_c_mwcrxbeamdata(nanobind::module_& m); // substructs/c_mwcrxbeamdata.c
 void init_c_mwcrxbeamdatacontainer(nanobind::module_& m); // substructs/c_mwcrxbeamdatacontainer.cpp
 void init_c_mwctxinfo(nanobind::module_& m); // substructs/c_mwctxinfo.cpp
 void init_c_mwcsectorinfo(nanobind::module_& m); // substructs/c_mwcsectorinfo.cpp
+void init_c_mwctxsectorscontainer(nanobind::module_& m); // substructs/c_mwctxsectorscontainer.cpp
 void init_c_mwcrxinfo(nanobind::module_& m); // substructs/c_mwcrxinfo.cpp
 
 void init_c_kmalldatagram(nanobind::module_& m); // c_kmalldatagram.cpp
@@ -76,6 +77,7 @@ void init_m_kmalldatagrams(nanobind::module_& m)
     init_c_mwcrxbeamdatacontainer(subm);
     init_c_mwctxinfo(subm);
     init_c_mwcsectorinfo(subm);
+    init_c_mwctxsectorscontainer(subm);
     init_c_mwcrxinfo(subm);
 
 
