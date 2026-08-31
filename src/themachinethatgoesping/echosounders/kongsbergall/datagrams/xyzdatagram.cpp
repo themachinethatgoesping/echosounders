@@ -290,7 +290,7 @@ tools::classhelper::ObjectPrinter XYZDatagram::__printer__(unsigned int float_pr
     printer.register_value("sound_speed", get_sound_speed_in_m_per_s(), "m/s");
 
     printer.register_section("substructures");
-    printer.register_value("beams", _beams.get_number_of_beams(), "XYZDatagramBeams");
+    printer.append(_beams.__printer__(float_precision, superscript_exponents));
 
     return printer;
 }
