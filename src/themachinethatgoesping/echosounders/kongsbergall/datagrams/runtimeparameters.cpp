@@ -316,6 +316,53 @@ void RuntimeParameters::set_checksum(uint16_t checksum)
     _checksum = checksum;
 }
 
+float RuntimeParameters::get_frequency_mode_in_hertz() const
+{
+    switch (get_model_number())
+    {
+        case 2040:
+            switch (_mode & 0b00001111)
+            {
+                case 0b00000000:
+                    return 200000.f;
+                case 0b00000001:
+                    return 300000.f;
+                case 0b00000010:
+                    return 400000.f;
+                default:
+                    throw std::runtime_error(
+                        fmt::format("{}: unhandled ping mode/frequency value [{:04b}] for EM 2040",
+                                    __func__,
+                                    _mode & 0b00001111));
+            }
+        case 2045: // EM 2040C: frequency = 180 kHz + 10 kHz * (mode[4:0])
+            return float((_mode & 0b00011111) * 10 + 180) * 1000.f;
+        case 120:
+            [[fallthrough]];
+        case 122:
+            return 12000.f;
+        case 300:
+            [[fallthrough]];
+        case 302:
+            return 31500.f;
+        case 710:
+            return 85000.f;
+        case 850: // ME70BO
+            return 85000.f;
+        case 1002:
+            return 95000.f;
+        case 2000:
+            return 200000.f;
+        case 3000:
+            [[fallthrough]];
+        case 3002:
+            return 300000.f;
+        default:
+            throw std::runtime_error(
+                fmt::format("{}: unhandled model number [{}]", __func__, get_model_number()));
+    }
+}
+
 float RuntimeParameters::get_absorption_coefficient_in_db_per_meter() const
 {
     return _absorption_coefficient * 0.00001f;
@@ -960,6 +1007,7 @@ tools::classhelper::ObjectPrinter RuntimeParameters::__printer__(unsigned int fl
     printer.register_value("checksum", _checksum);
 
     printer.register_section("processed");
+    printer.register_value("frequency_mode_in_hertz", get_frequency_mode_in_hertz(), "Hz");
     printer.register_value("absorption_coefficient_in_db_per_meter",
                            get_absorption_coefficient_in_db_per_meter(),
                            "db/m");

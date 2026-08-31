@@ -194,6 +194,9 @@ void init_c_runtimeparameters(nanobind::module_& m)
              DOC_RuntimeParameters(filter_identifier2))
 
         // --- processed member access ---
+        .def("get_frequency_mode_in_hertz",
+             &RuntimeParameters::get_frequency_mode_in_hertz,
+             DOC_RuntimeParameters(get_frequency_mode_in_hertz))
         .def("get_absorption_coefficient_in_db_per_meter",
              &RuntimeParameters::get_absorption_coefficient_in_db_per_meter,
              DOC_RuntimeParameters(get_absorption_coefficient_in_db_per_meter))

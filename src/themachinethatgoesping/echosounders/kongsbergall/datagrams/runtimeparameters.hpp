@@ -151,6 +151,16 @@ class RuntimeParameters : public KongsbergAllDatagram
     // ----- processed data access -----
 
     /**
+     * @brief Get the frequency mode in hertz object
+     * For EM2040 and EM2040C, the frequency mode is encoded in the 'mode' variable. See datagram format specification for details.
+     * For other systems, the frequency mode is not encoded in the 'mode' variable and this function will return
+     * the default frequency mode for the specific system. See datagram format specification for details.
+     * 
+     * @return float 
+     */
+    float get_frequency_mode_in_hertz() const;
+
+    /**
      * @brief Get the absorption coefficient in db per meter
      *
      * @return _absorption_coefficient * 0.00001f (float)

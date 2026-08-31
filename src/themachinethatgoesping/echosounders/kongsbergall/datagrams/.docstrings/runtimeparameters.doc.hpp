@@ -1,4 +1,4 @@
-//sourcehash: a5476c82632935e4fc4f274d9b2f7e66ccef25b9037a78502b0a1f2065841ae8
+//sourcehash: 0ba56f7d82937c9478b80e8457dc0358068a8c2d973397a98062a2974a4f6d2f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -229,6 +229,17 @@ R"doc(Retrieves spike filter setup encoded in the filter_identifier variable
 Returns:
     A string representing the spike filter setup as encoded by
     'filter_identifier')doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_frequency_mode_in_hertz =
+R"doc(Get the frequency mode in hertz object For EM2040 and EM2040C, the
+frequency mode is encoded in the 'mode' variable. See datagram format
+specification for details. For other systems, the frequency mode is
+not encoded in the 'mode' variable and this function will return the
+default frequency mode for the specific system. See datagram format
+specification for details.
+
+Returns:
+    float)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_RuntimeParameters_get_maximum_depth = R"doc()doc";
 

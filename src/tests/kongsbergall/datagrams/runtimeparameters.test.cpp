@@ -56,6 +56,47 @@ TEST_CASE("RuntimeParameters should support common functions", TESTTAG)
     CHECK(dat.get_mode() == 'd');
     CHECK(dat.get_receive_bandwidth_in_hertz() == 5050.f);
 
+    // frequency mode
+    // model 710 -> fixed 85 kHz
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(85000.f));
+    // model 120 / 122 -> fixed 12 kHz
+    dat.set_model_number(120);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(12000.f));
+    dat.set_model_number(122);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(12000.f));
+    // model 300 / 302 -> fixed 31.5 kHz
+    dat.set_model_number(300);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(31500.f));
+    dat.set_model_number(302);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(31500.f));
+    // model 1002 -> fixed 95 kHz
+    dat.set_model_number(1002);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(95000.f));
+    // model 2000 -> fixed 200 kHz
+    dat.set_model_number(2000);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(200000.f));
+    // model 3000 / 3002 -> fixed 300 kHz
+    dat.set_model_number(3000);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(300000.f));
+    dat.set_model_number(3002);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(300000.f));
+    // model 2040 -> frequency encoded in mode bits 0-3
+    dat.set_model_number(2040);
+    dat.set_mode(0b00000000);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(200000.f));
+    dat.set_mode(0b00000001);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(300000.f));
+    dat.set_mode(0b00000010);
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(400000.f));
+    // model 2045 (EM 2040C) -> frequency = (180 + 10 * mode[4:0]) kHz
+    dat.set_model_number(2045);
+    dat.set_mode(0b00000000); // 180 kHz
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(180000.f));
+    dat.set_mode(0b00000001); // 190 kHz
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(190000.f));
+    dat.set_mode(0b00010110); // 22 * 10 + 180 = 400 kHz
+    CHECK(dat.get_frequency_mode_in_hertz() == Catch::Approx(400000.f));
+
     // datagram type
     REQUIRE(dat.get_datagram_identifier() == t_KongsbergAllDatagramIdentifier::RuntimeParameters);
 
