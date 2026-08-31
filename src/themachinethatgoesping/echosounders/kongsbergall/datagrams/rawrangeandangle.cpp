@@ -320,10 +320,8 @@ tools::classhelper::ObjectPrinter RawRangeAndAngle::__printer__(unsigned int flo
         "sound_speed_at_transducer", get_sound_speed_at_transducer_in_m_per_s(), "m/s");
 
     printer.register_section("substructures");
-    printer.register_value("beams", _beams.get_number_of_beams(), "RawRangeAndAngleBeams");
-    printer.register_value("transmit_sectors",
-                           _transmit_sectors.get_number_of_transmit_sectors(),
-                           "RawRangeAndAngleTransmitSectors");
+    printer.append(_transmit_sectors.__printer__(float_precision, superscript_exponents));
+    printer.append(_beams.__printer__(float_precision, superscript_exponents));
 
     return printer;
 }
