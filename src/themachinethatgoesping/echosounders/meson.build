@@ -523,6 +523,7 @@ headers = [
   'kmall/datagrams/substructs/.docstrings/mwcrxinfo.doc.hpp',
   'kmall/datagrams/substructs/.docstrings/mwcsectorinfo.doc.hpp',
   'kmall/datagrams/substructs/.docstrings/mwctxinfo.doc.hpp',
+  'kmall/datagrams/substructs/.docstrings/mwctxsectorscontainer.doc.hpp',
   'kmall/datagrams/substructs/.docstrings/skmsamplescontainer.doc.hpp',
   'kmall/datagrams/.docstrings/cheave.doc.hpp',
   'kmall/datagrams/.docstrings/cposition.doc.hpp',
