@@ -13,6 +13,7 @@
 #include "py_simradraw/module.hpp"
 #include "py_gsf/module.hpp"
 #include "py_kmall/module.hpp"
+#include "py_s7k/module.hpp"
 
 #include <themachinethatgoesping/tools_nanobind/ostream_redirect.hpp>
 
@@ -40,6 +41,7 @@ NB_MODULE(MODULE_NAME, m)
     py_kongsbergall::init_m_kongsbergall(m);
     py_gsf::init_m_gsf(m);
     py_kmall::init_m_kmall(m);
+    py_s7k::init_m_s7k(m);
 }
 
 }
