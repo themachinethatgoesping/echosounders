@@ -39,11 +39,8 @@ void S7KDatagram::to_stream(std::ostream& os) const
 tools::classhelper::ObjectPrinter S7KDatagram::__printer__(unsigned int float_precision,
                                                            bool superscript_exponents) const
 {
-    const auto& o_datagram_identifier = S7KDatagram::o_DatagramIdentifier(get_datagram_identifier());
     tools::classhelper::ObjectPrinter printer(
-        fmt::format("S7KHeader {} ({})", o_datagram_identifier.name(), uint32_t(o_datagram_identifier)),
-        float_precision,
-        superscript_exponents);
+        "S7KDatagram", float_precision, superscript_exponents);
 
     printer.register_value("protocol_version", _protocol_version);
     printer.register_value("size", _size, "bytes");
