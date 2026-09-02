@@ -68,7 +68,7 @@ void py_create_class_S7KDatagramInterface(nanobind::module_& m, const std::strin
         DOC_I_DatagramInterface(datagrams));
     cls.def(
         "datagrams_raw",
-        [](const T_BaseClass& self, t_S7KDatagramIdentifier type) {
+        [](const T_BaseClass& self, o_S7KDatagramIdentifier type) {
             return nb::cast(self.template datagrams<datagrams::S7KUnknown>(type));
         },
         DOC_I_DatagramInterface(datagrams_2),
@@ -83,7 +83,7 @@ void py_create_class_S7KDatagramInterface(nanobind::module_& m, const std::strin
         DOC_I_DatagramInterface(datagrams));
     cls.def(
         "datagram_headers",
-        [](const T_BaseClass& self, t_S7KDatagramIdentifier type) {
+        [](const T_BaseClass& self, o_S7KDatagramIdentifier type) {
             return nb::cast(self.template datagrams<datagrams::S7KDatagram>(type));
         },
         DOC_I_DatagramInterface(datagrams_2),
@@ -93,8 +93,8 @@ void py_create_class_S7KDatagramInterface(nanobind::module_& m, const std::strin
     // S7KDATAGRAMTYPEAREA
     cls.def(
         "datagrams",
-        [](const T_BaseClass& self, t_S7KDatagramIdentifier type) {
-            switch (type)
+        [](const T_BaseClass& self, o_S7KDatagramIdentifier type) {
+            switch (type.value)
             {
                 case t_S7KDatagramIdentifier::ReferencePoint:
                     return nb::cast(self.template datagrams<datagrams::ReferencePoint>(type));

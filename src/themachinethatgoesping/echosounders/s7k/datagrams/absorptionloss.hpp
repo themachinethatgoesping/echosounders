@@ -61,7 +61,7 @@ class AbsorptionLoss : public S7KDatagram
     //----- to/from stream functions -----
     static AbsorptionLoss from_stream(std::istream& is, S7KDatagram header);
     static AbsorptionLoss from_stream(std::istream& is);
-    static AbsorptionLoss from_stream(std::istream& is, t_S7KDatagramIdentifier datagram_identifier);
+    static AbsorptionLoss from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier);
 
     void to_stream(std::ostream& os) const;
 

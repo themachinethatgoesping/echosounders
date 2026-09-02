@@ -21,7 +21,7 @@ Navigation Navigation::from_stream(std::istream& is)
     return from_stream(is, S7KDatagram::from_stream(is));
 }
 
-Navigation Navigation::from_stream(std::istream& is, t_S7KDatagramIdentifier datagram_identifier)
+Navigation Navigation::from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier)
 {
     return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier));
 }

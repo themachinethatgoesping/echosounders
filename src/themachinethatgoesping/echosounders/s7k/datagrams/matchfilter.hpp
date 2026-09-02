@@ -83,7 +83,7 @@ class MatchFilter : public S7KDatagram
     //----- to/from stream functions -----
     static MatchFilter from_stream(std::istream& is, S7KDatagram header);
     static MatchFilter from_stream(std::istream& is);
-    static MatchFilter from_stream(std::istream& is, t_S7KDatagramIdentifier datagram_identifier);
+    static MatchFilter from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier);
 
     void to_stream(std::ostream& os) const;
 

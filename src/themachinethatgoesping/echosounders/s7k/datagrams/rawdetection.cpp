@@ -67,7 +67,7 @@ RawDetection RawDetection::from_stream(std::istream& is)
     return from_stream(is, S7KDatagram::from_stream(is));
 }
 
-RawDetection RawDetection::from_stream(std::istream& is, t_S7KDatagramIdentifier datagram_identifier)
+RawDetection RawDetection::from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier)
 {
     return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier));
 }

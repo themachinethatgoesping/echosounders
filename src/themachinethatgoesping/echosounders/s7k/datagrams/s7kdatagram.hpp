@@ -35,10 +35,11 @@ class S7KDatagram
 {
   public:
     using t_DatagramIdentifier = t_S7KDatagramIdentifier;
+    using o_DatagramIdentifier = o_S7KDatagramIdentifier;
 
     static constexpr uint32_t SYNC_PATTERN = 0x0000FFFF; ///< 7k data record frame sync pattern
-    static constexpr size_t __size = 64; ///< size of the DRF header in bytes (sizeof is incorrect
-                                         ///< due to virtual functions)
+    static constexpr size_t   __size = 64; ///< size of the DRF header in bytes (sizeof is incorrect
+                                           ///< due to virtual functions)
 
   protected:
     // ----- Data Record Frame fields (in file order, little-endian, naturally aligned) -----
@@ -58,26 +59,26 @@ class S7KDatagram
     uint8_t  _hours   = 0;   ///< offset 28: UTC hours (0-23)
     uint8_t  _minutes = 0;   ///< offset 29: UTC minutes (0-59)
     // ----
-    uint16_t                _record_version = 0; ///< offset 30: record version (currently 1)
-    t_S7KDatagramIdentifier _record_type_identifier =
-        t_S7KDatagramIdentifier::unspecified;   ///< offset 32: record type identifier
-    uint32_t _device_identifier = 0;            ///< offset 36: device identifier
-    uint16_t _reserved_1        = 0;            ///< offset 40: reserved
+    uint16_t             _record_version = 0; ///< offset 30: record version (currently 1)
+    o_DatagramIdentifier _record_type_identifier =
+        t_S7KDatagramIdentifier::unspecified; ///< offset 32: record type identifier
+    uint32_t _device_identifier = 0;          ///< offset 36: device identifier
+    uint16_t _reserved_1        = 0;          ///< offset 40: reserved
     uint16_t _system_enumerator = 0; ///< offset 42: enumerator differentiating devices with same id
     uint32_t _reserved_2        = 0; ///< offset 44: reserved
     uint16_t _flags = 0; ///< offset 48: bit field (bit 0: checksum valid, bit 15: recorded data)
-    uint16_t _reserved_3 = 0;                              ///< offset 50: reserved
-    uint32_t _reserved_4 = 0;                              ///< offset 52: reserved
+    uint16_t _reserved_3                                  = 0; ///< offset 50: reserved
+    uint32_t _reserved_4                                  = 0; ///< offset 52: reserved
     uint32_t _total_records_in_fragmented_data_record_set = 0; ///< offset 56: always 0 in files
     uint32_t _fragment_number                             = 0; ///< offset 60: always 0 in files
 
   public:
-    S7KDatagram()                                = default;
-    virtual ~S7KDatagram()                       = default;
-    S7KDatagram(const S7KDatagram& other)        = default;
-    S7KDatagram(S7KDatagram&& other)             = default;
-    S7KDatagram& operator=(const S7KDatagram&)   = default;
-    S7KDatagram& operator=(S7KDatagram&&)        = default;
+    S7KDatagram()                              = default;
+    virtual ~S7KDatagram()                     = default;
+    S7KDatagram(const S7KDatagram& other)      = default;
+    S7KDatagram(S7KDatagram&& other)           = default;
+    S7KDatagram& operator=(const S7KDatagram&) = default;
+    S7KDatagram& operator=(S7KDatagram&&)      = default;
 
     /**
      * @brief Skip the data section of the datagram (position stream at the next DRF).
@@ -91,11 +92,11 @@ class S7KDatagram
     }
 
     // ----- interface -----
-    void set_datagram_identifier(t_DatagramIdentifier datagram_identifier)
+    void set_datagram_identifier(o_DatagramIdentifier datagram_identifier)
     {
         _record_type_identifier = datagram_identifier;
     }
-    t_DatagramIdentifier get_datagram_identifier() const { return _record_type_identifier; }
+    o_DatagramIdentifier get_datagram_identifier() const { return _record_type_identifier; }
 
     /**
      * @brief Get the record timestamp as unix time (seconds since 1970-01-01 UTC).
@@ -186,7 +187,7 @@ class S7KDatagram
 
     static S7KDatagram from_stream(std::istream& is);
 
-    static S7KDatagram from_stream(std::istream& is, t_S7KDatagramIdentifier datagram_identifier);
+    static S7KDatagram from_stream(std::istream& is, o_DatagramIdentifier datagram_identifier);
 
     void to_stream(std::ostream& os) const;
 
@@ -205,15 +206,15 @@ class S7KDatagram
         // read directly into the contiguous member block starting at _protocol_version
         is.read(reinterpret_cast<char*>(&(_protocol_version)), __size);
     }
-    inline static void __check_datagram_identifier__(const t_S7KDatagramIdentifier actual,
-                                                     const t_S7KDatagramIdentifier expected)
+    inline static void __check_datagram_identifier__(const o_DatagramIdentifier actual,
+                                                     const o_DatagramIdentifier expected)
     {
         if (actual != expected)
-            throw std::runtime_error(
-                fmt::format("S7KDatagram::__check_datagram_identifier__: datagram identifier is not "
-                            "{}, but {}",
-                            datagram_type_to_string(expected),
-                            datagram_type_to_string(actual)));
+            throw std::runtime_error(fmt::format(
+                "S7KDatagram::__check_datagram_identifier__: datagram identifier is not "
+                "{}, but {}",
+                datagram_type_to_string(expected),
+                datagram_type_to_string(actual)));
     }
 };
 

@@ -61,7 +61,7 @@ class S7KUnknown : public S7KDatagram
 
     static S7KUnknown from_stream(std::istream& is);
 
-    static S7KUnknown from_stream(std::istream& is, t_S7KDatagramIdentifier datagram_identifier);
+    static S7KUnknown from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier);
 
     void to_stream(std::ostream& os);
 

@@ -70,7 +70,7 @@ class ReferencePoint : public S7KDatagram
     //----- to/from stream functions -----
     static ReferencePoint from_stream(std::istream& is, S7KDatagram header);
     static ReferencePoint from_stream(std::istream& is);
-    static ReferencePoint from_stream(std::istream& is, t_S7KDatagramIdentifier datagram_identifier);
+    static ReferencePoint from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier);
 
     void to_stream(std::ostream& os) const;
 

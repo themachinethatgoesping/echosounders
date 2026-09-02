@@ -48,14 +48,13 @@ class S7KDatagramInterface
     std::string datagram_identifier_to_string(
         t_S7KDatagramIdentifier datagram_identifier) const final
     {
-        // the record type number is the natural, always-available "code" for a 7k record
-        return std::to_string(uint32_t(datagram_identifier));
+        return std::string(o_S7KDatagramIdentifier(datagram_identifier).alt_name());
     }
 
     // IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
     std::string datagram_identifier_info(t_S7KDatagramIdentifier datagram_identifier) const final
     {
-        return s7k::datagram_type_to_string(datagram_identifier);
+        return std::string(o_S7KDatagramIdentifier(datagram_identifier).name());
     }
 
     // filter types

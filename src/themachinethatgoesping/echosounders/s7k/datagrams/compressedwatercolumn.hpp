@@ -140,7 +140,7 @@ class CompressedWaterColumn : public S7KDatagram
     static CompressedWaterColumn from_stream(std::istream& is, S7KDatagram header);
     static CompressedWaterColumn from_stream(std::istream& is);
     static CompressedWaterColumn from_stream(std::istream&           is,
-                                             t_S7KDatagramIdentifier datagram_identifier);
+                                             o_S7KDatagramIdentifier datagram_identifier);
 
     void to_stream(std::ostream& os) const;
 
