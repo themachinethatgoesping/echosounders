@@ -21,7 +21,8 @@ SpreadingLoss SpreadingLoss::from_stream(std::istream& is)
     return from_stream(is, S7KDatagram::from_stream(is));
 }
 
-SpreadingLoss SpreadingLoss::from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier)
+SpreadingLoss SpreadingLoss::from_stream(std::istream&           is,
+                                         o_S7KDatagramIdentifier datagram_identifier)
 {
     return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier));
 }
@@ -33,9 +34,15 @@ void SpreadingLoss::to_stream(std::ostream& os) const
 }
 
 tools::classhelper::ObjectPrinter SpreadingLoss::__printer__(unsigned int float_precision,
-                                                     bool         superscript_exponents) const
+                                                             bool superscript_exponents) const
 {
-    tools::classhelper::ObjectPrinter printer("SpreadingLoss", float_precision, superscript_exponents);
+    const auto& o_datagram_identifier =
+        S7KDatagram::o_DatagramIdentifier(get_datagram_identifier());
+    tools::classhelper::ObjectPrinter printer(fmt::format("S7KHeader {} ({})",
+                                                          o_datagram_identifier.name(),
+                                                          uint32_t(o_datagram_identifier)),
+                                              float_precision,
+                                              superscript_exponents);
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("SpreadingLoss content");

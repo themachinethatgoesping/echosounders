@@ -21,11 +21,12 @@ void CompressedWaterColumn::__read__(std::istream& is)
 {
     is.read(reinterpret_cast<char*>(&_content), __content_size);
 
-    const size_t   B          = _content.number_beams;
-    const int      mag_bytes  = get_magnitude_bytes();
-    const bool     has_phase  = get_has_phase();
-    const bool     phase_8bit = (_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA);
-    const bool     has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
+    const size_t B         = _content.number_beams;
+    const int    mag_bytes = get_magnitude_bytes();
+    const bool   has_phase = get_has_phase();
+    const bool   phase_8bit =
+        (_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA);
+    const bool has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
 
     _beam_number.resize({ B });
     _segment_number.resize({ B });
@@ -112,8 +113,9 @@ CompressedWaterColumn CompressedWaterColumn::from_stream(std::istream& is)
     return from_stream(is, S7KDatagram::from_stream(is));
 }
 
-CompressedWaterColumn CompressedWaterColumn::from_stream(std::istream&           is,
-                                                         o_S7KDatagramIdentifier datagram_identifier)
+CompressedWaterColumn CompressedWaterColumn::from_stream(
+    std::istream&           is,
+    o_S7KDatagramIdentifier datagram_identifier)
 {
     return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier));
 }
@@ -123,11 +125,12 @@ void CompressedWaterColumn::to_stream(std::ostream& os) const
     S7KDatagram::to_stream(os);
     os.write(reinterpret_cast<const char*>(&_content), __content_size);
 
-    const size_t B          = _content.number_beams;
-    const int    mag_bytes  = get_magnitude_bytes();
-    const bool   has_phase  = get_has_phase();
-    const bool   phase_8bit = (_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA);
-    const bool   has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
+    const size_t B         = _content.number_beams;
+    const int    mag_bytes = get_magnitude_bytes();
+    const bool   has_phase = get_has_phase();
+    const bool   phase_8bit =
+        (_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA);
+    const bool has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
 
     for (size_t b = 0; b < B; ++b)
     {
@@ -234,8 +237,11 @@ tools::classhelper::ObjectPrinter CompressedWaterColumn::__printer__(
     unsigned int float_precision,
     bool         superscript_exponents) const
 {
+    const auto& o_datagram_identifier = S7KDatagram::o_DatagramIdentifier(DatagramIdentifier);
     tools::classhelper::ObjectPrinter printer(
-        "CompressedWaterColumn", float_precision, superscript_exponents);
+        fmt::format("S7K {} ({})", o_datagram_identifier.name(), uint32_t(o_datagram_identifier)),
+        float_precision,
+        superscript_exponents);
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("CompressedWaterColumn content");

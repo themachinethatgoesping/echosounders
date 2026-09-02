@@ -19,7 +19,7 @@ void FileHeader::__read__(std::istream& is)
 
     for (size_t i = 0; i < N; ++i)
     {
-        uint32_t device_id = 0;
+        uint32_t device_id  = 0;
         uint16_t enumerator = 0;
         is.read(reinterpret_cast<char*>(&device_id), sizeof(device_id));
         is.read(reinterpret_cast<char*>(&enumerator), sizeof(enumerator));
@@ -77,7 +77,11 @@ void FileHeader::to_stream(std::ostream& os) const
 tools::classhelper::ObjectPrinter FileHeader::__printer__(unsigned int float_precision,
                                                           bool         superscript_exponents) const
 {
-    tools::classhelper::ObjectPrinter printer("FileHeader", float_precision, superscript_exponents);
+    const auto& o_datagram_identifier = S7KDatagram::o_DatagramIdentifier(DatagramIdentifier);
+    tools::classhelper::ObjectPrinter printer(
+        fmt::format("S7K {} ({})", o_datagram_identifier.name(), uint32_t(o_datagram_identifier)),
+        float_precision,
+        superscript_exponents);
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("FileHeader content");
