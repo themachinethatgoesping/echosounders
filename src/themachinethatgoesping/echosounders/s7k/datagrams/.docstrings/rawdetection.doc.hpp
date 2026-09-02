@@ -1,4 +1,4 @@
-//sourcehash: 34ddc737f6231ba0735f59f31691dbd38696252005e03be1ce75e8509a673f33
+//sourcehash: 25804af9002bb5eb92ff70add2fbbc8a62298f08967581f343e2e900d754ecb6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,28 +49,6 @@ This is the preferred bathymetry record (replaces the deprecated
 7006). It holds, per beam, the detection point (fractional sample
 number), the receive steering angle and detection quality.)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection =
-R"doc(per-beam raw detection record (data_field_size bytes, first 34 defined
-below))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection_beam_descriptor = R"doc(beam number)doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection_detection_point = R"doc(detection point (fractional sample number))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection_flags = R"doc(per-beam flags (magnitude/phase detection, quality type, ...))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection_max_limit = R"doc(detection gate maximum sample)doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection_min_limit = R"doc(detection gate minimum sample)doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection_quality = R"doc(per-beam quality (brightness/colinearity filter passed))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection_rx_angle = R"doc(receive steering angle (rad))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection_signal_strength = R"doc(detection signal strength)doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_BeamDetection_uncertainty = R"doc(detection uncertainty (normalized to detection point))doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_Content = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_Content_applied_roll = R"doc(roll applied to the data (rad))doc";
@@ -101,13 +79,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_beam_descriptor = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_beams = R"doc(per-beam raw detections)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_beam_flags = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_beams_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_content = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_detection_point = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_from_stream = R"doc()doc";
 
@@ -117,21 +93,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_applied_roll = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_beam_descriptor = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_beam_flags = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_beams = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_data_field_size = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_detection_algorithm = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_detection_point = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_flags = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_max_limit = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_min_limit = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_multi_ping = R"doc()doc";
 
@@ -139,37 +107,39 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_ping_number = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_quality = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_rx_angle = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_sampling_rate = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_serial_number = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_signal_strength = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_tx_angle = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_uncertainty = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_max_limit = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_min_limit = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_quality = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_applied_roll = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_rx_angle = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_beams = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_signal_strength = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_data_field_size = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_detection_algorithm = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_flags = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_multi_ping = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_number_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_ping_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_sampling_rate = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_serial_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_tx_angle = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_to_stream = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_uncertainty = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

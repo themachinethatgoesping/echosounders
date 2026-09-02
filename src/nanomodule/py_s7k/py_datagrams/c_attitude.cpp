@@ -30,11 +30,11 @@ void init_c_attitude(nb::module_& m)
         m, "Attitude", DOC(themachinethatgoesping, echosounders, s7k, datagrams, Attitude))
         .def(nb::init<>(), DOC_C(Attitude, Attitude))
         .def("get_number_of_samples", &Attitude::get_number_of_samples, DOC_C(Attitude, get_number_of_samples))
-        .def("get_delta_time", &Attitude::get_delta_time, DOC_C(Attitude, get_delta_time))
-        .def("get_roll", &Attitude::get_roll, DOC_C(Attitude, get_roll))
-        .def("get_pitch", &Attitude::get_pitch, DOC_C(Attitude, get_pitch))
-        .def("get_heave", &Attitude::get_heave, DOC_C(Attitude, get_heave))
-        .def("get_heading", &Attitude::get_heading, DOC_C(Attitude, get_heading))
+        .def_prop_rw("samples",
+                     &Attitude::samples,
+                     &Attitude::set_samples,
+                     DOC_C(Attitude, samples),
+                     nb::rv_policy::reference_internal)
         .def("__eq__", &Attitude::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(Attitude)
         __PYCLASS_DEFAULT_BINARY__(Attitude)

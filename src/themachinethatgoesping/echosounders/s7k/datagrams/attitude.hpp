@@ -10,13 +10,12 @@
 // std includes
 #include <cstdint>
 
-#include <xtensor/containers/xtensor.hpp>
-
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include "../types.hpp"
 #include "s7kdatagram.hpp"
+#include "substructs/attitudesamplecontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -34,41 +33,19 @@ class Attitude : public S7KDatagram
     static constexpr auto DatagramIdentifier = t_S7KDatagramIdentifier::Attitude;
 
   protected:
-#pragma pack(push, 1)
-    struct AttitudeSample
-    {
-        uint16_t delta_time; ///< time offset from the record timestamp (ms)
-        float    roll;       ///< roll (rad)
-        float    pitch;      ///< pitch (rad)
-        float    heave;      ///< heave (m)
-        float    heading;    ///< heading (rad)
-    };
-#pragma pack(pop)
-
-    static constexpr size_t __sample_size = sizeof(AttitudeSample); // 18
-
-    uint8_t _number_of_samples = 0;
-
-    // per-sample arrays (length = number_of_samples)
-    xt::xtensor<uint16_t, 1> _delta_time;
-    xt::xtensor<float, 1>    _roll;
-    xt::xtensor<float, 1>    _pitch;
-    xt::xtensor<float, 1>    _heave;
-    xt::xtensor<float, 1>    _heading;
+    substructs::AttitudeSampleContainer _samples; ///< attitude samples
 
   public:
     Attitude()  = default;
     ~Attitude() = default;
 
     // ----- record type header access -----
-    uint8_t get_number_of_samples() const { return _number_of_samples; }
+    uint8_t get_number_of_samples() const { return uint8_t(_samples.get_number_of_samples()); }
 
-    // ----- per-sample data access -----
-    const xt::xtensor<uint16_t, 1>& get_delta_time() const { return _delta_time; }
-    const xt::xtensor<float, 1>&    get_roll() const { return _roll; }
-    const xt::xtensor<float, 1>&    get_pitch() const { return _pitch; }
-    const xt::xtensor<float, 1>&    get_heave() const { return _heave; }
-    const xt::xtensor<float, 1>&    get_heading() const { return _heading; }
+    // ----- substructure access -----
+    const substructs::AttitudeSampleContainer& get_samples() const { return _samples; }
+    substructs::AttitudeSampleContainer&        samples() { return _samples; }
+    void set_samples(const substructs::AttitudeSampleContainer& samples) { _samples = samples; }
 
     // ----- operators -----
     bool operator==(const Attitude& other) const = default;

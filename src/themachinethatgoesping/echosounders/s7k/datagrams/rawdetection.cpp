@@ -4,6 +4,7 @@
 
 #include "rawdetection.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <limits>
@@ -19,39 +20,32 @@ void RawDetection::__read__(std::istream& is)
     is.read(reinterpret_cast<char*>(&_content), __content_size);
 
     const size_t N   = _content.number_beams;
-    const size_t dfs = _content.data_field_size; // per-beam record size (26, 34, ... version dep.)
-    _beam_descriptor.resize({ N });
-    _detection_point.resize({ N });
-    _rx_angle.resize({ N });
-    _beam_flags.resize({ N });
-    _quality.resize({ N });
-    _uncertainty.resize({ N });
-    _signal_strength.resize({ N });
-    _min_limit.resize({ N });
-    _max_limit.resize({ N });
+    const size_t dfs = _content.data_field_size; // per-beam record size on disk (version dependent)
 
-    static constexpr float nan = std::numeric_limits<float>::quiet_NaN();
+    auto& beams = _beams.beams();
+    beams.resize(N);
 
-    // the per-beam record is read via its declared size (data_field_size); trailing fields that
-    // are not present in older versions are filled with NaN
-    std::vector<char> buf(dfs);
+    static constexpr float  nan         = std::numeric_limits<float>::quiet_NaN();
+    static constexpr size_t struct_size = sizeof(substructs::RawDetectionBeam); // 34
+
+    // read the whole per-beam block in a single bulk read, then interpret each beam record
+    std::vector<char> buf(dfs * N);
+    is.read(buf.data(), std::streamsize(dfs * N));
+
     for (size_t i = 0; i < N; ++i)
     {
-        is.read(buf.data(), std::streamsize(dfs));
+        substructs::RawDetectionBeam beam;
+        std::memcpy(&beam, buf.data() + i * dfs, std::min(dfs, struct_size));
 
-        auto u16 = [&](size_t off) { uint16_t v; std::memcpy(&v, buf.data() + off, 2); return v; };
-        auto u32 = [&](size_t off) { uint32_t v; std::memcpy(&v, buf.data() + off, 4); return v; };
-        auto f32 = [&](size_t off) { float v;    std::memcpy(&v, buf.data() + off, 4); return v; };
+        // trailing fields that are not present in this record version are filled with NaN
+        if (dfs < 26)
+            beam.set_signal_strength(nan);
+        if (dfs < 30)
+            beam.set_min_limit(nan);
+        if (dfs < 34)
+            beam.set_max_limit(nan);
 
-        _beam_descriptor.unchecked(i) = u16(0);
-        _detection_point.unchecked(i) = f32(2);
-        _rx_angle.unchecked(i)        = f32(6);
-        _beam_flags.unchecked(i)      = u32(10);
-        _quality.unchecked(i)         = u32(14);
-        _uncertainty.unchecked(i)     = f32(18);
-        _signal_strength.unchecked(i) = dfs >= 26 ? f32(22) : nan;
-        _min_limit.unchecked(i)       = dfs >= 30 ? f32(26) : nan;
-        _max_limit.unchecked(i)       = dfs >= 34 ? f32(30) : nan;
+        beams[i] = beam;
     }
 }
 
@@ -77,27 +71,15 @@ void RawDetection::to_stream(std::ostream& os) const
     S7KDatagram::to_stream(os);
     os.write(reinterpret_cast<const char*>(&_content), __content_size);
 
-    const size_t      dfs = _content.data_field_size;
+    const size_t            dfs         = _content.data_field_size;
+    const auto&             beams       = _beams.get_beams();
+    static constexpr size_t struct_size = sizeof(substructs::RawDetectionBeam);
+
     std::vector<char> buf(dfs, 0);
-    for (size_t i = 0; i < _content.number_beams; ++i)
+    for (const auto& beam : beams)
     {
-        auto pu16 = [&](size_t off, uint16_t v) { std::memcpy(buf.data() + off, &v, 2); };
-        auto pu32 = [&](size_t off, uint32_t v) { std::memcpy(buf.data() + off, &v, 4); };
-        auto pf32 = [&](size_t off, float v) { std::memcpy(buf.data() + off, &v, 4); };
-
-        pu16(0, _beam_descriptor.unchecked(i));
-        pf32(2, _detection_point.unchecked(i));
-        pf32(6, _rx_angle.unchecked(i));
-        pu32(10, _beam_flags.unchecked(i));
-        pu32(14, _quality.unchecked(i));
-        pf32(18, _uncertainty.unchecked(i));
-        if (dfs >= 26)
-            pf32(22, _signal_strength.unchecked(i));
-        if (dfs >= 30)
-            pf32(26, _min_limit.unchecked(i));
-        if (dfs >= 34)
-            pf32(30, _max_limit.unchecked(i));
-
+        std::fill(buf.begin(), buf.end(), char(0));
+        std::memcpy(buf.data(), &beam, std::min(dfs, struct_size));
         os.write(buf.data(), std::streamsize(dfs));
     }
 }
@@ -124,12 +106,8 @@ tools::classhelper::ObjectPrinter RawDetection::__printer__(unsigned int float_p
     printer.register_value("tx_angle", _content.tx_angle, "rad");
     printer.register_value("applied_roll", _content.applied_roll, "rad");
 
-    printer.register_section("per-beam detections");
-    printer.register_container("beam_descriptor", _beam_descriptor);
-    printer.register_container("detection_point", _detection_point, "samples");
-    printer.register_container("rx_angle", _rx_angle, "rad");
-    printer.register_container("quality", _quality);
-    printer.register_container("signal_strength", _signal_strength);
+    printer.register_section("beams");
+    printer.append(_beams.__printer__(float_precision, superscript_exponents));
 
     return printer;
 }

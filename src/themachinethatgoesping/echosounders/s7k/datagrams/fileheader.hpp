@@ -12,13 +12,12 @@
 #include <cstring>
 #include <string>
 
-#include <xtensor/containers/xtensor.hpp>
-
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include "../types.hpp"
 #include "s7kdatagram.hpp"
+#include "substructs/fileheaderdeviceinfocontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -55,9 +54,7 @@ class FileHeader : public S7KDatagram
 
     static constexpr size_t __content_size = sizeof(Content); // 316
 
-    // per-device arrays (length = number_devices)
-    xt::xtensor<uint32_t, 1> _device_identifier;
-    xt::xtensor<uint16_t, 1> _system_enumerator;
+    substructs::FileHeaderDeviceInfoContainer _devices; ///< device entries
 
     // optional data appended after the device list (e.g. the file catalog pointer, identifier 7300)
     std::string _optional_data;
@@ -77,9 +74,13 @@ class FileHeader : public S7KDatagram
     std::string get_user_defined_name() const { return trim(_content.user_defined_name, 64); }
     std::string get_notes() const { return trim(_content.notes, 128); }
 
-    // ----- per-device data access -----
-    const xt::xtensor<uint32_t, 1>& get_device_identifier() const { return _device_identifier; }
-    const xt::xtensor<uint16_t, 1>& get_system_enumerator() const { return _system_enumerator; }
+    // ----- substructure access -----
+    const substructs::FileHeaderDeviceInfoContainer& get_devices() const { return _devices; }
+    substructs::FileHeaderDeviceInfoContainer&       devices() { return _devices; }
+    void set_devices(const substructs::FileHeaderDeviceInfoContainer& devices)
+    {
+        _devices = devices;
+    }
 
     // ----- optional data (file catalog pointer, if present) -----
     const std::string& get_optional_data() const { return _optional_data; }

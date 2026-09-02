@@ -9,15 +9,13 @@
 
 // std includes
 #include <cstdint>
-#include <vector>
-
-#include <xtensor/containers/xtensor.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include "../types.hpp"
 #include "s7kdatagram.hpp"
+#include "substructs/compressedwatercolumnbeamcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -65,14 +63,7 @@ class CompressedWaterColumn : public S7KDatagram
 
     static constexpr size_t __content_size = sizeof(Content); // 44
 
-    // per-beam meta data (length = number_beams)
-    xt::xtensor<uint16_t, 1> _beam_number;
-    xt::xtensor<uint8_t, 1>  _segment_number;
-    xt::xtensor<uint32_t, 1> _sample_count;
-
-    // decoded per-beam samples (one array per beam)
-    std::vector<xt::xtensor<float, 1>> _magnitude; ///< magnitude (raw value, or dB if FLAG_MAGNITUDE_DB)
-    std::vector<xt::xtensor<float, 1>> _phase;     ///< phase in radians (empty beams if magnitude only)
+    substructs::CompressedWaterColumnBeamContainer _beams; ///< per-beam magnitude/phase data
 
   public:
     CompressedWaterColumn()  = default;
@@ -90,6 +81,17 @@ class CompressedWaterColumn : public S7KDatagram
     float    get_sample_rate() const { return _content.sample_rate; }
     float    get_compression_factor() const { return _content.compression_factor; }
 
+    void set_serial_number(uint64_t val) { _content.serial_number = val; }
+    void set_ping_number(uint32_t val) { _content.ping_number = val; }
+    void set_multi_ping(uint16_t val) { _content.multi_ping = val; }
+    void set_number_beams(uint16_t val) { _content.number_beams = val; }
+    void set_samples(uint32_t val) { _content.samples = val; }
+    void set_compressed_samples(uint32_t val) { _content.compressed_samples = val; }
+    void set_flags(uint32_t val) { _content.flags = val; }
+    void set_first_sample(uint32_t val) { _content.first_sample = val; }
+    void set_sample_rate(float val) { _content.sample_rate = val; }
+    void set_compression_factor(float val) { _content.compression_factor = val; }
+
     bool get_has_phase() const { return (_content.flags & FLAG_MAGNITUDE_ONLY) == 0; }
     bool get_magnitude_is_db() const { return (_content.flags & FLAG_MAGNITUDE_DB) != 0; }
     /// number of bytes per magnitude sample as stored on disk (1, 2 or 4)
@@ -102,36 +104,10 @@ class CompressedWaterColumn : public S7KDatagram
         return 2;
     }
 
-    // ----- per-beam data access -----
-    const xt::xtensor<uint16_t, 1>& get_beam_number() const { return _beam_number; }
-    const xt::xtensor<uint8_t, 1>&  get_segment_number() const { return _segment_number; }
-    const xt::xtensor<uint32_t, 1>& get_sample_count() const { return _sample_count; }
-
-    /// magnitude arrays (one per beam; dB if get_magnitude_is_db(), else raw magnitude)
-    const std::vector<xt::xtensor<float, 1>>& get_magnitude() const { return _magnitude; }
-    /// phase arrays in radians (one per beam; empty if magnitude-only)
-    const std::vector<xt::xtensor<float, 1>>& get_phase() const { return _phase; }
-    const xt::xtensor<float, 1>& get_beam_magnitude(size_t beam_index) const
-    {
-        return _magnitude.at(beam_index);
-    }
-    const xt::xtensor<float, 1>& get_beam_phase(size_t beam_index) const
-    {
-        return _phase.at(beam_index);
-    }
-
-    // ----- convenience conversions (computed on demand) -----
-    /// magnitude of a single beam in decibels. If the data is already stored in dB
-    /// (get_magnitude_is_db(), flag bit 2) the stored value is returned unchanged; otherwise the
-    /// linear magnitude is converted with 20*log10(magnitude / full_scale) (full_scale = 65535 for
-    /// 16-bit magnitude, 1 for 32-bit float magnitude). Zero magnitude maps to -inf.
-    xt::xtensor<float, 1> get_beam_magnitude_in_db(size_t beam_index) const;
-    /// phase of a single beam in degrees (empty if magnitude-only)
-    xt::xtensor<float, 1> get_beam_phase_in_degrees(size_t beam_index) const;
-    /// magnitude in dB, one array per beam (see get_beam_magnitude_in_db)
-    std::vector<xt::xtensor<float, 1>> get_magnitude_in_db() const;
-    /// phase in degrees, one array per beam (see get_beam_phase_in_degrees)
-    std::vector<xt::xtensor<float, 1>> get_phase_in_degrees() const;
+    // ----- substructure access -----
+    const substructs::CompressedWaterColumnBeamContainer& get_beams() const { return _beams; }
+    substructs::CompressedWaterColumnBeamContainer&       beams() { return _beams; }
+    void set_beams(const substructs::CompressedWaterColumnBeamContainer& beams) { _beams = beams; }
 
     // ----- operators -----
     bool operator==(const CompressedWaterColumn& other) const = default;
@@ -144,6 +120,12 @@ class CompressedWaterColumn : public S7KDatagram
                                              bool                    skip_data = false);
 
     void to_stream(std::ostream& os) const;
+
+    /**
+     * @brief Read the (previously skipped) per-beam samples from the stream.
+     * @param is Input stream. Must be the same file the record was originally read from.
+     */
+    void read_samples(std::istream& is);
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
@@ -159,6 +141,7 @@ class CompressedWaterColumn : public S7KDatagram
     {
     }
     void __read__(std::istream& is, bool skip_data = false);
+    void __read_beams__(std::istream& is);
 };
 
 } // namespace datagrams

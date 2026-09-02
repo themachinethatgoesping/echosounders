@@ -10,13 +10,12 @@
 // std includes
 #include <cstdint>
 
-#include <xtensor/containers/xtensor.hpp>
-
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include "../types.hpp"
 #include "s7kdatagram.hpp"
+#include "substructs/rawdetectionbeamcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -52,34 +51,11 @@ class RawDetection : public S7KDatagram
 
         bool operator==(const Content& other) const = default;
     } _content;
-
-    /// per-beam raw detection record (data_field_size bytes, first 34 defined below)
-    struct BeamDetection
-    {
-        uint16_t beam_descriptor; ///< beam number
-        float    detection_point; ///< detection point (fractional sample number)
-        float    rx_angle;        ///< receive steering angle (rad)
-        uint32_t flags;           ///< per-beam flags (magnitude/phase detection, quality type, ...)
-        uint32_t quality;         ///< per-beam quality (brightness/colinearity filter passed)
-        float    uncertainty;     ///< detection uncertainty (normalized to detection point)
-        float    signal_strength; ///< detection signal strength
-        float    min_limit;       ///< detection gate minimum sample
-        float    max_limit;       ///< detection gate maximum sample
-    };
 #pragma pack(pop)
 
     static constexpr size_t __content_size = sizeof(Content); // 99
 
-    // per-beam arrays (length = number_beams)
-    xt::xtensor<uint16_t, 1> _beam_descriptor;
-    xt::xtensor<float, 1>    _detection_point;
-    xt::xtensor<float, 1>    _rx_angle;
-    xt::xtensor<uint32_t, 1> _beam_flags;
-    xt::xtensor<uint32_t, 1> _quality;
-    xt::xtensor<float, 1>    _uncertainty;
-    xt::xtensor<float, 1>    _signal_strength;
-    xt::xtensor<float, 1>    _min_limit;
-    xt::xtensor<float, 1>    _max_limit;
+    substructs::RawDetectionBeamContainer _beams; ///< per-beam raw detections
 
   public:
     RawDetection()  = default;
@@ -97,16 +73,21 @@ class RawDetection : public S7KDatagram
     float    get_tx_angle() const { return _content.tx_angle; }
     float    get_applied_roll() const { return _content.applied_roll; }
 
-    // ----- per-beam data access -----
-    const xt::xtensor<uint16_t, 1>& get_beam_descriptor() const { return _beam_descriptor; }
-    const xt::xtensor<float, 1>&    get_detection_point() const { return _detection_point; }
-    const xt::xtensor<float, 1>&    get_rx_angle() const { return _rx_angle; }
-    const xt::xtensor<uint32_t, 1>& get_beam_flags() const { return _beam_flags; }
-    const xt::xtensor<uint32_t, 1>& get_quality() const { return _quality; }
-    const xt::xtensor<float, 1>&    get_uncertainty() const { return _uncertainty; }
-    const xt::xtensor<float, 1>&    get_signal_strength() const { return _signal_strength; }
-    const xt::xtensor<float, 1>&    get_min_limit() const { return _min_limit; }
-    const xt::xtensor<float, 1>&    get_max_limit() const { return _max_limit; }
+    void set_serial_number(uint64_t val) { _content.serial_number = val; }
+    void set_ping_number(uint32_t val) { _content.ping_number = val; }
+    void set_multi_ping(uint16_t val) { _content.multi_ping = val; }
+    void set_number_beams(uint32_t val) { _content.number_beams = val; }
+    void set_data_field_size(uint32_t val) { _content.data_field_size = val; }
+    void set_detection_algorithm(uint8_t val) { _content.detection_algorithm = val; }
+    void set_flags(uint32_t val) { _content.flags = val; }
+    void set_sampling_rate(float val) { _content.sampling_rate = val; }
+    void set_tx_angle(float val) { _content.tx_angle = val; }
+    void set_applied_roll(float val) { _content.applied_roll = val; }
+
+    // ----- substructure access -----
+    const substructs::RawDetectionBeamContainer& get_beams() const { return _beams; }
+    substructs::RawDetectionBeamContainer&        beams() { return _beams; }
+    void set_beams(const substructs::RawDetectionBeamContainer& beams) { _beams = beams; }
 
     // ----- operators -----
     bool operator==(const RawDetection& other) const = default;

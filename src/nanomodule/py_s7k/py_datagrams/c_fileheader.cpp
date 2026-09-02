@@ -36,8 +36,11 @@ void init_c_fileheader(nb::module_& m)
         .def("get_recording_version", &FileHeader::get_recording_version, DOC_C(FileHeader, get_recording_version))
         .def("get_user_defined_name", &FileHeader::get_user_defined_name, DOC_C(FileHeader, get_user_defined_name))
         .def("get_notes", &FileHeader::get_notes, DOC_C(FileHeader, get_notes))
-        .def("get_device_identifier", &FileHeader::get_device_identifier, DOC_C(FileHeader, get_device_identifier))
-        .def("get_system_enumerator", &FileHeader::get_system_enumerator, DOC_C(FileHeader, get_system_enumerator))
+        .def_prop_rw("devices",
+                     &FileHeader::devices,
+                     &FileHeader::set_devices,
+                     DOC_C(FileHeader, devices),
+                     nb::rv_policy::reference_internal)
         .def("__eq__", &FileHeader::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(FileHeader)
         __PYCLASS_DEFAULT_BINARY__(FileHeader)

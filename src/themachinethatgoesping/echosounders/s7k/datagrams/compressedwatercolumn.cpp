@@ -4,109 +4,94 @@
 
 #include "compressedwatercolumn.hpp"
 
-#include <cmath>
-#include <limits>
-#include <numbers>
+#include <cstring>
+#include <string>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
 
-namespace {
-constexpr float S7K_PHASE_SCALE = 10430.f; ///< int16 phase value / 10430 = radians
-}
-
 void CompressedWaterColumn::__read__(std::istream& is, bool skip_data)
 {
     is.read(reinterpret_cast<char*>(&_content), __content_size);
 
+    const int64_t sample_position = int64_t(is.tellg());
+
     if (skip_data)
     {
-        // skip the (large) per-beam sample data; leave the per-beam arrays empty
+        // remember the sample position so the samples can be read lazily later, then seek past them
+        _beams.set_skipped(sample_position);
         is.seekg(std::streamoff(compute_size_content()) - std::streamoff(__content_size),
                  std::ios::cur);
         return;
     }
 
-    const size_t B         = _content.number_beams;
-    const int    mag_bytes = get_magnitude_bytes();
-    const bool   has_phase = get_has_phase();
-    const bool   phase_8bit =
-        (_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA);
-    const bool has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
+    __read_beams__(is);
+}
 
-    _beam_number.resize({ B });
-    _segment_number.resize({ B });
-    _sample_count.resize({ B });
-    _magnitude.resize(B);
-    _phase.resize(B);
+void CompressedWaterColumn::__read_beams__(std::istream& is)
+{
+    const size_t B          = _content.number_beams;
+    const int    mag_bytes  = get_magnitude_bytes();
+    const bool   has_phase  = get_has_phase();
+    const bool   phase_8bit = (_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA);
+    const bool   has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
+    const bool   mag_is_db   = get_magnitude_is_db();
+    const bool   mag_32f     = (_content.flags & FLAG_32BIT_DATA) != 0;
+    const size_t stride      = size_t(mag_bytes) + (has_phase ? (phase_8bit ? 1u : 2u) : 0u);
 
+    // read the whole remaining record content in a single bulk read, then parse it in memory
+    const size_t remaining = compute_size_content() - __content_size;
+    std::string  buf(remaining, '\0');
+    is.read(buf.data(), std::streamsize(remaining));
+
+    auto& beams = _beams.beams();
+    beams.resize(B);
+
+    size_t pos = 0;
     for (size_t b = 0; b < B; ++b)
     {
+        auto& beam = beams[b];
+
         uint16_t beam_number = 0;
-        is.read(reinterpret_cast<char*>(&beam_number), sizeof(beam_number));
+        std::memcpy(&beam_number, buf.data() + pos, sizeof(beam_number));
+        pos += sizeof(beam_number);
 
         uint8_t segment_number = 0;
         if (has_segment)
-            is.read(reinterpret_cast<char*>(&segment_number), sizeof(segment_number));
+        {
+            std::memcpy(&segment_number, buf.data() + pos, sizeof(segment_number));
+            pos += sizeof(segment_number);
+        }
 
         uint32_t nsamples = 0;
-        is.read(reinterpret_cast<char*>(&nsamples), sizeof(nsamples));
+        std::memcpy(&nsamples, buf.data() + pos, sizeof(nsamples));
+        pos += sizeof(nsamples);
 
-        _beam_number.unchecked(b)    = beam_number;
-        _segment_number.unchecked(b) = segment_number;
-        _sample_count.unchecked(b)   = nsamples;
+        beam.set_beam_number(beam_number);
+        beam.set_segment_number(segment_number);
+        beam.set_sample_count(nsamples);
+        beam.set_magnitude_bytes(uint8_t(mag_bytes));
+        beam.set_has_phase(has_phase);
+        beam.set_phase_8bit(phase_8bit);
+        beam.set_magnitude_is_db(mag_is_db);
+        beam.set_magnitude_is_32bit_float(mag_32f);
 
-        _magnitude[b].resize({ size_t(nsamples) });
-        if (has_phase)
-            _phase[b].resize({ size_t(nsamples) });
-
-        for (uint32_t s = 0; s < nsamples; ++s)
-        {
-            // --- magnitude ---
-            float m = 0.f;
-            if (mag_bytes == 4)
-            {
-                float v = 0.f; // 32-bit magnitude is IEEE float32 (flag bit 12), not an integer
-                is.read(reinterpret_cast<char*>(&v), 4);
-                m = v;
-            }
-            else if (mag_bytes == 1)
-            {
-                uint8_t v = 0;
-                is.read(reinterpret_cast<char*>(&v), 1);
-                m = float(v);
-            }
-            else
-            {
-                uint16_t v = 0;
-                is.read(reinterpret_cast<char*>(&v), 2);
-                m = float(v);
-            }
-            _magnitude[b].unchecked(s) = m;
-
-            // --- phase ---
-            if (has_phase)
-            {
-                float p = 0.f;
-                if (phase_8bit)
-                {
-                    int8_t v = 0;
-                    is.read(reinterpret_cast<char*>(&v), 1);
-                    // 8-bit phase is the high byte of the 16-bit phase value
-                    p = float(int16_t(int16_t(v) << 8)) / S7K_PHASE_SCALE;
-                }
-                else
-                {
-                    int16_t v = 0;
-                    is.read(reinterpret_cast<char*>(&v), 2);
-                    p = float(v) / S7K_PHASE_SCALE;
-                }
-                _phase[b].unchecked(s) = p;
-            }
-        }
+        const size_t nbytes = size_t(nsamples) * stride;
+        beam.set_raw_samples(buf.substr(pos, nbytes));
+        pos += nbytes;
     }
+}
+
+void CompressedWaterColumn::read_samples(std::istream& is)
+{
+    if (!_beams.get_samples_are_skipped())
+        return;
+
+    is.seekg(_beams.get_sample_position());
+    __read_beams__(is);
+    _beams.clear_skipped();
 }
 
 CompressedWaterColumn CompressedWaterColumn::from_stream(std::istream& is, S7KDatagram header, bool skip_data)
@@ -134,112 +119,23 @@ void CompressedWaterColumn::to_stream(std::ostream& os) const
     S7KDatagram::to_stream(os);
     os.write(reinterpret_cast<const char*>(&_content), __content_size);
 
-    const size_t B         = _content.number_beams;
-    const int    mag_bytes = get_magnitude_bytes();
-    const bool   has_phase = get_has_phase();
-    const bool   phase_8bit =
-        (_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA);
     const bool has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
 
-    for (size_t b = 0; b < B; ++b)
+    for (const auto& beam : _beams.get_beams())
     {
-        uint16_t beam_number = _beam_number.unchecked(b);
+        uint16_t beam_number = beam.get_beam_number();
         os.write(reinterpret_cast<const char*>(&beam_number), sizeof(beam_number));
         if (has_segment)
         {
-            uint8_t segment_number = _segment_number.unchecked(b);
+            uint8_t segment_number = beam.get_segment_number();
             os.write(reinterpret_cast<const char*>(&segment_number), sizeof(segment_number));
         }
-        uint32_t nsamples = _sample_count.unchecked(b);
+        uint32_t nsamples = beam.get_sample_count();
         os.write(reinterpret_cast<const char*>(&nsamples), sizeof(nsamples));
 
-        for (uint32_t s = 0; s < nsamples; ++s)
-        {
-            float m = _magnitude[b].unchecked(s);
-            if (mag_bytes == 4)
-            {
-                float v = m; // 32-bit magnitude is IEEE float32 (flag bit 12)
-                os.write(reinterpret_cast<const char*>(&v), 4);
-            }
-            else if (mag_bytes == 1)
-            {
-                uint8_t v = uint8_t(m);
-                os.write(reinterpret_cast<const char*>(&v), 1);
-            }
-            else
-            {
-                uint16_t v = uint16_t(m);
-                os.write(reinterpret_cast<const char*>(&v), 2);
-            }
-
-            if (has_phase)
-            {
-                float p = _phase[b].unchecked(s);
-                if (phase_8bit)
-                {
-                    int8_t v = int8_t(int16_t(std::lround(p * S7K_PHASE_SCALE)) >> 8);
-                    os.write(reinterpret_cast<const char*>(&v), 1);
-                }
-                else
-                {
-                    int16_t v = int16_t(std::lround(p * S7K_PHASE_SCALE));
-                    os.write(reinterpret_cast<const char*>(&v), 2);
-                }
-            }
-        }
+        const auto& raw = beam.get_raw_samples();
+        os.write(raw.data(), std::streamsize(raw.size()));
     }
-}
-
-xt::xtensor<float, 1> CompressedWaterColumn::get_beam_magnitude_in_db(size_t beam_index) const
-{
-    const auto&           mag = _magnitude.at(beam_index);
-    xt::xtensor<float, 1> db;
-    db.resize({ mag.size() });
-
-    if (get_magnitude_is_db())
-    {
-        // values are already stored in dB (8-bit truncated dB, flag bit 2): pass through unchanged
-        for (size_t i = 0; i < mag.size(); ++i)
-            db.unchecked(i) = mag.unchecked(i);
-        return db;
-    }
-
-    // linear magnitude -> dB relative to full scale (65535 for 16-bit, 1 for 32-bit float)
-    const float full_scale = (_content.flags & FLAG_32BIT_DATA) ? 1.f : 65535.f;
-    const float neg_inf    = -std::numeric_limits<float>::infinity();
-    for (size_t i = 0; i < mag.size(); ++i)
-    {
-        const float v   = mag.unchecked(i);
-        db.unchecked(i) = v > 0.f ? 20.f * std::log10(v / full_scale) : neg_inf;
-    }
-    return db;
-}
-
-xt::xtensor<float, 1> CompressedWaterColumn::get_beam_phase_in_degrees(size_t beam_index) const
-{
-    const auto&           ph      = _phase.at(beam_index);
-    constexpr float       rad2deg = 180.f / std::numbers::pi_v<float>;
-    xt::xtensor<float, 1> deg;
-    deg.resize({ ph.size() });
-    for (size_t i = 0; i < ph.size(); ++i)
-        deg.unchecked(i) = ph.unchecked(i) * rad2deg;
-    return deg;
-}
-
-std::vector<xt::xtensor<float, 1>> CompressedWaterColumn::get_magnitude_in_db() const
-{
-    std::vector<xt::xtensor<float, 1>> out(_magnitude.size());
-    for (size_t b = 0; b < _magnitude.size(); ++b)
-        out[b] = get_beam_magnitude_in_db(b);
-    return out;
-}
-
-std::vector<xt::xtensor<float, 1>> CompressedWaterColumn::get_phase_in_degrees() const
-{
-    std::vector<xt::xtensor<float, 1>> out(_phase.size());
-    for (size_t b = 0; b < _phase.size(); ++b)
-        out[b] = get_beam_phase_in_degrees(b);
-    return out;
 }
 
 tools::classhelper::ObjectPrinter CompressedWaterColumn::__printer__(
@@ -268,9 +164,8 @@ tools::classhelper::ObjectPrinter CompressedWaterColumn::__printer__(
     printer.register_value("magnitude_is_db", get_magnitude_is_db());
     printer.register_value("magnitude_bytes", get_magnitude_bytes());
 
-    printer.register_section("per-beam samples");
-    printer.register_container("beam_number", _beam_number);
-    printer.register_container("sample_count", _sample_count, "samples");
+    printer.register_section("beams");
+    printer.append(_beams.__printer__(float_precision, superscript_exponents));
 
     return printer;
 }

@@ -1,4 +1,4 @@
-//sourcehash: 8695317f32028b21bc1cd95c53f4507eb0e32f6d58c913f70bbf144282aa6107
+//sourcehash: c76e02f56225afd49c6e02aad9aeb826143bc3cce1a196d4abfd6d5a3c338e37
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -48,21 +48,7 @@ modern systems (e.g. R2Sonic) instead of separate 1012/1013 records.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_Attitude = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_AttitudeSample = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_AttitudeSample_delta_time = R"doc(time offset from the record timestamp (ms))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_AttitudeSample_heading = R"doc(heading (rad))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_AttitudeSample_heave = R"doc(heave (m))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_AttitudeSample_pitch = R"doc(pitch (rad))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_AttitudeSample_roll = R"doc(roll (rad))doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_delta_time = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_from_stream = R"doc()doc";
 
@@ -70,31 +56,19 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Att
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_from_stream_3 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_get_delta_time = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_get_heading = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_get_heave = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_get_number_of_samples = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_get_pitch = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_get_roll = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_heading = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_heave = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_number_of_samples = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_get_samples = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_pitch = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_roll = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_samples = R"doc(attitude samples)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_samples_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_set_samples = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_to_stream = R"doc()doc";
 

@@ -44,13 +44,13 @@ class BeamGeometry : public S7KDatagram
 
     static constexpr size_t __content_size = sizeof(Content); // 12
 
-    // per-beam arrays (length = number_beams)
-    xt::xtensor<float, 1> _beam_vertical_angle;       ///< along-track (vertical) angle (rad)
-    xt::xtensor<float, 1> _beam_horizontal_angle;     ///< across-track (horizontal) angle (rad)
-    xt::xtensor<float, 1> _beamwidth_vertical;        ///< along-track (vertical) -3dB width (rad)
-    xt::xtensor<float, 1> _beamwidth_horizontal;      ///< across-track (horizontal) -3dB width (rad)
-    xt::xtensor<float, 1> _tx_delay;                  ///< transmit delay (fractional samples, optional)
-    bool                  _has_tx_delay = false;
+    // per-beam arrays (length = number_beams), stored as read from disk (structure of arrays)
+    xt::xtensor<float, 1> _beam_vertical_angle;   ///< along-track (vertical) angle (rad)
+    xt::xtensor<float, 1> _beam_horizontal_angle; ///< across-track (horizontal) angle (rad)
+    xt::xtensor<float, 1> _beamwidth_vertical;    ///< along-track (vertical) -3dB width (rad)
+    xt::xtensor<float, 1> _beamwidth_horizontal;  ///< across-track (horizontal) -3dB width (rad)
+    xt::xtensor<float, 1> _tx_delay;              ///< transmit delay (fractional samples, optional)
+    bool                  _has_tx_delay = false;  ///< true if the tx_delay array is present
 
   public:
     BeamGeometry()  = default;
@@ -60,6 +60,9 @@ class BeamGeometry : public S7KDatagram
     uint64_t get_serial_number() const { return _content.serial_number; }
     uint32_t get_number_beams() const { return _content.number_beams; }
 
+    void set_serial_number(uint64_t val) { _content.serial_number = val; }
+    void set_number_beams(uint32_t val) { _content.number_beams = val; }
+
     // ----- per-beam data access -----
     const xt::xtensor<float, 1>& get_beam_vertical_angle() const { return _beam_vertical_angle; }
     const xt::xtensor<float, 1>& get_beam_horizontal_angle() const { return _beam_horizontal_angle; }
@@ -67,6 +70,13 @@ class BeamGeometry : public S7KDatagram
     const xt::xtensor<float, 1>& get_beamwidth_horizontal() const { return _beamwidth_horizontal; }
     bool                         get_has_tx_delay() const { return _has_tx_delay; }
     const xt::xtensor<float, 1>& get_tx_delay() const { return _tx_delay; }
+
+    void set_beam_vertical_angle(const xt::xtensor<float, 1>& v) { _beam_vertical_angle = v; }
+    void set_beam_horizontal_angle(const xt::xtensor<float, 1>& v) { _beam_horizontal_angle = v; }
+    void set_beamwidth_vertical(const xt::xtensor<float, 1>& v) { _beamwidth_vertical = v; }
+    void set_beamwidth_horizontal(const xt::xtensor<float, 1>& v) { _beamwidth_horizontal = v; }
+    void set_tx_delay(const xt::xtensor<float, 1>& v) { _tx_delay = v; }
+    void set_has_tx_delay(bool v) { _has_tx_delay = v; }
 
     // ----- operators -----
     bool operator==(const BeamGeometry& other) const = default;

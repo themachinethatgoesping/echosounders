@@ -17,6 +17,21 @@ namespace py_datagrams {
 void init_c_s7kdatagram(nanobind::module_& m); // c_s7kdatagram.cpp
 void init_c_s7kunknown(nanobind::module_& m);  // c_s7kunknown.cpp
 
+// substructs
+void init_c_snippetdatabeam(nanobind::module_& m);          // substructs/c_snippetdatabeam.cpp
+void init_c_snippetdatabeamcontainer(nanobind::module_& m); // substructs/c_snippetdatabeamcontainer.cpp
+void init_c_snippetdataamplitudes(nanobind::module_& m);    // substructs/c_snippetdataamplitudes.cpp
+void init_c_rawdetectionbeam(nanobind::module_& m);          // substructs/c_rawdetectionbeam.cpp
+void init_c_rawdetectionbeamcontainer(nanobind::module_& m); // substructs/c_rawdetectionbeamcontainer.cpp
+void init_c_attitudesample(nanobind::module_& m);            // substructs/c_attitudesample.cpp
+void init_c_attitudesamplecontainer(nanobind::module_& m);   // substructs/c_attitudesamplecontainer.cpp
+void init_c_fileheaderdeviceinfo(nanobind::module_& m);          // substructs/c_fileheaderdeviceinfo.cpp
+void init_c_fileheaderdeviceinfocontainer(nanobind::module_& m); // substructs/c_fileheaderdeviceinfocontainer.cpp
+void init_c_beamgeometrybeam(nanobind::module_& m);          // substructs/c_beamgeometrybeam.cpp
+void init_c_beamgeometrybeamcontainer(nanobind::module_& m); // substructs/c_beamgeometrybeamcontainer.cpp
+void init_c_compressedwatercolumnbeam(nanobind::module_& m);          // substructs/c_compressedwatercolumnbeam.cpp
+void init_c_compressedwatercolumnbeamcontainer(nanobind::module_& m); // substructs/c_compressedwatercolumnbeamcontainer.cpp
+
 void init_c_referencepoint(nanobind::module_& m);       // c_referencepoint.cpp
 void init_c_position(nanobind::module_& m);             // c_position.cpp
 void init_c_rollpitchheave(nanobind::module_& m);       // c_rollpitchheave.cpp
@@ -45,6 +60,21 @@ void init_m_s7kdatagrams(nanobind::module_& m)
     // s7k classes
     init_c_s7kdatagram(subm);
     init_c_s7kunknown(subm);
+
+    // substructs (must be registered before the datagrams that expose them)
+    init_c_snippetdatabeam(subm);
+    init_c_snippetdatabeamcontainer(subm);
+    init_c_snippetdataamplitudes(subm);
+    init_c_rawdetectionbeam(subm);
+    init_c_rawdetectionbeamcontainer(subm);
+    init_c_attitudesample(subm);
+    init_c_attitudesamplecontainer(subm);
+    init_c_fileheaderdeviceinfo(subm);
+    init_c_fileheaderdeviceinfocontainer(subm);
+    init_c_beamgeometrybeam(subm);
+    init_c_beamgeometrybeamcontainer(subm);
+    init_c_compressedwatercolumnbeam(subm);
+    init_c_compressedwatercolumnbeamcontainer(subm);
 
     init_c_referencepoint(subm);
     init_c_position(subm);

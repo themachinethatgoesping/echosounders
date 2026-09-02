@@ -1,4 +1,4 @@
-//sourcehash: 8114d458cd0830de2de40e97f3e7f32f34cff29c0db305f6d0145fa88c7c16c9
+//sourcehash: fa233a5df40029301003943aa1967c96be11ddf84275781635d8442e9ff344cc
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,18 +46,11 @@ R"doc(7k record SnippetData (7028): water-column intensity snippets around
 each beam detection.
 
 The record holds, per beam, a short intensity time series (snippet)
-around the bottom detection. The intensity samples are 16- or 32-bit
-depending on bit 0 of the flags field.)doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_BeamHeader = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_BeamHeader_beam_descriptor = R"doc(beam number)doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_BeamHeader_detection_sample = R"doc(detection point sample)doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_BeamHeader_snippet_end = R"doc(last sample of the snippet)doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_BeamHeader_snippet_start = R"doc(first sample of the snippet)doc";
+around the bottom detection. The per-beam descriptors are stored in a
+SnippetDataBeamContainer (read as one bulk block), the intensity
+samples in a SnippetDataAmplitudes container (16- or 32-bit depending
+on bit 0 of the flags field, read as one bulk block). Array/dB
+conversions are computed on demand.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_Content = R"doc()doc";
 
@@ -83,11 +76,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sni
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_SnippetData = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_beam_descriptor = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_amplitudes = R"doc(per-beam intensity samples)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_amplitudes_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_beams = R"doc(per-beam snippet descriptors)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_beams_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_content = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_detection_sample = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_from_stream = R"doc()doc";
 
@@ -95,11 +92,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sni
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_from_stream_3 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_beam_descriptor = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_amplitudes = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_beams = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_control_flags = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_detection_sample = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_error_flag = R"doc()doc";
 
@@ -117,15 +114,27 @@ R"doc(true if the intensity samples are stored as 32-bit values (flags bit
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_serial_number = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_snippet_end = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_snippet_start = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_snippet_end = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_amplitudes = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_snippet_start = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_control_flags = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_error_flag = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_flags = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_multi_ping = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_number_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_ping_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_serial_number = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_to_stream = R"doc()doc";
 

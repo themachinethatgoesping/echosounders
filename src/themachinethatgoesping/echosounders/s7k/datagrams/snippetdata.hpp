@@ -7,20 +7,16 @@
 /* generated doc strings */
 #include ".docstrings/snippetdata.doc.hpp"
 
-/* generated doc strings */
-#include ".docstrings/snippet.doc.hpp"
-
 // std includes
 #include <cstdint>
-#include <vector>
-
-#include <xtensor/containers/xtensor.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include "../types.hpp"
 #include "s7kdatagram.hpp"
+#include "substructs/snippetdataamplitudes.hpp"
+#include "substructs/snippetdatabeamcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -31,7 +27,9 @@ namespace datagrams {
  * @brief 7k record SnippetData (7028): water-column intensity snippets around each beam detection.
  *
  * The record holds, per beam, a short intensity time series (snippet) around the bottom detection.
- * The intensity samples are 16- or 32-bit depending on bit 0 of the flags field.
+ * The per-beam descriptors are stored in a SnippetDataBeamContainer (read as one bulk block), the
+ * intensity samples in a SnippetDataAmplitudes container (16- or 32-bit depending on bit 0 of the
+ * flags field, read as one bulk block). Array/dB conversions are computed on demand.
  */
 class SnippetData : public S7KDatagram
 {
@@ -53,26 +51,12 @@ class SnippetData : public S7KDatagram
 
         bool operator==(const Content& other) const = default;
     } _content;
-
-    struct BeamHeader
-    {
-        uint16_t beam_descriptor;  ///< beam number
-        uint32_t snippet_start;    ///< first sample of the snippet
-        uint32_t detection_sample; ///< detection point sample
-        uint32_t snippet_end;      ///< last sample of the snippet
-    };
 #pragma pack(pop)
 
     static constexpr size_t __content_size = sizeof(Content); // 46
 
-    // per-beam meta data (length = number_beams)
-    xt::xtensor<uint16_t, 1> _beam_descriptor;
-    xt::xtensor<uint32_t, 1> _snippet_start;
-    xt::xtensor<uint32_t, 1> _detection_sample;
-    xt::xtensor<uint32_t, 1> _snippet_end;
-
-    // per-beam intensity snippet (one array per beam)
-    std::vector<xt::xtensor<uint32_t, 1>> _amplitudes;
+    substructs::SnippetDataBeamContainer _beams;      ///< per-beam snippet descriptors
+    substructs::SnippetDataAmplitudes    _amplitudes; ///< per-beam intensity samples
 
   public:
     SnippetData()  = default;
@@ -87,21 +71,27 @@ class SnippetData : public S7KDatagram
     uint8_t  get_control_flags() const { return _content.control_flags; }
     uint32_t get_flags() const { return _content.flags; }
 
+    void set_serial_number(uint64_t val) { _content.serial_number = val; }
+    void set_ping_number(uint32_t val) { _content.ping_number = val; }
+    void set_multi_ping(uint16_t val) { _content.multi_ping = val; }
+    void set_number_beams(uint16_t val) { _content.number_beams = val; }
+    void set_error_flag(uint8_t val) { _content.error_flag = val; }
+    void set_control_flags(uint8_t val) { _content.control_flags = val; }
+    void set_flags(uint32_t val) { _content.flags = val; }
+
     /// true if the intensity samples are stored as 32-bit values (flags bit 0)
     bool get_samples_are_32bit() const { return (_content.flags & 0x1) != 0; }
 
-    // ----- per-beam data access -----
-    const xt::xtensor<uint16_t, 1>& get_beam_descriptor() const { return _beam_descriptor; }
-    const xt::xtensor<uint32_t, 1>& get_snippet_start() const { return _snippet_start; }
-    const xt::xtensor<uint32_t, 1>& get_detection_sample() const { return _detection_sample; }
-    const xt::xtensor<uint32_t, 1>& get_snippet_end() const { return _snippet_end; }
+    // ----- substructure access -----
+    const substructs::SnippetDataBeamContainer& get_beams() const { return _beams; }
+    substructs::SnippetDataBeamContainer&       beams() { return _beams; }
+    void set_beams(const substructs::SnippetDataBeamContainer& beams) { _beams = beams; }
 
-    /// intensity snippet arrays (one per beam)
-    const std::vector<xt::xtensor<uint32_t, 1>>& get_amplitudes() const { return _amplitudes; }
-    /// intensity snippet of a single beam
-    const xt::xtensor<uint32_t, 1>& get_beam_amplitudes(size_t beam_index) const
+    const substructs::SnippetDataAmplitudes& get_amplitudes() const { return _amplitudes; }
+    substructs::SnippetDataAmplitudes&       amplitudes() { return _amplitudes; }
+    void set_amplitudes(const substructs::SnippetDataAmplitudes& amplitudes)
     {
-        return _amplitudes.at(beam_index);
+        _amplitudes = amplitudes;
     }
 
     // ----- operators -----

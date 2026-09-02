@@ -1,4 +1,4 @@
-//sourcehash: 3b888ad742e58d0311be46bad45a3d515ba269a7622b80768289052ab69b5e97
+//sourcehash: 33a5661543f852a1b560f55af336a0379b8a46195ea1bcc902efdee1e57b98cb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -76,7 +76,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Fil
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_device_identifier = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_devices = R"doc(device entries)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_devices_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_from_stream = R"doc()doc";
 
@@ -84,7 +86,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Fil
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_from_stream_3 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_get_device_identifier = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_get_devices = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_get_file_catalog_offset = R"doc()doc";
 
@@ -102,8 +104,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Fil
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_get_recording_version = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_get_system_enumerator = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_get_user_defined_name = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_get_version = R"doc()doc";
@@ -116,7 +116,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Fil
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_system_enumerator = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_set_devices = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_to_stream = R"doc()doc";
 
