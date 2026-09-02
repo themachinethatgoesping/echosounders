@@ -12,17 +12,16 @@
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 
-#include "../../themachinethatgoesping/echosounders/s7k/datagrams.hpp"
-#include "../../themachinethatgoesping/echosounders/s7k/types.hpp"
+#include <themachinethatgoesping/echosounders/s7k/datagrams.hpp>
+#include <themachinethatgoesping/echosounders/s7k/types.hpp>
 
-#include "../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
-
-#include "module.hpp"
+#include "../../py_filetemplates/py_datacontainers/datagramcontainer.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 namespace py_s7k {
+namespace py_filedatacontainers {
 
 namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::filetemplates;
@@ -56,8 +55,31 @@ void init_c_s7kdatagramcontainer(nanobind::module_& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::BeamGeometry, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_BeamGeometry");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::Attitude, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_Attitude");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::FileHeader, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_FileHeader");
+
+    // water-column records with the (large) sample data skipped
+    py_datagramcontainer::create_DatagramContainerTypes<
+        datagrams::Snippet,
+        t_S7KDatagramIdentifier,
+        datagrams::S7KSkipDataFactory<datagrams::Snippet>>(
+        m, "S7KDatagramContainer_Snippet_SkippedData");
+    py_datagramcontainer::create_DatagramContainerTypes<
+        datagrams::CompressedWaterColumn,
+        t_S7KDatagramIdentifier,
+        datagrams::S7KSkipDataFactory<datagrams::CompressedWaterColumn>>(
+        m, "S7KDatagramContainer_CompressedWaterColumn_SkippedData");
+
+    // variant container (any datagram type)
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_S7KDatagramVariant,
+                                                        t_S7KDatagramIdentifier,
+                                                        datagrams::S7KDatagramVariant>(
+        m, "S7KDatagramContainer_Variant");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::t_S7KDatagramVariant,
+                                                        t_S7KDatagramIdentifier,
+                                                        datagrams::S7KSkipDataVariantFactory>(
+        m, "S7KDatagramContainer_Variant_SkippedData");
 }
 
+}
 }
 }
 }

@@ -1,4 +1,4 @@
-//sourcehash: 6a04cd1c1bb70f2a0ce208df25ff07713474bbd767145fe01af6ef40e237c7ac
+//sourcehash: a707d9e26f294311c50c717c89dc31edfa458c50fd3742fc0084c37c41547222
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,6 +52,16 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7K
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_from_stream = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_operator_call = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KSkipDataFactory = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KSkipDataFactory_from_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KSkipDataFactory_from_stream_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KSkipDataVariantFactory = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KSkipDataVariantFactory_from_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

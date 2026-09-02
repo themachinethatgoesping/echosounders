@@ -137,10 +137,11 @@ class CompressedWaterColumn : public S7KDatagram
     bool operator==(const CompressedWaterColumn& other) const = default;
 
     //----- to/from stream functions -----
-    static CompressedWaterColumn from_stream(std::istream& is, S7KDatagram header);
-    static CompressedWaterColumn from_stream(std::istream& is);
+    static CompressedWaterColumn from_stream(std::istream& is, S7KDatagram header, bool skip_data = false);
+    static CompressedWaterColumn from_stream(std::istream& is, bool skip_data = false);
     static CompressedWaterColumn from_stream(std::istream&           is,
-                                             o_S7KDatagramIdentifier datagram_identifier);
+                                             o_S7KDatagramIdentifier datagram_identifier,
+                                             bool                    skip_data = false);
 
     void to_stream(std::ostream& os) const;
 
@@ -157,7 +158,7 @@ class CompressedWaterColumn : public S7KDatagram
         : S7KDatagram(std::move(header))
     {
     }
-    void __read__(std::istream& is);
+    void __read__(std::istream& is, bool skip_data = false);
 };
 
 } // namespace datagrams

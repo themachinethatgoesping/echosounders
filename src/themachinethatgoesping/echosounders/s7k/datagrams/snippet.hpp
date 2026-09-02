@@ -105,9 +105,11 @@ class Snippet : public S7KDatagram
     bool operator==(const Snippet& other) const = default;
 
     //----- to/from stream functions -----
-    static Snippet from_stream(std::istream& is, S7KDatagram header);
-    static Snippet from_stream(std::istream& is);
-    static Snippet from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier);
+    static Snippet from_stream(std::istream& is, S7KDatagram header, bool skip_data = false);
+    static Snippet from_stream(std::istream& is, bool skip_data = false);
+    static Snippet from_stream(std::istream&           is,
+                               o_S7KDatagramIdentifier datagram_identifier,
+                               bool                    skip_data = false);
 
     void to_stream(std::ostream& os) const;
 
@@ -124,7 +126,7 @@ class Snippet : public S7KDatagram
         : S7KDatagram(std::move(header))
     {
     }
-    void __read__(std::istream& is);
+    void __read__(std::istream& is, bool skip_data = false);
 };
 
 } // namespace datagrams

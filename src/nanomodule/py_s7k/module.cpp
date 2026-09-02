@@ -15,6 +15,10 @@
 
 #include "module.hpp"
 
+#include "py_datagrams/module.hpp"
+#include "py_filedatacontainers/module.hpp"
+#include "py_filedatainterfaces/module.hpp"
+
 namespace nb = nanobind;
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -22,11 +26,6 @@ namespace pymodule {
 namespace py_s7k {
 
 // -- submodule declarations --
-void init_c_s7kdatagrams(nanobind::module_& m);          // c_s7kdatagrams.cpp
-void init_c_s7krecords(nanobind::module_& m);            // c_s7krecords.cpp
-void init_c_s7karrayrecords(nanobind::module_& m);       // c_s7karrayrecords.cpp
-void init_c_s7kdatagramcontainer(nanobind::module_& m);  // c_s7kdatagramcontainer.cpp
-void init_c_s7kdatagraminterface(nanobind::module_& m);  // c_s7kdatagraminterface.cpp
 void init_c_s7kfilehandler(nanobind::module_& m);        // c_s7kfilehandler.cpp
 
 // -- create submodule --
@@ -131,11 +130,9 @@ void init_m_s7k(nanobind::module_& m)
              nb::arg("value"));
 
     // s7k classes
-    init_c_s7kdatagrams(subm);
-    init_c_s7krecords(subm);
-    init_c_s7karrayrecords(subm);
-    init_c_s7kdatagramcontainer(subm);
-    init_c_s7kdatagraminterface(subm);
+    py_datagrams::init_m_s7kdatagrams(subm);
+    py_filedatacontainers::init_m_s7kfiledatacontainers(subm);
+    py_filedatainterfaces::init_m_s7kfiledatainterfaces(subm);
     init_c_s7kfilehandler(subm);
 }
 

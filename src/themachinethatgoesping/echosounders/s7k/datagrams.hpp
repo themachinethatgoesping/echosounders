@@ -83,6 +83,27 @@ struct S7KDatagramVariant
     }
 };
 
+// Factory that reads a single datagram type but skips the (large) sample data (water column).
+template<typename t_datagram>
+struct S7KSkipDataFactory
+{
+    static t_datagram from_stream(std::istream& is) { return t_datagram::from_stream(is, true); }
+
+    static t_datagram from_stream(std::istream& is, t_S7KDatagramIdentifier type)
+    {
+        return t_datagram::from_stream(is, type, true);
+    }
+};
+
+// Variant factory that reads any datagram but skips the (large) sample data (water column).
+struct S7KSkipDataVariantFactory
+{
+    static t_S7KDatagramVariant from_stream(std::istream& is, t_S7KDatagramIdentifier type)
+    {
+        return S7KDatagramVariant::from_stream(is, type, true);
+    }
+};
+
 } // namespace datagrams
 } // namespace s7k
 } // namespace echosounders

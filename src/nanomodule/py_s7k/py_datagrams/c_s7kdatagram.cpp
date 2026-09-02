@@ -9,8 +9,7 @@
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/datetime.hpp>
 
-#include "../../themachinethatgoesping/echosounders/s7k/datagrams/s7kdatagram.hpp"
-#include "../../themachinethatgoesping/echosounders/s7k/datagrams/s7kunknown.hpp"
+#include <themachinethatgoesping/echosounders/s7k/datagrams/s7kdatagram.hpp>
 
 #include "module.hpp"
 
@@ -18,13 +17,12 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
 namespace py_s7k {
+namespace py_datagrams {
 namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using datagrams::S7KDatagram;
-using datagrams::S7KUnknown;
 
 #define DOC_S7KDatagram(arg) DOC(themachinethatgoesping, echosounders, s7k, datagrams, S7KDatagram, arg)
-#define DOC_S7KUnknown(arg) DOC(themachinethatgoesping, echosounders, s7k, datagrams, S7KUnknown, arg)
 
 void init_c_s7kdatagram(nanobind::module_& m)
 {
@@ -81,37 +79,8 @@ void init_c_s7kdatagram(nanobind::module_& m)
         ;
 }
 
-void init_c_s7kunknown(nanobind::module_& m)
-{
-    nb::class_<S7KUnknown, S7KDatagram>(
-        m, "S7KUnknown", DOC(themachinethatgoesping, echosounders, s7k, datagrams, S7KUnknown))
-        .def(nb::init<>(), DOC_S7KUnknown(S7KUnknown))
-        // --- convenient data access ---
-        .def("get_raw_content", &S7KUnknown::get_raw_content, DOC_S7KUnknown(get_raw_content))
-        .def("set_raw_content",
-             &S7KUnknown::set_raw_content,
-             DOC_S7KUnknown(set_raw_content),
-             nb::arg("value"))
-
-        // ----- operators -----
-        .def("__eq__",
-             &S7KUnknown::operator==,
-             DOC(themachinethatgoesping, echosounders, s7k, datagrams, S7KUnknown, operator_eq),
-             nb::arg("other"))
-        // ----- nanobind macros -----
-        __PYCLASS_DEFAULT_COPY__(S7KUnknown)
-        __PYCLASS_DEFAULT_BINARY__(S7KUnknown)
-        __PYCLASS_DEFAULT_PRINTING__(S7KUnknown)
-        ;
-}
-
-void init_c_s7kdatagrams(nanobind::module_& m)
-{
-    init_c_s7kdatagram(m);
-    init_c_s7kunknown(m);
-}
-
-}
-}
-}
-}
+} // namespace py_datagrams
+} // namespace py_s7k
+} // namespace pymodule
+} // namespace echosounders
+} // namespace themachinethatgoesping

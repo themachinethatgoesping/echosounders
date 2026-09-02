@@ -17,9 +17,17 @@ namespace {
 constexpr float S7K_PHASE_SCALE = 10430.f; ///< int16 phase value / 10430 = radians
 }
 
-void CompressedWaterColumn::__read__(std::istream& is)
+void CompressedWaterColumn::__read__(std::istream& is, bool skip_data)
 {
     is.read(reinterpret_cast<char*>(&_content), __content_size);
+
+    if (skip_data)
+    {
+        // skip the (large) per-beam sample data; leave the per-beam arrays empty
+        is.seekg(std::streamoff(compute_size_content()) - std::streamoff(__content_size),
+                 std::ios::cur);
+        return;
+    }
 
     const size_t B         = _content.number_beams;
     const int    mag_bytes = get_magnitude_bytes();
@@ -101,23 +109,24 @@ void CompressedWaterColumn::__read__(std::istream& is)
     }
 }
 
-CompressedWaterColumn CompressedWaterColumn::from_stream(std::istream& is, S7KDatagram header)
+CompressedWaterColumn CompressedWaterColumn::from_stream(std::istream& is, S7KDatagram header, bool skip_data)
 {
     CompressedWaterColumn datagram(std::move(header));
-    datagram.__read__(is);
+    datagram.__read__(is, skip_data);
     return datagram;
 }
 
-CompressedWaterColumn CompressedWaterColumn::from_stream(std::istream& is)
+CompressedWaterColumn CompressedWaterColumn::from_stream(std::istream& is, bool skip_data)
 {
-    return from_stream(is, S7KDatagram::from_stream(is));
+    return from_stream(is, S7KDatagram::from_stream(is), skip_data);
 }
 
 CompressedWaterColumn CompressedWaterColumn::from_stream(
     std::istream&           is,
-    o_S7KDatagramIdentifier datagram_identifier)
+    o_S7KDatagramIdentifier datagram_identifier,
+    bool                    skip_data)
 {
-    return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier));
+    return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier), skip_data);
 }
 
 void CompressedWaterColumn::to_stream(std::ostream& os) const

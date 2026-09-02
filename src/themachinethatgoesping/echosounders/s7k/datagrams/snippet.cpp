@@ -9,9 +9,17 @@ namespace echosounders {
 namespace s7k {
 namespace datagrams {
 
-void Snippet::__read__(std::istream& is)
+void Snippet::__read__(std::istream& is, bool skip_data)
 {
     is.read(reinterpret_cast<char*>(&_content), __content_size);
+
+    if (skip_data)
+    {
+        // skip the (large) per-beam headers and sample data; leave the per-beam arrays empty
+        is.seekg(std::streamoff(compute_size_content()) - std::streamoff(__content_size),
+                 std::ios::cur);
+        return;
+    }
 
     const size_t N = _content.number_beams;
     _beam_descriptor.resize({ N });
@@ -55,21 +63,21 @@ void Snippet::__read__(std::istream& is)
     }
 }
 
-Snippet Snippet::from_stream(std::istream& is, S7KDatagram header)
+Snippet Snippet::from_stream(std::istream& is, S7KDatagram header, bool skip_data)
 {
     Snippet datagram(std::move(header));
-    datagram.__read__(is);
+    datagram.__read__(is, skip_data);
     return datagram;
 }
 
-Snippet Snippet::from_stream(std::istream& is)
+Snippet Snippet::from_stream(std::istream& is, bool skip_data)
 {
-    return from_stream(is, S7KDatagram::from_stream(is));
+    return from_stream(is, S7KDatagram::from_stream(is), skip_data);
 }
 
-Snippet Snippet::from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier)
+Snippet Snippet::from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier, bool skip_data)
 {
-    return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier));
+    return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier), skip_data);
 }
 
 void Snippet::to_stream(std::ostream& os) const

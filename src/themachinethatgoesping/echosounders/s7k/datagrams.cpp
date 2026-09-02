@@ -12,7 +12,7 @@ namespace datagrams {
 
 t_S7KDatagramVariant S7KDatagramVariant::from_stream(std::istream&           is,
                                                      t_S7KDatagramIdentifier datagram_type,
-                                                     [[maybe_unused]] bool   skip_data)
+                                                     bool                    skip_data)
 {
     // S7KDATAGRAMTYPEAREA
     switch (datagram_type)
@@ -40,9 +40,10 @@ t_S7KDatagramVariant S7KDatagramVariant::from_stream(std::istream&           is,
         case t_S7KDatagramIdentifier::RawDetectionData:
             return t_S7KDatagramVariant(RawDetection::from_stream(is, datagram_type));
         case t_S7KDatagramIdentifier::SnippetData:
-            return t_S7KDatagramVariant(Snippet::from_stream(is, datagram_type));
+            return t_S7KDatagramVariant(Snippet::from_stream(is, datagram_type, skip_data));
         case t_S7KDatagramIdentifier::CompressedWaterColumnData:
-            return t_S7KDatagramVariant(CompressedWaterColumn::from_stream(is, datagram_type));
+            return t_S7KDatagramVariant(
+                CompressedWaterColumn::from_stream(is, datagram_type, skip_data));
         case t_S7KDatagramIdentifier::BeamGeometry:
             return t_S7KDatagramVariant(BeamGeometry::from_stream(is, datagram_type));
         case t_S7KDatagramIdentifier::Attitude:
