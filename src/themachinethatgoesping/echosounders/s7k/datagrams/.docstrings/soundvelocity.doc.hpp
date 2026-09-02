@@ -1,4 +1,4 @@
-//sourcehash: 6a04cd1c1bb70f2a0ce208df25ff07713474bbd767145fe01af6ef40e237c7ac
+//sourcehash: 4071f72af2be333b26cc11bb2d82eab8175f012a12e27d0c5b1a17dea387f90e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,17 +41,35 @@
 #endif
 
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity = R"doc(7k record SoundVelocity)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_S7KDatagramVariant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_S7KDatagramVariant_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_datagram_variant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_sound_velocity = R"doc(water sound velocity)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_from_stream = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_operator_call = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_SoundVelocity = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_content = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_from_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_from_stream_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_from_stream_3 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_get_sound_velocity = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_sound_velocity = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

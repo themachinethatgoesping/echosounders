@@ -89,6 +89,52 @@ void py_create_class_S7KDatagramInterface(nanobind::module_& m, const std::strin
         DOC_I_DatagramInterface(datagrams_2),
         nb::arg("datagram_type"));
 
+    // typed datagrams for a given record type (returns the parsed record objects)
+    // S7KDATAGRAMTYPEAREA
+    cls.def(
+        "datagrams",
+        [](const T_BaseClass& self, t_S7KDatagramIdentifier type) {
+            switch (type)
+            {
+                case t_S7KDatagramIdentifier::ReferencePoint:
+                    return nb::cast(self.template datagrams<datagrams::ReferencePoint>(type));
+                case t_S7KDatagramIdentifier::Position:
+                    return nb::cast(self.template datagrams<datagrams::Position>(type));
+                case t_S7KDatagramIdentifier::RollPitchHeave:
+                    return nb::cast(self.template datagrams<datagrams::RollPitchHeave>(type));
+                case t_S7KDatagramIdentifier::Heading:
+                    return nb::cast(self.template datagrams<datagrams::Heading>(type));
+                case t_S7KDatagramIdentifier::Navigation:
+                    return nb::cast(self.template datagrams<datagrams::Navigation>(type));
+                case t_S7KDatagramIdentifier::SonarSettings:
+                    return nb::cast(self.template datagrams<datagrams::SonarSettings>(type));
+                case t_S7KDatagramIdentifier::MatchFilter:
+                    return nb::cast(self.template datagrams<datagrams::MatchFilter>(type));
+                case t_S7KDatagramIdentifier::SoundVelocity:
+                    return nb::cast(self.template datagrams<datagrams::SoundVelocity>(type));
+                case t_S7KDatagramIdentifier::AbsorptionLoss:
+                    return nb::cast(self.template datagrams<datagrams::AbsorptionLoss>(type));
+                case t_S7KDatagramIdentifier::SpreadingLoss:
+                    return nb::cast(self.template datagrams<datagrams::SpreadingLoss>(type));
+                case t_S7KDatagramIdentifier::RawDetectionData:
+                    return nb::cast(self.template datagrams<datagrams::RawDetection>(type));
+                case t_S7KDatagramIdentifier::SnippetData:
+                    return nb::cast(self.template datagrams<datagrams::Snippet>(type));
+                case t_S7KDatagramIdentifier::CompressedWaterColumnData:
+                    return nb::cast(self.template datagrams<datagrams::CompressedWaterColumn>(type));
+                case t_S7KDatagramIdentifier::BeamGeometry:
+                    return nb::cast(self.template datagrams<datagrams::BeamGeometry>(type));
+                case t_S7KDatagramIdentifier::Attitude:
+                    return nb::cast(self.template datagrams<datagrams::Attitude>(type));
+                case t_S7KDatagramIdentifier::FileHeader:
+                    return nb::cast(self.template datagrams<datagrams::FileHeader>(type));
+                default:
+                    return nb::cast(self.template datagrams<datagrams::S7KUnknown>(type));
+            }
+        },
+        DOC_I_DatagramInterface(datagrams_2),
+        nb::arg("datagram_type"));
+
     cls.def("per_file",
             &T_BaseClass::per_file,
             DOC_S7KDatagramInterface(per_file),

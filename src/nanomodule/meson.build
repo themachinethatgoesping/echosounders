@@ -97,6 +97,8 @@ sources = [
   'py_s7k/c_s7kdatagramcontainer.cpp',
   'py_s7k/c_s7kdatagraminterface.cpp',
   'py_s7k/c_s7kdatagrams.cpp',
+  'py_s7k/c_s7krecords.cpp',
+  'py_s7k/c_s7karrayrecords.cpp',
   'py_s7k/c_s7kfilehandler.cpp',
   'py_s7k/module.cpp',
   'py_kmall/c_kmallfilehandler.cpp',

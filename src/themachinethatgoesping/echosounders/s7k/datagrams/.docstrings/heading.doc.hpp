@@ -1,4 +1,4 @@
-//sourcehash: 6a04cd1c1bb70f2a0ce208df25ff07713474bbd767145fe01af6ef40e237c7ac
+//sourcehash: 27045809ae0c23036cf90de5d7dd27dfa8f3d62ca7ff7a4bac52e63f1b941841
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,17 +41,35 @@
 #endif
 
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading = R"doc(7k record Heading)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_S7KDatagramVariant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_S7KDatagramVariant_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_Content_heading = R"doc(vessel heading)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_datagram_variant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_from_stream = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_Heading = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_operator_call = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_content = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_from_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_from_stream_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_from_stream_3 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_get_heading = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_set_heading = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

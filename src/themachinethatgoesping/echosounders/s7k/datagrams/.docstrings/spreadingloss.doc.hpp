@@ -1,4 +1,4 @@
-//sourcehash: 6a04cd1c1bb70f2a0ce208df25ff07713474bbd767145fe01af6ef40e237c7ac
+//sourcehash: d7e2d2216eda1ef1349b3ae471dd337a75cbc62558e88aed59f84ff685d46d37
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,17 +41,35 @@
 #endif
 
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss = R"doc(7k record SpreadingLoss)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_S7KDatagramVariant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_S7KDatagramVariant_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_datagram_variant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_Content_spreading_loss = R"doc(spreading loss (0-60))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_from_stream = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_operator_call = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_SpreadingLoss = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_content = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_from_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_from_stream_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_from_stream_3 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_get_spreading_loss = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_set_spreading_loss = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

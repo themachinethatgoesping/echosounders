@@ -153,16 +153,75 @@ ids and possibly different subsets/optional-data.
 ## 9. Implementation status in `themachinethatgoesping/echosounders`
 
 - ✅ **Step 1 (done):** DRF header read/parse/display + datagram indexing + raw iteration + Python
-  bindings + tests. See skill `echosounders-format-step1`. Files under
-  `src/themachinethatgoesping/echosounders/s7k/`.
-- ⏳ Next: per-record parsers (7000 → 7004 → 7027 → nav records → water column), then
-  `PingDataInterface` / ping objects (mirror `kongsbergall`/`kmall`).
+  bindings + tests. See skill `tmtgp-echosounders-format-step1`.
+- ✅ **Step 2 (in progress):** typed per-record datagram classes with per-type containers and
+  `datagram_interface.datagrams(t_id.Rxxxx)` typed access. See skill `tmtgp-echosounders-format-step2`.
+  Files under `src/.../echosounders/s7k/datagrams/`. Fixed-RTH records were generated from a compact
+  spec; per-beam/water-column records were hand-written with xtensor arrays.
+
+  **Implemented (16 records, all validated on the Norbit test files where present):**
+  - Generic/nav: 1000 ReferencePoint, 1003 Position, 1012 RollPitchHeave, 1013 Heading,
+    1015 Navigation, 1016 Attitude.
+  - Sonar/bathy: 7000 SonarSettings, 7002 MatchFilter, 7004 BeamGeometry, 7027 RawDetection,
+    7610 SoundVelocity, 7611 AbsorptionLoss, 7612 SpreadingLoss.
+  - Water column: 7028 Snippet, 7042 CompressedWaterColumn.
+  - File: 7200 FileHeader.
+
+  **Remaining in-use records to add (layouts in §11 below; add via the step-2 pattern):**
+  1009 SoundVelocityProfile, 7010 TVG, 7012 PingMotion, 7018 Beamformed (full water column),
+  7022 SonarSourceVersion, 7030 InstallationParameters, 7058 SnippetBackscatteringStrength,
+  7300 FileCatalog, 7503 RemoteControlSonarSettings, 7001 Configuration.
+
+- ⏳ **Step 3 (later):** `PingDataInterface` / ping objects merging settings + detection + navigation +
+  water column with calibration (mirror `kongsbergall`/`kmall`).
+
+### Validation notes (Norbit test files, `/home/data/test_data/thomas_s7k/`)
+- System: 400 kHz Norbit, exported by "BeamworX NavAQ 2023.1.1.0", device id 13003, off the Belgian
+  coast (lat ≈ 51.24°N, lon ≈ 2.93°E). SonarSettings sound velocity ≈ 1501 m/s.
+- 7027 `data_field_size` = **26** bytes/beam here (not the 34-byte MB-System struct) → the per-beam
+  read MUST use the on-disk `data_field_size` as the stride.
+- 7042 flags = 0x182 (magnitude-only, downsampled), 16-bit magnitude, effective sample rate ≈ 9766 Hz.
 
 ## 10. Sources index (for error tracing)
 
 - DRF byte layout: spec §5 Table 5 + MB-System `mbsys_reson7k.h::s7k_header`.
 - 7KTIME: spec §3 Table 3 + MB-System `s7k_time`.
 - Record-type names: spec §Table 8 (`s7k_spec.txt` ~1263–1407) + CoFFee `CFF_s7K_record_types.m`.
+- Per-record byte layouts: MB-System `mbsys_reson7k3.h` (struct `s7k3_<Record>`) cross-checked with the
+  spec §10 record tables (e.g. 7028 Tables 75/76, 7042 Tables 83/84 in `s7k_spec.txt`).
 - Sync/parse recovery (back up 1 byte on sync loss): CoFFee `CFF_s7k_file_info.m`.
 - Backscatter/WC conversion: CoFFee `CFF_convert_S7Kdata_to_fData.m`, `CFF_get_R7042_flags.m`.
 - Coordinate system: spec §9.
+
+## 11. Byte layouts of the remaining records (from MB-System `mbsys_reson7k3.h` + spec)
+
+All records start after the 64-byte DRF; multibyte fields are little-endian; RTH structs are packed.
+`nalloc` fields in the MB-System structs are in-memory only — NOT on disk.
+
+- **1009 SoundVelocityProfile** — RTH: position_flag u8, reserved u8*3, latitude f64, longitude f64,
+  n u32 (samples). RD: n × { depth f32, sound_velocity f32 }.
+- **7010 TVG** — RTH (50): serial u64, ping u32, multi_ping u16, n u32, reserved u32*8. RD: tvg[n] f32.
+- **7012 PingMotion** — RTH (28): serial u64, ping u32, multi_ping u16, n u32, flags u16,
+  error_flags u32. RD: frequency f32, pitch f32, then (per `flags` bits) roll[n] f32, heading[n] f32,
+  heave[n] f32.
+- **7018 Beamformed (full water column)** — RTH (52): serial u64, ping u32, multi_ping u16,
+  number_beams u16, number_samples u32, reserved u32*8. RD per beam: amplitude[S] u16 & phase[S] i16
+  **interleaved per sample** ([amp0][phase0][amp1][phase1]…), S = number_samples; phase_rad = i16/10430.
+- **7022 SonarSourceVersion** — RTH: version string char[32] (null-terminated).
+- **7030 InstallationParameters** — RTH (616, fixed): frequency f32; then 4×(len u16 + string char[128])
+  for firmware/software/7k/protocol versions; then tx/rx/motion offsets (x,y,z f32 + roll,pitch,heading
+  f32 each), motion_time_delay u16, position offsets (x,y,z f32), position_time_delay u16, waterline_z f32.
+- **7058 SnippetBackscatteringStrength** — RTH (49): serial u64, ping u32, multi_ping u16,
+  number_beams u16, error_flag u8, control_flags u32, absorption f32, reserved u32*6. RD per beam:
+  beam_number u16, begin_sample u32, bottom_sample u32, end_sample u32, then bs[N] f32 (N = end−begin+1),
+  and (if control_flags bit 6) footprints[N] f32. BS = 10·log10(σ) dB.
+- **7300 FileCatalog** — RTH (14): size u32, version u16, n u32, reserved u32. RD: n × { sequence i32,
+  time_d f64, pingrecord i32, size u32, offset u64, record_type u16, device_id u16, system_enumerator
+  u16, 7KTIME(10), record_count u32, reserved u16*8 }.
+- **7503 RemoteControlSonarSettings** — RTH (~260): the 7000 SonarSettings fields plus extended
+  fields (Vernier, additional offsets, beam mode, depth gate tilt). Parse the leading 7000-equivalent
+  fields; treat the tail defensively by record size.
+- **7001 Configuration** — RTH: serial u64, number_devices u32(or u64). RD: per device a variable block
+  { magic u32, description char[60], serial u64, info_length u32, info char[info_length] }. Parse the
+  header and the per-device metadata; store the info blob raw.
+

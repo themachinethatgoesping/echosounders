@@ -77,6 +77,7 @@ sources = [
   'gsf/datagrams/gsfunknown.test.cpp',
   's7k/datagrams/s7kdatagram.test.cpp',
   's7k/datagrams/s7kunknown.test.cpp',
+  's7k/datagrams/s7krecords.test.cpp',
   'filetemplates/datatypes/datagraminfodata.test.cpp',
   'filetemplates/datatypes/filecache.test.cpp',
   'filetemplates/datatypes/packagecache/cache_structpackage.test.cpp',

@@ -1,0 +1,126 @@
+//sourcehash: 07e3179500ae5800db45d14b292da1ec47fd5cd38e445a6d750258dea7ea713e
+
+/*
+  This file contains docstrings for use in the Python bindings.
+  Do not edit! They were automatically extracted by pybind11_mkdoc.
+
+  This is a modified version which allows for more than 8 arguments and includes def-guard
+ */
+
+#pragma once
+
+#ifndef __DOCSTRINGS_HPP__
+#define __DOCSTRINGS_HPP__
+
+#define MKD_EXPAND(x)                                      x
+#define MKD_COUNT(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, COUNT, ...)  COUNT
+#define MKD_VA_SIZE(...)                                   MKD_EXPAND(MKD_COUNT(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0))
+#define MKD_CAT1(a, b)                                     a ## b
+#define MKD_CAT2(a, b)                                     MKD_CAT1(a, b)
+#define MKD_DOC1(n1)                                       mkd_doc_##n1
+#define MKD_DOC2(n1, n2)                                   mkd_doc_##n1##_##n2
+#define MKD_DOC3(n1, n2, n3)                               mkd_doc_##n1##_##n2##_##n3
+#define MKD_DOC4(n1, n2, n3, n4)                           mkd_doc_##n1##_##n2##_##n3##_##n4
+#define MKD_DOC5(n1, n2, n3, n4, n5)                       mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5
+#define MKD_DOC6(n1, n2, n3, n4, n5, n6)                   mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6
+#define MKD_DOC7(n1, n2, n3, n4, n5, n6, n7)               mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7
+#define MKD_DOC8(n1, n2, n3, n4, n5, n6, n7, n8)           mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8
+#define MKD_DOC9(n1, n2, n3, n4, n5, n6, n7, n8, n9)       mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8##_##n9
+#define MKD_DOC10(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10) mkd_doc_##n1##_##n2##_##n3##_##n4##_##n5##_##n6##_##n7##_##n8##_##n9##_##n10
+#define DOC(...)                                           MKD_EXPAND(MKD_EXPAND(MKD_CAT2(MKD_DOC, MKD_VA_SIZE(__VA_ARGS__)))(__VA_ARGS__))
+
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
+#endif // __DOCSTRINGS_HPP__
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position = R"doc(7k record Position)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_datum = R"doc(datum identifier (0 = WGS84))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_height = R"doc(height relative to datum)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_latency = R"doc(position latency)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_latitude_northing = R"doc(latitude (rad) if geographic, else northing (m))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_longitude_easting = R"doc(longitude (rad) if geographic, else easting (m))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_position_method = R"doc(positioning method (GPS/DGPS/RTK/... 0-16))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_position_type = R"doc(0 = geographic, 1 = grid coordinates)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_quality = R"doc(0 = navigation, 1 = dead reckoning)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_utm_zone = R"doc(UTM zone (if grid))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Position = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_content = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_from_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_from_stream_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_from_stream_3 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_datum = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_height = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_latency = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_latitude_northing = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_longitude_easting = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_position_method = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_position_type = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_quality = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_utm_zone = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_datum = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_height = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_latency = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_latitude_northing = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_longitude_easting = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_position_method = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_position_type = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_quality = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_utm_zone = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_to_stream = R"doc()doc";
+
+#if defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif
+
+

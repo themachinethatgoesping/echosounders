@@ -1,4 +1,4 @@
-//sourcehash: 6a04cd1c1bb70f2a0ce208df25ff07713474bbd767145fe01af6ef40e237c7ac
+//sourcehash: ed500eef1819b896fb88885008cacfc05dd43ee2ead054b68cb6375caa4809bd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,17 +41,35 @@
 #endif
 
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss = R"doc(7k record AbsorptionLoss)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_S7KDatagramVariant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_AbsorptionLoss = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_S7KDatagramVariant_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_datagram_variant = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_Content_absorption_loss = R"doc(absorption loss)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_from_stream = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagramVariant_operator_call = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_content = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_from_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_from_stream_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_from_stream_3 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_get_absorption_loss = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_set_absorption_loss = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_to_stream = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

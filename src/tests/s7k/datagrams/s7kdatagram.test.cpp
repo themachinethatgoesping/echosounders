@@ -71,7 +71,7 @@ TEST_CASE("S7KDatagram should parse the Data Record Frame byte layout", TESTTAG)
     REQUIRE(dat.get_minutes() == 28);
     REQUIRE(dat.get_record_version() == 1);
     REQUIRE(dat.get_record_type_identifier() == 7027);
-    REQUIRE(dat.get_datagram_identifier() == t_S7KDatagramIdentifier::R7027_RawDetectionData);
+    REQUIRE(dat.get_datagram_identifier() == t_S7KDatagramIdentifier::RawDetectionData);
     REQUIRE(dat.get_device_identifier() == 7000);
 
     // --- derived values ---

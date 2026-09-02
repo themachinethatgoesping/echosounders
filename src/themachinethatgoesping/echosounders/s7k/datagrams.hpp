@@ -9,6 +9,24 @@
 
 #include "datagrams/s7kdatagram.hpp"
 #include "datagrams/s7kunknown.hpp"
+
+#include "datagrams/referencepoint.hpp"
+#include "datagrams/position.hpp"
+#include "datagrams/rollpitchheave.hpp"
+#include "datagrams/heading.hpp"
+#include "datagrams/navigation.hpp"
+#include "datagrams/sonarsettings.hpp"
+#include "datagrams/matchfilter.hpp"
+#include "datagrams/soundvelocity.hpp"
+#include "datagrams/absorptionloss.hpp"
+#include "datagrams/spreadingloss.hpp"
+#include "datagrams/rawdetection.hpp"
+#include "datagrams/snippet.hpp"
+#include "datagrams/compressedwatercolumn.hpp"
+#include "datagrams/beamgeometry.hpp"
+#include "datagrams/attitude.hpp"
+#include "datagrams/fileheader.hpp"
+
 #include "types.hpp"
 
 #include <variant>
@@ -24,7 +42,24 @@ namespace s7k {
 namespace datagrams {
 
 // S7KDATAGRAMTYPEAREA
-using t_S7KDatagramVariant = std::variant<S7KDatagram, S7KUnknown>;
+using t_S7KDatagramVariant = std::variant<S7KDatagram,
+                                         S7KUnknown,
+                                         ReferencePoint,
+                                         Position,
+                                         RollPitchHeave,
+                                         Heading,
+                                         Navigation,
+                                         SonarSettings,
+                                         MatchFilter,
+                                         SoundVelocity,
+                                         AbsorptionLoss,
+                                         SpreadingLoss,
+                                         RawDetection,
+                                         Snippet,
+                                         CompressedWaterColumn,
+                                         BeamGeometry,
+                                         Attitude,
+                                         FileHeader>;
 
 struct S7KDatagramVariant
 {
