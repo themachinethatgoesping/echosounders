@@ -119,8 +119,6 @@ sources = [
   'py_s7k/py_datagrams/module.cpp',
   'py_s7k/py_datagrams/substructs/c_attitudesample.cpp',
   'py_s7k/py_datagrams/substructs/c_attitudesamplecontainer.cpp',
-  'py_s7k/py_datagrams/substructs/c_beamgeometrybeam.cpp',
-  'py_s7k/py_datagrams/substructs/c_beamgeometrybeamcontainer.cpp',
   'py_s7k/py_datagrams/substructs/c_compressedwatercolumnbeam.cpp',
   'py_s7k/py_datagrams/substructs/c_compressedwatercolumnbeamcontainer.cpp',
   'py_s7k/py_datagrams/substructs/c_fileheaderdeviceinfo.cpp',

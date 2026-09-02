@@ -5,10 +5,8 @@
 #include "rawdetection.hpp"
 
 #include <algorithm>
-#include <cmath>
-#include <cstring>
 #include <limits>
-#include <vector>
+#include <string>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -25,27 +23,29 @@ void RawDetection::__read__(std::istream& is)
     auto& beams = _beams.beams();
     beams.resize(N);
 
+    // if the on-disk record holds all fields (data_field_size == struct size), read every beam in a
+    // single bulk read directly into the container (no copy)
+    if (dfs == sizeof(substructs::RawDetectionBeam))
+    {
+        is.read(reinterpret_cast<char*>(beams.data()), std::streamsize(dfs * N));
+        return;
+    }
+
+    // otherwise read each beam directly into its final position; trailing fields not present in this
+    // (shorter) record version stay default-constructed and are set to NaN
     static constexpr float  nan         = std::numeric_limits<float>::quiet_NaN();
     static constexpr size_t struct_size = sizeof(substructs::RawDetectionBeam); // 34
-
-    // read the whole per-beam block in a single bulk read, then interpret each beam record
-    std::vector<char> buf(dfs * N);
-    is.read(buf.data(), std::streamsize(dfs * N));
-
-    for (size_t i = 0; i < N; ++i)
+    for (auto& beam : beams)
     {
-        substructs::RawDetectionBeam beam;
-        std::memcpy(&beam, buf.data() + i * dfs, std::min(dfs, struct_size));
-
-        // trailing fields that are not present in this record version are filled with NaN
+        is.read(reinterpret_cast<char*>(&beam), std::streamsize(std::min(dfs, struct_size)));
+        if (dfs > struct_size)
+            is.seekg(std::streamoff(dfs - struct_size), std::ios::cur);
         if (dfs < 26)
             beam.set_signal_strength(nan);
         if (dfs < 30)
             beam.set_min_limit(nan);
         if (dfs < 34)
             beam.set_max_limit(nan);
-
-        beams[i] = beam;
     }
 }
 
@@ -75,12 +75,23 @@ void RawDetection::to_stream(std::ostream& os) const
     const auto&             beams       = _beams.get_beams();
     static constexpr size_t struct_size = sizeof(substructs::RawDetectionBeam);
 
-    std::vector<char> buf(dfs, 0);
+    // full-width record: write every beam in one bulk write
+    if (dfs == struct_size)
+    {
+        os.write(reinterpret_cast<const char*>(beams.data()), std::streamsize(dfs * beams.size()));
+        return;
+    }
+
+    // shorter/longer record: write the first min(dfs, struct_size) bytes of each beam (+ zero pad)
+    const std::streamsize head = std::streamsize(std::min(dfs, struct_size));
+    std::string           pad;
+    if (dfs > struct_size)
+        pad.assign(dfs - struct_size, '\0');
     for (const auto& beam : beams)
     {
-        std::fill(buf.begin(), buf.end(), char(0));
-        std::memcpy(buf.data(), &beam, std::min(dfs, struct_size));
-        os.write(buf.data(), std::streamsize(dfs));
+        os.write(reinterpret_cast<const char*>(&beam), head);
+        if (!pad.empty())
+            os.write(pad.data(), std::streamsize(pad.size()));
     }
 }
 

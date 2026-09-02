@@ -1,4 +1,4 @@
-//sourcehash: 42131cf26fdbbaaa5af6c516b647fa516119d84c80d4867f562b6632d3e5af8b
+//sourcehash: 40267179563803e840d22e0c0f2c975bcc564c8638788a3b508c0c3b34a08b9e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -57,9 +57,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Bea
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_beams = R"doc(per-beam geometry)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_beam_horizontal_angle = R"doc(across-track (horizontal) angle (rad))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_beams_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_beam_vertical_angle = R"doc(along-track (vertical) angle (rad))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_beamwidth_horizontal = R"doc(across-track (horizontal) -3dB width (rad))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_beamwidth_vertical = R"doc(along-track (vertical) -3dB width (rad))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_content = R"doc()doc";
 
@@ -69,23 +73,47 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Bea
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_from_stream_3 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beam_horizontal_angle = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beam_vertical_angle = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beamwidth_horizontal = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beamwidth_vertical = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_has_tx_delay = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_number_beams = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_serial_number = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_tx_delay = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_has_tx_delay = R"doc(true if the tx_delay array is present)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_beam_horizontal_angle = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_beam_vertical_angle = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_beamwidth_horizontal = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_beamwidth_vertical = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_has_tx_delay = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_number_beams = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_serial_number = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_tx_delay = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_to_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_tx_delay = R"doc(transmit delay (fractional samples, optional))doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

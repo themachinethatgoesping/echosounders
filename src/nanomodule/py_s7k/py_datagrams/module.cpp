@@ -27,8 +27,6 @@ void init_c_attitudesample(nanobind::module_& m);            // substructs/c_att
 void init_c_attitudesamplecontainer(nanobind::module_& m);   // substructs/c_attitudesamplecontainer.cpp
 void init_c_fileheaderdeviceinfo(nanobind::module_& m);          // substructs/c_fileheaderdeviceinfo.cpp
 void init_c_fileheaderdeviceinfocontainer(nanobind::module_& m); // substructs/c_fileheaderdeviceinfocontainer.cpp
-void init_c_beamgeometrybeam(nanobind::module_& m);          // substructs/c_beamgeometrybeam.cpp
-void init_c_beamgeometrybeamcontainer(nanobind::module_& m); // substructs/c_beamgeometrybeamcontainer.cpp
 void init_c_compressedwatercolumnbeam(nanobind::module_& m);          // substructs/c_compressedwatercolumnbeam.cpp
 void init_c_compressedwatercolumnbeamcontainer(nanobind::module_& m); // substructs/c_compressedwatercolumnbeamcontainer.cpp
 
@@ -71,8 +69,6 @@ void init_m_s7kdatagrams(nanobind::module_& m)
     init_c_attitudesamplecontainer(subm);
     init_c_fileheaderdeviceinfo(subm);
     init_c_fileheaderdeviceinfocontainer(subm);
-    init_c_beamgeometrybeam(subm);
-    init_c_beamgeometrybeamcontainer(subm);
     init_c_compressedwatercolumnbeam(subm);
     init_c_compressedwatercolumnbeamcontainer(subm);
 

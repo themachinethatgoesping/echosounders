@@ -128,17 +128,17 @@ TEST_CASE("BeamGeometry should round trip via the beam container", TESTTAG)
     dat.set_number_beams(3);
 
     xt::xtensor<float, 1> a = { 0.1f, 0.2f, 0.3f };
-    dat.beams().set_beam_vertical_angle(a);
-    dat.beams().set_beam_horizontal_angle(a);
-    dat.beams().set_beamwidth_vertical(a);
-    dat.beams().set_beamwidth_horizontal(a);
-    dat.beams().set_has_tx_delay(false);
+    dat.set_beam_vertical_angle(a);
+    dat.set_beam_horizontal_angle(a);
+    dat.set_beamwidth_vertical(a);
+    dat.set_beamwidth_horizontal(a);
+    dat.set_has_tx_delay(false);
 
     // _size must be consistent (used to detect the optional tx_delay array)
     dat.set_size(64 + 12 + 4 * 3 * sizeof(float));
 
-    REQUIRE(dat.beams().get_number_of_beams() == 3);
-    REQUIRE(dat.beams().get_beam(1).get_beam_vertical_angle() == Catch::Approx(0.2f));
+    REQUIRE(dat.get_number_beams() == 3);
+    REQUIRE(dat.get_beam_vertical_angle()(1) == Catch::Approx(0.2f));
 
     REQUIRE(dat == BeamGeometry(dat.from_binary(dat.to_binary())));
     REQUIRE(dat.info_string().size() != 0);
@@ -194,24 +194,23 @@ TEST_CASE("CompressedWaterColumn should decode and round trip", TESTTAG)
     dat.set_flags(CompressedWaterColumn::FLAG_MAGNITUDE_ONLY); // no phase, 16-bit magnitude
     dat.set_size(64 + 44 + 2 + 4 + 4 * 2);                     // DRF + content + (beam_number + count + samples)
 
+    // record-wide sample encoding lives on the container
+    dat.beams().set_magnitude_bytes(2);
+    dat.beams().set_has_phase(false);
+
     auto& beams = dat.beams().beams();
     beams.resize(1);
     auto& b = beams[0];
     b.set_beam_number(7);
     b.set_sample_count(4);
-    b.set_magnitude_bytes(2);
-    b.set_has_phase(false);
-    b.set_phase_8bit(false);
-    b.set_magnitude_is_db(false);
-    b.set_magnitude_is_32bit_float(false);
     b.set_raw_samples(raw);
 
-    // decode on demand
-    auto mag = b.get_magnitude();
+    // decode on demand (via the container, which knows the encoding)
+    auto mag = dat.beams().get_magnitude(0);
     REQUIRE(mag.size() == 4);
     REQUIRE(mag(0) == Catch::Approx(100.f));
     REQUIRE(mag(3) == Catch::Approx(400.f));
-    REQUIRE(b.get_phase().size() == 0);
+    REQUIRE(dat.beams().get_phase(0).size() == 0);
 
     REQUIRE(dat.beams().get_total_number_of_samples() == 4);
     REQUIRE(dat.beams().get_magnitude(0)(2) == Catch::Approx(300.f));

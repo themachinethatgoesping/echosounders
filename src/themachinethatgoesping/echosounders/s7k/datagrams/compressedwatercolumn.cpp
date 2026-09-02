@@ -4,9 +4,6 @@
 
 #include "compressedwatercolumn.hpp"
 
-#include <cstring>
-#include <string>
-
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
@@ -32,56 +29,22 @@ void CompressedWaterColumn::__read__(std::istream& is, bool skip_data)
 
 void CompressedWaterColumn::__read_beams__(std::istream& is)
 {
-    const size_t B          = _content.number_beams;
-    const int    mag_bytes  = get_magnitude_bytes();
-    const bool   has_phase  = get_has_phase();
-    const bool   phase_8bit = (_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA);
-    const bool   has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
-    const bool   mag_is_db   = get_magnitude_is_db();
-    const bool   mag_32f     = (_content.flags & FLAG_32BIT_DATA) != 0;
-    const size_t stride      = size_t(mag_bytes) + (has_phase ? (phase_8bit ? 1u : 2u) : 0u);
+    // record-wide sample encoding (from the flags), stored once on the container
+    _beams.set_magnitude_bytes(get_magnitude_bytes());
+    _beams.set_has_phase(get_has_phase());
+    _beams.set_phase_8bit((_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA));
+    _beams.set_magnitude_is_db(get_magnitude_is_db());
+    _beams.set_magnitude_is_32bit_float((_content.flags & FLAG_32BIT_DATA) != 0);
 
-    // read the whole remaining record content in a single bulk read, then parse it in memory
-    const size_t remaining = compute_size_content() - __content_size;
-    std::string  buf(remaining, '\0');
-    is.read(buf.data(), std::streamsize(remaining));
+    const bool   has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
+    const size_t stride      = _beams.get_sample_stride();
 
     auto& beams = _beams.beams();
-    beams.resize(B);
+    beams.resize(_content.number_beams);
 
-    size_t pos = 0;
-    for (size_t b = 0; b < B; ++b)
-    {
-        auto& beam = beams[b];
-
-        uint16_t beam_number = 0;
-        std::memcpy(&beam_number, buf.data() + pos, sizeof(beam_number));
-        pos += sizeof(beam_number);
-
-        uint8_t segment_number = 0;
-        if (has_segment)
-        {
-            std::memcpy(&segment_number, buf.data() + pos, sizeof(segment_number));
-            pos += sizeof(segment_number);
-        }
-
-        uint32_t nsamples = 0;
-        std::memcpy(&nsamples, buf.data() + pos, sizeof(nsamples));
-        pos += sizeof(nsamples);
-
-        beam.set_beam_number(beam_number);
-        beam.set_segment_number(segment_number);
-        beam.set_sample_count(nsamples);
-        beam.set_magnitude_bytes(uint8_t(mag_bytes));
-        beam.set_has_phase(has_phase);
-        beam.set_phase_8bit(phase_8bit);
-        beam.set_magnitude_is_db(mag_is_db);
-        beam.set_magnitude_is_32bit_float(mag_32f);
-
-        const size_t nbytes = size_t(nsamples) * stride;
-        beam.set_raw_samples(buf.substr(pos, nbytes));
-        pos += nbytes;
-    }
+    // each beam reads its header and (raw) sample block directly from the stream (no extra copy)
+    for (auto& beam : beams)
+        beam.read(is, has_segment, stride);
 }
 
 void CompressedWaterColumn::read_samples(std::istream& is)
@@ -120,22 +83,8 @@ void CompressedWaterColumn::to_stream(std::ostream& os) const
     os.write(reinterpret_cast<const char*>(&_content), __content_size);
 
     const bool has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
-
     for (const auto& beam : _beams.get_beams())
-    {
-        uint16_t beam_number = beam.get_beam_number();
-        os.write(reinterpret_cast<const char*>(&beam_number), sizeof(beam_number));
-        if (has_segment)
-        {
-            uint8_t segment_number = beam.get_segment_number();
-            os.write(reinterpret_cast<const char*>(&segment_number), sizeof(segment_number));
-        }
-        uint32_t nsamples = beam.get_sample_count();
-        os.write(reinterpret_cast<const char*>(&nsamples), sizeof(nsamples));
-
-        const auto& raw = beam.get_raw_samples();
-        os.write(raw.data(), std::streamsize(raw.size()));
-    }
+        beam.to_stream(os, has_segment);
 }
 
 tools::classhelper::ObjectPrinter CompressedWaterColumn::__printer__(

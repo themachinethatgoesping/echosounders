@@ -33,11 +33,12 @@ void init_c_beamgeometry(nb::module_& m)
         .def("set_serial_number", &BeamGeometry::set_serial_number, DOC_C(BeamGeometry, Content, serial_number), nb::arg("val"))
         .def("get_number_beams", &BeamGeometry::get_number_beams, DOC_C(BeamGeometry, Content, number_beams))
         .def("set_number_beams", &BeamGeometry::set_number_beams, DOC_C(BeamGeometry, Content, number_beams), nb::arg("val"))
-        .def_prop_rw("beams",
-                     &BeamGeometry::beams,
-                     &BeamGeometry::set_beams,
-                     DOC_C(BeamGeometry, beams),
-                     nb::rv_policy::reference_internal)
+        .def("get_beam_vertical_angle", &BeamGeometry::get_beam_vertical_angle, DOC_C(BeamGeometry, get_beam_vertical_angle))
+        .def("get_beam_horizontal_angle", &BeamGeometry::get_beam_horizontal_angle, DOC_C(BeamGeometry, get_beam_horizontal_angle))
+        .def("get_beamwidth_vertical", &BeamGeometry::get_beamwidth_vertical, DOC_C(BeamGeometry, get_beamwidth_vertical))
+        .def("get_beamwidth_horizontal", &BeamGeometry::get_beamwidth_horizontal, DOC_C(BeamGeometry, get_beamwidth_horizontal))
+        .def("get_has_tx_delay", &BeamGeometry::get_has_tx_delay, DOC_C(BeamGeometry, get_has_tx_delay))
+        .def("get_tx_delay", &BeamGeometry::get_tx_delay, DOC_C(BeamGeometry, get_tx_delay))
         .def("__eq__", &BeamGeometry::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(BeamGeometry)
         __PYCLASS_DEFAULT_BINARY__(BeamGeometry)

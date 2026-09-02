@@ -7,7 +7,6 @@
 #include <nanobind/stl/string.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
-#include <xtensor-python/nanobind/pytensor.hpp>
 
 #include <themachinethatgoesping/echosounders/s7k/datagrams/substructs/compressedwatercolumnbeam.hpp>
 
@@ -61,36 +60,20 @@ void init_c_compressedwatercolumnbeam(nanobind::module_& m)
              &CompressedWaterColumnBeam::set_sample_count,
              DOC_CompressedWaterColumnBeam(set_sample_count),
              nb::arg("val"))
-        .def("get_magnitude_bytes",
-             &CompressedWaterColumnBeam::get_magnitude_bytes,
-             DOC_CompressedWaterColumnBeam(get_magnitude_bytes))
-        .def("get_has_phase",
-             &CompressedWaterColumnBeam::get_has_phase,
-             DOC_CompressedWaterColumnBeam(get_has_phase))
-        .def("get_phase_8bit",
-             &CompressedWaterColumnBeam::get_phase_8bit,
-             DOC_CompressedWaterColumnBeam(get_phase_8bit))
-        .def("get_magnitude_is_db",
-             &CompressedWaterColumnBeam::get_magnitude_is_db,
-             DOC_CompressedWaterColumnBeam(get_magnitude_is_db))
-        .def("get_magnitude_is_32bit_float",
-             &CompressedWaterColumnBeam::get_magnitude_is_32bit_float,
-             DOC_CompressedWaterColumnBeam(get_magnitude_is_32bit_float))
-        .def("get_sample_stride",
-             &CompressedWaterColumnBeam::get_sample_stride,
-             DOC_CompressedWaterColumnBeam(get_sample_stride))
-        .def("get_magnitude",
-             &CompressedWaterColumnBeam::get_magnitude,
-             DOC_CompressedWaterColumnBeam(get_magnitude))
-        .def("get_phase",
-             &CompressedWaterColumnBeam::get_phase,
-             DOC_CompressedWaterColumnBeam(get_phase))
-        .def("get_magnitude_in_db",
-             &CompressedWaterColumnBeam::get_magnitude_in_db,
-             DOC_CompressedWaterColumnBeam(get_magnitude_in_db))
-        .def("get_phase_in_degrees",
-             &CompressedWaterColumnBeam::get_phase_in_degrees,
-             DOC_CompressedWaterColumnBeam(get_phase_in_degrees))
+        .def(
+            "get_raw_samples",
+            [](const CompressedWaterColumnBeam& self) {
+                const std::string& raw = self.get_raw_samples();
+                return nb::bytes(raw.data(), raw.size());
+            },
+            DOC_CompressedWaterColumnBeam(get_raw_samples))
+        .def(
+            "set_raw_samples",
+            [](CompressedWaterColumnBeam& self, nb::bytes raw_samples) {
+                self.set_raw_samples(std::string(raw_samples.c_str(), raw_samples.size()));
+            },
+            DOC_CompressedWaterColumnBeam(set_raw_samples),
+            nb::arg("raw_samples"))
         .def("__eq__",
              &CompressedWaterColumnBeam::operator==,
              DOC_CompressedWaterColumnBeam(operator_eq),
