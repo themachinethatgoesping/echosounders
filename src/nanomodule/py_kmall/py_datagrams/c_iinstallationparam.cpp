@@ -39,7 +39,7 @@ void init_c_iinstallationparam(nanobind::module_& m)
         // --- convenient data access ---
         .def("get_bytes_content",
              &IInstallationParam::get_bytes_content,
-             DOC_IInstallationParam(get_bytes_content))
+             DOC_IInstallationParam(bytes_content))
         .def("get_info", &IInstallationParam::get_info, DOC_IInstallationParam(get_info))
         .def("get_status", &IInstallationParam::get_status, DOC_IInstallationParam(get_status))
         .def("get_install_txt",
@@ -60,7 +60,7 @@ void init_c_iinstallationparam(nanobind::module_& m)
 
         .def("get_bytes_datagram_check",
              &IInstallationParam::get_bytes_datagram_check,
-             DOC_IInstallationParam(get_bytes_datagram_check))
+             DOC_IInstallationParam(bytes_datagram_check))
 
         // --- processed data access ---
         .def("get_install_txt_decoded",

@@ -411,7 +411,7 @@ void init_c_skmbinary(nanobind::module_& m)
                nb::rv_policy::reference_internal)
         .def("get_bytes_datagram_check",
              &SKMBinary::get_bytes_datagram_check,
-             DOC_SKMBinary(get_bytes_datagram_check))
+             DOC_SKMBinary(bytes_datagram_check))
         .def("set_bytes_content",
              &SKMBinary::set_bytes_content,
              DOC_SKMBinary(set_bytes_content),
@@ -450,7 +450,7 @@ void init_c_skmbinary(nanobind::module_& m)
              nb::arg("data"))
         .def("set_bytes_datagram_check",
              &SKMBinary::set_bytes_datagram_check,
-             DOC_SKMBinary(set_bytes_datagram_check),
+             DOC_SKMBinary(bytes_datagram_check),
              nb::arg("value"))
 
         // --- processed data access ---

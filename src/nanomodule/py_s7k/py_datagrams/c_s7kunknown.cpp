@@ -30,10 +30,10 @@ void init_c_s7kunknown(nanobind::module_& m)
         m, "S7KUnknown", DOC(themachinethatgoesping, echosounders, s7k, datagrams, S7KUnknown))
         .def(nb::init<>(), DOC_S7KUnknown(S7KUnknown))
         // --- convenient data access ---
-        .def("get_raw_content", &S7KUnknown::get_raw_content, DOC_S7KUnknown(get_raw_content))
+        .def("get_raw_content", &S7KUnknown::get_raw_content, DOC_S7KUnknown(raw_content))
         .def("set_raw_content",
              &S7KUnknown::set_raw_content,
-             DOC_S7KUnknown(set_raw_content),
+             DOC_S7KUnknown(raw_content),
              nb::arg("value"))
 
         // ----- operators -----

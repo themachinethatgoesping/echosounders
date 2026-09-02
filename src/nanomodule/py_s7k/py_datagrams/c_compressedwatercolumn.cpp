@@ -22,7 +22,7 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
-#define DOC_C(CLASS, ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, ARG)
+#define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
 
 void init_c_compressedwatercolumn(nb::module_& m)
 {
@@ -31,16 +31,16 @@ void init_c_compressedwatercolumn(nb::module_& m)
         "CompressedWaterColumn",
         DOC(themachinethatgoesping, echosounders, s7k, datagrams, CompressedWaterColumn))
         .def(nb::init<>(), DOC_C(CompressedWaterColumn, CompressedWaterColumn))
-        .def("get_serial_number", &CompressedWaterColumn::get_serial_number, DOC_C(CompressedWaterColumn, get_serial_number))
-        .def("get_ping_number", &CompressedWaterColumn::get_ping_number, DOC_C(CompressedWaterColumn, get_ping_number))
-        .def("get_multi_ping", &CompressedWaterColumn::get_multi_ping, DOC_C(CompressedWaterColumn, get_multi_ping))
-        .def("get_number_beams", &CompressedWaterColumn::get_number_beams, DOC_C(CompressedWaterColumn, get_number_beams))
-        .def("get_samples", &CompressedWaterColumn::get_samples, DOC_C(CompressedWaterColumn, get_samples))
-        .def("get_compressed_samples", &CompressedWaterColumn::get_compressed_samples, DOC_C(CompressedWaterColumn, get_compressed_samples))
-        .def("get_flags", &CompressedWaterColumn::get_flags, DOC_C(CompressedWaterColumn, get_flags))
-        .def("get_first_sample", &CompressedWaterColumn::get_first_sample, DOC_C(CompressedWaterColumn, get_first_sample))
-        .def("get_sample_rate", &CompressedWaterColumn::get_sample_rate, DOC_C(CompressedWaterColumn, get_sample_rate))
-        .def("get_compression_factor", &CompressedWaterColumn::get_compression_factor, DOC_C(CompressedWaterColumn, get_compression_factor))
+        .def("get_serial_number", &CompressedWaterColumn::get_serial_number, DOC_C(CompressedWaterColumn, Content, serial_number))
+        .def("get_ping_number", &CompressedWaterColumn::get_ping_number, DOC_C(CompressedWaterColumn, Content, ping_number))
+        .def("get_multi_ping", &CompressedWaterColumn::get_multi_ping, DOC_C(CompressedWaterColumn, Content, multi_ping))
+        .def("get_number_beams", &CompressedWaterColumn::get_number_beams, DOC_C(CompressedWaterColumn, Content, number_beams))
+        .def("get_samples", &CompressedWaterColumn::get_samples, DOC_C(CompressedWaterColumn, Content, samples))
+        .def("get_compressed_samples", &CompressedWaterColumn::get_compressed_samples, DOC_C(CompressedWaterColumn, Content, compressed_samples))
+        .def("get_flags", &CompressedWaterColumn::get_flags, DOC_C(CompressedWaterColumn, Content, flags))
+        .def("get_first_sample", &CompressedWaterColumn::get_first_sample, DOC_C(CompressedWaterColumn, Content, first_sample))
+        .def("get_sample_rate", &CompressedWaterColumn::get_sample_rate, DOC_C(CompressedWaterColumn, Content, sample_rate))
+        .def("get_compression_factor", &CompressedWaterColumn::get_compression_factor, DOC_C(CompressedWaterColumn, Content, compression_factor))
         .def("get_has_phase", &CompressedWaterColumn::get_has_phase, DOC_C(CompressedWaterColumn, get_has_phase))
         .def("get_magnitude_is_db", &CompressedWaterColumn::get_magnitude_is_db, DOC_C(CompressedWaterColumn, get_magnitude_is_db))
         .def("get_magnitude_bytes", &CompressedWaterColumn::get_magnitude_bytes, DOC_C(CompressedWaterColumn, get_magnitude_bytes))

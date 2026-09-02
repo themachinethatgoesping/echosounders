@@ -23,7 +23,7 @@ S7KDatagram S7KDatagram::from_stream(std::istream& is)
 }
 
 S7KDatagram S7KDatagram::from_stream(std::istream&           is,
-                                     o_S7KDatagramIdentifier datagram_identifier)
+                                     const o_S7KDatagramIdentifier datagram_identifier)
 {
     S7KDatagram d = from_stream(is);
     __check_datagram_identifier__(d._record_type_identifier, datagram_identifier);

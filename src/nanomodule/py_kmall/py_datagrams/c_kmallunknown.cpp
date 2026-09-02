@@ -44,7 +44,7 @@ void init_c_kmallunknown(nanobind::module_& m)
 
         .def("get_bytes_datagram_check",
              &KMALLUnknown::get_bytes_datagram_check,
-             DOC_KMALLUnknown(get_bytes_datagram_check))
+             DOC_KMALLUnknown(bytes_datagram_check))
 
         // ----- operators -----
         .def("__eq__", &KMALLUnknown::operator==, DOC_KMALLUnknown(operator_eq), nb::arg("other"))

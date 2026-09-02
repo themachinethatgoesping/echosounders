@@ -11,6 +11,9 @@ testcomponent = 'echosounders'
 
 sources = [
   'tutorial.test.cpp',
+  's7k/datagrams/s7kdatagram.test.cpp',
+  's7k/datagrams/s7krecords.test.cpp',
+  's7k/datagrams/s7kunknown.test.cpp',
   'kongsbergall/datagrams/attitudedatagram.test.cpp',
   'kongsbergall/datagrams/clockdatagram.test.cpp',
   'kongsbergall/datagrams/depthorheightdatagram.test.cpp',
@@ -75,9 +78,6 @@ sources = [
   'kmall/datagrams/ssoundvelocityprofile.test.cpp',
   'kmall/datagrams/ssoundvelocitytransducer.test.cpp',
   'gsf/datagrams/gsfunknown.test.cpp',
-  's7k/datagrams/s7kdatagram.test.cpp',
-  's7k/datagrams/s7kunknown.test.cpp',
-  's7k/datagrams/s7krecords.test.cpp',
   'filetemplates/datatypes/datagraminfodata.test.cpp',
   'filetemplates/datatypes/filecache.test.cpp',
   'filetemplates/datatypes/packagecache/cache_structpackage.test.cpp',

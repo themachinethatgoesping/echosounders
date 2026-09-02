@@ -38,7 +38,7 @@ void init_c_iopruntime(nanobind::module_& m)
         // --- convenient data access ---
         .def("get_bytes_content",
              &IOpRuntime::get_bytes_content,
-             DOC_IOpRuntime(get_bytes_content))
+             DOC_IOpRuntime(bytes_content))
         .def("get_info", &IOpRuntime::get_info, DOC_IOpRuntime(get_info))
         .def("get_status", &IOpRuntime::get_status, DOC_IOpRuntime(get_status))
         .def("get_runtime_txt",
@@ -59,7 +59,7 @@ void init_c_iopruntime(nanobind::module_& m)
 
         .def("get_bytes_datagram_check",
              &IOpRuntime::get_bytes_datagram_check,
-             DOC_IOpRuntime(get_bytes_datagram_check))
+             DOC_IOpRuntime(bytes_datagram_check))
 
         // --- processed data access ---
         .def("get_runtime_txt_decoded",

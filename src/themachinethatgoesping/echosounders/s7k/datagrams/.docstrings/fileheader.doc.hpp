@@ -1,4 +1,4 @@
-//sourcehash: 74b1226ef5a18809e970eebbff666a006b3dd4c3a11928415cac67adb82d840c
+//sourcehash: 3b888ad742e58d0311be46bad45a3d515ba269a7622b80768289052ab69b5e97
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,9 +42,9 @@
 
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader =
-R"doc(7k record FileHeader: the first record of a .s7k file. Describes the
-file (recording program, session, notes) and lists the devices
-contained in the file.)doc";
+R"doc(7k record FileHeader (7200): the first record of a .s7k file.
+Describes the file (recording program, session, notes) and lists the
+devices contained in the file.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_Content = R"doc()doc";
 

@@ -23,7 +23,7 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::kmall;
 using datagrams::CHeave;
 
-#define DOC_CHeave(ARG) DOC(themachinethatgoesping, echosounders, kmall, datagrams, CHeave, ARG)
+#define DOC_CHeave(...) DOC(themachinethatgoesping, echosounders, kmall, datagrams, CHeave, __VA_ARGS__)
 
 void init_c_cheave(nanobind::module_& m)
 {
@@ -32,15 +32,15 @@ void init_c_cheave(nanobind::module_& m)
         .def(nb::init<>(), DOC_CHeave(CHeave))
 
         // --- convenient data access ---
-        .def("get_heave_m", &CHeave::get_heave_m, DOC_CHeave(get_heave_m))
+        .def("get_heave_m", &CHeave::get_heave_m, DOC_CHeave(Content, heave_m))
         .def("get_bytes_datagram_check",
              &CHeave::get_bytes_datagram_check,
-             DOC_CHeave(get_bytes_datagram_check))
+             DOC_CHeave(bytes_datagram_check))
 
-        .def("set_heave_m", &CHeave::set_heave_m, DOC_CHeave(set_heave_m), nb::arg("heave_m"))
+        .def("set_heave_m", &CHeave::set_heave_m, DOC_CHeave(Content, heave_m), nb::arg("heave_m"))
         .def("set_bytes_datagram_check",
              &CHeave::set_bytes_datagram_check,
-             DOC_CHeave(set_bytes_datagram_check),
+             DOC_CHeave(bytes_datagram_check),
              nb::arg("val"))
 
         // ----- processed -----

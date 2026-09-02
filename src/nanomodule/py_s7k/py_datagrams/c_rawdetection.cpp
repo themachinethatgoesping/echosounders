@@ -22,23 +22,23 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
-#define DOC_C(CLASS, ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, ARG)
+#define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
 
 void init_c_rawdetection(nb::module_& m)
 {
     nb::class_<RawDetection, S7KDatagram>(
         m, "RawDetection", DOC(themachinethatgoesping, echosounders, s7k, datagrams, RawDetection))
         .def(nb::init<>(), DOC_C(RawDetection, RawDetection))
-        .def("get_serial_number", &RawDetection::get_serial_number, DOC_C(RawDetection, get_serial_number))
-        .def("get_ping_number", &RawDetection::get_ping_number, DOC_C(RawDetection, get_ping_number))
-        .def("get_multi_ping", &RawDetection::get_multi_ping, DOC_C(RawDetection, get_multi_ping))
-        .def("get_number_beams", &RawDetection::get_number_beams, DOC_C(RawDetection, get_number_beams))
-        .def("get_data_field_size", &RawDetection::get_data_field_size, DOC_C(RawDetection, get_data_field_size))
-        .def("get_detection_algorithm", &RawDetection::get_detection_algorithm, DOC_C(RawDetection, get_detection_algorithm))
-        .def("get_flags", &RawDetection::get_flags, DOC_C(RawDetection, get_flags))
-        .def("get_sampling_rate", &RawDetection::get_sampling_rate, DOC_C(RawDetection, get_sampling_rate))
-        .def("get_tx_angle", &RawDetection::get_tx_angle, DOC_C(RawDetection, get_tx_angle))
-        .def("get_applied_roll", &RawDetection::get_applied_roll, DOC_C(RawDetection, get_applied_roll))
+        .def("get_serial_number", &RawDetection::get_serial_number, DOC_C(RawDetection, Content, serial_number))
+        .def("get_ping_number", &RawDetection::get_ping_number, DOC_C(RawDetection, Content, ping_number))
+        .def("get_multi_ping", &RawDetection::get_multi_ping, DOC_C(RawDetection, Content, multi_ping))
+        .def("get_number_beams", &RawDetection::get_number_beams, DOC_C(RawDetection, Content, number_beams))
+        .def("get_data_field_size", &RawDetection::get_data_field_size, DOC_C(RawDetection, Content, data_field_size))
+        .def("get_detection_algorithm", &RawDetection::get_detection_algorithm, DOC_C(RawDetection, Content, detection_algorithm))
+        .def("get_flags", &RawDetection::get_flags, DOC_C(RawDetection, Content, flags))
+        .def("get_sampling_rate", &RawDetection::get_sampling_rate, DOC_C(RawDetection, Content, sampling_rate))
+        .def("get_tx_angle", &RawDetection::get_tx_angle, DOC_C(RawDetection, Content, tx_angle))
+        .def("get_applied_roll", &RawDetection::get_applied_roll, DOC_C(RawDetection, Content, applied_roll))
         .def("get_beam_descriptor", &RawDetection::get_beam_descriptor, DOC_C(RawDetection, get_beam_descriptor))
         .def("get_detection_point", &RawDetection::get_detection_point, DOC_C(RawDetection, get_detection_point))
         .def("get_rx_angle", &RawDetection::get_rx_angle, DOC_C(RawDetection, get_rx_angle))

@@ -166,10 +166,10 @@ void init_c_ssoundvelocitytransducer(nanobind::module_& m)
              nb::arg("data"))
         .def("get_bytes_datagram_check",
              &SSoundVelocityTransducer::get_bytes_datagram_check,
-             DOC_SSoundVelocityTransducer(get_bytes_datagram_check))
+             DOC_SSoundVelocityTransducer(bytes_datagram_check))
         .def("set_bytes_datagram_check",
              &SSoundVelocityTransducer::set_bytes_datagram_check,
-             DOC_SSoundVelocityTransducer(set_bytes_datagram_check),
+             DOC_SSoundVelocityTransducer(bytes_datagram_check),
              nb::arg("value"))
 
         // --- processed data access ---

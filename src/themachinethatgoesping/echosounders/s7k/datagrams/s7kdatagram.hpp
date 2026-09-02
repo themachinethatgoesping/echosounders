@@ -187,7 +187,8 @@ class S7KDatagram
 
     static S7KDatagram from_stream(std::istream& is);
 
-    static S7KDatagram from_stream(std::istream& is, o_DatagramIdentifier datagram_identifier);
+    static S7KDatagram from_stream(std::istream&              is,
+                                   const o_DatagramIdentifier datagram_identifier);
 
     void to_stream(std::ostream& os) const;
 
@@ -209,7 +210,7 @@ class S7KDatagram
     inline static void __check_datagram_identifier__(const o_DatagramIdentifier actual,
                                                      const o_DatagramIdentifier expected)
     {
-        if (actual != expected)
+        if (actual.value != expected.value)
             throw std::runtime_error(fmt::format(
                 "S7KDatagram::__check_datagram_identifier__: datagram identifier is not "
                 "{}, but {}",

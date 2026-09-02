@@ -127,17 +127,17 @@ void init_c_ssoundvelocityprofile(nanobind::module_& m)
              nb::arg("data"))
         .def("set_padding",
              &SSoundVelocityProfile::set_padding,
-             DOC_SSoundVelocityProfile(set_padding),
+             DOC_SSoundVelocityProfile(padding),
              nb::arg("padding"))
         .def("get_padding",
              &SSoundVelocityProfile::get_padding,
-             DOC_SSoundVelocityProfile(get_padding))
+             DOC_SSoundVelocityProfile(padding))
         .def("get_bytes_datagram_check",
              &SSoundVelocityProfile::get_bytes_datagram_check,
-             DOC_SSoundVelocityProfile(get_bytes_datagram_check))
+             DOC_SSoundVelocityProfile(bytes_datagram_check))
         .def("set_bytes_datagram_check",
              &SSoundVelocityProfile::set_bytes_datagram_check,
-             DOC_SSoundVelocityProfile(set_bytes_datagram_check),
+             DOC_SSoundVelocityProfile(bytes_datagram_check),
              nb::arg("value"))
 
         // --- processed data access ---

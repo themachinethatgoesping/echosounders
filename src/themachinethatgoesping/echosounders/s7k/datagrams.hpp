@@ -21,7 +21,7 @@
 #include "datagrams/absorptionloss.hpp"
 #include "datagrams/spreadingloss.hpp"
 #include "datagrams/rawdetection.hpp"
-#include "datagrams/snippet.hpp"
+#include "datagrams/snippetdata.hpp"
 #include "datagrams/compressedwatercolumn.hpp"
 #include "datagrams/beamgeometry.hpp"
 #include "datagrams/attitude.hpp"
@@ -55,7 +55,7 @@ using t_S7KDatagramVariant = std::variant<S7KDatagram,
                                          AbsorptionLoss,
                                          SpreadingLoss,
                                          RawDetection,
-                                         Snippet,
+                                         SnippetData,
                                          CompressedWaterColumn,
                                          BeamGeometry,
                                          Attitude,

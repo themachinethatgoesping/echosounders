@@ -21,14 +21,14 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
-#define DOC_C(CLASS, ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, ARG)
+#define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
 
 void init_c_spreadingloss(nb::module_& m)
 {
     nb::class_<SpreadingLoss, S7KDatagram>(m, "SpreadingLoss", DOC(themachinethatgoesping, echosounders, s7k, datagrams, SpreadingLoss))
         .def(nb::init<>(), DOC_C(SpreadingLoss, SpreadingLoss))
-        .def("get_spreading_loss", &SpreadingLoss::get_spreading_loss, DOC_C(SpreadingLoss, get_spreading_loss))
-        .def("set_spreading_loss", &SpreadingLoss::set_spreading_loss, DOC_C(SpreadingLoss, set_spreading_loss), nb::arg("val"))
+        .def("get_spreading_loss", &SpreadingLoss::get_spreading_loss, DOC_C(SpreadingLoss, Content, spreading_loss))
+        .def("set_spreading_loss", &SpreadingLoss::set_spreading_loss, DOC_C(SpreadingLoss, Content, spreading_loss), nb::arg("val"))
         .def("__eq__", &SpreadingLoss::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(SpreadingLoss)
         __PYCLASS_DEFAULT_BINARY__(SpreadingLoss)

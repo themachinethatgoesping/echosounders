@@ -21,14 +21,14 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
-#define DOC_C(CLASS, ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, ARG)
+#define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
 
 void init_c_heading(nb::module_& m)
 {
     nb::class_<Heading, S7KDatagram>(m, "Heading", DOC(themachinethatgoesping, echosounders, s7k, datagrams, Heading))
         .def(nb::init<>(), DOC_C(Heading, Heading))
-        .def("get_heading", &Heading::get_heading, DOC_C(Heading, get_heading))
-        .def("set_heading", &Heading::set_heading, DOC_C(Heading, set_heading), nb::arg("val"))
+        .def("get_heading", &Heading::get_heading, DOC_C(Heading, Content, heading))
+        .def("set_heading", &Heading::set_heading, DOC_C(Heading, Content, heading), nb::arg("val"))
         .def("__eq__", &Heading::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(Heading)
         __PYCLASS_DEFAULT_BINARY__(Heading)

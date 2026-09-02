@@ -262,11 +262,11 @@ void init_c_simradrawwatercolumncalibration(nanobind::module_& m)
                  DOC_SimradRawWaterColumnCalibration(get_filter_stage_2_decimation_factor))
             .def("get_filter_stage_1_coefficients",
                  &SimradRawWaterColumnCalibration::get_filter_stage_1_coefficients,
-                 DOC_SimradRawWaterColumnCalibration(get_filter_stage_1_coefficients),
+                 DOC_SimradRawWaterColumnCalibration(filter_stage_1_coefficients),
                  nb::rv_policy::reference_internal)
             .def("get_filter_stage_2_coefficients",
                  &SimradRawWaterColumnCalibration::get_filter_stage_2_coefficients,
-                 DOC_SimradRawWaterColumnCalibration(get_filter_stage_2_coefficients),
+                 DOC_SimradRawWaterColumnCalibration(filter_stage_2_coefficients),
                  nb::rv_policy::reference_internal)
 
             .def("get_computed_internal_sampling_interval_hz",

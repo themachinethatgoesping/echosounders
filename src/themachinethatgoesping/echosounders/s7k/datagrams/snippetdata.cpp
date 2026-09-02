@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-#include "snippet.hpp"
+#include "snippetdata.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
 
-void Snippet::__read__(std::istream& is, bool skip_data)
+void SnippetData::__read__(std::istream& is, bool skip_data)
 {
     is.read(reinterpret_cast<char*>(&_content), __content_size);
 
@@ -63,24 +63,24 @@ void Snippet::__read__(std::istream& is, bool skip_data)
     }
 }
 
-Snippet Snippet::from_stream(std::istream& is, S7KDatagram header, bool skip_data)
+SnippetData SnippetData::from_stream(std::istream& is, S7KDatagram header, bool skip_data)
 {
-    Snippet datagram(std::move(header));
+    SnippetData datagram(std::move(header));
     datagram.__read__(is, skip_data);
     return datagram;
 }
 
-Snippet Snippet::from_stream(std::istream& is, bool skip_data)
+SnippetData SnippetData::from_stream(std::istream& is, bool skip_data)
 {
     return from_stream(is, S7KDatagram::from_stream(is), skip_data);
 }
 
-Snippet Snippet::from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier, bool skip_data)
+SnippetData SnippetData::from_stream(std::istream& is, o_S7KDatagramIdentifier datagram_identifier, bool skip_data)
 {
     return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier), skip_data);
 }
 
-void Snippet::to_stream(std::ostream& os) const
+void SnippetData::to_stream(std::ostream& os) const
 {
     S7KDatagram::to_stream(os);
     os.write(reinterpret_cast<const char*>(&_content), __content_size);
@@ -116,7 +116,7 @@ void Snippet::to_stream(std::ostream& os) const
     }
 }
 
-tools::classhelper::ObjectPrinter Snippet::__printer__(unsigned int float_precision,
+tools::classhelper::ObjectPrinter SnippetData::__printer__(unsigned int float_precision,
                                                        bool         superscript_exponents) const
 {
     const auto& o_datagram_identifier = S7KDatagram::o_DatagramIdentifier(get_datagram_identifier());
@@ -126,7 +126,7 @@ tools::classhelper::ObjectPrinter Snippet::__printer__(unsigned int float_precis
         superscript_exponents);
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
-    printer.register_section("Snippet content");
+    printer.register_section("SnippetData content");
     printer.register_value("serial_number", _content.serial_number);
     printer.register_value("ping_number", _content.ping_number);
     printer.register_value("multi_ping", _content.multi_ping);

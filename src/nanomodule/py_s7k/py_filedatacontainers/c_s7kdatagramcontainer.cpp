@@ -50,7 +50,7 @@ void init_c_s7kdatagramcontainer(nanobind::module_& m)
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::AbsorptionLoss, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_AbsorptionLoss");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::SpreadingLoss, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_SpreadingLoss");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::RawDetection, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_RawDetection");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::Snippet, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_Snippet");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SnippetData, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_Snippet");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::CompressedWaterColumn, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_CompressedWaterColumn");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::BeamGeometry, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_BeamGeometry");
     py_datagramcontainer::create_DatagramContainerTypes<datagrams::Attitude, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_Attitude");
@@ -58,9 +58,9 @@ void init_c_s7kdatagramcontainer(nanobind::module_& m)
 
     // water-column records with the (large) sample data skipped
     py_datagramcontainer::create_DatagramContainerTypes<
-        datagrams::Snippet,
+        datagrams::SnippetData,
         t_S7KDatagramIdentifier,
-        datagrams::S7KSkipDataFactory<datagrams::Snippet>>(
+        datagrams::S7KSkipDataFactory<datagrams::SnippetData>>(
         m, "S7KDatagramContainer_Snippet_SkippedData");
     py_datagramcontainer::create_DatagramContainerTypes<
         datagrams::CompressedWaterColumn,

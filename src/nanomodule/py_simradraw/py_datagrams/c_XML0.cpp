@@ -37,7 +37,7 @@ void init_c_XML0(nanobind::module_& m)
              &XML0::set_xml_content,
              DOC_XML0(set_xml_content),
              nb::arg("xml_content"))
-        .def("get_xml_content", &XML0::get_xml_content, DOC_XML0(get_xml_content))
+        .def("get_xml_content", &XML0::get_xml_content, DOC_XML0(xml_content))
         .def("get_xml_datagram_type",
              &XML0::get_xml_datagram_type,
              DOC(themachinethatgoesping,
@@ -67,7 +67,7 @@ void init_c_XML0(nanobind::module_& m)
              DOC_XML0(test_xml))
 
         // --- raw data access ---
-        .def("get_raw_xml_content", &XML0::get_xml_content, DOC_XML0(get_xml_content))
+        .def("get_raw_xml_content", &XML0::get_xml_content, DOC_XML0(xml_content))
         .def("set_raw_xml_content", &XML0::set_xml_content, DOC_XML0(set_xml_content))
 
         // ----- operators -----

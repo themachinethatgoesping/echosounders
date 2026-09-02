@@ -48,7 +48,7 @@ void init_c_sclock(nanobind::module_& m)
              DOC_SClock(get_clock_data_from_sensor))
         .def("get_bytes_datagram_check",
              &SClock::get_bytes_datagram_check,
-             DOC_SClock(get_bytes_datagram_check))
+             DOC_SClock(bytes_datagram_check))
         .def("set_offset_sec",
              &SClock::set_offset_sec,
              DOC_SClock(set_offset_sec),
@@ -63,7 +63,7 @@ void init_c_sclock(nanobind::module_& m)
              nb::arg("pos_data"))
         .def("set_bytes_datagram_check",
              &SClock::set_bytes_datagram_check,
-             DOC_SClock(set_bytes_datagram_check),
+             DOC_SClock(bytes_datagram_check),
              nb::arg("val"))
 
         // ----- processed -----

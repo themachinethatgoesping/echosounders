@@ -94,21 +94,23 @@ void S7KDatagramInterface_add_interface_functions(T_PyClass& cls)
                     return nb::cast(self.template datagrams<datagrams::SpreadingLoss>(type));
                 case t_S7KDatagramIdentifier::RawDetectionData:
                     return nb::cast(self.template datagrams<datagrams::RawDetection>(type));
-                case t_S7KDatagramIdentifier::SnippetData:
+                case t_S7KDatagramIdentifier::SnippetData: {
                     if (skip_data)
-                        return nb::cast(
-                            self.template datagrams<datagrams::Snippet,
-                                                    datagrams::S7KSkipDataFactory<datagrams::Snippet>>(
-                                type));
-                    return nb::cast(self.template datagrams<datagrams::Snippet>(type));
-                case t_S7KDatagramIdentifier::CompressedWaterColumnData:
+                        return nb::cast(self.template datagrams<
+                                        datagrams::SnippetData,
+                                        datagrams::S7KSkipDataFactory<datagrams::SnippetData>>(type));
+                    return nb::cast(self.template datagrams<datagrams::SnippetData>(type));
+                }
+                case t_S7KDatagramIdentifier::CompressedWaterColumnData: {
                     if (skip_data)
                         return nb::cast(
                             self.template datagrams<
                                 datagrams::CompressedWaterColumn,
                                 datagrams::S7KSkipDataFactory<datagrams::CompressedWaterColumn>>(
                                 type));
-                    return nb::cast(self.template datagrams<datagrams::CompressedWaterColumn>(type));
+                    return nb::cast(
+                        self.template datagrams<datagrams::CompressedWaterColumn>(type));
+                }
                 case t_S7KDatagramIdentifier::BeamGeometry:
                     return nb::cast(self.template datagrams<datagrams::BeamGeometry>(type));
                 case t_S7KDatagramIdentifier::Attitude:

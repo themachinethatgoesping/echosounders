@@ -21,14 +21,14 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
-#define DOC_C(CLASS, ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, ARG)
+#define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
 
 void init_c_soundvelocity(nb::module_& m)
 {
     nb::class_<SoundVelocity, S7KDatagram>(m, "SoundVelocity", DOC(themachinethatgoesping, echosounders, s7k, datagrams, SoundVelocity))
         .def(nb::init<>(), DOC_C(SoundVelocity, SoundVelocity))
-        .def("get_sound_velocity", &SoundVelocity::get_sound_velocity, DOC_C(SoundVelocity, get_sound_velocity))
-        .def("set_sound_velocity", &SoundVelocity::set_sound_velocity, DOC_C(SoundVelocity, set_sound_velocity), nb::arg("val"))
+        .def("get_sound_velocity", &SoundVelocity::get_sound_velocity, DOC_C(SoundVelocity, Content, sound_velocity))
+        .def("set_sound_velocity", &SoundVelocity::set_sound_velocity, DOC_C(SoundVelocity, Content, sound_velocity), nb::arg("val"))
         .def("__eq__", &SoundVelocity::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(SoundVelocity)
         __PYCLASS_DEFAULT_BINARY__(SoundVelocity)

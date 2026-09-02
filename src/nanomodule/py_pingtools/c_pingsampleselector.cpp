@@ -81,16 +81,16 @@ void init_c_pingsampleselector(nanobind::module_& m)
              DOC_PingSampleSelector(sample_step))
         .def("get_min_minslant_range_percent",
              &PingSampleSelector::get_min_minslant_range_percent,
-             DOC_PingSampleSelector(get_min_minslant_range_percent))
+             DOC_PingSampleSelector(min_minslant_range_percent))
         .def("get_max_minslant_range_percent",
              &PingSampleSelector::get_max_minslant_range_percent,
-             DOC_PingSampleSelector(get_max_minslant_range_percent))
+             DOC_PingSampleSelector(max_minslant_range_percent))
         .def("get_min_bottom_range_percent",
              &PingSampleSelector::get_min_bottom_range_percent,
-             DOC_PingSampleSelector(get_min_bottom_range_percent))
+             DOC_PingSampleSelector(min_bottom_range_percent))
         .def("get_max_bottom_range_percent",
              &PingSampleSelector::get_max_bottom_range_percent,
-             DOC_PingSampleSelector(get_max_bottom_range_percent))
+             DOC_PingSampleSelector(max_bottom_range_percent))
 
         // ----- clear range filters -----
         .def("clear_beam_number_range",
@@ -188,11 +188,11 @@ void init_c_pingsampleselector(nanobind::module_& m)
 
         .def("set_sample_step",
              &PingSampleSelector::set_sample_step,
-             DOC_PingSampleSelector(set_sample_step),
+             DOC_PingSampleSelector(sample_step),
              nb::arg("sample_step"))
         .def("set_beam_step",
              &PingSampleSelector::set_beam_step,
-             DOC_PingSampleSelector(set_beam_step),
+             DOC_PingSampleSelector(beam_step),
              nb::arg("beam_step"))
 
         // ----- operators -----

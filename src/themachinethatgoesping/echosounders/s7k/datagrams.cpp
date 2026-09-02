@@ -40,7 +40,7 @@ t_S7KDatagramVariant S7KDatagramVariant::from_stream(std::istream&           is,
         case t_S7KDatagramIdentifier::RawDetectionData:
             return t_S7KDatagramVariant(RawDetection::from_stream(is, datagram_type));
         case t_S7KDatagramIdentifier::SnippetData:
-            return t_S7KDatagramVariant(Snippet::from_stream(is, datagram_type, skip_data));
+            return t_S7KDatagramVariant(SnippetData::from_stream(is, datagram_type, skip_data));
         case t_S7KDatagramIdentifier::CompressedWaterColumnData:
             return t_S7KDatagramVariant(
                 CompressedWaterColumn::from_stream(is, datagram_type, skip_data));

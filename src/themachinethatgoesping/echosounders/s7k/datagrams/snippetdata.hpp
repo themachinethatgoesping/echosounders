@@ -5,6 +5,9 @@
 #pragma once
 
 /* generated doc strings */
+#include ".docstrings/snippetdata.doc.hpp"
+
+/* generated doc strings */
 #include ".docstrings/snippet.doc.hpp"
 
 // std includes
@@ -25,12 +28,12 @@ namespace s7k {
 namespace datagrams {
 
 /**
- * @brief 7k record SnippetData: water-column intensity snippets around each beam detection.
+ * @brief 7k record SnippetData (7028): water-column intensity snippets around each beam detection.
  *
  * The record holds, per beam, a short intensity time series (snippet) around the bottom detection.
  * The intensity samples are 16- or 32-bit depending on bit 0 of the flags field.
  */
-class Snippet : public S7KDatagram
+class SnippetData : public S7KDatagram
 {
   public:
     static constexpr auto DatagramIdentifier = t_S7KDatagramIdentifier::SnippetData;
@@ -72,8 +75,8 @@ class Snippet : public S7KDatagram
     std::vector<xt::xtensor<uint32_t, 1>> _amplitudes;
 
   public:
-    Snippet()  = default;
-    ~Snippet() = default;
+    SnippetData()  = default;
+    ~SnippetData() = default;
 
     // ----- record type header access -----
     uint64_t get_serial_number() const { return _content.serial_number; }
@@ -102,14 +105,14 @@ class Snippet : public S7KDatagram
     }
 
     // ----- operators -----
-    bool operator==(const Snippet& other) const = default;
+    bool operator==(const SnippetData& other) const = default;
 
     //----- to/from stream functions -----
-    static Snippet from_stream(std::istream& is, S7KDatagram header, bool skip_data = false);
-    static Snippet from_stream(std::istream& is, bool skip_data = false);
-    static Snippet from_stream(std::istream&           is,
-                               o_S7KDatagramIdentifier datagram_identifier,
-                               bool                    skip_data = false);
+    static SnippetData from_stream(std::istream& is, S7KDatagram header, bool skip_data = false);
+    static SnippetData from_stream(std::istream& is, bool skip_data = false);
+    static SnippetData from_stream(std::istream&           is,
+                                   o_S7KDatagramIdentifier datagram_identifier,
+                                   bool                    skip_data = false);
 
     void to_stream(std::ostream& os) const;
 
@@ -119,10 +122,10 @@ class Snippet : public S7KDatagram
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
-    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(Snippet)
+    __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SnippetData)
 
   private:
-    explicit Snippet(S7KDatagram header)
+    explicit SnippetData(S7KDatagram header)
         : S7KDatagram(std::move(header))
     {
     }

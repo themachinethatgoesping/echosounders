@@ -21,20 +21,20 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
-#define DOC_C(CLASS, ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, ARG)
+#define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
 
 void init_c_referencepoint(nb::module_& m)
 {
     nb::class_<ReferencePoint, S7KDatagram>(m, "ReferencePoint", DOC(themachinethatgoesping, echosounders, s7k, datagrams, ReferencePoint))
         .def(nb::init<>(), DOC_C(ReferencePoint, ReferencePoint))
-        .def("get_offset_x", &ReferencePoint::get_offset_x, DOC_C(ReferencePoint, get_offset_x))
-        .def("set_offset_x", &ReferencePoint::set_offset_x, DOC_C(ReferencePoint, set_offset_x), nb::arg("val"))
-        .def("get_offset_y", &ReferencePoint::get_offset_y, DOC_C(ReferencePoint, get_offset_y))
-        .def("set_offset_y", &ReferencePoint::set_offset_y, DOC_C(ReferencePoint, set_offset_y), nb::arg("val"))
-        .def("get_offset_z", &ReferencePoint::get_offset_z, DOC_C(ReferencePoint, get_offset_z))
-        .def("set_offset_z", &ReferencePoint::set_offset_z, DOC_C(ReferencePoint, set_offset_z), nb::arg("val"))
-        .def("get_water_z", &ReferencePoint::get_water_z, DOC_C(ReferencePoint, get_water_z))
-        .def("set_water_z", &ReferencePoint::set_water_z, DOC_C(ReferencePoint, set_water_z), nb::arg("val"))
+        .def("get_offset_x", &ReferencePoint::get_offset_x, DOC_C(ReferencePoint, Content, offset_x))
+        .def("set_offset_x", &ReferencePoint::set_offset_x, DOC_C(ReferencePoint, Content, offset_x), nb::arg("val"))
+        .def("get_offset_y", &ReferencePoint::get_offset_y, DOC_C(ReferencePoint, Content, offset_y))
+        .def("set_offset_y", &ReferencePoint::set_offset_y, DOC_C(ReferencePoint, Content, offset_y), nb::arg("val"))
+        .def("get_offset_z", &ReferencePoint::get_offset_z, DOC_C(ReferencePoint, Content, offset_z))
+        .def("set_offset_z", &ReferencePoint::set_offset_z, DOC_C(ReferencePoint, Content, offset_z), nb::arg("val"))
+        .def("get_water_z", &ReferencePoint::get_water_z, DOC_C(ReferencePoint, Content, water_z))
+        .def("set_water_z", &ReferencePoint::set_water_z, DOC_C(ReferencePoint, Content, water_z), nb::arg("val"))
         .def("__eq__", &ReferencePoint::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(ReferencePoint)
         __PYCLASS_DEFAULT_BINARY__(ReferencePoint)

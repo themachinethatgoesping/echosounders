@@ -29,7 +29,7 @@ void init_c_absorptionloss(nanobind::module_& m);       // c_absorptionloss.cpp
 void init_c_spreadingloss(nanobind::module_& m);        // c_spreadingloss.cpp
 
 void init_c_rawdetection(nanobind::module_& m);          // c_rawdetection.cpp
-void init_c_snippet(nanobind::module_& m);               // c_snippet.cpp
+void init_c_snippetdata(nanobind::module_& m);               // c_snippetdata.cpp
 void init_c_compressedwatercolumn(nanobind::module_& m); // c_compressedwatercolumn.cpp
 void init_c_beamgeometry(nanobind::module_& m);          // c_beamgeometry.cpp
 void init_c_attitude(nanobind::module_& m);              // c_attitude.cpp
@@ -58,7 +58,7 @@ void init_m_s7kdatagrams(nanobind::module_& m)
     init_c_spreadingloss(subm);
 
     init_c_rawdetection(subm);
-    init_c_snippet(subm);
+    init_c_snippetdata(subm);
     init_c_compressedwatercolumn(subm);
     init_c_beamgeometry(subm);
     init_c_attitude(subm);

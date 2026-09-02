@@ -69,7 +69,7 @@ void init_c_cposition(nanobind::module_& m)
              DOC_CPosition(get_pos_data_from_sensor))
         .def("get_bytes_datagram_check",
              &CPosition::get_bytes_datagram_check,
-             DOC_CPosition(get_bytes_datagram_check))
+             DOC_CPosition(bytes_datagram_check))
         .def("set_time_from_sensor_sec",
              &CPosition::set_time_from_sensor_sec,
              DOC_CPosition(set_time_from_sensor_sec),
@@ -108,7 +108,7 @@ void init_c_cposition(nanobind::module_& m)
              nb::arg("pos_data"))
         .def("set_bytes_datagram_check",
              &CPosition::set_bytes_datagram_check,
-             DOC_CPosition(set_bytes_datagram_check),
+             DOC_CPosition(bytes_datagram_check),
              nb::arg("val"))
 
         // ----- processed -----

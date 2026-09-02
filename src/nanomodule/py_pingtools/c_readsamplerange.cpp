@@ -35,13 +35,13 @@ void init_c_readsamplerange(nanobind::module_& m)
              DOC_ReadSampleRange(get_first_sample_to_read))
         .def("get_number_of_samples_to_read",
              &ReadSampleRange::get_number_of_samples_to_read,
-             DOC_ReadSampleRange(get_number_of_samples_to_read))
+             DOC_ReadSampleRange(number_of_samples_to_read))
         .def("get_first_read_sample_offset",
              &ReadSampleRange::get_first_read_sample_offset,
-             DOC_ReadSampleRange(get_first_read_sample_offset))
+             DOC_ReadSampleRange(first_read_sample_offset))
         .def("get_last_read_sample_offset",
              &ReadSampleRange::get_last_read_sample_offset,
-             DOC_ReadSampleRange(get_last_read_sample_offset))
+             DOC_ReadSampleRange(last_read_sample_offset))
 
         // ----- operators -----
         .def("__eq__",

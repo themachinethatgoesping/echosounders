@@ -22,16 +22,16 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
-#define DOC_C(CLASS, ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, ARG)
+#define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
 
 void init_c_fileheader(nb::module_& m)
 {
     nb::class_<FileHeader, S7KDatagram>(
         m, "FileHeader", DOC(themachinethatgoesping, echosounders, s7k, datagrams, FileHeader))
         .def(nb::init<>(), DOC_C(FileHeader, FileHeader))
-        .def("get_version", &FileHeader::get_version, DOC_C(FileHeader, get_version))
-        .def("get_record_data_size", &FileHeader::get_record_data_size, DOC_C(FileHeader, get_record_data_size))
-        .def("get_number_devices", &FileHeader::get_number_devices, DOC_C(FileHeader, get_number_devices))
+        .def("get_version", &FileHeader::get_version, DOC_C(FileHeader, Content, version))
+        .def("get_record_data_size", &FileHeader::get_record_data_size, DOC_C(FileHeader, Content, record_data_size))
+        .def("get_number_devices", &FileHeader::get_number_devices, DOC_C(FileHeader, Content, number_devices))
         .def("get_recording_name", &FileHeader::get_recording_name, DOC_C(FileHeader, get_recording_name))
         .def("get_recording_version", &FileHeader::get_recording_version, DOC_C(FileHeader, get_recording_version))
         .def("get_user_defined_name", &FileHeader::get_user_defined_name, DOC_C(FileHeader, get_user_defined_name))

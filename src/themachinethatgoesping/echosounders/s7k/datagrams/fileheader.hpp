@@ -26,7 +26,7 @@ namespace s7k {
 namespace datagrams {
 
 /**
- * @brief 7k record FileHeader: the first record of a .s7k file. Describes the file (recording
+ * @brief 7k record FileHeader (7200): the first record of a .s7k file. Describes the file (recording
  * program, session, notes) and lists the devices contained in the file.
  */
 class FileHeader : public S7KDatagram

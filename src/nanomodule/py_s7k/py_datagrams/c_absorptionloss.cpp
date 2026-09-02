@@ -21,14 +21,14 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
-#define DOC_C(CLASS, ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, ARG)
+#define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
 
 void init_c_absorptionloss(nb::module_& m)
 {
     nb::class_<AbsorptionLoss, S7KDatagram>(m, "AbsorptionLoss", DOC(themachinethatgoesping, echosounders, s7k, datagrams, AbsorptionLoss))
         .def(nb::init<>(), DOC_C(AbsorptionLoss, AbsorptionLoss))
-        .def("get_absorption_loss", &AbsorptionLoss::get_absorption_loss, DOC_C(AbsorptionLoss, get_absorption_loss))
-        .def("set_absorption_loss", &AbsorptionLoss::set_absorption_loss, DOC_C(AbsorptionLoss, set_absorption_loss), nb::arg("val"))
+        .def("get_absorption_loss", &AbsorptionLoss::get_absorption_loss, DOC_C(AbsorptionLoss, Content, absorption_loss))
+        .def("set_absorption_loss", &AbsorptionLoss::set_absorption_loss, DOC_C(AbsorptionLoss, Content, absorption_loss), nb::arg("val"))
         .def("__eq__", &AbsorptionLoss::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(AbsorptionLoss)
         __PYCLASS_DEFAULT_BINARY__(AbsorptionLoss)
