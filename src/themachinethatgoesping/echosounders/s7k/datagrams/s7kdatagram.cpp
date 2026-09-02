@@ -42,6 +42,7 @@ tools::classhelper::ObjectPrinter S7KDatagram::__printer__(unsigned int float_pr
     tools::classhelper::ObjectPrinter printer(
         "S7KDatagram", float_precision, superscript_exponents);
 
+    printer.register_section("Header");
     printer.register_value("protocol_version", _protocol_version);
     printer.register_value("offset", _offset);
     printer.register_value("sync_pattern", fmt::format("0x{:08X}", _sync_pattern));
