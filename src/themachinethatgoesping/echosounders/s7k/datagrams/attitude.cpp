@@ -20,6 +20,9 @@ void Attitude::__read__(std::istream& is)
     // read all samples as one contiguous block
     is.read(reinterpret_cast<char*>(samples.data()),
             std::streamsize(number_of_samples * sizeof(substructs::AttitudeSample)));
+
+    // read the trailing 4-byte checksum (stored for debugging only, not verified)
+    is.read(reinterpret_cast<char*>(&_checksum), sizeof(_checksum));
 }
 
 Attitude Attitude::from_stream(std::istream& is, S7KDatagram header)
@@ -49,6 +52,8 @@ void Attitude::to_stream(std::ostream& os) const
 
     os.write(reinterpret_cast<const char*>(samples.data()),
              std::streamsize(samples.size() * sizeof(substructs::AttitudeSample)));
+
+    os.write(reinterpret_cast<const char*>(&_checksum), sizeof(_checksum));
 }
 
 tools::classhelper::ObjectPrinter Attitude::__printer__(unsigned int float_precision,
@@ -63,6 +68,7 @@ tools::classhelper::ObjectPrinter Attitude::__printer__(unsigned int float_preci
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("Attitude content");
     printer.register_value("number_of_samples", get_number_of_samples());
+    printer.register_value("checksum", _checksum);
 
     printer.register_section("samples");
     printer.append(_samples.__printer__(float_precision, superscript_exponents));

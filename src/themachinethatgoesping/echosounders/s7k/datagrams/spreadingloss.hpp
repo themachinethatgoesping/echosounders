@@ -34,7 +34,10 @@ class SpreadingLoss : public S7KDatagram
 #pragma pack(push, 1)
     struct Content
     {
-        float spreading_loss; ///< spreading loss (0-60)
+        float _spreading_loss = 0.f; ///< spreading loss in dB (0-60)
+
+        uint32_t _checksum =
+            0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -51,9 +54,11 @@ class SpreadingLoss : public S7KDatagram
     ~SpreadingLoss() = default;
 
     // ----- convenient member access -----
-    float get_spreading_loss() const { return _content.spreading_loss; }
+    float    get_spreading_loss() const { return _content._spreading_loss; }
+    uint32_t get_checksum() const { return _content._checksum; }
 
-    void set_spreading_loss(float val) { _content.spreading_loss = val; }
+    void set_spreading_loss(float val) { _content._spreading_loss = val; }
+    void set_checksum(uint32_t val) { _content._checksum = val; }
 
     // ----- operators -----
     bool operator==(const SpreadingLoss& other) const = default;

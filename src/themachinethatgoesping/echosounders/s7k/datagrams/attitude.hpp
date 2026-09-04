@@ -35,12 +35,16 @@ class Attitude : public S7KDatagram
   protected:
     substructs::AttitudeSampleContainer _samples; ///< attitude samples
 
+    uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
+
   public:
-    Attitude()  = default;
+    Attitude() { set_datagram_identifier(DatagramIdentifier); }
     ~Attitude() = default;
 
     // ----- record type header access -----
-    uint8_t get_number_of_samples() const { return uint8_t(_samples.get_number_of_samples()); }
+    uint8_t  get_number_of_samples() const { return uint8_t(_samples.get_number_of_samples()); }
+    uint32_t get_checksum() const { return _checksum; }
+    void     set_checksum(uint32_t val) { _checksum = val; }
 
     // ----- substructure access -----
     const substructs::AttitudeSampleContainer& get_samples() const { return _samples; }

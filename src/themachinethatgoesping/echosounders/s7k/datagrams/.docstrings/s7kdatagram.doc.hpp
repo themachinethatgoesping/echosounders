@@ -1,4 +1,4 @@
-//sourcehash: fc0a7a69c5ce17668afe9bafafe4a20fb0233ec15fdf4b8edeb6adda76d635b9
+//sourcehash: ba3488caa32045222bddbce1524e0aef8fa6721c8223402d48312f6c0f4c58a0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,6 +58,31 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7K
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_S7KDatagram_3 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_checksum_is_correct =
+R"doc(Check whether the stored checksum of a serialized record matches its
+computed checksum (debugging aid).
+
+Args:
+    buffer: Serialized record bytes (DRF + RTH + data + checksum).
+
+Returns:
+    true if compute_checksum(buffer) == read_checksum(buffer).)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_compute_checksum =
+R"doc(Compute the 7k record checksum of a serialized datagram (debugging
+aid).
+
+Pass the full serialized record (e.g. the result of to_binary()). The
+last four bytes are treated as the stored checksum and are excluded
+from the sum.
+
+Args:
+    buffer: Serialized record bytes (DRF + RTH + data + checksum).
+
+Returns:
+    Computed 32-bit checksum (sum of all bytes except the trailing
+    four).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_compute_size_content =
 R"doc(Number of bytes of the record following the DRF header (RTH + data +
@@ -151,6 +176,16 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7K
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_protocol_version = R"doc(offset 0: protocol version of this frame (e.g. 5))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_read_checksum =
+R"doc(Read the stored checksum (last four bytes) from a serialized record
+buffer.
+
+Args:
+    buffer: Serialized record bytes (DRF + RTH + data + checksum).
+
+Returns:
+    The stored checksum, or 0 if the buffer is too small.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_record_type_identifier = R"doc()doc";
 

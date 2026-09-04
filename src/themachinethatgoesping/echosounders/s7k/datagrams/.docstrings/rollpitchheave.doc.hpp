@@ -1,4 +1,4 @@
-//sourcehash: 1704d67f369cbabc9ab56d6a39fd9a0151c2760e8c8bee3d73ea56efaaf8ce36
+//sourcehash: f3190f7b4556b807e6fc1e22b51657d9602d695689d5cbc8e18d6d4c0b2ec8a3
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,13 +45,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Rol
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_Content_heave = R"doc(vessel heave)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_Content_checksum = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_Content_heave = R"doc(vessel heave in meters)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_Content_pitch = R"doc(vessel pitch)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_Content_pitch = R"doc(vessel pitch in radians)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_Content_roll = R"doc(vessel roll)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_Content_roll = R"doc(vessel roll in radians)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_RollPitchHeave = R"doc()doc";
 
@@ -65,15 +67,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Rol
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_from_stream_3 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_get_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_get_heave = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_get_pitch = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_get_pitch_in_degrees = R"doc(Get the vessel pitch in degrees (converted from radians).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_get_roll = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_get_roll_in_degrees = R"doc(Get the vessel roll in degrees (converted from radians).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_set_heave = R"doc()doc";
 

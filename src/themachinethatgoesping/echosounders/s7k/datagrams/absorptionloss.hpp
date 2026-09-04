@@ -34,7 +34,10 @@ class AbsorptionLoss : public S7KDatagram
 #pragma pack(push, 1)
     struct Content
     {
-        float absorption_loss; ///< absorption loss
+        float _absorption_loss = 0.f; ///< absorption loss in dB/km
+
+        uint32_t _checksum =
+            0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -51,9 +54,11 @@ class AbsorptionLoss : public S7KDatagram
     ~AbsorptionLoss() = default;
 
     // ----- convenient member access -----
-    float get_absorption_loss() const { return _content.absorption_loss; }
+    float    get_absorption_loss() const { return _content._absorption_loss; }
+    uint32_t get_checksum() const { return _content._checksum; }
 
-    void set_absorption_loss(float val) { _content.absorption_loss = val; }
+    void set_absorption_loss(float val) { _content._absorption_loss = val; }
+    void set_checksum(uint32_t val) { _content._checksum = val; }
 
     // ----- operators -----
     bool operator==(const AbsorptionLoss& other) const = default;

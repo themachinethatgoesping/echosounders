@@ -9,6 +9,7 @@
 
 // std includes
 #include <cstdint>
+#include <numbers>
 #include <string>
 
 // themachinethatgoesping import
@@ -34,7 +35,10 @@ class Heading : public S7KDatagram
 #pragma pack(push, 1)
     struct Content
     {
-        float heading; ///< vessel heading
+        float _heading = 0.f; ///< vessel heading in radians
+
+        uint32_t _checksum =
+            0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -51,9 +55,18 @@ class Heading : public S7KDatagram
     ~Heading() = default;
 
     // ----- convenient member access -----
-    float get_heading() const { return _content.heading; }
+    float    get_heading() const { return _content._heading; }
+    uint32_t get_checksum() const { return _content._checksum; }
 
-    void set_heading(float val) { _content.heading = val; }
+    void set_heading(float val) { _content._heading = val; }
+    void set_checksum(uint32_t val) { _content._checksum = val; }
+
+    // ----- processed data access -----
+    /// @brief Get the vessel heading in degrees (converted from radians).
+    float get_heading_in_degrees() const
+    {
+        return _content._heading * 180.f / float(std::numbers::pi);
+    }
 
     // ----- operators -----
     bool operator==(const Heading& other) const = default;

@@ -7,6 +7,7 @@
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/datetime.hpp>
+#include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
 
 #include <themachinethatgoesping/echosounders/s7k/datagrams/navigation.hpp>
 
@@ -22,9 +23,20 @@ using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
 #define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
+#define DOC_Navigation(ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, Navigation, ARG)
 
 void init_c_navigation(nb::module_& m)
 {
+    using t_vertical_reference = Navigation::t_vertical_reference;
+    using o_vertical_reference = Navigation::o_vertical_reference;
+
+    nb::enum_<t_vertical_reference>(
+        m, "Navigation_t_vertical_reference", "vertical reference (7k DFD 1015)")
+        .value("ellipsoid", t_vertical_reference::ellipsoid, "ellipsoid")
+        .value("geoid", t_vertical_reference::geoid, "geoid")
+        .value("chart_datum", t_vertical_reference::chart_datum, "chart datum");
+    themachinethatgoesping::tools::nanobind_helper::make_option_class<o_vertical_reference>(
+        m, "Navigation_o_vertical_reference");
     nb::class_<Navigation, S7KDatagram>(m, "Navigation", DOC(themachinethatgoesping, echosounders, s7k, datagrams, Navigation))
         .def(nb::init<>(), DOC_C(Navigation, Navigation))
         .def("get_vertical_reference", &Navigation::get_vertical_reference, DOC_C(Navigation, Content, vertical_reference))
@@ -45,6 +57,12 @@ void init_c_navigation(nb::module_& m)
         .def("set_course", &Navigation::set_course, DOC_C(Navigation, Content, course), nb::arg("val"))
         .def("get_heading", &Navigation::get_heading, DOC_C(Navigation, Content, heading))
         .def("set_heading", &Navigation::set_heading, DOC_C(Navigation, Content, heading), nb::arg("val"))
+        .def("get_checksum", &Navigation::get_checksum, DOC_C(Navigation, Content, checksum))
+        .def("set_checksum", &Navigation::set_checksum, DOC_C(Navigation, Content, checksum), nb::arg("val"))
+        .def("get_latitude_in_degrees", &Navigation::get_latitude_in_degrees, DOC_Navigation(get_latitude_in_degrees))
+        .def("get_longitude_in_degrees", &Navigation::get_longitude_in_degrees, DOC_Navigation(get_longitude_in_degrees))
+        .def("get_course_in_degrees", &Navigation::get_course_in_degrees, DOC_Navigation(get_course_in_degrees))
+        .def("get_heading_in_degrees", &Navigation::get_heading_in_degrees, DOC_Navigation(get_heading_in_degrees))
         .def("__eq__", &Navigation::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(Navigation)
         __PYCLASS_DEFAULT_BINARY__(Navigation)

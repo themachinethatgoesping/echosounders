@@ -17,7 +17,7 @@ void SnippetData::__read__(std::istream& is, bool skip_data)
 {
     is.read(reinterpret_cast<char*>(&_content), __content_size);
 
-    const size_t N     = _content.number_beams;
+    const size_t N     = _content._number_beams;
     auto&        beams = _beams.beams();
     beams.resize(N);
 
@@ -45,11 +45,9 @@ void SnippetData::__read__(std::istream& is, bool skip_data)
         _amplitudes.set_skipped(sample_position);
         is.seekg(std::streamoff(total * (is32 ? sizeof(uint32_t) : sizeof(uint16_t))),
                  std::ios::cur);
-        return;
     }
-
     // the intensity time series of all beams is stored as one contiguous block (16- or 32-bit)
-    if (is32)
+    else if (is32)
     {
         xt::xtensor<uint32_t, 1> flat = xt::xtensor<uint32_t, 1>::from_shape({ total });
         is.read(reinterpret_cast<char*>(flat.data()), std::streamsize(total * sizeof(uint32_t)));
@@ -61,6 +59,9 @@ void SnippetData::__read__(std::istream& is, bool skip_data)
         is.read(reinterpret_cast<char*>(flat.data()), std::streamsize(total * sizeof(uint16_t)));
         _amplitudes.set_samples(std::move(flat));
     }
+
+    // read the trailing 4-byte checksum (stored for debugging only, not verified)
+    is.read(reinterpret_cast<char*>(&_checksum), sizeof(_checksum));
 }
 
 SnippetData SnippetData::from_stream(std::istream& is, S7KDatagram header, bool skip_data)
@@ -96,6 +97,8 @@ void SnippetData::to_stream(std::ostream& os) const
                      std::streamsize(flat.size() * sizeof(value_type)));
         },
         _amplitudes.get_samples());
+
+    os.write(reinterpret_cast<const char*>(&_checksum), sizeof(_checksum));
 }
 
 tools::classhelper::ObjectPrinter SnippetData::__printer__(unsigned int float_precision,
@@ -109,14 +112,15 @@ tools::classhelper::ObjectPrinter SnippetData::__printer__(unsigned int float_pr
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("SnippetData content");
-    printer.register_value("serial_number", _content.serial_number);
-    printer.register_value("ping_number", _content.ping_number);
-    printer.register_value("multi_ping", _content.multi_ping);
-    printer.register_value("number_beams", _content.number_beams);
-    printer.register_value("error_flag", _content.error_flag);
-    printer.register_value("control_flags", _content.control_flags);
-    printer.register_value("flags", _content.flags);
+    printer.register_value("serial_number", _content._serial_number);
+    printer.register_value("ping_number", _content._ping_number);
+    printer.register_value("multi_ping", _content._multi_ping);
+    printer.register_value("number_beams", _content._number_beams);
+    printer.register_value("error_flag", _content._error_flag);
+    printer.register_value("control_flags", _content._control_flags);
+    printer.register_value("flags", fmt::format("0b{:032b}", _content._flags));
     printer.register_value("samples_are_32bit", get_samples_are_32bit());
+    printer.register_value("checksum", _checksum);
 
     printer.register_section("beams");
     printer.append(_beams.__printer__(float_precision, superscript_exponents));

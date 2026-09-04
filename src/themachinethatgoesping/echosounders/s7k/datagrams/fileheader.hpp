@@ -37,16 +37,16 @@ class FileHeader : public S7KDatagram
 #pragma pack(push, 1)
     struct Content
     {
-        uint64_t file_identifier[2];    ///< unique file identifier (magic number)
-        uint16_t version;               ///< file format version
-        uint16_t reserved;              ///< reserved
-        uint64_t session_identifier[2]; ///< user-defined session identifier
-        uint32_t record_data_size;      ///< size of record data (0 if not set)
-        uint32_t number_devices;        ///< number of devices described in this file
-        char     recording_name[64];    ///< name of the recording program
-        char     recording_version[16]; ///< version of the recording program
-        char     user_defined_name[64]; ///< user defined name
-        char     notes[128];            ///< notes
+        uint64_t _file_identifier[2];    ///< unique file identifier (magic number)
+        uint16_t _version;               ///< file format version
+        uint16_t _reserved;              ///< reserved
+        uint64_t _session_identifier[2]; ///< user-defined session identifier
+        uint32_t _record_data_size;      ///< size of record data (0 if not set)
+        uint32_t _number_devices;        ///< number of devices described in this file
+        char     _recording_name[64];    ///< name of the recording program
+        char     _recording_version[16]; ///< version of the recording program
+        char     _user_defined_name[64]; ///< user defined name
+        char     _notes[128];            ///< notes
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -59,20 +59,28 @@ class FileHeader : public S7KDatagram
     // optional data appended after the device list (e.g. the file catalog pointer, identifier 7300)
     std::string _optional_data;
 
+    uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
+
     static std::string trim(const char* s, size_t n) { return std::string(s, ::strnlen(s, n)); }
 
   public:
-    FileHeader()  = default;
+    FileHeader()
+        : _content{}
+    {
+        set_datagram_identifier(DatagramIdentifier);
+    }
     ~FileHeader() = default;
 
     // ----- record type header access -----
-    uint16_t get_version() const { return _content.version; }
-    uint32_t get_record_data_size() const { return _content.record_data_size; }
-    uint32_t get_number_devices() const { return _content.number_devices; }
-    std::string get_recording_name() const { return trim(_content.recording_name, 64); }
-    std::string get_recording_version() const { return trim(_content.recording_version, 16); }
-    std::string get_user_defined_name() const { return trim(_content.user_defined_name, 64); }
-    std::string get_notes() const { return trim(_content.notes, 128); }
+    uint16_t get_version() const { return _content._version; }
+    uint32_t get_record_data_size() const { return _content._record_data_size; }
+    uint32_t get_number_devices() const { return _content._number_devices; }
+    std::string get_recording_name() const { return trim(_content._recording_name, 64); }
+    std::string get_recording_version() const { return trim(_content._recording_version, 16); }
+    std::string get_user_defined_name() const { return trim(_content._user_defined_name, 64); }
+    std::string get_notes() const { return trim(_content._notes, 128); }
+    uint32_t    get_checksum() const { return _checksum; }
+    void        set_checksum(uint32_t val) { _checksum = val; }
 
     // ----- substructure access -----
     const substructs::FileHeaderDeviceInfoContainer& get_devices() const { return _devices; }

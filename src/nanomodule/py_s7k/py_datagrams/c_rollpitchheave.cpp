@@ -22,6 +22,8 @@ using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
 #define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
+#define DOC_RollPitchHeave(ARG)                                                                    \
+    DOC(themachinethatgoesping, echosounders, s7k, datagrams, RollPitchHeave, ARG)
 
 void init_c_rollpitchheave(nb::module_& m)
 {
@@ -33,6 +35,10 @@ void init_c_rollpitchheave(nb::module_& m)
         .def("set_pitch", &RollPitchHeave::set_pitch, DOC_C(RollPitchHeave, Content, pitch), nb::arg("val"))
         .def("get_heave", &RollPitchHeave::get_heave, DOC_C(RollPitchHeave, Content, heave))
         .def("set_heave", &RollPitchHeave::set_heave, DOC_C(RollPitchHeave, Content, heave), nb::arg("val"))
+        .def("get_checksum", &RollPitchHeave::get_checksum, DOC_C(RollPitchHeave, Content, checksum))
+        .def("set_checksum", &RollPitchHeave::set_checksum, DOC_C(RollPitchHeave, Content, checksum), nb::arg("val"))
+        .def("get_roll_in_degrees", &RollPitchHeave::get_roll_in_degrees, DOC_RollPitchHeave(get_roll_in_degrees))
+        .def("get_pitch_in_degrees", &RollPitchHeave::get_pitch_in_degrees, DOC_RollPitchHeave(get_pitch_in_degrees))
         .def("__eq__", &RollPitchHeave::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(RollPitchHeave)
         __PYCLASS_DEFAULT_BINARY__(RollPitchHeave)

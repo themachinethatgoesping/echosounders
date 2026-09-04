@@ -34,7 +34,10 @@ class SoundVelocity : public S7KDatagram
 #pragma pack(push, 1)
     struct Content
     {
-        float sound_velocity; ///< water sound velocity
+        float _sound_velocity = 0.f; ///< water sound velocity in meters per second
+
+        uint32_t _checksum =
+            0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -51,9 +54,11 @@ class SoundVelocity : public S7KDatagram
     ~SoundVelocity() = default;
 
     // ----- convenient member access -----
-    float get_sound_velocity() const { return _content.sound_velocity; }
+    float    get_sound_velocity() const { return _content._sound_velocity; }
+    uint32_t get_checksum() const { return _content._checksum; }
 
-    void set_sound_velocity(float val) { _content.sound_velocity = val; }
+    void set_sound_velocity(float val) { _content._sound_velocity = val; }
+    void set_checksum(uint32_t val) { _content._checksum = val; }
 
     // ----- operators -----
     bool operator==(const SoundVelocity& other) const = default;

@@ -1,4 +1,4 @@
-//sourcehash: 25804af9002bb5eb92ff70add2fbbc8a62298f08967581f343e2e900d754ecb6
+//sourcehash: c4b027255f4d3fc618f558bf67df64abe28e5927858452fc55e9b7382917b535
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -57,7 +57,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_Content_detection_algorithm = R"doc(detection algorithm (0-7: G1/G2/G3/IF1/PS1/HS1/HS2))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_Content_flags = R"doc(flags bit field (uncertainty method, multi-detect, ...))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_Content_flags = R"doc(flags bit field (uncertainty method, multi-detect))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_Content_multi_ping = R"doc(0 = single ping, else multi-ping sequence number)doc";
 
@@ -83,6 +83,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_beams_2 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_content = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_from_stream = R"doc()doc";
@@ -94,6 +96,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_applied_roll = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_data_field_size = R"doc()doc";
 
@@ -120,6 +124,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_applied_roll = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_data_field_size = R"doc()doc";
 

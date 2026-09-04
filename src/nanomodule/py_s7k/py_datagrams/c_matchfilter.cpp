@@ -7,6 +7,7 @@
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/datetime.hpp>
+#include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
 
 #include <themachinethatgoesping/echosounders/s7k/datagrams/matchfilter.hpp>
 
@@ -25,6 +26,28 @@ using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
 void init_c_matchfilter(nb::module_& m)
 {
+    using t_operation   = MatchFilter::t_operation;
+    using o_operation   = MatchFilter::o_operation;
+    using t_window_type = MatchFilter::t_window_type;
+    using o_window_type = MatchFilter::o_window_type;
+
+    nb::enum_<t_operation>(m, "MatchFilter_t_operation", "match filter operation (7k DFD Table 43)")
+        .value("off", t_operation::off, "off")
+        .value("on", t_operation::on, "on");
+    themachinethatgoesping::tools::nanobind_helper::make_option_class<o_operation>(
+        m, "MatchFilter_o_operation");
+
+    nb::enum_<t_window_type>(
+        m, "MatchFilter_t_window_type", "match filter window type (7k DFD Table 43)")
+        .value("rectangular", t_window_type::rectangular, "rectangular")
+        .value("kaiser", t_window_type::kaiser, "Kaiser")
+        .value("hamming", t_window_type::hamming, "Hamming")
+        .value("blackmann", t_window_type::blackmann, "Blackmann")
+        .value("triangular", t_window_type::triangular, "triangular")
+        .value("taylor", t_window_type::taylor, "X (Taylor)");
+    themachinethatgoesping::tools::nanobind_helper::make_option_class<o_window_type>(
+        m, "MatchFilter_o_window_type");
+
     nb::class_<MatchFilter, S7KDatagram>(m, "MatchFilter", DOC(themachinethatgoesping, echosounders, s7k, datagrams, MatchFilter))
         .def(nb::init<>(), DOC_C(MatchFilter, MatchFilter))
         .def("get_serial_number", &MatchFilter::get_serial_number, DOC_C(MatchFilter, Content, serial_number))
@@ -43,6 +66,8 @@ void init_c_matchfilter(nb::module_& m)
         .def("set_shading", &MatchFilter::set_shading, DOC_C(MatchFilter, Content, shading), nb::arg("val"))
         .def("get_effective_pulse_width", &MatchFilter::get_effective_pulse_width, DOC_C(MatchFilter, Content, effective_pulse_width))
         .def("set_effective_pulse_width", &MatchFilter::set_effective_pulse_width, DOC_C(MatchFilter, Content, effective_pulse_width), nb::arg("val"))
+        .def("get_checksum", &MatchFilter::get_checksum, DOC_C(MatchFilter, Content, checksum))
+        .def("set_checksum", &MatchFilter::set_checksum, DOC_C(MatchFilter, Content, checksum), nb::arg("val"))
         .def("__eq__", &MatchFilter::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(MatchFilter)
         __PYCLASS_DEFAULT_BINARY__(MatchFilter)

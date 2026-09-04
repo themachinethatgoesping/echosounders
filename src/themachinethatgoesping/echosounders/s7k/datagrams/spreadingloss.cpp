@@ -37,8 +37,8 @@ tools::classhelper::ObjectPrinter SpreadingLoss::__printer__(unsigned int float_
                                                              bool superscript_exponents) const
 {
     const auto& o_datagram_identifier =
-        S7KDatagram::o_DatagramIdentifier(get_datagram_identifier());
-    tools::classhelper::ObjectPrinter printer(fmt::format("S7KHeader {} ({})",
+        S7KDatagram::o_DatagramIdentifier(DatagramIdentifier);
+    tools::classhelper::ObjectPrinter printer(fmt::format("S7K {} ({})",
                                                           o_datagram_identifier.name(),
                                                           uint32_t(o_datagram_identifier)),
                                               float_precision,
@@ -46,7 +46,8 @@ tools::classhelper::ObjectPrinter SpreadingLoss::__printer__(unsigned int float_
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("SpreadingLoss content");
-    printer.register_value("spreading_loss", _content.spreading_loss, "dB");
+    printer.register_value("spreading_loss", _content._spreading_loss, "dB");
+    printer.register_value("checksum", _content._checksum);
 
     return printer;
 }

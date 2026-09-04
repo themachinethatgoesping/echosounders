@@ -8,9 +8,11 @@
 #include ".docstrings/s7kdatagram.doc.hpp"
 
 // std includes
+#include <cstring>
 #include <iostream>
 #include <limits>
 #include <string>
+#include <string_view>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -181,6 +183,58 @@ class S7KDatagram
      * @brief Test if the flags field indicates a valid checksum (bit 0).
      */
     bool get_checksum_valid() const { return (_flags & 0x0001) != 0; }
+
+    // ----- checksum (debugging only) -----
+    // Every 7k record ends with a 4-byte checksum (see 7k Data Format Definition, Table 5). The
+    // checksum is the sum of all byte values (treated as unsigned) from the start of the record
+    // (protocol version field) up to - but not including - the trailing 4-byte checksum field. It
+    // is NOT verified or (re)computed while reading or writing; these helpers only exist to check a
+    // stored checksum against the record content for debugging.
+
+    /**
+     * @brief Compute the 7k record checksum of a serialized datagram (debugging aid).
+     *
+     * Pass the full serialized record (e.g. the result of to_binary()). The last four bytes are
+     * treated as the stored checksum and are excluded from the sum.
+     *
+     * @param buffer Serialized record bytes (DRF + RTH + data + checksum).
+     * @return Computed 32-bit checksum (sum of all bytes except the trailing four).
+     */
+    static uint32_t compute_checksum(std::string_view buffer)
+    {
+        uint32_t     checksum = 0;
+        const size_t n        = buffer.size() > 4 ? buffer.size() - 4 : 0;
+        for (size_t i = 0; i < n; ++i)
+            checksum += static_cast<uint8_t>(buffer[i]);
+        return checksum;
+    }
+
+    /**
+     * @brief Read the stored checksum (last four bytes) from a serialized record buffer.
+     *
+     * @param buffer Serialized record bytes (DRF + RTH + data + checksum).
+     * @return The stored checksum, or 0 if the buffer is too small.
+     */
+    static uint32_t read_checksum(std::string_view buffer)
+    {
+        if (buffer.size() < 4)
+            return 0;
+        uint32_t checksum = 0;
+        std::memcpy(&checksum, buffer.data() + buffer.size() - 4, sizeof(checksum));
+        return checksum;
+    }
+
+    /**
+     * @brief Check whether the stored checksum of a serialized record matches its computed
+     * checksum (debugging aid).
+     *
+     * @param buffer Serialized record bytes (DRF + RTH + data + checksum).
+     * @return true if compute_checksum(buffer) == read_checksum(buffer).
+     */
+    static bool checksum_is_correct(std::string_view buffer)
+    {
+        return compute_checksum(buffer) == read_checksum(buffer);
+    }
 
     // ----- operators -----
     bool operator==(const S7KDatagram& other) const = default;

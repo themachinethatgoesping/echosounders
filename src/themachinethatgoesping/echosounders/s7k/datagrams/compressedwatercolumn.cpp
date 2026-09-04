@@ -18,13 +18,19 @@ void CompressedWaterColumn::__read__(std::istream& is, bool skip_data)
     if (skip_data)
     {
         // remember the sample position so the samples can be read lazily later, then seek past them
+        // (up to the trailing 4-byte checksum, which is read here)
         _beams.set_skipped(sample_position);
-        is.seekg(std::streamoff(compute_size_content()) - std::streamoff(__content_size),
+        is.seekg(std::streamoff(compute_size_content()) - std::streamoff(__content_size) -
+                     std::streamoff(sizeof(_checksum)),
                  std::ios::cur);
+        is.read(reinterpret_cast<char*>(&_checksum), sizeof(_checksum));
         return;
     }
 
     __read_beams__(is);
+
+    // read the trailing 4-byte checksum (stored for debugging only, not verified)
+    is.read(reinterpret_cast<char*>(&_checksum), sizeof(_checksum));
 }
 
 void CompressedWaterColumn::__read_beams__(std::istream& is)
@@ -32,15 +38,15 @@ void CompressedWaterColumn::__read_beams__(std::istream& is)
     // record-wide sample encoding (from the flags), stored once on the container
     _beams.set_magnitude_bytes(get_magnitude_bytes());
     _beams.set_has_phase(get_has_phase());
-    _beams.set_phase_8bit((_content.flags & FLAG_MAGNITUDE_DB) || (_content.flags & FLAG_32BIT_DATA));
+    _beams.set_phase_8bit((_content._flags & FLAG_MAGNITUDE_DB) || (_content._flags & FLAG_32BIT_DATA));
     _beams.set_magnitude_is_db(get_magnitude_is_db());
-    _beams.set_magnitude_is_32bit_float((_content.flags & FLAG_32BIT_DATA) != 0);
+    _beams.set_magnitude_is_32bit_float((_content._flags & FLAG_32BIT_DATA) != 0);
 
-    const bool   has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
+    const bool   has_segment = (_content._flags & FLAG_SEGMENT_NUMBERS) != 0;
     const size_t stride      = _beams.get_sample_stride();
 
     auto& beams = _beams.beams();
-    beams.resize(_content.number_beams);
+    beams.resize(_content._number_beams);
 
     // each beam reads its header and (raw) sample block directly from the stream (no extra copy)
     for (auto& beam : beams)
@@ -82,9 +88,11 @@ void CompressedWaterColumn::to_stream(std::ostream& os) const
     S7KDatagram::to_stream(os);
     os.write(reinterpret_cast<const char*>(&_content), __content_size);
 
-    const bool has_segment = (_content.flags & FLAG_SEGMENT_NUMBERS) != 0;
+    const bool has_segment = (_content._flags & FLAG_SEGMENT_NUMBERS) != 0;
     for (const auto& beam : _beams.get_beams())
         beam.to_stream(os, has_segment);
+
+    os.write(reinterpret_cast<const char*>(&_checksum), sizeof(_checksum));
 }
 
 tools::classhelper::ObjectPrinter CompressedWaterColumn::__printer__(
@@ -99,19 +107,20 @@ tools::classhelper::ObjectPrinter CompressedWaterColumn::__printer__(
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("CompressedWaterColumn content");
-    printer.register_value("serial_number", _content.serial_number);
-    printer.register_value("ping_number", _content.ping_number);
-    printer.register_value("multi_ping", _content.multi_ping);
-    printer.register_value("number_beams", _content.number_beams);
-    printer.register_value("samples", _content.samples);
-    printer.register_value("compressed_samples", _content.compressed_samples);
-    printer.register_value("flags", _content.flags);
-    printer.register_value("first_sample", _content.first_sample);
-    printer.register_value("sample_rate", _content.sample_rate, "Hz");
-    printer.register_value("compression_factor", _content.compression_factor);
+    printer.register_value("serial_number", _content._serial_number);
+    printer.register_value("ping_number", _content._ping_number);
+    printer.register_value("multi_ping", _content._multi_ping);
+    printer.register_value("number_beams", _content._number_beams);
+    printer.register_value("samples", _content._samples);
+    printer.register_value("compressed_samples", _content._compressed_samples);
+    printer.register_value("flags", fmt::format("0b{:032b}", _content._flags));
+    printer.register_value("first_sample", _content._first_sample);
+    printer.register_value("sample_rate", _content._sample_rate, "Hz");
+    printer.register_value("compression_factor", _content._compression_factor);
     printer.register_value("has_phase", get_has_phase());
     printer.register_value("magnitude_is_db", get_magnitude_is_db());
     printer.register_value("magnitude_bytes", get_magnitude_bytes());
+    printer.register_value("checksum", _checksum);
 
     printer.register_section("beams");
     printer.append(_beams.__printer__(float_precision, superscript_exponents));

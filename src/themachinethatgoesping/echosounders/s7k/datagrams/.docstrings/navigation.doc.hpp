@@ -1,4 +1,4 @@
-//sourcehash: be566c075c1fdd8c0172a0ca0a66fe1957812c1c23083c998d9a20c004187b4f
+//sourcehash: b9438a100b749b3f084a7dab22d90afff09155a43fc1fec0f2687cade53553eb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,23 +45,25 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Nav
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_course = R"doc(course over ground)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_heading = R"doc(heading)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_course = R"doc(course over ground in radians)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_height = R"doc(height of vessel reference point above vertical reference)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_heading = R"doc(heading in radians)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_height_accuracy = R"doc(height accuracy)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_height = R"doc(height of vessel reference point above vertical reference (meters))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_latitude = R"doc(latitude (-pi/2 .. +pi/2))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_height_accuracy = R"doc(height accuracy in meters)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_longitude = R"doc(longitude (-pi .. +pi))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_latitude = R"doc(latitude in radians (-pi/2 .. +pi/2))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_longitude = R"doc(longitude in radians (-pi .. +pi))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_position_accuracy = R"doc(horizontal position accuracy)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_position_accuracy = R"doc(horizontal position accuracy in meters)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_speed = R"doc(speed over ground)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_speed = R"doc(speed over ground in meters per second)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_Content_vertical_reference = R"doc(1 = ellipsoid, 2 = geoid, 3 = chart datum)doc";
 
@@ -77,9 +79,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Nav
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_from_stream_3 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_course = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_course_in_degrees = R"doc(Get the course over ground in degrees (converted from radians).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_heading = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_heading_in_degrees = R"doc(Get the heading in degrees (converted from radians).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_height = R"doc()doc";
 
@@ -87,7 +95,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Nav
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_latitude = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_latitude_in_degrees = R"doc(Get the latitude in degrees (converted from radians).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_longitude = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_longitude_in_degrees = R"doc(Get the longitude in degrees (converted from radians).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_get_position_accuracy = R"doc()doc";
 
@@ -98,6 +110,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Nav
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_set_course = R"doc()doc";
 
@@ -116,6 +130,14 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Nav
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_set_speed = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_set_vertical_reference = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_t_vertical_reference = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_t_vertical_reference_chart_datum = R"doc(chart datum)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_t_vertical_reference_ellipsoid = R"doc(ellipsoid)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_t_vertical_reference_geoid = R"doc(geoid)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_to_stream = R"doc()doc";
 

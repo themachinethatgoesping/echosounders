@@ -59,6 +59,8 @@ void init_c_compressedwatercolumn(nb::module_& m)
                      &CompressedWaterColumn::set_beams,
                      DOC_C(CompressedWaterColumn, beams),
                      nb::rv_policy::reference_internal)
+        .def("get_checksum", &CompressedWaterColumn::get_checksum, DOC_C(CompressedWaterColumn, checksum))
+        .def("set_checksum", &CompressedWaterColumn::set_checksum, DOC_C(CompressedWaterColumn, checksum), nb::arg("val"))
         .def("__eq__", &CompressedWaterColumn::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(CompressedWaterColumn)
         __PYCLASS_DEFAULT_BINARY__(CompressedWaterColumn)

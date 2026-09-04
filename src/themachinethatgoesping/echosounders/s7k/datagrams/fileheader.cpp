@@ -13,7 +13,7 @@ void FileHeader::__read__(std::istream& is)
 {
     is.read(reinterpret_cast<char*>(&_content), __content_size);
 
-    const size_t N       = _content.number_devices;
+    const size_t N       = _content._number_devices;
     auto&        devices = _devices.devices();
     devices.resize(N);
 
@@ -33,6 +33,10 @@ void FileHeader::__read__(std::istream& is)
     {
         _optional_data.clear();
     }
+
+    // read the trailing 4-byte checksum (stored for debugging only, not verified)
+    if (content >= bytes_read + 4)
+        is.read(reinterpret_cast<char*>(&_checksum), sizeof(_checksum));
 }
 
 FileHeader FileHeader::from_stream(std::istream& is, S7KDatagram header)
@@ -62,6 +66,8 @@ void FileHeader::to_stream(std::ostream& os) const
              std::streamsize(devices.size() * sizeof(substructs::FileHeaderDeviceInfo)));
 
     os.write(_optional_data.data(), std::streamsize(_optional_data.size()));
+
+    os.write(reinterpret_cast<const char*>(&_checksum), sizeof(_checksum));
 }
 
 tools::classhelper::ObjectPrinter FileHeader::__printer__(unsigned int float_precision,
@@ -75,12 +81,13 @@ tools::classhelper::ObjectPrinter FileHeader::__printer__(unsigned int float_pre
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("FileHeader content");
-    printer.register_value("version", _content.version);
-    printer.register_value("number_devices", _content.number_devices);
+    printer.register_value("version", _content._version);
+    printer.register_value("number_devices", _content._number_devices);
     printer.register_string("recording_name", get_recording_name());
     printer.register_string("recording_version", get_recording_version());
     printer.register_string("user_defined_name", get_user_defined_name());
     printer.register_string("notes", get_notes());
+    printer.register_value("checksum", _checksum);
 
     printer.register_section("devices");
     printer.append(_devices.__printer__(float_precision, superscript_exponents));

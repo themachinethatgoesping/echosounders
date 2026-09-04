@@ -1,4 +1,4 @@
-//sourcehash: 33a5661543f852a1b560f55af336a0379b8a46195ea1bcc902efdee1e57b98cb
+//sourcehash: 6b77219cdfeb1227a2d90daeceeb79d57313041a08a5f8146a842f4582de8ca4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -74,6 +74,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Fil
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_content = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_devices = R"doc(device entries)doc";
@@ -85,6 +87,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Fil
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_from_stream_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_from_stream_3 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_get_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_get_devices = R"doc()doc";
 
@@ -115,6 +119,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Fil
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_optional_data = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_set_devices = R"doc()doc";
 

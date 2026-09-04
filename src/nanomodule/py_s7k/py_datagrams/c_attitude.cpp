@@ -35,6 +35,8 @@ void init_c_attitude(nb::module_& m)
                      &Attitude::set_samples,
                      DOC_C(Attitude, samples),
                      nb::rv_policy::reference_internal)
+        .def("get_checksum", &Attitude::get_checksum, DOC_C(Attitude, checksum))
+        .def("set_checksum", &Attitude::set_checksum, DOC_C(Attitude, checksum), nb::arg("val"))
         .def("__eq__", &Attitude::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(Attitude)
         __PYCLASS_DEFAULT_BINARY__(Attitude)

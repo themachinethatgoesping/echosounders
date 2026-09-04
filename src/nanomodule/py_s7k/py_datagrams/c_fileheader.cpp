@@ -41,6 +41,8 @@ void init_c_fileheader(nb::module_& m)
                      &FileHeader::set_devices,
                      DOC_C(FileHeader, devices),
                      nb::rv_policy::reference_internal)
+        .def("get_checksum", &FileHeader::get_checksum, DOC_C(FileHeader, checksum))
+        .def("set_checksum", &FileHeader::set_checksum, DOC_C(FileHeader, checksum), nb::arg("val"))
         .def("__eq__", &FileHeader::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(FileHeader)
         __PYCLASS_DEFAULT_BINARY__(FileHeader)

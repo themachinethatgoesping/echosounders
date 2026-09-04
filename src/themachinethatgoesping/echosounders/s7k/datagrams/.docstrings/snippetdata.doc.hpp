@@ -1,4 +1,4 @@
-//sourcehash: fa233a5df40029301003943aa1967c96be11ddf84275781635d8442e9ff344cc
+//sourcehash: f81e500c8745e5de52b2fe605eae1bd7db1d79afab1d86d63af2d992d646d135
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -84,6 +84,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sni
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_beams_2 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_content = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_from_stream = R"doc()doc";
@@ -95,6 +97,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sni
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_amplitudes = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_get_control_flags = R"doc()doc";
 
@@ -121,6 +125,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sni
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_amplitudes = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_control_flags = R"doc()doc";
 

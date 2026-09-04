@@ -43,15 +43,24 @@ tools::classhelper::ObjectPrinter Navigation::__printer__(unsigned int float_pre
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("Navigation content");
-    printer.register_value("vertical_reference", _content.vertical_reference);
-    printer.register_value("latitude", _content.latitude, "rad");
-    printer.register_value("longitude", _content.longitude, "rad");
-    printer.register_value("position_accuracy", _content.position_accuracy, "m");
-    printer.register_value("height", _content.height, "m");
-    printer.register_value("height_accuracy", _content.height_accuracy, "m");
-    printer.register_value("speed", _content.speed, "m/s");
-    printer.register_value("course", _content.course, "rad");
-    printer.register_value("heading", _content.heading, "rad");
+    printer.register_string("vertical_reference",
+                            _content._vertical_reference.name(),
+                            _content._vertical_reference.alt_name());
+    printer.register_value("latitude", _content._latitude, "rad");
+    printer.register_value("longitude", _content._longitude, "rad");
+    printer.register_value("position_accuracy", _content._position_accuracy, "m");
+    printer.register_value("height", _content._height, "m");
+    printer.register_value("height_accuracy", _content._height_accuracy, "m");
+    printer.register_value("speed", _content._speed, "m/s");
+    printer.register_value("course", _content._course, "rad");
+    printer.register_value("heading", _content._heading, "rad");
+    printer.register_value("checksum", _content._checksum);
+
+    printer.register_section("processed");
+    printer.register_value("latitude", get_latitude_in_degrees(), "°");
+    printer.register_value("longitude", get_longitude_in_degrees(), "°");
+    printer.register_value("course", get_course_in_degrees(), "°");
+    printer.register_value("heading", get_heading_in_degrees(), "°");
 
     return printer;
 }

@@ -43,14 +43,17 @@ tools::classhelper::ObjectPrinter MatchFilter::__printer__(unsigned int float_pr
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("MatchFilter content");
-    printer.register_value("serial_number", _content.serial_number);
-    printer.register_value("ping_number", _content.ping_number);
-    printer.register_value("operation", _content.operation);
-    printer.register_value("start_frequency", _content.start_frequency, "Hz");
-    printer.register_value("end_frequency", _content.end_frequency, "Hz");
-    printer.register_value("window_type", _content.window_type);
-    printer.register_value("shading", _content.shading);
-    printer.register_value("effective_pulse_width", _content.effective_pulse_width, "s");
+    printer.register_value("serial_number", _content._serial_number);
+    printer.register_value("ping_number", _content._ping_number);
+    printer.register_string(
+        "operation", _content._operation.name(), _content._operation.alt_name());
+    printer.register_value("start_frequency", _content._start_frequency, "Hz");
+    printer.register_value("end_frequency", _content._end_frequency, "Hz");
+    printer.register_string(
+        "window_type", _content._window_type.name(), _content._window_type.alt_name());
+    printer.register_value("shading", _content._shading);
+    printer.register_value("effective_pulse_width", _content._effective_pulse_width, "s");
+    printer.register_value("checksum", _content._checksum);
 
     return printer;
 }

@@ -45,17 +45,17 @@ class CompressedWaterColumn : public S7KDatagram
 #pragma pack(push, 1)
     struct Content
     {
-        uint64_t serial_number;      ///< sonar serial number
-        uint32_t ping_number;        ///< sequential ping number
-        uint16_t multi_ping;         ///< 0 = single ping, else multi-ping sequence number
-        uint16_t number_beams;       ///< number of beams
-        uint32_t samples;            ///< nominal number of samples (based on range)
-        uint32_t compressed_samples; ///< maximum number of samples over all beams
-        uint32_t flags;              ///< compression control flags bit field
-        uint32_t first_sample;       ///< first sample index for each beam
-        float    sample_rate;        ///< effective sample rate after downsampling (Hz)
-        float    compression_factor; ///< magnitude compression factor
-        uint32_t reserved;           ///< reserved
+        uint64_t _serial_number      = 0;   ///< sonar serial number
+        uint32_t _ping_number        = 0;   ///< sequential ping number
+        uint16_t _multi_ping         = 0;   ///< 0 = single ping, else multi-ping sequence number
+        uint16_t _number_beams       = 0;   ///< number of beams
+        uint32_t _samples            = 0;   ///< nominal number of samples (based on range)
+        uint32_t _compressed_samples = 0;   ///< maximum number of samples over all beams
+        uint32_t _flags              = 0;   ///< compression control flags bit field
+        uint32_t _first_sample       = 0;   ///< first sample index for each beam
+        float    _sample_rate        = 0.f; ///< effective sample rate after downsampling (Hz)
+        float    _compression_factor = 0.f; ///< magnitude compression factor
+        uint32_t _reserved           = 0;   ///< reserved
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -65,41 +65,49 @@ class CompressedWaterColumn : public S7KDatagram
 
     substructs::CompressedWaterColumnBeamContainer _beams; ///< per-beam magnitude/phase data
 
+    uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
+
   public:
-    CompressedWaterColumn()  = default;
+    CompressedWaterColumn()
+        : _content{}
+    {
+        set_datagram_identifier(DatagramIdentifier);
+    }
     ~CompressedWaterColumn() = default;
 
     // ----- record type header access -----
-    uint64_t get_serial_number() const { return _content.serial_number; }
-    uint32_t get_ping_number() const { return _content.ping_number; }
-    uint16_t get_multi_ping() const { return _content.multi_ping; }
-    uint16_t get_number_beams() const { return _content.number_beams; }
-    uint32_t get_samples() const { return _content.samples; }
-    uint32_t get_compressed_samples() const { return _content.compressed_samples; }
-    uint32_t get_flags() const { return _content.flags; }
-    uint32_t get_first_sample() const { return _content.first_sample; }
-    float    get_sample_rate() const { return _content.sample_rate; }
-    float    get_compression_factor() const { return _content.compression_factor; }
+    uint64_t get_serial_number() const { return _content._serial_number; }
+    uint32_t get_ping_number() const { return _content._ping_number; }
+    uint16_t get_multi_ping() const { return _content._multi_ping; }
+    uint16_t get_number_beams() const { return _content._number_beams; }
+    uint32_t get_samples() const { return _content._samples; }
+    uint32_t get_compressed_samples() const { return _content._compressed_samples; }
+    uint32_t get_flags() const { return _content._flags; }
+    uint32_t get_first_sample() const { return _content._first_sample; }
+    float    get_sample_rate() const { return _content._sample_rate; }
+    float    get_compression_factor() const { return _content._compression_factor; }
+    uint32_t get_checksum() const { return _checksum; }
 
-    void set_serial_number(uint64_t val) { _content.serial_number = val; }
-    void set_ping_number(uint32_t val) { _content.ping_number = val; }
-    void set_multi_ping(uint16_t val) { _content.multi_ping = val; }
-    void set_number_beams(uint16_t val) { _content.number_beams = val; }
-    void set_samples(uint32_t val) { _content.samples = val; }
-    void set_compressed_samples(uint32_t val) { _content.compressed_samples = val; }
-    void set_flags(uint32_t val) { _content.flags = val; }
-    void set_first_sample(uint32_t val) { _content.first_sample = val; }
-    void set_sample_rate(float val) { _content.sample_rate = val; }
-    void set_compression_factor(float val) { _content.compression_factor = val; }
+    void set_serial_number(uint64_t val) { _content._serial_number = val; }
+    void set_ping_number(uint32_t val) { _content._ping_number = val; }
+    void set_multi_ping(uint16_t val) { _content._multi_ping = val; }
+    void set_number_beams(uint16_t val) { _content._number_beams = val; }
+    void set_samples(uint32_t val) { _content._samples = val; }
+    void set_compressed_samples(uint32_t val) { _content._compressed_samples = val; }
+    void set_flags(uint32_t val) { _content._flags = val; }
+    void set_first_sample(uint32_t val) { _content._first_sample = val; }
+    void set_sample_rate(float val) { _content._sample_rate = val; }
+    void set_compression_factor(float val) { _content._compression_factor = val; }
+    void set_checksum(uint32_t val) { _checksum = val; }
 
-    bool get_has_phase() const { return (_content.flags & FLAG_MAGNITUDE_ONLY) == 0; }
-    bool get_magnitude_is_db() const { return (_content.flags & FLAG_MAGNITUDE_DB) != 0; }
+    bool get_has_phase() const { return (_content._flags & FLAG_MAGNITUDE_ONLY) == 0; }
+    bool get_magnitude_is_db() const { return (_content._flags & FLAG_MAGNITUDE_DB) != 0; }
     /// number of bytes per magnitude sample as stored on disk (1, 2 or 4)
     int get_magnitude_bytes() const
     {
-        if (_content.flags & FLAG_32BIT_DATA)
+        if (_content._flags & FLAG_32BIT_DATA)
             return 4;
-        if (_content.flags & FLAG_MAGNITUDE_DB)
+        if (_content._flags & FLAG_MAGNITUDE_DB)
             return 1;
         return 2;
     }

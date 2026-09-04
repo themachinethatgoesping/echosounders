@@ -1,4 +1,4 @@
-//sourcehash: 762baf8a8873225d4960a1a25fa1602880db721fb7039f897874a7218306e6e8
+//sourcehash: b9cf7e0c9e09b035fa234d21f450fb75002589cc29c23bddf747f5910c65b1e5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,15 +45,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Ref
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_offset_x = R"doc(vehicle reference X offset to center of gravity)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_checksum = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_offset_y = R"doc(vehicle reference Y offset to center of gravity)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_offset_x = R"doc(vehicle reference X offset to center of gravity (meters))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_offset_z = R"doc(vehicle reference Z offset to center of gravity)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_offset_y = R"doc(vehicle reference Y offset to center of gravity (meters))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_offset_z = R"doc(vehicle reference Z offset to center of gravity (meters))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_water_z = R"doc(water level Z offset to center of gravity)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_Content_water_z = R"doc(water level Z offset to center of gravity (meters))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_ReferencePoint = R"doc()doc";
 
@@ -67,6 +69,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Ref
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_from_stream_3 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_get_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_get_offset_x = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_get_offset_y = R"doc()doc";
@@ -78,6 +82,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Ref
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_ReferencePoint_set_offset_x = R"doc()doc";
 

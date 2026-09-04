@@ -7,6 +7,7 @@
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <themachinethatgoesping/tools_nanobind/datetime.hpp>
+#include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
 
 #include <themachinethatgoesping/echosounders/s7k/datagrams/sonarsettings.hpp>
 
@@ -22,9 +23,57 @@ using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
 #define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
+#define DOC_SonarSettings(ARG)                                                                     \
+    DOC(themachinethatgoesping, echosounders, s7k, datagrams, SonarSettings, ARG)
 
 void init_c_sonarsettings(nb::module_& m)
 {
+    using t_tx_pulse_type       = SonarSettings::t_tx_pulse_type;
+    using o_tx_pulse_type       = SonarSettings::o_tx_pulse_type;
+    using t_tx_pulse_envelope   = SonarSettings::t_tx_pulse_envelope;
+    using o_tx_pulse_envelope   = SonarSettings::o_tx_pulse_envelope;
+    using t_tx_pulse_mode       = SonarSettings::t_tx_pulse_mode;
+    using o_tx_pulse_mode       = SonarSettings::o_tx_pulse_mode;
+    using t_projector_weighting = SonarSettings::t_projector_weighting;
+    using o_projector_weighting = SonarSettings::o_projector_weighting;
+    using t_rx_weighting        = SonarSettings::t_rx_weighting;
+    using o_rx_weighting        = SonarSettings::o_rx_weighting;
+    namespace nbh               = themachinethatgoesping::tools::nanobind_helper;
+
+    nb::enum_<t_tx_pulse_type>(m, "SonarSettings_t_tx_pulse_type", "transmit pulse type")
+        .value("cw", t_tx_pulse_type::cw, "CW")
+        .value("chirp", t_tx_pulse_type::chirp, "linear chirp (FM)");
+    nbh::make_option_class<o_tx_pulse_type>(m, "SonarSettings_o_tx_pulse_type");
+
+    nb::enum_<t_tx_pulse_envelope>(
+        m, "SonarSettings_t_tx_pulse_envelope", "transmit pulse envelope")
+        .value("tapered_rectangular", t_tx_pulse_envelope::tapered_rectangular, "tapered rectangular")
+        .value("tukey", t_tx_pulse_envelope::tukey, "Tukey")
+        .value("hamming", t_tx_pulse_envelope::hamming, "Hamming")
+        .value("han", t_tx_pulse_envelope::han, "Han")
+        .value("rectangular", t_tx_pulse_envelope::rectangular, "rectangular");
+    nbh::make_option_class<o_tx_pulse_envelope>(m, "SonarSettings_o_tx_pulse_envelope");
+
+    nb::enum_<t_tx_pulse_mode>(m, "SonarSettings_t_tx_pulse_mode", "transmit pulse mode")
+        .value("single_ping", t_tx_pulse_mode::single_ping, "single ping")
+        .value("multi_ping_2", t_tx_pulse_mode::multi_ping_2, "multi-ping 2")
+        .value("multi_ping_3", t_tx_pulse_mode::multi_ping_3, "multi-ping 3")
+        .value("multi_ping_4", t_tx_pulse_mode::multi_ping_4, "multi-ping 4");
+    nbh::make_option_class<o_tx_pulse_mode>(m, "SonarSettings_o_tx_pulse_mode");
+
+    nb::enum_<t_projector_weighting>(
+        m, "SonarSettings_t_projector_weighting", "projector beam weighting window type")
+        .value("rectangular", t_projector_weighting::rectangular, "rectangular")
+        .value("chebychev", t_projector_weighting::chebychev, "Chebychev")
+        .value("gauss", t_projector_weighting::gauss, "Gauss");
+    nbh::make_option_class<o_projector_weighting>(m, "SonarSettings_o_projector_weighting");
+
+    nb::enum_<t_rx_weighting>(
+        m, "SonarSettings_t_rx_weighting", "receive beam weighting window")
+        .value("chebychev", t_rx_weighting::chebychev, "Chebychev")
+        .value("kaiser", t_rx_weighting::kaiser, "Kaiser");
+    nbh::make_option_class<o_rx_weighting>(m, "SonarSettings_o_rx_weighting");
+
     nb::class_<SonarSettings, S7KDatagram>(m, "SonarSettings", DOC(themachinethatgoesping, echosounders, s7k, datagrams, SonarSettings))
         .def(nb::init<>(), DOC_C(SonarSettings, SonarSettings))
         .def("get_serial_number", &SonarSettings::get_serial_number, DOC_C(SonarSettings, Content, serial_number))
@@ -103,6 +152,12 @@ void init_c_sonarsettings(nb::module_& m)
         .def("set_sound_velocity", &SonarSettings::set_sound_velocity, DOC_C(SonarSettings, Content, sound_velocity), nb::arg("val"))
         .def("get_spreading", &SonarSettings::get_spreading, DOC_C(SonarSettings, Content, spreading))
         .def("set_spreading", &SonarSettings::set_spreading, DOC_C(SonarSettings, Content, spreading), nb::arg("val"))
+        .def("get_checksum", &SonarSettings::get_checksum, DOC_C(SonarSettings, Content, checksum))
+        .def("set_checksum", &SonarSettings::set_checksum, DOC_C(SonarSettings, Content, checksum), nb::arg("val"))
+        .def("get_steering_vertical_in_degrees", &SonarSettings::get_steering_vertical_in_degrees, DOC_SonarSettings(get_steering_vertical_in_degrees))
+        .def("get_steering_horizontal_in_degrees", &SonarSettings::get_steering_horizontal_in_degrees, DOC_SonarSettings(get_steering_horizontal_in_degrees))
+        .def("get_beamwidth_vertical_in_degrees", &SonarSettings::get_beamwidth_vertical_in_degrees, DOC_SonarSettings(get_beamwidth_vertical_in_degrees))
+        .def("get_beamwidth_horizontal_in_degrees", &SonarSettings::get_beamwidth_horizontal_in_degrees, DOC_SonarSettings(get_beamwidth_horizontal_in_degrees))
         .def("__eq__", &SonarSettings::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(SonarSettings)
         __PYCLASS_DEFAULT_BINARY__(SonarSettings)

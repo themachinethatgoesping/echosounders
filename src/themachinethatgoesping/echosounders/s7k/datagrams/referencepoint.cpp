@@ -43,10 +43,11 @@ tools::classhelper::ObjectPrinter ReferencePoint::__printer__(unsigned int float
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("ReferencePoint content");
-    printer.register_value("offset_x", _content.offset_x, "m");
-    printer.register_value("offset_y", _content.offset_y, "m");
-    printer.register_value("offset_z", _content.offset_z, "m");
-    printer.register_value("water_z", _content.water_z, "m");
+    printer.register_value("offset_x", _content._offset_x, "m");
+    printer.register_value("offset_y", _content._offset_y, "m");
+    printer.register_value("offset_z", _content._offset_z, "m");
+    printer.register_value("water_z", _content._water_z, "m");
+    printer.register_value("checksum", _content._checksum);
 
     return printer;
 }

@@ -54,6 +54,8 @@ void init_c_snippetdata(nb::module_& m)
                      &SnippetData::set_amplitudes,
                      DOC_C(SnippetData, amplitudes),
                      nb::rv_policy::reference_internal)
+        .def("get_checksum", &SnippetData::get_checksum, DOC_C(SnippetData, checksum))
+        .def("set_checksum", &SnippetData::set_checksum, DOC_C(SnippetData, checksum), nb::arg("val"))
         .def("__eq__", &SnippetData::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(SnippetData)
         __PYCLASS_DEFAULT_BINARY__(SnippetData)

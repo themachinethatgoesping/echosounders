@@ -34,10 +34,13 @@ class ReferencePoint : public S7KDatagram
 #pragma pack(push, 1)
     struct Content
     {
-        float offset_x; ///< vehicle reference X offset to center of gravity
-        float offset_y; ///< vehicle reference Y offset to center of gravity
-        float offset_z; ///< vehicle reference Z offset to center of gravity
-        float water_z; ///< water level Z offset to center of gravity
+        float _offset_x = 0.f; ///< vehicle reference X offset to center of gravity (meters)
+        float _offset_y = 0.f; ///< vehicle reference Y offset to center of gravity (meters)
+        float _offset_z = 0.f; ///< vehicle reference Z offset to center of gravity (meters)
+        float _water_z  = 0.f; ///< water level Z offset to center of gravity (meters)
+
+        uint32_t _checksum =
+            0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -54,15 +57,17 @@ class ReferencePoint : public S7KDatagram
     ~ReferencePoint() = default;
 
     // ----- convenient member access -----
-    float get_offset_x() const { return _content.offset_x; }
-    float get_offset_y() const { return _content.offset_y; }
-    float get_offset_z() const { return _content.offset_z; }
-    float get_water_z() const { return _content.water_z; }
+    float    get_offset_x() const { return _content._offset_x; }
+    float    get_offset_y() const { return _content._offset_y; }
+    float    get_offset_z() const { return _content._offset_z; }
+    float    get_water_z() const { return _content._water_z; }
+    uint32_t get_checksum() const { return _content._checksum; }
 
-    void set_offset_x(float val) { _content.offset_x = val; }
-    void set_offset_y(float val) { _content.offset_y = val; }
-    void set_offset_z(float val) { _content.offset_z = val; }
-    void set_water_z(float val) { _content.water_z = val; }
+    void set_offset_x(float val) { _content._offset_x = val; }
+    void set_offset_y(float val) { _content._offset_y = val; }
+    void set_offset_z(float val) { _content._offset_z = val; }
+    void set_water_z(float val) { _content._water_z = val; }
+    void set_checksum(uint32_t val) { _content._checksum = val; }
 
     // ----- operators -----
     bool operator==(const ReferencePoint& other) const = default;

@@ -54,6 +54,8 @@ void init_c_rawdetection(nb::module_& m)
                      &RawDetection::set_beams,
                      DOC_C(RawDetection, beams),
                      nb::rv_policy::reference_internal)
+        .def("get_checksum", &RawDetection::get_checksum, DOC_C(RawDetection, checksum))
+        .def("set_checksum", &RawDetection::set_checksum, DOC_C(RawDetection, checksum), nb::arg("val"))
         .def("__eq__", &RawDetection::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(RawDetection)
         __PYCLASS_DEFAULT_BINARY__(RawDetection)

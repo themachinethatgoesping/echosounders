@@ -1,4 +1,4 @@
-//sourcehash: c98a1b1ae75bca6bc1621f86f1a6bc0f46dc48733d6465e926987e5d1fc19d00
+//sourcehash: 8718714150914cc7b662dba8a967f59710d63eb1558749da59b1a9bd109f6cb8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,7 +45,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Hea
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_Content_heading = R"doc(vessel heading)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_Content_checksum = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_Content_heading = R"doc(vessel heading in radians)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_Content_operator_eq = R"doc()doc";
 
@@ -61,11 +63,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Hea
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_from_stream_3 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_get_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_get_heading = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_get_heading_in_degrees = R"doc(Get the vessel heading in degrees (converted from radians).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Heading_set_heading = R"doc()doc";
 

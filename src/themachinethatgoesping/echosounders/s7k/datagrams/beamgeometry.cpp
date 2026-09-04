@@ -13,7 +13,7 @@ void BeamGeometry::__read__(std::istream& is)
 {
     is.read(reinterpret_cast<char*>(&_content), __content_size);
 
-    const size_t        N     = _content.number_beams;
+    const size_t        N     = _content._number_beams;
     const std::streamsize bytes = std::streamsize(N * sizeof(float));
 
     auto read_array = [&](xt::xtensor<float, 1>& a) {
@@ -26,12 +26,16 @@ void BeamGeometry::__read__(std::istream& is)
     read_array(_beamwidth_vertical);
     read_array(_beamwidth_horizontal);
 
-    // the tx_delay array is optional (added in a later record version)
-    _has_tx_delay = compute_size_content() >= __content_size + 5 * N * sizeof(float);
+    // the tx_delay array is optional (added in a later record version); every record ends with a
+    // 4-byte checksum, so the optional array is only present if there is room for it before it
+    _has_tx_delay = compute_size_content() >= __content_size + 5 * N * sizeof(float) + 4;
     if (_has_tx_delay)
         read_array(_tx_delay);
     else
         _tx_delay = xt::xtensor<float, 1>();
+
+    // read the trailing 4-byte checksum (stored for debugging only, not verified)
+    is.read(reinterpret_cast<char*>(&_checksum), sizeof(_checksum));
 }
 
 BeamGeometry BeamGeometry::from_stream(std::istream& is, S7KDatagram header)
@@ -56,13 +60,15 @@ void BeamGeometry::to_stream(std::ostream& os) const
     S7KDatagram::to_stream(os);
     os.write(reinterpret_cast<const char*>(&_content), __content_size);
 
-    const std::streamsize bytes = std::streamsize(_content.number_beams * sizeof(float));
+    const std::streamsize bytes = std::streamsize(_content._number_beams * sizeof(float));
     os.write(reinterpret_cast<const char*>(_beam_vertical_angle.data()), bytes);
     os.write(reinterpret_cast<const char*>(_beam_horizontal_angle.data()), bytes);
     os.write(reinterpret_cast<const char*>(_beamwidth_vertical.data()), bytes);
     os.write(reinterpret_cast<const char*>(_beamwidth_horizontal.data()), bytes);
     if (_has_tx_delay)
         os.write(reinterpret_cast<const char*>(_tx_delay.data()), bytes);
+
+    os.write(reinterpret_cast<const char*>(&_checksum), sizeof(_checksum));
 }
 
 tools::classhelper::ObjectPrinter BeamGeometry::__printer__(unsigned int float_precision,
@@ -76,9 +82,10 @@ tools::classhelper::ObjectPrinter BeamGeometry::__printer__(unsigned int float_p
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("BeamGeometry content");
-    printer.register_value("serial_number", _content.serial_number);
-    printer.register_value("number_beams", _content.number_beams);
+    printer.register_value("serial_number", _content._serial_number);
+    printer.register_value("number_beams", _content._number_beams);
     printer.register_value("has_tx_delay", _has_tx_delay);
+    printer.register_value("checksum", _checksum);
 
     printer.register_section("per-beam geometry");
     printer.register_container("beam_vertical_angle", _beam_vertical_angle, "rad");

@@ -40,14 +40,14 @@ class SnippetData : public S7KDatagram
 #pragma pack(push, 1)
     struct Content
     {
-        uint64_t serial_number; ///< sonar serial number
-        uint32_t ping_number;   ///< sequential ping number
-        uint16_t multi_ping;    ///< 0 = single ping, else multi-ping sequence number
-        uint16_t number_beams;  ///< number of detection points (beams)
-        uint8_t  error_flag;    ///< 0 = ok, 6 = bottom detection failed, else error
-        uint8_t  control_flags; ///< snippet window control flags
-        uint32_t flags;         ///< flags bit field (bit 0: 0 = 16-bit, 1 = 32-bit snippets)
-        uint32_t reserved[6];   ///< reserved
+        uint64_t _serial_number = 0; ///< sonar serial number
+        uint32_t _ping_number   = 0; ///< sequential ping number
+        uint16_t _multi_ping    = 0; ///< 0 = single ping, else multi-ping sequence number
+        uint16_t _number_beams  = 0; ///< number of detection points (beams)
+        uint8_t  _error_flag    = 0; ///< 0 = ok, 6 = bottom detection failed, else error
+        uint8_t  _control_flags = 0; ///< snippet window control flags
+        uint32_t _flags         = 0; ///< flags bit field (bit 0: 0 = 16-bit, 1 = 32-bit snippets)
+        uint32_t _reserved[6]   = {}; ///< reserved
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -58,29 +58,37 @@ class SnippetData : public S7KDatagram
     substructs::SnippetDataBeamContainer _beams;      ///< per-beam snippet descriptors
     substructs::SnippetDataAmplitudes    _amplitudes; ///< per-beam intensity samples
 
+    uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
+
   public:
-    SnippetData()  = default;
+    SnippetData()
+        : _content{}
+    {
+        set_datagram_identifier(DatagramIdentifier);
+    }
     ~SnippetData() = default;
 
     // ----- record type header access -----
-    uint64_t get_serial_number() const { return _content.serial_number; }
-    uint32_t get_ping_number() const { return _content.ping_number; }
-    uint16_t get_multi_ping() const { return _content.multi_ping; }
-    uint16_t get_number_beams() const { return _content.number_beams; }
-    uint8_t  get_error_flag() const { return _content.error_flag; }
-    uint8_t  get_control_flags() const { return _content.control_flags; }
-    uint32_t get_flags() const { return _content.flags; }
+    uint64_t get_serial_number() const { return _content._serial_number; }
+    uint32_t get_ping_number() const { return _content._ping_number; }
+    uint16_t get_multi_ping() const { return _content._multi_ping; }
+    uint16_t get_number_beams() const { return _content._number_beams; }
+    uint8_t  get_error_flag() const { return _content._error_flag; }
+    uint8_t  get_control_flags() const { return _content._control_flags; }
+    uint32_t get_flags() const { return _content._flags; }
+    uint32_t get_checksum() const { return _checksum; }
 
-    void set_serial_number(uint64_t val) { _content.serial_number = val; }
-    void set_ping_number(uint32_t val) { _content.ping_number = val; }
-    void set_multi_ping(uint16_t val) { _content.multi_ping = val; }
-    void set_number_beams(uint16_t val) { _content.number_beams = val; }
-    void set_error_flag(uint8_t val) { _content.error_flag = val; }
-    void set_control_flags(uint8_t val) { _content.control_flags = val; }
-    void set_flags(uint32_t val) { _content.flags = val; }
+    void set_serial_number(uint64_t val) { _content._serial_number = val; }
+    void set_ping_number(uint32_t val) { _content._ping_number = val; }
+    void set_multi_ping(uint16_t val) { _content._multi_ping = val; }
+    void set_number_beams(uint16_t val) { _content._number_beams = val; }
+    void set_error_flag(uint8_t val) { _content._error_flag = val; }
+    void set_control_flags(uint8_t val) { _content._control_flags = val; }
+    void set_flags(uint32_t val) { _content._flags = val; }
+    void set_checksum(uint32_t val) { _checksum = val; }
 
     /// true if the intensity samples are stored as 32-bit values (flags bit 0)
-    bool get_samples_are_32bit() const { return (_content.flags & 0x1) != 0; }
+    bool get_samples_are_32bit() const { return (_content._flags & 0x1) != 0; }
 
     // ----- substructure access -----
     const substructs::SnippetDataBeamContainer& get_beams() const { return _beams; }

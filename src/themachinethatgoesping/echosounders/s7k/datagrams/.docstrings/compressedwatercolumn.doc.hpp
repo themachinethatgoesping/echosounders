@@ -1,4 +1,4 @@
-//sourcehash: 4082aeb8fa5b3031722b1753f846ace1ad6c1a1872ab9804f95258237dbdd713
+//sourcehash: c6032b98643fa8176c558242527ac3dd1a8e054b5d81ad8756d0fe8f1b5d6c5c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -84,6 +84,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_beams_2 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_content = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_from_stream = R"doc()doc";
@@ -93,6 +95,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_from_stream_3 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_compressed_samples = R"doc()doc";
 
@@ -133,6 +137,8 @@ Args:
         read from.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_set_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_set_compressed_samples = R"doc()doc";
 

@@ -43,9 +43,14 @@ tools::classhelper::ObjectPrinter RollPitchHeave::__printer__(unsigned int float
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("RollPitchHeave content");
-    printer.register_value("roll", _content.roll, "rad");
-    printer.register_value("pitch", _content.pitch, "rad");
-    printer.register_value("heave", _content.heave, "m");
+    printer.register_value("roll", _content._roll, "rad");
+    printer.register_value("pitch", _content._pitch, "rad");
+    printer.register_value("heave", _content._heave, "m");
+    printer.register_value("checksum", _content._checksum);
+
+    printer.register_section("processed");
+    printer.register_value("roll", get_roll_in_degrees(), "°");
+    printer.register_value("pitch", get_pitch_in_degrees(), "°");
 
     return printer;
 }

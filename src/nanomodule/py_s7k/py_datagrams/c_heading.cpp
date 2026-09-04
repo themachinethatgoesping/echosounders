@@ -22,6 +22,7 @@ using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
 #define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
+#define DOC_Heading(ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, Heading, ARG)
 
 void init_c_heading(nb::module_& m)
 {
@@ -29,6 +30,9 @@ void init_c_heading(nb::module_& m)
         .def(nb::init<>(), DOC_C(Heading, Heading))
         .def("get_heading", &Heading::get_heading, DOC_C(Heading, Content, heading))
         .def("set_heading", &Heading::set_heading, DOC_C(Heading, Content, heading), nb::arg("val"))
+        .def("get_checksum", &Heading::get_checksum, DOC_C(Heading, Content, checksum))
+        .def("set_checksum", &Heading::set_checksum, DOC_C(Heading, Content, checksum), nb::arg("val"))
+        .def("get_heading_in_degrees", &Heading::get_heading_in_degrees, DOC_Heading(get_heading_in_degrees))
         .def("__eq__", &Heading::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(Heading)
         __PYCLASS_DEFAULT_BINARY__(Heading)

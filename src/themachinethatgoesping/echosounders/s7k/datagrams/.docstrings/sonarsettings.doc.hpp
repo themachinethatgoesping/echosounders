@@ -1,4 +1,4 @@
-//sourcehash: 47d85e8e00539aab1a01214c3832135c5e5cc431ed52fc75588cea8306d8d1d0
+//sourcehash: 4e1fb2d32aad2c84f5f3826987194c303b9b8ded3f6538819ff14e8a256e3eec
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,35 +47,37 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_absorption = R"doc(absorption)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_beamwidth_horizontal = R"doc(transmit -3dB beam width horizontal)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_beamwidth_horizontal = R"doc(transmit -3dB beam width horizontal (rad))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_beamwidth_vertical = R"doc(transmit -3dB beam width vertical)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_beamwidth_vertical = R"doc(transmit -3dB beam width vertical (rad))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_control_flags = R"doc(control flags bit field)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_depth_maximum = R"doc(bottom detection maximum depth)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_control_flags = R"doc(control flags bit field (7k DFD Tbl 42))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_depth_minimum = R"doc(bottom detection minimum depth)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_depth_maximum = R"doc(bottom detection maximum depth (m))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_focal_point = R"doc(transmit focal point)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_depth_minimum = R"doc(bottom detection minimum depth (m))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_frequency = R"doc(transmit frequency)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_focal_point = R"doc(transmit focal point in meters)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_gain_selection = R"doc(gain selection)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_frequency = R"doc(transmit frequency in Hz)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_gain_selection = R"doc(gain selection in dB)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_hydrophone_id = R"doc(receiver hydrophone identifier)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_max_ping_rate = R"doc(maximum ping rate)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_max_ping_rate = R"doc(maximum ping rate in pings per second)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_multi_ping = R"doc(0 = single ping, else multi-ping sequence number)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_multi_ping = R"doc(0 = single ping, else multi-ping seq)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_ping_number = R"doc(sequential ping number)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_ping_period = R"doc(time since previous ping)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_ping_period = R"doc(seconds since previous ping)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_power_selection = R"doc(power selection (dB re 1 uPa))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_power_selection = R"doc(power selection in dB re 1 uPa)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_projector_id = R"doc(transmit projector identifier)doc";
 
@@ -83,25 +85,25 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_projector_weighting_parameter = R"doc(projector weighting parameter)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_range_maximum = R"doc(bottom detection maximum range)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_range_maximum = R"doc(bottom detection maximum range (m))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_range_minimum = R"doc(bottom detection minimum range)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_range_minimum = R"doc(bottom detection minimum range (m))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_range_selection = R"doc(range selection)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_range_selection = R"doc(range selection in meters)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_receiver_bandwidth = R"doc(receiver bandwidth)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_receiver_bandwidth = R"doc(receiver bandwidth in Hz)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_reserved = R"doc(reserved)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_rx_flags = R"doc(receiver flags bit field)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_rx_flags = R"doc(receiver flags bit field (7k DFD Tbl 42))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_rx_weighting = R"doc(receiver weighting window type (0-1))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_rx_weighting_parameter = R"doc(receiver weighting parameter)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_rx_width = R"doc(receiver beam width)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_rx_width = R"doc(receiver beam width in radians)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_sample_rate = R"doc(sample rate)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_sample_rate = R"doc(sample rate in Hz)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_serial_number = R"doc(sonar serial number)doc";
 
@@ -109,11 +111,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_spreading = R"doc(spreading loss)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_steering_horizontal = R"doc(transmit steering angle horizontal)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_steering_horizontal = R"doc(transmit steering angle horizontal (rad))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_steering_vertical = R"doc(transmit steering angle vertical)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_steering_vertical = R"doc(transmit steering angle vertical (rad))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_transmit_flags = R"doc(transmit flags bit field)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_transmit_flags = R"doc(transmit flags bit field (7k DFD Tbl 42))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_tx_pulse_envelope = R"doc(envelope/window type (0-4))doc";
 
@@ -123,7 +125,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_tx_pulse_type = R"doc(0 = CW, 1 = chirp)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_tx_pulse_width = R"doc(transmit pulse length)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_tx_pulse_width = R"doc(transmit pulse length in seconds)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
@@ -141,7 +143,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_beamwidth_horizontal = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_beamwidth_horizontal_in_degrees =
+R"doc(Get the transmit -3dB beam width horizontal in degrees (converted from
+radians).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_beamwidth_vertical = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_beamwidth_vertical_in_degrees =
+R"doc(Get the transmit -3dB beam width vertical in degrees (converted from
+radians).)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_control_flags = R"doc()doc";
 
@@ -199,7 +211,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_steering_horizontal = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_steering_horizontal_in_degrees =
+R"doc(Get the transmit steering angle horizontal in degrees (converted from
+radians).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_steering_vertical = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_steering_vertical_in_degrees =
+R"doc(Get the transmit steering angle vertical in degrees (converted from
+radians).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_transmit_flags = R"doc()doc";
 
@@ -222,6 +242,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_set_beamwidth_horizontal = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_set_beamwidth_vertical = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_set_control_flags = R"doc()doc";
 
@@ -292,6 +314,48 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_set_tx_pulse_type = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_set_tx_pulse_width = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_projector_weighting = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_projector_weighting_chebychev = R"doc(Chebychev)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_projector_weighting_gauss = R"doc(Gauss)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_projector_weighting_rectangular = R"doc(rectangular)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_rx_weighting = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_rx_weighting_chebychev = R"doc(Chebychev)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_rx_weighting_kaiser = R"doc(Kaiser)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_envelope = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_envelope_hamming = R"doc(Hamming)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_envelope_han = R"doc(Han)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_envelope_rectangular = R"doc(rectangular)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_envelope_tapered_rectangular = R"doc(tapered rectangular)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_envelope_tukey = R"doc(Tukey)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_mode = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_mode_multi_ping_2 = R"doc(multi-ping 2)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_mode_multi_ping_3 = R"doc(multi-ping 3)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_mode_multi_ping_4 = R"doc(multi-ping 4)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_mode_single_ping = R"doc(single ping)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_type = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_type_chirp = R"doc(linear chirp (FM))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_type_cw = R"doc(CW)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_to_stream = R"doc()doc";
 

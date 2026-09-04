@@ -1,4 +1,4 @@
-//sourcehash: 899af27365f9025b7beddeccc9b55b99e9b261f98e72ca588603f377a06d287b
+//sourcehash: 5f2f88b7754e0039ba44d57dae9a26830927cce263e01d82fca53871a90ee8fa
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,7 +47,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Abs
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_Content_absorption_loss = R"doc(absorption loss)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_Content_absorption_loss = R"doc(absorption loss in dB/km)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_Content_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_Content_operator_eq = R"doc()doc";
 
@@ -63,11 +65,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Abs
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_get_absorption_loss = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_get_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_set_absorption_loss = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_AbsorptionLoss_to_stream = R"doc()doc";
 

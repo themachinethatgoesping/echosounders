@@ -1,4 +1,4 @@
-//sourcehash: e4a27a25026aa164b9a81bddf80b1fa94bdea8e9becc588bf36dadb6de6a649c
+//sourcehash: d14bb4895a7586ee05cc994976de965bff71e8ed08a6ec7d573c4d60fa4ffd5e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,29 +41,35 @@
 #endif
 
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position = R"doc(7k record Position)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position =
+R"doc(7k Position Record (1003) used in conjunction with Record Type 1011
+(Geodesy).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_datum = R"doc(datum identifier (0 = WGS84))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_height = R"doc(height relative to datum)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_datum_identifier = R"doc(datum identifier (0 = WGS84, >0 = reserved))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_latency = R"doc(position latency)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_height = R"doc(height relative to datum in meters)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_latitude_northing = R"doc(latitude (rad) if geographic, else northing (m))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_latency = R"doc(positioning latency in seconds (0 for 7k sonar / PDS))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_longitude_easting = R"doc(longitude (rad) if geographic, else easting (m))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_latitude_or_northing = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_longitude_or_easting = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_number_of_satellites = R"doc(number of satellites (optional))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_position_method = R"doc(positioning method (GPS/DGPS/RTK/... 0-16))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_position_method = R"doc(positioning method (GPS/DGPS/RTK/inertial))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_position_type = R"doc(0 = geographic, 1 = grid coordinates)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_position_type_flag = R"doc(0 = geographical, 1 = grid coordinates)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_quality = R"doc(0 = navigation, 1 = dead reckoning)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_quality_flag = R"doc(0 = navigation data, 1 = dead-reckoning)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_utm_zone = R"doc(UTM zone (if grid))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Content_utm_zone = R"doc(UTM zone (if grid coordinates))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_Position = R"doc()doc";
 
@@ -77,21 +83,37 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Pos
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_from_stream_3 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_datum = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_checksum = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_datum_identifier = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_height = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_latency = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_latitude_northing = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_latitude_in_degrees =
+R"doc(Get the latitude in degrees (only meaningful for geographical
+coordinates).
+Returns:
+    latitude_or_northing converted from radians to degrees.)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_longitude_easting = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_latitude_or_northing = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_longitude_in_degrees =
+R"doc(Get the longitude in degrees (only meaningful for geographical
+coordinates).
+Returns:
+    longitude_or_easting converted from radians to degrees.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_longitude_or_easting = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_number_of_satellites = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_position_method = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_position_type = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_position_type_flag = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_quality = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_quality_flag = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_get_utm_zone = R"doc()doc";
 
@@ -99,23 +121,75 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Pos
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_datum = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_checksum = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_datum_identifier = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_height = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_latency = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_latitude_northing = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_latitude_or_northing = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_longitude_easting = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_longitude_or_easting = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_number_of_satellites = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_position_method = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_position_type = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_position_type_flag = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_quality = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_quality_flag = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_utm_zone = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_dgps = R"doc(DGPS)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_gps = R"doc(GPS)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_start_from_bottom_correlation = R"doc(start of inertial from bottom correlation)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_start_from_bottom_object = R"doc(start of inertial from bottom object)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_start_from_dgps = R"doc(start of inertial positioning from DGPS)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_start_from_gps = R"doc(start of inertial positioning from GPS)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_start_from_inertial = R"doc(start of inertial from inertial positioning)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_start_from_optional_data = R"doc(start of inertial from optional data)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_start_to_inertial = R"doc(start of inertial to inertial positioning)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_start_to_optional_data = R"doc(start of inertial to optional data)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_stop_to_bottom_correlation = R"doc(stop of inertial to bottom correlation)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_stop_to_bottom_object = R"doc(stop of inertial to bottom object)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_stop_to_dgps = R"doc(stop of inertial positioning to DGPS)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_inertial_stop_to_gps = R"doc(stop of inertial positioning to GPS)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_rtk_fixed = R"doc(RTK fixed)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_rtk_float = R"doc(RTK float)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_method_user_defined = R"doc(user defined)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_type_flag = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_type_flag_geographic = R"doc(geographical coordinates (latitude/longitude in radians))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_position_type_flag_grid = R"doc(grid coordinates (northing/easting in meters))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_quality_flag = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_quality_flag_dead_reckoning = R"doc(dead-reckoning)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_t_quality_flag_navigation = R"doc(navigation data)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_to_stream = R"doc()doc";
 

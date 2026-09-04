@@ -57,11 +57,23 @@ TEST_CASE("Heading and Position should round trip", TESTTAG)
     REQUIRE(hd == Heading(hd.from_binary(hd.to_binary())));
 
     auto pos = Position();
-    pos.set_latitude_northing(0.894);
-    pos.set_longitude_easting(0.051);
+    pos.set_latitude_or_northing(0.894);
+    pos.set_longitude_or_easting(0.051);
     pos.set_height(45.7);
-    REQUIRE(pos.get_latitude_northing() == Catch::Approx(0.894));
+    pos.set_position_type_flag(Position::t_position_type_flag::geographic);
+    pos.set_quality_flag(Position::t_quality_flag::dead_reckoning);
+    pos.set_position_method(Position::t_position_method::rtk_fixed);
+    pos.set_number_of_satellites(12);
+    REQUIRE(pos.get_latitude_or_northing() == Catch::Approx(0.894));
+    REQUIRE(pos.get_quality_flag() == Position::t_quality_flag::dead_reckoning);
+    REQUIRE(pos.get_position_method() == Position::t_position_method::rtk_fixed);
     REQUIRE(pos == Position(pos.from_binary(pos.to_binary())));
+
+    // checksum helpers are debugging-only: setting the stored checksum to the computed value must
+    // make the record self-consistent (the checksum itself is excluded from the computation)
+    pos.set_checksum(S7KDatagram::compute_checksum(pos.to_binary()));
+    REQUIRE(S7KDatagram::checksum_is_correct(pos.to_binary()));
+    REQUIRE(S7KDatagram::read_checksum(pos.to_binary()) == pos.get_checksum());
     REQUIRE(pos.info_string().size() != 0);
 }
 
@@ -134,8 +146,8 @@ TEST_CASE("BeamGeometry should round trip via the beam container", TESTTAG)
     dat.set_beamwidth_horizontal(a);
     dat.set_has_tx_delay(false);
 
-    // _size must be consistent (used to detect the optional tx_delay array)
-    dat.set_size(64 + 12 + 4 * 3 * sizeof(float));
+    // _size must be consistent (used to detect the optional tx_delay array); + 4-byte checksum
+    dat.set_size(64 + 12 + 4 * 3 * sizeof(float) + 4);
 
     REQUIRE(dat.get_number_beams() == 3);
     REQUIRE(dat.get_beam_vertical_angle()(1) == Catch::Approx(0.2f));
@@ -192,7 +204,7 @@ TEST_CASE("CompressedWaterColumn should decode and round trip", TESTTAG)
     dat.set_ping_number(11);
     dat.set_number_beams(1);
     dat.set_flags(CompressedWaterColumn::FLAG_MAGNITUDE_ONLY); // no phase, 16-bit magnitude
-    dat.set_size(64 + 44 + 2 + 4 + 4 * 2);                     // DRF + content + (beam_number + count + samples)
+    dat.set_size(64 + 44 + 2 + 4 + 4 * 2 + 4); // DRF + content + (beam_number + count + samples) + checksum
 
     // record-wide sample encoding lives on the container
     dat.beams().set_magnitude_bytes(2);

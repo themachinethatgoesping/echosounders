@@ -1,4 +1,4 @@
-//sourcehash: c76e02f56225afd49c6e02aad9aeb826143bc3cce1a196d4abfd6d5a3c338e37
+//sourcehash: 89233f21049b897b6210fd16873a913327f1398daa4247d6ef3f960e72179096
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -50,11 +50,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Att
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_from_stream = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_from_stream_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_from_stream_3 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_get_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_get_number_of_samples = R"doc()doc";
 
@@ -67,6 +71,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Att
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_samples = R"doc(attitude samples)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_samples_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_set_samples = R"doc()doc";
 

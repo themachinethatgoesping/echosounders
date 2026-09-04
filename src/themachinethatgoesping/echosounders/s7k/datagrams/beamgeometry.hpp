@@ -35,8 +35,8 @@ class BeamGeometry : public S7KDatagram
 #pragma pack(push, 1)
     struct Content
     {
-        uint64_t serial_number; ///< sonar serial number
-        uint32_t number_beams;  ///< number of beams
+        uint64_t _serial_number = 0; ///< sonar serial number
+        uint32_t _number_beams  = 0; ///< number of beams
 
         bool operator==(const Content& other) const = default;
     } _content;
@@ -52,16 +52,24 @@ class BeamGeometry : public S7KDatagram
     xt::xtensor<float, 1> _tx_delay;              ///< transmit delay (fractional samples, optional)
     bool                  _has_tx_delay = false;  ///< true if the tx_delay array is present
 
+    uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
+
   public:
-    BeamGeometry()  = default;
+    BeamGeometry()
+        : _content{}
+    {
+        set_datagram_identifier(DatagramIdentifier);
+    }
     ~BeamGeometry() = default;
 
     // ----- record type header access -----
-    uint64_t get_serial_number() const { return _content.serial_number; }
-    uint32_t get_number_beams() const { return _content.number_beams; }
+    uint64_t get_serial_number() const { return _content._serial_number; }
+    uint32_t get_number_beams() const { return _content._number_beams; }
+    uint32_t get_checksum() const { return _checksum; }
 
-    void set_serial_number(uint64_t val) { _content.serial_number = val; }
-    void set_number_beams(uint32_t val) { _content.number_beams = val; }
+    void set_serial_number(uint64_t val) { _content._serial_number = val; }
+    void set_number_beams(uint32_t val) { _content._number_beams = val; }
+    void set_checksum(uint32_t val) { _checksum = val; }
 
     // ----- per-beam data access -----
     const xt::xtensor<float, 1>& get_beam_vertical_angle() const { return _beam_vertical_angle; }

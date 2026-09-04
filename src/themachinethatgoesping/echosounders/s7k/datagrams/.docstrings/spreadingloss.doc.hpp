@@ -1,4 +1,4 @@
-//sourcehash: 2a8c364f617cd3437ba21e6619bcdfa3ecf41fc4e956eb622364b2d2d3de9097
+//sourcehash: 8f17c07489b9e8a850f99a0e91e1d098bc179e3e59fd4687d0ed489020efdb8d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,9 +45,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Spr
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_Content = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_Content_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_Content_spreading_loss = R"doc(spreading loss (0-60))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_Content_spreading_loss = R"doc(spreading loss in dB (0-60))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
@@ -61,11 +63,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Spr
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_from_stream_3 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_get_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_get_spreading_loss = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_set_spreading_loss = R"doc()doc";
 

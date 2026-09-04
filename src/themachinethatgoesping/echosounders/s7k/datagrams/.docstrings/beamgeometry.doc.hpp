@@ -1,4 +1,4 @@
-//sourcehash: 40267179563803e840d22e0c0f2c975bcc564c8638788a3b508c0c3b34a08b9e
+//sourcehash: a1bf49602435dba4f9accdd71aa8290710ff11dfa1e4dc278a582fabbdae7c12
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -65,6 +65,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Bea
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_beamwidth_vertical = R"doc(along-track (vertical) -3dB width (rad))doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_content = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_from_stream = R"doc()doc";
@@ -80,6 +82,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Bea
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beamwidth_horizontal = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beamwidth_vertical = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_has_tx_delay = R"doc()doc";
 
@@ -102,6 +106,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Bea
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_beamwidth_horizontal = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_beamwidth_vertical = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_has_tx_delay = R"doc()doc";
 

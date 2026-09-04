@@ -43,7 +43,8 @@ tools::classhelper::ObjectPrinter AbsorptionLoss::__printer__(unsigned int float
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("AbsorptionLoss content");
-    printer.register_value("absorption_loss", _content.absorption_loss, "dB/km");
+    printer.register_value("absorption_loss", _content._absorption_loss, "dB/km");
+    printer.register_value("checksum", _content._checksum);
 
     return printer;
 }

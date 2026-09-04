@@ -35,15 +35,16 @@ void SoundVelocity::to_stream(std::ostream& os) const
 tools::classhelper::ObjectPrinter SoundVelocity::__printer__(unsigned int float_precision,
                                                      bool         superscript_exponents) const
 {
-    const auto& o_datagram_identifier = S7KDatagram::o_DatagramIdentifier(get_datagram_identifier());
+    const auto& o_datagram_identifier = S7KDatagram::o_DatagramIdentifier(DatagramIdentifier);
     tools::classhelper::ObjectPrinter printer(
-        fmt::format("S7KHeader {} ({})", o_datagram_identifier.name(), uint32_t(o_datagram_identifier)),
+        fmt::format("S7K {} ({})", o_datagram_identifier.name(), uint32_t(o_datagram_identifier)),
         float_precision,
         superscript_exponents);
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("SoundVelocity content");
-    printer.register_value("sound_velocity", _content.sound_velocity, "m/s");
+    printer.register_value("sound_velocity", _content._sound_velocity, "m/s");
+    printer.register_value("checksum", _content._checksum);
 
     return printer;
 }

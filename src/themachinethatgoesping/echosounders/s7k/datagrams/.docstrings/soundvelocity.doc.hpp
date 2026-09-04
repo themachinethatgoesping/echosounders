@@ -1,4 +1,4 @@
-//sourcehash: 7f965286d30f1e0cacbdef03a06a7af85be180969a4f7e73b25a27e96217e5e9
+//sourcehash: bf62c4e1ea13cf1b011e246a4684264aadc88674ce2e8d096f95aef3f3b9bc50
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,9 +45,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sou
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_sound_velocity = R"doc(water sound velocity)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_sound_velocity = R"doc(water sound velocity in meters per second)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
@@ -61,11 +63,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sou
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_from_stream_3 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_get_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_get_sound_velocity = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_sound_velocity = R"doc()doc";
 

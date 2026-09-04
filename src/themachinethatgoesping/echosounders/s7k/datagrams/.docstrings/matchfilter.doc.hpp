@@ -1,4 +1,4 @@
-//sourcehash: f1686a77761d285613982c4d2cabe633dae6ea0cc4952fd4e5d4ad409cf89d47
+//sourcehash: 74e3f0b862a790fd2292ac494977b20205748d9b359e784bc3c58b30c35919ee
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,9 +45,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Mat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_effective_pulse_width = R"doc(post-compression effective pulse width)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_end_frequency = R"doc(end frequency)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_effective_pulse_width = R"doc(effective pulse width after FM compression (s))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_end_frequency = R"doc(stop frequency in Hz)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_operation = R"doc(0 = off, 1 = on)doc";
 
@@ -61,9 +63,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Mat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_shading = R"doc(shading value)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_start_frequency = R"doc(start frequency)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_start_frequency = R"doc(start frequency in Hz)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_window_type = R"doc(window type (0-5))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_Content_window_type = R"doc(match filter window type (0-5))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_MatchFilter = R"doc()doc";
 
@@ -76,6 +78,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Mat
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_from_stream_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_from_stream_3 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_get_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_get_effective_pulse_width = R"doc()doc";
 
@@ -97,6 +101,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Mat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_printer = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_set_checksum = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_set_effective_pulse_width = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_set_end_frequency = R"doc()doc";
@@ -112,6 +118,26 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Mat
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_set_start_frequency = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_set_window_type = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_operation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_operation_off = R"doc(off)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_operation_on = R"doc(on)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_window_type = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_window_type_blackmann = R"doc(Blackmann)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_window_type_hamming = R"doc(Hamming)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_window_type_kaiser = R"doc(Kaiser)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_window_type_rectangular = R"doc(rectangular)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_window_type_taylor = R"doc(X (Taylor))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_t_window_type_triangular = R"doc(triangular)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_to_stream = R"doc()doc";
 
