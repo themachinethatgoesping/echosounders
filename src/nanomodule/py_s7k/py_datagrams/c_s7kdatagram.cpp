@@ -22,7 +22,8 @@ namespace nb = nanobind;
 using namespace themachinethatgoesping::echosounders::s7k;
 using datagrams::S7KDatagram;
 
-#define DOC_S7KDatagram(arg) DOC(themachinethatgoesping, echosounders, s7k, datagrams, S7KDatagram, arg)
+#define DOC_S7KDatagram(arg)                                                                       \
+    DOC(themachinethatgoesping, echosounders, s7k, datagrams, S7KDatagram, arg)
 
 void init_c_s7kdatagram(nanobind::module_& m)
 {
@@ -30,28 +31,54 @@ void init_c_s7kdatagram(nanobind::module_& m)
         m, "S7KDatagram", DOC(themachinethatgoesping, echosounders, s7k, datagrams, S7KDatagram))
         .def(nb::init<>(), DOC_S7KDatagram(S7KDatagram))
         // --- convenient data access ---
-        .def("get_protocol_version", &S7KDatagram::get_protocol_version, DOC_S7KDatagram(protocol_version))
+        .def("get_protocol_version",
+             &S7KDatagram::get_protocol_version,
+             DOC_S7KDatagram(protocol_version))
         .def("get_offset", &S7KDatagram::get_offset, DOC_S7KDatagram(offset))
         .def("get_sync_pattern", &S7KDatagram::get_sync_pattern, DOC_S7KDatagram(sync_pattern))
         .def("get_size", &S7KDatagram::get_size, DOC_S7KDatagram(size))
-        .def("get_optional_data_offset", &S7KDatagram::get_optional_data_offset, DOC_S7KDatagram(optional_data_offset))
-        .def("get_optional_data_identifier", &S7KDatagram::get_optional_data_identifier, DOC_S7KDatagram(optional_data_identifier))
+        .def("get_optional_data_offset",
+             &S7KDatagram::get_optional_data_offset,
+             DOC_S7KDatagram(optional_data_offset))
+        .def("get_optional_data_identifier",
+             &S7KDatagram::get_optional_data_identifier,
+             DOC_S7KDatagram(optional_data_identifier))
         .def("get_year", &S7KDatagram::get_year, DOC_S7KDatagram(year))
         .def("get_day", &S7KDatagram::get_day, DOC_S7KDatagram(day))
         .def("get_seconds", &S7KDatagram::get_seconds, DOC_S7KDatagram(seconds))
         .def("get_hours", &S7KDatagram::get_hours, DOC_S7KDatagram(hours))
         .def("get_minutes", &S7KDatagram::get_minutes, DOC_S7KDatagram(minutes))
-        .def("get_record_version", &S7KDatagram::get_record_version, DOC_S7KDatagram(record_version))
-        .def("get_record_type_identifier", &S7KDatagram::get_record_type_identifier, DOC_S7KDatagram(get_record_type_identifier))
-        .def("get_device_identifier", &S7KDatagram::get_device_identifier, DOC_S7KDatagram(device_identifier))
-        .def("get_system_enumerator", &S7KDatagram::get_system_enumerator, DOC_S7KDatagram(system_enumerator))
+        .def(
+            "get_record_version", &S7KDatagram::get_record_version, DOC_S7KDatagram(record_version))
+        .def("get_record_type_identifier",
+             &S7KDatagram::get_record_type_identifier,
+             DOC_S7KDatagram(get_record_type_identifier))
+        .def("get_device_identifier",
+             &S7KDatagram::get_device_identifier,
+             DOC_S7KDatagram(device_identifier))
+        .def("get_system_enumerator",
+             &S7KDatagram::get_system_enumerator,
+             DOC_S7KDatagram(system_enumerator))
         .def("get_flags", &S7KDatagram::get_flags, DOC_S7KDatagram(flags))
 
+        // --- processed data access ---
+        .def("get_flag_checksum_is_valued",
+             &S7KDatagram::get_flag_checksum_is_valued,
+             DOC_S7KDatagram(get_flag_checksum_is_valued))
+        .def("get_flag_data_live_or_recorded",
+             &S7KDatagram::get_flag_data_live_or_recorded,
+             DOC_S7KDatagram(get_flag_data_live_or_recorded))
+        .def("drf_sync_pattern_is_valid",
+             &S7KDatagram::drf_sync_pattern_is_valid,
+             DOC_S7KDatagram(drf_sync_pattern_is_valid))
+
         // --- convenient processed data access ---
-        .def("get_datagram_identifier", &S7KDatagram::get_datagram_identifier, DOC_S7KDatagram(get_datagram_identifier))
-        .def("compute_size_content", &S7KDatagram::compute_size_content, DOC_S7KDatagram(compute_size_content))
-        .def("is_valid", &S7KDatagram::is_valid, DOC_S7KDatagram(is_valid))
-        .def("get_checksum_valid", &S7KDatagram::get_checksum_valid, DOC_S7KDatagram(get_checksum_valid))
+        .def("get_datagram_identifier",
+             &S7KDatagram::get_datagram_identifier,
+             DOC_S7KDatagram(get_datagram_identifier))
+        .def("compute_size_content",
+             &S7KDatagram::compute_size_content,
+             DOC_S7KDatagram(compute_size_content))
         .def("get_timestamp", &S7KDatagram::get_timestamp, DOC_S7KDatagram(get_timestamp))
         .def(
             "get_datetime",
@@ -66,6 +93,30 @@ void init_c_s7kdatagram(nanobind::module_& m)
              DOC_S7KDatagram(get_date_string),
              nb::arg("fractional_seconds_digits") = 2,
              nb::arg("format")                    = "%z__%d-%m-%Y__%H:%M:%S")
+        .def_static(
+            "compute_checksum_static",
+            [](const nb::bytes& data) {
+                std::string_view sv(reinterpret_cast<const char*>(data.data()), data.size());
+                return S7KDatagram::compute_checksum(sv);
+            },
+            DOC_S7KDatagram(compute_checksum))
+        .def(
+            "compute_checksum",
+            [](const S7KDatagram& self) { return S7KDatagram::compute_checksum(self.to_binary()); },
+            DOC_S7KDatagram(compute_checksum))
+        .def_static(
+            "checksum_is_correct_static",
+            [](const nb::bytes& data) {
+                std::string_view sv(reinterpret_cast<const char*>(data.data()), data.size());
+                return S7KDatagram::test_checksum_is_correct(sv);
+            },
+            DOC_S7KDatagram(test_checksum_is_correct))
+        .def(
+            "test_checksum_is_correct",
+            [](const S7KDatagram& self) {
+                return S7KDatagram::test_checksum_is_correct(self.to_binary());
+            },
+            DOC_S7KDatagram(test_checksum_is_correct))
 
         // ----- operators -----
         .def("__eq__",
@@ -73,10 +124,8 @@ void init_c_s7kdatagram(nanobind::module_& m)
              DOC(themachinethatgoesping, echosounders, s7k, datagrams, S7KDatagram, operator_eq),
              nb::arg("other"))
         // ----- nanobind macros -----
-        __PYCLASS_DEFAULT_COPY__(S7KDatagram)
-        __PYCLASS_DEFAULT_BINARY__(S7KDatagram)
-        __PYCLASS_DEFAULT_PRINTING__(S7KDatagram)
-        ;
+        __PYCLASS_DEFAULT_COPY__(S7KDatagram) __PYCLASS_DEFAULT_BINARY__(S7KDatagram)
+            __PYCLASS_DEFAULT_PRINTING__(S7KDatagram);
 }
 
 } // namespace py_datagrams

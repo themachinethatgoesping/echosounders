@@ -57,7 +57,7 @@ tools::classhelper::ObjectPrinter S7KDatagram::__printer__(unsigned int float_pr
                            datagram_type_to_string(_record_type_identifier));
     printer.register_value("device_identifier", _device_identifier);
     printer.register_value("system_enumerator", _system_enumerator);
-    printer.register_value_bytes("flags", _flags);
+    printer.register_value("flags", fmt::format("0x{:16b}", _flags));
     printer.register_value("total_records_in_fragmented_data_record_set",
                            _total_records_in_fragmented_data_record_set);
     printer.register_value("fragment_number", _fragment_number);
@@ -80,7 +80,6 @@ tools::classhelper::ObjectPrinter S7KDatagram::__printer__(unsigned int float_pr
         printer.register_string("date", date, "DD/MM/YYYY");
         printer.register_string("time", time, "HH:MM:SS");
     }
-
 
     return printer;
 }

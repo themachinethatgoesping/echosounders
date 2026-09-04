@@ -1,4 +1,4 @@
-//sourcehash: ba3488caa32045222bddbce1524e0aef8fa6721c8223402d48312f6c0f4c58a0
+//sourcehash: baa28f2b6d5e570439d52c0d1e517f996626d8a99d57f998a77ff129f523b156
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -59,16 +59,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7K
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_checksum_is_correct =
-R"doc(Check whether the stored checksum of a serialized record matches its
-computed checksum (debugging aid).
-
-Args:
-    buffer: Serialized record bytes (DRF + RTH + data + checksum).
-
-Returns:
-    true if compute_checksum(buffer) == read_checksum(buffer).)doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_compute_checksum =
 R"doc(Compute the 7k record checksum of a serialized datagram (debugging
 aid).
@@ -92,6 +82,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7K
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_device_identifier = R"doc(offset 36: device identifier)doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_drf_sync_pattern_is_valid = R"doc(Test if the DRF sync pattern is valid.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_flags = R"doc(offset 48: bit field (bit 0: checksum valid, bit 15: recorded data))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_fragment_number = R"doc(offset 60: always 0 in files)doc";
@@ -99,8 +91,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7K
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_from_stream = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_from_stream_2 = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_get_checksum_valid = R"doc(Test if the flags field indicates a valid checksum (bit 0).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_get_datagram_identifier = R"doc()doc";
 
@@ -116,6 +106,10 @@ Returns:
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_get_day = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_get_device_identifier = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_get_flag_checksum_is_valued = R"doc(Test if the flags field indicates a valid checksum (bit 0).)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_get_flag_data_live_or_recorded = R"doc(Test if the flags field indicates live or recorded data (bit 15).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_get_flags = R"doc()doc";
 
@@ -156,8 +150,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7K
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_get_year = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_hours = R"doc(offset 28: UTC hours (0-23))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_is_valid = R"doc(Test if the DRF sync pattern is valid.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_minutes = R"doc(offset 29: UTC minutes (0-59))doc";
 
@@ -246,6 +238,16 @@ Args:
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_sync_pattern = R"doc(offset 4: 0x0000FFFF)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_system_enumerator = R"doc(offset 42: enumerator differentiating devices with same id)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_test_checksum_is_correct =
+R"doc(Check whether the stored checksum of a serialized record matches its
+computed checksum (debugging aid).
+
+Args:
+    buffer: Serialized record bytes (DRF + RTH + data + checksum).
+
+Returns:
+    true if compute_checksum(buffer) == read_checksum(buffer).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_to_stream = R"doc()doc";
 

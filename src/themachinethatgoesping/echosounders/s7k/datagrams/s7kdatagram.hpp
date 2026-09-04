@@ -168,21 +168,29 @@ class S7KDatagram
     void set_system_enumerator(uint16_t v) { _system_enumerator = v; }
     void set_flags(uint16_t v) { _flags = v; }
 
+    // ----- processed -----
+    /**
+     * @brief Test if the flags field indicates a valid checksum (bit 0).
+     * 
+     */
+    bool get_flag_checksum_is_valued() const { return (_flags & 0b0000000000000001) != 0; }
+
+    /**
+     * @brief Test if the flags field indicates live or recorded data (bit 15).
+     * 
+     */
+    bool get_flag_data_live_or_recorded() const { return (_flags & 0b1000000000000000) != 0; }
+
+    /**
+     * @brief Test if the DRF sync pattern is valid.
+     */
+    bool drf_sync_pattern_is_valid() const { return _sync_pattern == SYNC_PATTERN; }
+
     // ----- helper -----
     /**
      * @brief Number of bytes of the record following the DRF header (RTH + data + checksum).
      */
     size_t compute_size_content() const { return _size - __size; }
-
-    /**
-     * @brief Test if the DRF sync pattern is valid.
-     */
-    bool is_valid() const { return _sync_pattern == SYNC_PATTERN; }
-
-    /**
-     * @brief Test if the flags field indicates a valid checksum (bit 0).
-     */
-    bool get_checksum_valid() const { return (_flags & 0x0001) != 0; }
 
     // ----- checksum (debugging only) -----
     // Every 7k record ends with a 4-byte checksum (see 7k Data Format Definition, Table 5). The
@@ -231,7 +239,7 @@ class S7KDatagram
      * @param buffer Serialized record bytes (DRF + RTH + data + checksum).
      * @return true if compute_checksum(buffer) == read_checksum(buffer).
      */
-    static bool checksum_is_correct(std::string_view buffer)
+    static bool test_checksum_is_correct(std::string_view buffer)
     {
         return compute_checksum(buffer) == read_checksum(buffer);
     }

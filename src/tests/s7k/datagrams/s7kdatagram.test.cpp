@@ -62,7 +62,7 @@ TEST_CASE("S7KDatagram should parse the Data Record Frame byte layout", TESTTAG)
     REQUIRE(dat.get_protocol_version() == 5);
     REQUIRE(dat.get_offset() == 60);
     REQUIRE(dat.get_sync_pattern() == 0x0000FFFF);
-    REQUIRE(dat.is_valid());
+    REQUIRE(dat.drf_sync_pattern_is_valid());
     REQUIRE(dat.get_size() == 200);
     REQUIRE(dat.get_year() == 2023);
     REQUIRE(dat.get_day() == 143);

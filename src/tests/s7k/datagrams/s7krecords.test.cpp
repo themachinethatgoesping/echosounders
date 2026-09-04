@@ -72,7 +72,7 @@ TEST_CASE("Heading and Position should round trip", TESTTAG)
     // checksum helpers are debugging-only: setting the stored checksum to the computed value must
     // make the record self-consistent (the checksum itself is excluded from the computation)
     pos.set_checksum(S7KDatagram::compute_checksum(pos.to_binary()));
-    REQUIRE(S7KDatagram::checksum_is_correct(pos.to_binary()));
+    REQUIRE(S7KDatagram::test_checksum_is_correct(pos.to_binary()));
     REQUIRE(S7KDatagram::read_checksum(pos.to_binary()) == pos.get_checksum());
     REQUIRE(pos.info_string().size() != 0);
 }

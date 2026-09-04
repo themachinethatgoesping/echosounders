@@ -41,18 +41,21 @@ class Position : public S7KDatagram
         grid       = 1, ///< grid coordinates (northing/easting in meters)
     };
     static constexpr std::array<t_position_type_flag, 2> t_position_type_flag_values = {
-        t_position_type_flag::geographic, t_position_type_flag::grid
+        t_position_type_flag::geographic,
+        t_position_type_flag::grid
     };
     static constexpr std::array<std::string_view, 2> t_position_type_flag_names = { "geographic",
                                                                                     "grid" };
     static constexpr std::array<std::string_view, 2> t_position_type_flag_alt_names = {
-        "geographical coordinates", "grid coordinates"
+        "geographical coordinates",
+        "grid coordinates"
     };
-    using o_position_type_flag = tools::classhelper::OptionFrozen<t_position_type_flag,
-                                                                  t_position_type_flag_values.size(),
-                                                                  t_position_type_flag_values,
-                                                                  t_position_type_flag_names,
-                                                                  t_position_type_flag_alt_names>;
+    using o_position_type_flag =
+        tools::classhelper::OptionFrozen<t_position_type_flag,
+                                         t_position_type_flag_values.size(),
+                                         t_position_type_flag_values,
+                                         t_position_type_flag_names,
+                                         t_position_type_flag_alt_names>;
 
     // ----- quality flag (7k DFD Table 15) -----
     enum class t_quality_flag : uint8_t
@@ -61,12 +64,15 @@ class Position : public S7KDatagram
         dead_reckoning = 1, ///< dead-reckoning
     };
     static constexpr std::array<t_quality_flag, 2> t_quality_flag_values = {
-        t_quality_flag::navigation, t_quality_flag::dead_reckoning
+        t_quality_flag::navigation,
+        t_quality_flag::dead_reckoning
     };
-    static constexpr std::array<std::string_view, 2> t_quality_flag_names = { "navigation",
-                                                                              "dead_reckoning" };
-    static constexpr std::array<std::string_view, 2> t_quality_flag_alt_names = { "navigation data",
-                                                                                  "dead-reckoning" };
+    static constexpr std::array<std::string_view, 2> t_quality_flag_names     = { "navigation",
+                                                                                  "dead_reckoning" };
+    static constexpr std::array<std::string_view, 2> t_quality_flag_alt_names = {
+        "navigation data",
+        "dead-reckoning"
+    };
     using o_quality_flag = tools::classhelper::OptionFrozen<t_quality_flag,
                                                             t_quality_flag_values.size(),
                                                             t_quality_flag_values,
@@ -76,16 +82,16 @@ class Position : public S7KDatagram
     // ----- positioning method (7k DFD Table 15) -----
     enum class t_position_method : uint8_t
     {
-        gps                                    = 0,  ///< GPS
-        dgps                                   = 1,  ///< DGPS
-        inertial_start_from_gps                = 2,  ///< start of inertial positioning from GPS
-        inertial_start_from_dgps               = 3,  ///< start of inertial positioning from DGPS
-        inertial_start_from_bottom_correlation = 4,  ///< start of inertial from bottom correlation
-        inertial_start_from_bottom_object      = 5,  ///< start of inertial from bottom object
-        inertial_start_from_inertial           = 6,  ///< start of inertial from inertial positioning
-        inertial_start_from_optional_data      = 7,  ///< start of inertial from optional data
-        inertial_stop_to_gps                   = 8,  ///< stop of inertial positioning to GPS
-        inertial_stop_to_dgps                  = 9,  ///< stop of inertial positioning to DGPS
+        gps                                    = 0, ///< GPS
+        dgps                                   = 1, ///< DGPS
+        inertial_start_from_gps                = 2, ///< start of inertial positioning from GPS
+        inertial_start_from_dgps               = 3, ///< start of inertial positioning from DGPS
+        inertial_start_from_bottom_correlation = 4, ///< start of inertial from bottom correlation
+        inertial_start_from_bottom_object      = 5, ///< start of inertial from bottom object
+        inertial_start_from_inertial           = 6, ///< start of inertial from inertial positioning
+        inertial_start_from_optional_data      = 7, ///< start of inertial from optional data
+        inertial_stop_to_gps                   = 8, ///< stop of inertial positioning to GPS
+        inertial_stop_to_dgps                  = 9, ///< stop of inertial positioning to DGPS
         inertial_stop_to_bottom_correlation    = 10, ///< stop of inertial to bottom correlation
         inertial_stop_to_bottom_object         = 11, ///< stop of inertial to bottom object
         inertial_start_to_inertial             = 12, ///< start of inertial to inertial positioning
@@ -152,26 +158,26 @@ class Position : public S7KDatagram
         "RTK Float",
     };
     using o_position_method = tools::classhelper::OptionFrozen<t_position_method,
-                                                              t_position_method_values.size(),
-                                                              t_position_method_values,
-                                                              t_position_method_names,
-                                                              t_position_method_alt_names>;
+                                                               t_position_method_values.size(),
+                                                               t_position_method_values,
+                                                               t_position_method_names,
+                                                               t_position_method_alt_names>;
 
   protected:
 #pragma pack(push, 1)
     struct Content
     {
-        uint32_t _datum_identifier = 0; ///< datum identifier (0 = WGS84, >0 = reserved)
+        uint32_t _datum_identifier = 0;   ///< datum identifier (0 = WGS84, >0 = reserved)
         float    _latency          = 0.f; ///< positioning latency in seconds (0 for 7k sonar / PDS)
         double   _latitude_or_northing =
             0.; ///< latitude in radians (geographic) or northing in meters (grid)
         double _longitude_or_easting =
             0.; ///< longitude in radians (geographic) or easting in meters (grid)
-        double               _height = 0.; ///< height relative to datum in meters
+        double               _height = 0.;        ///< height relative to datum in meters
         o_position_type_flag _position_type_flag; ///< 0 = geographical, 1 = grid coordinates
-        uint8_t              _utm_zone = 0;        ///< UTM zone (if grid coordinates)
-        o_quality_flag       _quality_flag;        ///< 0 = navigation data, 1 = dead-reckoning
-        o_position_method    _position_method;     ///< positioning method (GPS/DGPS/RTK/inertial)
+        uint8_t              _utm_zone = 0;       ///< UTM zone (if grid coordinates)
+        o_quality_flag       _quality_flag;       ///< 0 = navigation data, 1 = dead-reckoning
+        o_position_method    _position_method;    ///< positioning method (GPS/DGPS/RTK/inertial)
         uint8_t              _number_of_satellites = 0; ///< number of satellites (optional)
 
         uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
@@ -200,8 +206,8 @@ class Position : public S7KDatagram
     uint8_t              get_utm_zone() const { return _content._utm_zone; }
     o_quality_flag       get_quality_flag() const { return _content._quality_flag; }
     o_position_method    get_position_method() const { return _content._position_method; }
-    uint8_t get_number_of_satellites() const { return _content._number_of_satellites; }
-    uint32_t get_checksum() const { return _content._checksum; }
+    uint8_t              get_number_of_satellites() const { return _content._number_of_satellites; }
+    uint32_t             get_checksum() const { return _content._checksum; }
 
     void set_datum_identifier(uint32_t val) { _content._datum_identifier = val; }
     void set_latency(float val) { _content._latency = val; }
@@ -222,6 +228,9 @@ class Position : public S7KDatagram
      */
     double get_latitude_in_degrees() const
     {
+        if (get_position_type_flag() == t_position_type_flag::grid)
+            throw std::runtime_error("ERROR[S7K Position (1003) get_latitude_in_degrees]: Position "
+                                     "type 'grid' is not yet implemented");
         return _content._latitude_or_northing * 180.0 / std::numbers::pi;
     }
 
@@ -231,6 +240,9 @@ class Position : public S7KDatagram
      */
     double get_longitude_in_degrees() const
     {
+        if (get_position_type_flag() == t_position_type_flag::grid)
+            throw std::runtime_error("ERROR[S7K Position (1003) get_longitude_in_degrees]: "
+                                     "Position type 'grid' is not yet implemented");
         return _content._longitude_or_easting * 180.0 / std::numbers::pi;
     }
 
@@ -257,10 +269,7 @@ class Position : public S7KDatagram
         : S7KDatagram(std::move(header))
     {
     }
-    void __read__(std::istream& is)
-    {
-        is.read(reinterpret_cast<char*>(&_content), __content_size);
-    }
+    void __read__(std::istream& is) { is.read(reinterpret_cast<char*>(&_content), __content_size); }
 };
 
 } // namespace datagrams
