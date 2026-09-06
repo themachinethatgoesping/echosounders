@@ -154,24 +154,31 @@ class S7KFileHandler
                          [[maybe_unused]] tools::progressbars::I_ProgressBar& progress_bar,
                          [[maybe_unused]] int mp_cores = 1) final
     {
-        // Only the generic datagram-data interface is initialized for now. The specialized
-        // configuration/navigation/environment/ping interfaces are structurally present and the
-        // datagrams are already sorted into them (see callback_scan_packet), but their read_*
-        // processing functions are not implemented yet, so initializing them is deferred to the
-        // next step (implement the interfaces one by one, starting with configuration).
+        // The generic datagram-data, configuration and navigation interfaces are initialized. The
+        // configuration interface currently falls back to an empty sensor configuration (its read_*
+        // function is not implemented yet), but the navigation interface treats that as a valid
+        // (zero-offset) configuration and builds/caches the navigation interpolators from it. The
+        // environment/other/ping interfaces are structurally present and the datagrams are already
+        // sorted into them (see callback_scan_packet), but their read_* processing functions are not
+        // implemented yet, so initializing them is deferred to the next step.
         auto number_of_primary_files = _datagramdata_interface->per_primary_file().size();
         progress_bar.init(
-            0., double(number_of_primary_files + 1), std::string("Initializing file interfaces"));
+            0., double(number_of_primary_files + 2), std::string("Initializing file interfaces"));
 
         progress_bar.set_prefix("Initializing datagramdata interface");
         _datagramdata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         progress_bar.tick();
 
+        progress_bar.set_prefix("Initializing configuration");
+        _configuration_interface->init_from_file(this->get_index_paths(), force, progress_bar);
+        progress_bar.tick();
+
+        progress_bar.set_prefix("Initializing navigation");
+        _navigation_interface->init_from_file(this->get_index_paths(), force, progress_bar, true);
+
         progress_bar.close(std::string("Done"));
 
         // TODO(next step): enable these as each interface is implemented:
-        // _configuration_interface->init_from_file(this->get_index_paths(), force, progress_bar);
-        // _navigation_interface->init_from_file(this->get_index_paths(), force, progress_bar, true);
         // _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         // _otherfiledata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
         // _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true,
@@ -235,6 +242,8 @@ class S7KFileHandler
             case t_S7KDatagramIdentifier::Configuration: // 7001
                 [[fallthrough]];
             case t_S7KDatagramIdentifier::FirmwareAndHardwareConfiguration: // 7003
+                [[fallthrough]];
+            case t_S7KDatagramIdentifier::FileHeader: // 7003
                 [[fallthrough]];
             case t_S7KDatagramIdentifier::SonarInstallationParameters: // 7030
                 _configuration_interface->add_datagram_info(datagram_info);

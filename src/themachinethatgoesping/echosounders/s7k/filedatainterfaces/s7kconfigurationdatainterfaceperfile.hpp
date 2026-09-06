@@ -59,7 +59,11 @@ class S7KConfigurationDataInterfacePerFile
     {
         // We do not have files with test datagrams so far, so if there is any datagram to read,
         // fail.
-        if (!this->_datagram_infos_all.empty())
+        uint64_t n_ok_datgrams = 0;
+        n_ok_datgrams +=
+            this->_datagram_infos_by_type.at_const(t_S7KDatagramIdentifier::FileHeader).size();
+
+        if (this->_datagram_infos_all.size() != n_ok_datgrams)
         {
             throw std::runtime_error("Datagrams available, but read_sensor_configuration is not "
                                      "implemented for this yet.");

@@ -51,6 +51,28 @@ TEST_CASE("S7K file data interfaces can be constructed and printed", TESTTAG)
     CHECK(ping->__printer__(2, false).create_str().size() != 0);
 }
 
+TEST_CASE("S7K navigation datagram preferences default to the modern records and can be toggled",
+          TESTTAG)
+{
+    using t_ifstream = std::ifstream;
+
+    auto configuration =
+        std::make_shared<filedatainterfaces::S7KConfigurationDataInterface<t_ifstream>>();
+    filedatainterfaces::S7KNavigationDataInterfacePerFile<t_ifstream> navigation(configuration);
+
+    // by default the fused Navigation (1015) / Attitude (1016) records are preferred
+    CHECK(navigation.get_prefer_navigation_over_position() == true);
+    CHECK(navigation.get_prefer_attitude_over_rollpitchheave() == true);
+
+    navigation.set_prefer_navigation_over_position(false);
+    navigation.set_prefer_attitude_over_rollpitchheave(false);
+
+    CHECK(navigation.get_prefer_navigation_over_position() == false);
+    CHECK(navigation.get_prefer_attitude_over_rollpitchheave() == false);
+
+    CHECK(navigation.__printer__(2, false).create_str().size() != 0);
+}
+
 TEST_CASE("S7K ping type can be constructed, printed and deep-copied", TESTTAG)
 {
     using t_ifstream = std::ifstream;

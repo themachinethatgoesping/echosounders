@@ -40,7 +40,25 @@ void py_create_class_S7KNavigationDataInterfacePerFile(nanobind::module_& m,
     using T_BaseClass = filedatainterfaces::S7KNavigationDataInterfacePerFile<T_FileStream>;
 
     // initialize class
-    auto cls = nb::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX));
+    auto cls = nb::class_<T_BaseClass>(m, CLASS_NAME.c_str(), DOC(LOCAL_DOC_PREFIX))
+
+                   // ----- datagram preference settings -----
+                   .def("get_prefer_navigation_over_position",
+                        &T_BaseClass::get_prefer_navigation_over_position,
+                        DOC(LOCAL_DOC_PREFIX, get_prefer_navigation_over_position))
+                   .def("set_prefer_navigation_over_position",
+                        &T_BaseClass::set_prefer_navigation_over_position,
+                        DOC(LOCAL_DOC_PREFIX, set_prefer_navigation_over_position),
+                        nb::arg("prefer"))
+                   .def("get_prefer_attitude_over_rollpitchheave",
+                        &T_BaseClass::get_prefer_attitude_over_rollpitchheave,
+                        DOC(LOCAL_DOC_PREFIX, get_prefer_attitude_over_rollpitchheave))
+                   .def("set_prefer_attitude_over_rollpitchheave",
+                        &T_BaseClass::set_prefer_attitude_over_rollpitchheave,
+                        DOC(LOCAL_DOC_PREFIX, set_prefer_attitude_over_rollpitchheave),
+                        nb::arg("prefer"))
+        //
+        ;
 
     //----- inherit functions from I_NavigationDataInterfacePerFile / I_DatagramInterface -----
     py_i_navigationdatainterface::NavigationDataInterfacePerFile_add_interface<T_BaseClass>(cls);
