@@ -1,4 +1,4 @@
-//sourcehash: 66c6fc4722620a88e2f7b2e771842c11fc0af4a91e16d0bcee2dce3e9b5de765
+//sourcehash: d4aea866eeee52f515bf78919a7931e7c260a89b0a715fe2db34f5ad241245c2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,6 +60,8 @@ Template Args:
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KConfigurationDataInterfacePerFile_S7KConfigurationDataInterfacePerFile = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KConfigurationDataInterfacePerFile_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

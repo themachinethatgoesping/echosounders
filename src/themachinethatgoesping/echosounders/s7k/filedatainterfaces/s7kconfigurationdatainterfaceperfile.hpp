@@ -55,6 +55,19 @@ class S7KConfigurationDataInterfacePerFile
 
     // TODO: implement read_sensor_configuration() (currently inherits the base "not implemented"
     // behavior which the base init_from_file catches and falls back to an empty configuration).
+    navigation::SensorConfiguration read_sensor_configuration() final
+    {
+        // We do not have files with test datagrams so far, so if there is any datagram to read,
+        // fail.
+        if (!this->_datagram_infos_all.empty())
+        {
+            throw std::runtime_error("Datagrams available, but read_sensor_configuration is not "
+                                     "implemented for this yet.");
+        }
+
+        // If no datagram is available, return an empty navigation data object.
+        return navigation::SensorConfiguration();
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,

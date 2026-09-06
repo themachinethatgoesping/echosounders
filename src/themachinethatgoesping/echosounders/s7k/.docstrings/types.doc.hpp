@@ -1,4 +1,4 @@
-//sourcehash: e69d7a6da956966b1482225bd5b08af10f841a611cebfb76e245bf8e046cd56d
+//sourcehash: 0c8cc4b140a56ca737cd6d44e33e73395c749b4ff170550a1d04a6b5f6ae6aaf
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,7 +41,9 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_types_hpp_348_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_types_hpp_370_68 = R"doc()doc";
+
+
 
 
 
