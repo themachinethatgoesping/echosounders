@@ -115,19 +115,19 @@ TEST_CASE("RawDetection should round trip via the beam container", TESTTAG)
 TEST_CASE("Attitude should round trip via the sample container", TESTTAG)
 {
     Attitude dat;
-    auto&    samples = dat.samples().samples();
-    samples.resize(3);
+    auto&    attitudes = dat.attitudes().attitudes();
+    attitudes.resize(3);
     for (uint16_t i = 0; i < 3; ++i)
     {
-        samples[i].set_delta_time(i * 10);
-        samples[i].set_roll(0.1f * i);
-        samples[i].set_pitch(0.2f * i);
-        samples[i].set_heave(0.3f * i);
-        samples[i].set_heading(0.4f * i);
+        attitudes[i].set_delta_time(i * 10);
+        attitudes[i].set_roll(0.1f * i);
+        attitudes[i].set_pitch(0.2f * i);
+        attitudes[i].set_heave(0.3f * i);
+        attitudes[i].set_heading(0.4f * i);
     }
 
-    REQUIRE(dat.get_number_of_samples() == 3);
-    REQUIRE(dat.samples().get_roll_tensor()(2) == Catch::Approx(0.2f));
+    REQUIRE(dat.get_number_of_attitudes() == 3);
+    REQUIRE(dat.attitudes().get_roll_tensor()(2) == Catch::Approx(0.2f));
 
     REQUIRE(dat == Attitude(dat.from_binary(dat.to_binary())));
     REQUIRE(dat.info_string().size() != 0);

@@ -23,9 +23,7 @@ namespace s7k {
 namespace datagrams {
 
 /**
- * @brief 7k record Attitude: a set of attitude samples (roll, pitch, heave, heading) with a
- * time offset relative to the record timestamp. Used by modern systems (e.g. R2Sonic) instead of
- * separate 1012/1013 records.
+ * @brief 7k record Attitude: This record will be output at the input motion sensor rate.
  */
 class Attitude : public S7KDatagram
 {
@@ -33,7 +31,7 @@ class Attitude : public S7KDatagram
     static constexpr auto DatagramIdentifier = t_S7KDatagramIdentifier::Attitude;
 
   protected:
-    substructs::AttitudeSampleContainer _samples; ///< attitude samples
+    substructs::AttitudeSampleContainer _attitudes; ///< attitude attitudes
 
     uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
@@ -42,14 +40,20 @@ class Attitude : public S7KDatagram
     ~Attitude() = default;
 
     // ----- record type header access -----
-    uint8_t  get_number_of_samples() const { return uint8_t(_samples.get_number_of_samples()); }
+    uint8_t get_number_of_attitudes() const
+    {
+        return uint8_t(_attitudes.get_number_of_attitudes());
+    }
     uint32_t get_checksum() const { return _checksum; }
     void     set_checksum(uint32_t val) { _checksum = val; }
 
     // ----- substructure access -----
-    const substructs::AttitudeSampleContainer& get_samples() const { return _samples; }
-    substructs::AttitudeSampleContainer&        samples() { return _samples; }
-    void set_samples(const substructs::AttitudeSampleContainer& samples) { _samples = samples; }
+    const substructs::AttitudeSampleContainer& get_attitudes() const { return _attitudes; }
+    substructs::AttitudeSampleContainer&       attitudes() { return _attitudes; }
+    void set_attitudes(const substructs::AttitudeSampleContainer& attitudes)
+    {
+        _attitudes = attitudes;
+    }
 
     // ----- operators -----
     bool operator==(const Attitude& other) const = default;

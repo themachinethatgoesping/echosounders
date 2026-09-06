@@ -33,7 +33,7 @@ void Position::to_stream(std::ostream& os) const
 }
 
 tools::classhelper::ObjectPrinter Position::__printer__(unsigned int float_precision,
-                                                     bool         superscript_exponents) const
+                                                        bool         superscript_exponents) const
 {
     const auto& o_datagram_identifier = S7KDatagram::o_DatagramIdentifier(DatagramIdentifier);
     tools::classhelper::ObjectPrinter printer(

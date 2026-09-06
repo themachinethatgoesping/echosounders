@@ -1,4 +1,4 @@
-//sourcehash: 927e5f8f919188c84e61dbceb3c6410f180d8abfd72b5c33e96db7fbbaa1347b
+//sourcehash: 40a03d37897d1e48a42850fc4e5b8a1f0cdbabe0c603af1b08ffd45ff94e9699
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,36 +42,44 @@
 
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer =
-R"doc(Container for the attitude samples of a 1016 Attitude record.
+R"doc(Container for the attitude attitudes of a 1016 Attitude record.
 
-The samples are stored as one contiguous block and read as a single
+The attitudes are stored as one contiguous block and read as a single
 bulk read. Per-field numpy arrays (tensors) are built on demand.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_AttitudeSampleContainer = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_attitudes = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_build_tensor = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_attitudes = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_delta_time_in_seconds_tensor = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_delta_time_tensor = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_heading_in_degrees_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_heading_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_heave_tensor = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_number_of_samples = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_number_of_attitudes = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_pitch_in_degrees_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_pitch_tensor = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_roll_tensor = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_roll_in_degrees_tensor = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_samples = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_get_roll_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_samples = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_set_samples = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_AttitudeSampleContainer_set_attitudes = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

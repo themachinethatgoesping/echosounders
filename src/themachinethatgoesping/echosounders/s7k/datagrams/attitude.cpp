@@ -11,15 +11,15 @@ namespace datagrams {
 
 void Attitude::__read__(std::istream& is)
 {
-    uint8_t number_of_samples = 0;
-    is.read(reinterpret_cast<char*>(&number_of_samples), sizeof(number_of_samples));
+    uint8_t number_of_attitudes = 0;
+    is.read(reinterpret_cast<char*>(&number_of_attitudes), sizeof(number_of_attitudes));
 
-    auto& samples = _samples.samples();
-    samples.resize(number_of_samples);
+    auto& attitudes = _attitudes.attitudes();
+    attitudes.resize(number_of_attitudes);
 
-    // read all samples as one contiguous block
-    is.read(reinterpret_cast<char*>(samples.data()),
-            std::streamsize(number_of_samples * sizeof(substructs::AttitudeSample)));
+    // read all attitudes as one contiguous block
+    is.read(reinterpret_cast<char*>(attitudes.data()),
+            std::streamsize(number_of_attitudes * sizeof(substructs::AttitudeSample)));
 
     // read the trailing 4-byte checksum (stored for debugging only, not verified)
     is.read(reinterpret_cast<char*>(&_checksum), sizeof(_checksum));
@@ -46,12 +46,12 @@ void Attitude::to_stream(std::ostream& os) const
 {
     S7KDatagram::to_stream(os);
 
-    const auto&   samples           = _samples.get_samples();
-    const uint8_t number_of_samples = uint8_t(samples.size());
-    os.write(reinterpret_cast<const char*>(&number_of_samples), sizeof(number_of_samples));
+    const auto&   attitudes           = _attitudes.get_attitudes();
+    const uint8_t number_of_attitudes = uint8_t(attitudes.size());
+    os.write(reinterpret_cast<const char*>(&number_of_attitudes), sizeof(number_of_attitudes));
 
-    os.write(reinterpret_cast<const char*>(samples.data()),
-             std::streamsize(samples.size() * sizeof(substructs::AttitudeSample)));
+    os.write(reinterpret_cast<const char*>(attitudes.data()),
+             std::streamsize(attitudes.size() * sizeof(substructs::AttitudeSample)));
 
     os.write(reinterpret_cast<const char*>(&_checksum), sizeof(_checksum));
 }
@@ -67,11 +67,11 @@ tools::classhelper::ObjectPrinter Attitude::__printer__(unsigned int float_preci
 
     printer.append(S7KDatagram::__printer__(float_precision, superscript_exponents));
     printer.register_section("Attitude content");
-    printer.register_value("number_of_samples", get_number_of_samples());
+    printer.register_value("number_of_attitudes", get_number_of_attitudes());
     printer.register_value("checksum", _checksum);
 
-    printer.register_section("samples");
-    printer.append(_samples.__printer__(float_precision, superscript_exponents));
+    printer.register_section("attitudes");
+    printer.append(_attitudes.__printer__(float_precision, superscript_exponents));
 
     return printer;
 }

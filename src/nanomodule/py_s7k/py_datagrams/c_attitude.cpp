@@ -29,11 +29,11 @@ void init_c_attitude(nb::module_& m)
     nb::class_<Attitude, S7KDatagram>(
         m, "Attitude", DOC(themachinethatgoesping, echosounders, s7k, datagrams, Attitude))
         .def(nb::init<>(), DOC_C(Attitude, Attitude))
-        .def("get_number_of_samples", &Attitude::get_number_of_samples, DOC_C(Attitude, get_number_of_samples))
-        .def_prop_rw("samples",
-                     &Attitude::samples,
-                     &Attitude::set_samples,
-                     DOC_C(Attitude, samples),
+        .def("get_number_of_attitudes", &Attitude::get_number_of_attitudes, DOC_C(Attitude, get_number_of_attitudes))
+        .def_prop_rw("attitudes",
+                     &Attitude::attitudes,
+                     &Attitude::set_attitudes,
+                     DOC_C(Attitude, attitudes),
                      nb::rv_policy::reference_internal)
         .def("get_checksum", &Attitude::get_checksum, DOC_C(Attitude, checksum))
         .def("set_checksum", &Attitude::set_checksum, DOC_C(Attitude, checksum), nb::arg("val"))

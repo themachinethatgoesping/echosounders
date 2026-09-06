@@ -38,10 +38,10 @@ void init_c_attitudesamplecontainer(nanobind::module_& m)
         m, "AttitudeSampleContainer", DOC_AttitudeSampleContainer(AttitudeSampleContainer))
         .def(nb::init<>(), DOC_AttitudeSampleContainer(AttitudeSampleContainer))
 
-        .def_prop_rw("samples",
-                     &AttitudeSampleContainer::samples,
-                     &AttitudeSampleContainer::set_samples,
-                     DOC_AttitudeSampleContainer(samples),
+        .def_prop_rw("attitudes",
+                     &AttitudeSampleContainer::attitudes,
+                     &AttitudeSampleContainer::set_attitudes,
+                     DOC_AttitudeSampleContainer(attitudes),
                      nb::rv_policy::reference_internal)
 
         .def("get_delta_time_tensor",
@@ -60,16 +60,29 @@ void init_c_attitudesamplecontainer(nanobind::module_& m)
              &AttitudeSampleContainer::get_heading_tensor,
              DOC_AttitudeSampleContainer(get_heading_tensor))
 
-        .def("get_number_of_samples",
-             &AttitudeSampleContainer::get_number_of_samples,
-             DOC_AttitudeSampleContainer(get_number_of_samples))
+        .def("get_number_of_attitudes",
+             &AttitudeSampleContainer::get_number_of_attitudes,
+             DOC_AttitudeSampleContainer(get_number_of_attitudes))
+
+        // ----- processed -----
+        .def("get_delta_time_in_seconds_tensor",
+             &AttitudeSampleContainer::get_delta_time_in_seconds_tensor,
+             DOC_AttitudeSampleContainer(get_delta_time_in_seconds_tensor))
+        .def("get_heading_in_degrees_tensor",
+             &AttitudeSampleContainer::get_heading_in_degrees_tensor,
+             DOC_AttitudeSampleContainer(get_heading_in_degrees_tensor))
+        .def("get_roll_in_degrees_tensor",
+             &AttitudeSampleContainer::get_roll_in_degrees_tensor,
+             DOC_AttitudeSampleContainer(get_roll_in_degrees_tensor))
+        .def("get_pitch_in_degrees_tensor",
+             &AttitudeSampleContainer::get_pitch_in_degrees_tensor,
+             DOC_AttitudeSampleContainer(get_pitch_in_degrees_tensor))
 
         .def("__eq__",
              &AttitudeSampleContainer::operator==,
              DOC_AttitudeSampleContainer(operator_eq),
-             nb::arg("other"))
-        __PYCLASS_DEFAULT_COPY__(AttitudeSampleContainer)
-        __PYCLASS_DEFAULT_PRINTING__(AttitudeSampleContainer);
+             nb::arg("other")) __PYCLASS_DEFAULT_COPY__(AttitudeSampleContainer)
+            __PYCLASS_DEFAULT_PRINTING__(AttitudeSampleContainer);
 }
 
 } // namespace py_datagrams
