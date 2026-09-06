@@ -14,6 +14,7 @@ sources = [
   's7k/datagrams/s7kdatagram.test.cpp',
   's7k/datagrams/s7krecords.test.cpp',
   's7k/datagrams/s7kunknown.test.cpp',
+  's7k/filedatainterfaces/s7kinterfaces.test.cpp',
   'kongsbergall/datagrams/attitudedatagram.test.cpp',
   'kongsbergall/datagrams/clockdatagram.test.cpp',
   'kongsbergall/datagrams/depthorheightdatagram.test.cpp',

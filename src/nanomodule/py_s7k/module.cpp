@@ -18,6 +18,7 @@
 #include "py_datagrams/module.hpp"
 #include "py_filedatacontainers/module.hpp"
 #include "py_filedatainterfaces/module.hpp"
+#include "py_filedatatypes/module.hpp"
 
 namespace nb = nanobind;
 namespace themachinethatgoesping {
@@ -131,6 +132,7 @@ void init_m_s7k(nanobind::module_& m)
 
     // s7k classes
     py_datagrams::init_m_s7kdatagrams(subm);
+    py_filedatatypes::init_m_s7kfiledatatypes(subm);
     py_filedatacontainers::init_m_s7kfiledatacontainers(subm);
     py_filedatainterfaces::init_m_s7kfiledatainterfaces(subm);
     init_c_s7kfilehandler(subm);

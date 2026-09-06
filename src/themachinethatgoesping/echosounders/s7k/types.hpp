@@ -336,6 +336,28 @@ inline std::string datagram_identifier_to_string(s7k::t_S7KDatagramIdentifier va
     return tools::helper::int_as_string<uint32_t>(uint32_t(value));
 }
 
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string
+inline std::vector<std::string> datagram_identifiers_to_string(
+    const std::vector<s7k::t_S7KDatagramIdentifier>& values)
+{
+    std::vector<std::string> result;
+    result.reserve(values.size());
+    for (const auto& value : values)
+        result.push_back(datagram_identifier_to_string(value));
+    return result;
+}
+
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string2
+inline std::vector<std::string> datagram_identifiers_to_string(
+    const std::set<s7k::t_S7KDatagramIdentifier>& values)
+{
+    std::vector<std::string> result;
+    result.reserve(values.size());
+    for (const auto& value : values)
+        result.push_back(datagram_identifier_to_string(value));
+    return result;
+}
+
 // IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
 inline std::string datagram_identifier_info(s7k::t_S7KDatagramIdentifier datagram_type)
 {

@@ -47,6 +47,34 @@ void py_create_class_s7kfilehandler(nb::module_& m, const std::string& CLASS_NAM
     py_i_inputfilehandler::add_open_file_interface<S7KFileHandler<T_FileStream>>(cls);
     py_i_inputfilehandler::add_default_containers<S7KFileHandler<T_FileStream>>(cls);
 
+    //----- file data interfaces -----
+    cls.def_prop_ro("datagramdata_interface",
+                    nb::overload_cast<>(&S7KFileHandler<T_FileStream>::datagramdata_interface),
+                    DOC_S7KFileHandler(datagramdata_interface));
+    cls.def_prop_ro("configuration_interface",
+                    nb::overload_cast<>(&S7KFileHandler<T_FileStream>::configuration_interface),
+                    DOC_S7KFileHandler(configuration_interface));
+    cls.def_prop_ro("navigation_interface",
+                    nb::overload_cast<>(&S7KFileHandler<T_FileStream>::navigation_interface),
+                    DOC_S7KFileHandler(navigation_interface));
+    cls.def_prop_ro("environment_interface",
+                    nb::overload_cast<>(&S7KFileHandler<T_FileStream>::environment_interface),
+                    DOC_S7KFileHandler(environment_interface));
+    cls.def_prop_ro("otherfiledata_interface",
+                    nb::overload_cast<>(&S7KFileHandler<T_FileStream>::otherfiledata_interface),
+                    DOC_S7KFileHandler(otherfiledata_interface));
+    cls.def_prop_ro("ping_interface",
+                    nb::overload_cast<>(&S7KFileHandler<T_FileStream>::ping_interface),
+                    DOC_S7KFileHandler(ping_interface));
+
+    cls.def("get_pings",
+            nb::overload_cast<bool>(&S7KFileHandler<T_FileStream>::get_pings, nb::const_),
+            nb::arg("sorted_by_time") = true,
+            DOC_S7KFileHandler(get_pings));
+    cls.def("get_channel_ids",
+            &S7KFileHandler<T_FileStream>::get_channel_ids,
+            DOC_S7KFileHandler(get_channel_ids));
+
     // ----- convenience functions -----
     /* default printing functions */
     cls __PYCLASS_DEFAULT_PRINTING__(S7KFileHandler<T_FileStream>);

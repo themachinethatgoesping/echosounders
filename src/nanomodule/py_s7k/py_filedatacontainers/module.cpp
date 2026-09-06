@@ -16,6 +16,7 @@ namespace nb = nanobind;
 
 // -- submodule declarations --
 void init_c_s7kdatagramcontainer(nanobind::module_& m); // c_s7kdatagramcontainer.cpp
+void init_c_s7kpingcontainer(nanobind::module_& m);     // c_s7kpingcontainer.cpp
 
 // -- create submodule --
 void init_m_s7kfiledatacontainers(nanobind::module_& m)
@@ -24,6 +25,7 @@ void init_m_s7kfiledatacontainers(nanobind::module_& m)
                                 "Teledyne RESON .s7k (7k) file data container classes");
     // s7k classes
     init_c_s7kdatagramcontainer(subm);
+    init_c_s7kpingcontainer(subm);
 }
 
 }

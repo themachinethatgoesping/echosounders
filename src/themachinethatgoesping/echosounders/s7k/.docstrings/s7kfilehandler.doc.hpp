@@ -1,4 +1,4 @@
-//sourcehash: d6354725ec2ccd74e40ca7aca4234d0f1a3e305e343d94f7a4c632781b20860e
+//sourcehash: ce1a4bea069ed4fa4491e45138565669c5e8c5e97ecf75c47fe7b01a35d963be
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,8 +44,19 @@
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler =
 R"doc(File handler for Teledyne RESON .s7k (7k) data files.
 
-Indexes all datagrams (Data Record Frames) in the given file(s) and
-provides access to the raw datagrams via the datagram_interface().)doc";
+Indexes all datagrams (Data Record Frames) in the given file(s), sorts
+them into the specialized file-data interfaces (configuration,
+navigation, environment, ping, other) and provides access to the raw
+datagrams via the datagram_interface().
+
+
+
+$.. note::
+
+The specialized interfaces are structurally present and the datagrams
+are already sorted into them, but their read_* processing functions
+are not implemented yet. Initializing them (and therefore get_pings())
+is deferred to a later step.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_S7KFileHandler = R"doc()doc";
 
@@ -55,7 +66,41 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandle
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_S7KFileHandler_4 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_callback_scan_new_file_begin = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_callback_scan_new_file_end = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_callback_scan_packet = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_configuration_interface = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_configuration_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_datagramdata_interface = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_datagramdata_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_environment_interface = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_environment_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_get_channel_ids = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_get_pings = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_init_interfaces = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_navigation_interface = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_navigation_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_otherfiledata_interface = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_otherfiledata_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_ping_interface = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_ping_interface_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_printer = R"doc()doc";
 
