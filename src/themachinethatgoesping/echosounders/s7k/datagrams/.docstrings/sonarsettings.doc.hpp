@@ -1,4 +1,4 @@
-//sourcehash: 4e1fb2d32aad2c84f5f3826987194c303b9b8ded3f6538819ff14e8a256e3eec
+//sourcehash: 27aca1eccfe7999680a087e351ffa60ca3b86f6df503099b661242259d245ac4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -201,6 +201,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_rx_width = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_rx_width_in_degrees = R"doc(Get the receiver beam width in degrees (converted from radians).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_sample_rate = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_get_serial_number = R"doc()doc";
@@ -350,6 +352,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_mode_multi_ping_4 = R"doc(multi-ping 4)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_mode_single_ping = R"doc(single ping)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_mode_undefined = R"doc(undefined / not set (written by some sonars, e.g. Norbit))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_t_tx_pulse_type = R"doc()doc";
 

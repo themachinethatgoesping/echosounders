@@ -1,4 +1,4 @@
-//sourcehash: 1fc3d882bc8932cb8dfbc3834d0f328b6bd611cc809ba0bc65418d4a19425c07
+//sourcehash: b978f592dbef2c974615b1c4e2c345be400e9c54dbf23cdf3380a046e38b84cf
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -69,6 +69,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_RawDetectionBeamContainer_get_number_of_beams = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_RawDetectionBeamContainer_get_quality_tensor = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_RawDetectionBeamContainer_get_rx_angle_in_degrees_tensor =
+R"doc(receive steering angle of all beams in degrees (converted from
+radians))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_RawDetectionBeamContainer_get_rx_angle_tensor = R"doc()doc";
 

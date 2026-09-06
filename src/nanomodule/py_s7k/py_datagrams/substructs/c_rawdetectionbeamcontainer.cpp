@@ -72,6 +72,10 @@ void init_c_rawdetectionbeamcontainer(nanobind::module_& m)
              &RawDetectionBeamContainer::get_max_limit_tensor,
              DOC_RawDetectionBeamContainer(get_max_limit_tensor))
 
+        .def("get_rx_angle_in_degrees_tensor",
+             &RawDetectionBeamContainer::get_rx_angle_in_degrees_tensor,
+             DOC_RawDetectionBeamContainer(get_rx_angle_in_degrees_tensor))
+
         .def("get_number_of_beams",
              &RawDetectionBeamContainer::get_number_of_beams,
              DOC_RawDetectionBeamContainer(get_number_of_beams))

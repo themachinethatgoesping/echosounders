@@ -1,4 +1,4 @@
-//sourcehash: c4b027255f4d3fc618f558bf67df64abe28e5927858452fc55e9b7382917b535
+//sourcehash: 663b0bf1871971be256250395241a59f4ddd687b30fb06f4ff6d3aa9484cbaa4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -95,6 +95,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_applied_roll = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_applied_roll_in_degrees = R"doc(Get the roll applied to the data in degrees (converted from radians).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_beams = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_checksum = R"doc()doc";
@@ -116,6 +118,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_serial_number = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_tx_angle = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_get_tx_angle_in_degrees = R"doc(Get the transmit steering angle in degrees (converted from radians).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_operator_eq = R"doc()doc";
 

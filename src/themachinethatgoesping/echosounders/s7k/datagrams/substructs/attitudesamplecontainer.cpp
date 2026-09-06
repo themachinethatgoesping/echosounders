@@ -94,17 +94,18 @@ tools::classhelper::ObjectPrinter AttitudeSampleContainer::__printer__(
     printer.register_value(
         "attitudes (vector)", fmt::format("size={}", get_number_of_attitudes()), "attitudes");
 
-    printer.register_container("delta_time", get_delta_time_tensor(), "ms");
-    printer.register_container("roll", get_roll_tensor(), "rad");
-    printer.register_container("pitch", get_pitch_tensor(), "rad");
-    printer.register_container("heave", get_heave_tensor(), "m");
-    printer.register_container("heading", get_heading_tensor(), "rad");
+    printer.register_container("delta_time_tensor", get_delta_time_tensor(), "ms");
+    printer.register_container("roll_tensor", get_roll_tensor(), "rad");
+    printer.register_container("pitch_tensor", get_pitch_tensor(), "rad");
+    printer.register_container("heave_tensor", get_heave_tensor(), "m");
+    printer.register_container("heading_tensor", get_heading_tensor(), "rad");
 
     printer.register_section("processed");
-    printer.register_container("delta_time_in_seconds", get_delta_time_in_seconds_tensor(), "s");
-    printer.register_container("roll_in_degrees", get_roll_in_degrees_tensor(), "deg");
-    printer.register_container("pitch_in_degrees", get_pitch_in_degrees_tensor(), "deg");
-    printer.register_container("heading_in_degrees", get_heading_in_degrees_tensor(), "deg");
+    printer.register_container(
+        "delta_time_in_seconds_tensor", get_delta_time_in_seconds_tensor(), "s");
+    printer.register_container("roll_in_degrees_tensor", get_roll_in_degrees_tensor(), "deg");
+    printer.register_container("pitch_in_degrees_tensor", get_pitch_in_degrees_tensor(), "deg");
+    printer.register_container("heading_in_degrees_tensor", get_heading_in_degrees_tensor(), "deg");
 
     return printer;
 }

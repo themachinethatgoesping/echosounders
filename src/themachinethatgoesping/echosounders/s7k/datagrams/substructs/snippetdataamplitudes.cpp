@@ -144,6 +144,7 @@ tools::classhelper::ObjectPrinter SnippetDataAmplitudes::__printer__(
     tools::classhelper::ObjectPrinter printer(
         "SnippetDataAmplitudes", float_precision, superscript_exponents);
 
+    printer.register_section("Amplitudes (.amplitudes)");
     printer.register_value("samples_are_32bit", _samples_are_32bit);
     printer.register_value("number_of_beams", get_number_of_beams());
     printer.register_value("total_number_of_samples", get_total_number_of_samples());

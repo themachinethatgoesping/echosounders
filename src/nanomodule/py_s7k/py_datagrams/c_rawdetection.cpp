@@ -49,6 +49,8 @@ void init_c_rawdetection(nb::module_& m)
         .def("set_tx_angle", &RawDetection::set_tx_angle, DOC_C(RawDetection, Content, tx_angle), nb::arg("val"))
         .def("get_applied_roll", &RawDetection::get_applied_roll, DOC_C(RawDetection, Content, applied_roll))
         .def("set_applied_roll", &RawDetection::set_applied_roll, DOC_C(RawDetection, Content, applied_roll), nb::arg("val"))
+        .def("get_tx_angle_in_degrees", &RawDetection::get_tx_angle_in_degrees, DOC_C(RawDetection, get_tx_angle_in_degrees))
+        .def("get_applied_roll_in_degrees", &RawDetection::get_applied_roll_in_degrees, DOC_C(RawDetection, get_applied_roll_in_degrees))
         .def_prop_rw("beams",
                      &RawDetection::beams,
                      &RawDetection::set_beams,

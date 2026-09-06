@@ -9,6 +9,7 @@
 
 // std includes
 #include <cstdint>
+#include <numbers>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -91,6 +92,18 @@ class RawDetection : public S7KDatagram
     void set_tx_angle(float val) { _content._tx_angle = val; }
     void set_applied_roll(float val) { _content._applied_roll = val; }
     void set_checksum(uint32_t val) { _checksum = val; }
+
+    // ----- processed data access -----
+    /// @brief Get the transmit steering angle in degrees (converted from radians).
+    float get_tx_angle_in_degrees() const
+    {
+        return _content._tx_angle * 180.f / float(std::numbers::pi);
+    }
+    /// @brief Get the roll applied to the data in degrees (converted from radians).
+    float get_applied_roll_in_degrees() const
+    {
+        return _content._applied_roll * 180.f / float(std::numbers::pi);
+    }
 
     // ----- substructure access -----
     const substructs::RawDetectionBeamContainer& get_beams() const { return _beams; }

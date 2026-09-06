@@ -49,8 +49,8 @@ tools::classhelper::ObjectPrinter RollPitchHeave::__printer__(unsigned int float
     printer.register_value("checksum", _content._checksum);
 
     printer.register_section("processed");
-    printer.register_value("roll", get_roll_in_degrees(), "°");
-    printer.register_value("pitch", get_pitch_in_degrees(), "°");
+    printer.register_value("roll_in_degrees", get_roll_in_degrees(), "°");
+    printer.register_value("pitch_in_degrees", get_pitch_in_degrees(), "°");
 
     return printer;
 }

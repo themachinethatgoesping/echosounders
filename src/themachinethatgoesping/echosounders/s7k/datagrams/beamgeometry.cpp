@@ -4,6 +4,8 @@
 
 #include "beamgeometry.hpp"
 
+#include <xtensor/core/xmath.hpp> // for xt::rad2deg
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
@@ -71,6 +73,26 @@ void BeamGeometry::to_stream(std::ostream& os) const
     os.write(reinterpret_cast<const char*>(&_checksum), sizeof(_checksum));
 }
 
+xt::xtensor<float, 1> BeamGeometry::get_beam_vertical_angle_in_degrees() const
+{
+    return xt::rad2deg(_beam_vertical_angle);
+}
+
+xt::xtensor<float, 1> BeamGeometry::get_beam_horizontal_angle_in_degrees() const
+{
+    return xt::rad2deg(_beam_horizontal_angle);
+}
+
+xt::xtensor<float, 1> BeamGeometry::get_beamwidth_vertical_in_degrees() const
+{
+    return xt::rad2deg(_beamwidth_vertical);
+}
+
+xt::xtensor<float, 1> BeamGeometry::get_beamwidth_horizontal_in_degrees() const
+{
+    return xt::rad2deg(_beamwidth_horizontal);
+}
+
 tools::classhelper::ObjectPrinter BeamGeometry::__printer__(unsigned int float_precision,
                                                             bool superscript_exponents) const
 {
@@ -92,6 +114,16 @@ tools::classhelper::ObjectPrinter BeamGeometry::__printer__(unsigned int float_p
     printer.register_container("beam_horizontal_angle", _beam_horizontal_angle, "rad");
     printer.register_container("beamwidth_vertical", _beamwidth_vertical, "rad");
     printer.register_container("beamwidth_horizontal", _beamwidth_horizontal, "rad");
+
+    printer.register_section("processed");
+    printer.register_container(
+        "beam_vertical_angle_in_degrees", get_beam_vertical_angle_in_degrees(), "°");
+    printer.register_container(
+        "beam_horizontal_angle_in_degrees", get_beam_horizontal_angle_in_degrees(), "°");
+    printer.register_container(
+        "beamwidth_vertical_in_degrees", get_beamwidth_vertical_in_degrees(), "°");
+    printer.register_container(
+        "beamwidth_horizontal_in_degrees", get_beamwidth_horizontal_in_degrees(), "°");
 
     return printer;
 }

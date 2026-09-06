@@ -82,20 +82,21 @@ class SonarSettings : public S7KDatagram
     // ----- transmit pulse mode (7k DFD Table 42; low 16 bits, high 16 bits reserved) -----
     enum class t_tx_pulse_mode : uint32_t
     {
+        undefined    = 0, ///< undefined / not set (written by some sonars, e.g. Norbit)
         single_ping  = 1, ///< single ping
         multi_ping_2 = 2, ///< multi-ping 2
         multi_ping_3 = 3, ///< multi-ping 3
         multi_ping_4 = 4, ///< multi-ping 4
     };
-    static constexpr std::array<t_tx_pulse_mode, 4> t_tx_pulse_mode_values = {
-        t_tx_pulse_mode::single_ping, t_tx_pulse_mode::multi_ping_2, t_tx_pulse_mode::multi_ping_3,
-        t_tx_pulse_mode::multi_ping_4
+    static constexpr std::array<t_tx_pulse_mode, 5> t_tx_pulse_mode_values = {
+        t_tx_pulse_mode::undefined, t_tx_pulse_mode::single_ping, t_tx_pulse_mode::multi_ping_2,
+        t_tx_pulse_mode::multi_ping_3, t_tx_pulse_mode::multi_ping_4
     };
-    static constexpr std::array<std::string_view, 4> t_tx_pulse_mode_names = {
-        "single_ping", "multi_ping_2", "multi_ping_3", "multi_ping_4"
+    static constexpr std::array<std::string_view, 5> t_tx_pulse_mode_names = {
+        "undefined", "single_ping", "multi_ping_2", "multi_ping_3", "multi_ping_4"
     };
-    static constexpr std::array<std::string_view, 4> t_tx_pulse_mode_alt_names = {
-        "Single ping", "Multi-ping 2", "Multi-ping 3", "Multi-ping 4"
+    static constexpr std::array<std::string_view, 5> t_tx_pulse_mode_alt_names = {
+        "Undefined", "Single ping", "Multi-ping 2", "Multi-ping 3", "Multi-ping 4"
     };
     using o_tx_pulse_mode = tools::classhelper::OptionFrozen<t_tx_pulse_mode,
                                                             t_tx_pulse_mode_values.size(),
@@ -313,6 +314,11 @@ class SonarSettings : public S7KDatagram
     float get_beamwidth_horizontal_in_degrees() const
     {
         return _content._beamwidth_horizontal * 180.f / float(std::numbers::pi);
+    }
+    /// @brief Get the receiver beam width in degrees (converted from radians).
+    float get_rx_width_in_degrees() const
+    {
+        return _content._rx_width * 180.f / float(std::numbers::pi);
     }
 
     // ----- operators -----

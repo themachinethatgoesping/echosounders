@@ -1,4 +1,4 @@
-//sourcehash: a1bf49602435dba4f9accdd71aa8290710ff11dfa1e4dc278a582fabbdae7c12
+//sourcehash: f74add3e0205b51dbfdf318e8cdb919a38d106774f24549c658019162363fc0a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -77,11 +77,27 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Bea
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beam_horizontal_angle = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beam_horizontal_angle_in_degrees =
+R"doc(Get the across-track (horizontal) beam angles in degrees (converted
+from radians).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beam_vertical_angle = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beam_vertical_angle_in_degrees =
+R"doc(Get the along-track (vertical) beam angles in degrees (converted from
+radians).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beamwidth_horizontal = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beamwidth_horizontal_in_degrees =
+R"doc(Get the across-track (horizontal) -3dB beam widths in degrees (from
+radians).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beamwidth_vertical = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_beamwidth_vertical_in_degrees =
+R"doc(Get the along-track (vertical) -3dB beam widths in degrees (converted
+from radians).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_get_checksum = R"doc()doc";
 

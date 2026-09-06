@@ -49,7 +49,12 @@ tools::classhelper::ObjectPrinter FileHeaderDeviceInfoContainer::__printer__(
     tools::classhelper::ObjectPrinter printer(
         "FileHeaderDeviceInfoContainer", float_precision, superscript_exponents);
 
-    printer.register_value("number_of_devices", get_number_of_devices());
+    printer.register_section("Devices (.devices)");
+    printer.register_value(
+        "devices (vector)", fmt::format("size={}", get_number_of_devices()), "devices");
+
+    printer.register_container("device_identifier_tensor", get_device_identifier_tensor());
+    printer.register_container("system_enumerator_tensor", get_system_enumerator_tensor());
 
     return printer;
 }

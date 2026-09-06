@@ -47,7 +47,7 @@ tools::classhelper::ObjectPrinter Heading::__printer__(unsigned int float_precis
     printer.register_value("checksum", _content._checksum);
 
     printer.register_section("processed");
-    printer.register_value("heading", get_heading_in_degrees(), "°");
+    printer.register_value("heading_in_degrees", get_heading_in_degrees(), "°");
 
     return printer;
 }

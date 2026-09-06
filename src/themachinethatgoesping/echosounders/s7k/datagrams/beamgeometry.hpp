@@ -86,6 +86,16 @@ class BeamGeometry : public S7KDatagram
     void set_tx_delay(const xt::xtensor<float, 1>& v) { _tx_delay = v; }
     void set_has_tx_delay(bool v) { _has_tx_delay = v; }
 
+    // ----- processed data access -----
+    /// @brief Get the along-track (vertical) beam angles in degrees (converted from radians).
+    xt::xtensor<float, 1> get_beam_vertical_angle_in_degrees() const;
+    /// @brief Get the across-track (horizontal) beam angles in degrees (converted from radians).
+    xt::xtensor<float, 1> get_beam_horizontal_angle_in_degrees() const;
+    /// @brief Get the along-track (vertical) -3dB beam widths in degrees (converted from radians).
+    xt::xtensor<float, 1> get_beamwidth_vertical_in_degrees() const;
+    /// @brief Get the across-track (horizontal) -3dB beam widths in degrees (from radians).
+    xt::xtensor<float, 1> get_beamwidth_horizontal_in_degrees() const;
+
     // ----- operators -----
     bool operator==(const BeamGeometry& other) const = default;
 

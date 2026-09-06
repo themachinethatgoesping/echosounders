@@ -124,6 +124,10 @@ tools::classhelper::ObjectPrinter RawDetection::__printer__(unsigned int float_p
     printer.register_value("applied_roll", _content._applied_roll, "rad");
     printer.register_value("checksum", _checksum);
 
+    printer.register_section("processed");
+    printer.register_value("tx_angle_in_degrees", get_tx_angle_in_degrees(), "°");
+    printer.register_value("applied_roll_in_degrees", get_applied_roll_in_degrees(), "°");
+
     printer.register_section("beams");
     printer.append(_beams.__printer__(float_precision, superscript_exponents));
 

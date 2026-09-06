@@ -4,6 +4,8 @@
 
 #include "rawdetectionbeamcontainer.hpp"
 
+#include <xtensor/core/xmath.hpp> // for xt::rad2deg
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
@@ -73,6 +75,11 @@ xt::xtensor<float, 1> RawDetectionBeamContainer::get_max_limit_tensor() const
     return build_tensor<float>([](const RawDetectionBeam& beam) { return beam.get_max_limit(); });
 }
 
+xt::xtensor<float, 1> RawDetectionBeamContainer::get_rx_angle_in_degrees_tensor() const
+{
+    return xt::rad2deg(get_rx_angle_tensor());
+}
+
 size_t RawDetectionBeamContainer::get_number_of_beams() const
 {
     return _beams.size();
@@ -85,7 +92,23 @@ tools::classhelper::ObjectPrinter RawDetectionBeamContainer::__printer__(
     tools::classhelper::ObjectPrinter printer(
         "RawDetectionBeamContainer", float_precision, superscript_exponents);
 
-    printer.register_value("number_of_beams", get_number_of_beams());
+    printer.register_section("Beams (.beams)");
+    printer.register_value(
+        "beams (vector)", fmt::format("size={}", get_number_of_beams()), "beams");
+
+    printer.register_container("beam_descriptor_tensor", get_beam_descriptor_tensor());
+    printer.register_container("detection_point_tensor", get_detection_point_tensor(), "samples");
+    printer.register_container("rx_angle_tensor", get_rx_angle_tensor(), "rad");
+    printer.register_container("flags_tensor", get_flags_tensor());
+    printer.register_container("quality_tensor", get_quality_tensor());
+    printer.register_container("uncertainty_tensor", get_uncertainty_tensor());
+    printer.register_container("signal_strength_tensor", get_signal_strength_tensor());
+    printer.register_container("min_limit_tensor", get_min_limit_tensor(), "samples");
+    printer.register_container("max_limit_tensor", get_max_limit_tensor(), "samples");
+
+    printer.register_section("processed");
+    printer.register_container(
+        "rx_angle_in_degrees_tensor", get_rx_angle_in_degrees_tensor(), "deg");
 
     return printer;
 }

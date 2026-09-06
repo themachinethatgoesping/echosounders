@@ -92,10 +92,15 @@ tools::classhelper::ObjectPrinter SonarSettings::__printer__(unsigned int float_
     printer.register_value("checksum", _content._checksum);
 
     printer.register_section("processed");
-    printer.register_value("steering_vertical", get_steering_vertical_in_degrees(), "°");
-    printer.register_value("steering_horizontal", get_steering_horizontal_in_degrees(), "°");
-    printer.register_value("beamwidth_vertical", get_beamwidth_vertical_in_degrees(), "°");
-    printer.register_value("beamwidth_horizontal", get_beamwidth_horizontal_in_degrees(), "°");
+    printer.register_value(
+        "steering_vertical_in_degrees", get_steering_vertical_in_degrees(), "°");
+    printer.register_value(
+        "steering_horizontal_in_degrees", get_steering_horizontal_in_degrees(), "°");
+    printer.register_value(
+        "beamwidth_vertical_in_degrees", get_beamwidth_vertical_in_degrees(), "°");
+    printer.register_value(
+        "beamwidth_horizontal_in_degrees", get_beamwidth_horizontal_in_degrees(), "°");
+    printer.register_value("rx_width_in_degrees", get_rx_width_in_degrees(), "°");
 
     return printer;
 }

@@ -57,10 +57,10 @@ tools::classhelper::ObjectPrinter Navigation::__printer__(unsigned int float_pre
     printer.register_value("checksum", _content._checksum);
 
     printer.register_section("processed");
-    printer.register_value("latitude", get_latitude_in_degrees(), "°");
-    printer.register_value("longitude", get_longitude_in_degrees(), "°");
-    printer.register_value("course", get_course_in_degrees(), "°");
-    printer.register_value("heading", get_heading_in_degrees(), "°");
+    printer.register_value("latitude_in_degrees", get_latitude_in_degrees(), "°");
+    printer.register_value("longitude_in_degrees", get_longitude_in_degrees(), "°");
+    printer.register_value("course_in_degrees", get_course_in_degrees(), "°");
+    printer.register_value("heading_in_degrees", get_heading_in_degrees(), "°");
 
     return printer;
 }

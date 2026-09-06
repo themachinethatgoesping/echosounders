@@ -75,7 +75,17 @@ tools::classhelper::ObjectPrinter SnippetDataBeamContainer::__printer__(
     tools::classhelper::ObjectPrinter printer(
         "SnippetDataBeamContainer", float_precision, superscript_exponents);
 
-    printer.register_value("number_of_beams", get_number_of_beams());
+    printer.register_section("Beams (.beams)");
+    printer.register_value(
+        "beams (vector)", fmt::format("size={}", get_number_of_beams()), "beams");
+
+    printer.register_container("beam_descriptor_tensor", get_beam_descriptor_tensor());
+    printer.register_container("snippet_start_tensor", get_snippet_start_tensor(), "samples");
+    printer.register_container("detection_sample_tensor", get_detection_sample_tensor(), "samples");
+    printer.register_container("snippet_end_tensor", get_snippet_end_tensor(), "samples");
+    printer.register_container(
+        "number_of_samples_tensor", get_number_of_samples_tensor(), "samples");
+
     printer.register_value("total_number_of_samples", get_total_number_of_samples());
 
     return printer;

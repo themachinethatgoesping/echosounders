@@ -60,8 +60,8 @@ tools::classhelper::ObjectPrinter Position::__printer__(unsigned int float_preci
     printer.register_value("checksum", _content._checksum);
 
     printer.register_section("processed");
-    printer.register_value("latitude", get_latitude_in_degrees(), "°");
-    printer.register_value("longitude", get_longitude_in_degrees(), "°");
+    printer.register_value("latitude_in_degrees", get_latitude_in_degrees(), "°");
+    printer.register_value("longitude_in_degrees", get_longitude_in_degrees(), "°");
 
     return printer;
 }

@@ -54,6 +54,9 @@ class RawDetectionBeamContainer
     xt::xtensor<float, 1>    get_max_limit_tensor() const;
 
     // ----- processed -----
+    /// receive steering angle of all beams in degrees (converted from radians)
+    xt::xtensor<float, 1> get_rx_angle_in_degrees_tensor() const;
+
     size_t get_number_of_beams() const;
 
     // ----- operators -----
