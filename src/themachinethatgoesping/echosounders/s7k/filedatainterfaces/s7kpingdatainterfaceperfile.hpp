@@ -84,6 +84,20 @@ class S7KPingDataInterfacePerFile
         using t_ping          = filedatatypes::S7KPing<t_ifstream>;
         using t_ping_ptr      = std::shared_ptr<t_ping>;
 
+        // sensor configuration + navigation for this file. The configuration is currently empty
+        // (its read_* is not implemented), but an empty SensorConfiguration is valid: it carries a
+        // default target "0", so the "Transducer" alias and the navigation interpolator below still
+        // resolve and geolocation works (vessel reference point).
+        const auto& base_sensor_configuration =
+            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
+        auto sensor_configuration_per_channel =
+            this->configuration_data_interface().get_trx_sensor_configuration_per_target_id(
+                this->get_file_nr());
+        auto navigation_interpolator =
+            this->navigation_data_interface().get_navigation_interpolator_flyweight(
+                base_sensor_configuration.binary_hash());
+        const bool navigation_is_valid = navigation_interpolator.get().valid();
+
         // process the datagrams in file order (sort a copy so grouping is robust to storage order)
         auto datagram_infos = this->_datagram_infos_all;
         std::sort(datagram_infos.begin(), datagram_infos.end(), [](const auto& a, const auto& b) {
@@ -101,15 +115,25 @@ class S7KPingDataInterfacePerFile
                 datagram_info->get_datagram_identifier() ==
                 t_S7KDatagramIdentifier::SonarSettings; // 7000
 
-            if (starts_new_ping || current_ping == nullptr)
+            if (starts_new_ping)
             {
                 current_ping = std::make_shared<t_ping>();
                 current_ping->set_channel_id("0"); // single channel for now (config not read yet)
                 current_ping->file_data().set_primary_file_nr(this->get_file_nr());
+
+                if (base_sensor_configuration.has_target(current_ping->get_channel_id()))
+                    current_ping->set_sensor_configuration_flyweight(
+                        sensor_configuration_per_channel.at(current_ping->get_channel_id()));
+                if (navigation_is_valid)
+                    current_ping->set_navigation_interpolator_latlon(navigation_interpolator);
+
                 pings.add_ping_no_reindex(current_ping);
             }
 
-            current_ping->add_datagram_info(datagram_info);
+            // records before the first SonarSettings record form an incomplete leading ping and
+            // are skipped (they cannot be geolocated / calibrated consistently)
+            if (current_ping != nullptr)
+                current_ping->add_datagram_info(datagram_info);
         }
 
         pings.reindex();

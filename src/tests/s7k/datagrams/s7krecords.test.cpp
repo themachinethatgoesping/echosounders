@@ -190,16 +190,6 @@ TEST_CASE("SnippetData should round trip via the beam + amplitude containers", T
 TEST_CASE("CompressedWaterColumn should decode and round trip", TESTTAG)
 {
     // one beam, 16-bit magnitude, no phase
-    std::string raw;
-    auto        put16 = [&raw](uint16_t v) {
-        raw.push_back(char(v & 0xFF));
-        raw.push_back(char((v >> 8) & 0xFF));
-    };
-    put16(100);
-    put16(200);
-    put16(300);
-    put16(400);
-
     CompressedWaterColumn dat;
     dat.set_ping_number(11);
     dat.set_number_beams(1);
@@ -215,7 +205,8 @@ TEST_CASE("CompressedWaterColumn should decode and round trip", TESTTAG)
     auto& b = beams[0];
     b.set_beam_number(7);
     b.set_sample_count(4);
-    b.set_raw_samples(raw);
+    b.set_samples(substructs::CompressedWaterColumnDataMagnitude16(
+        xt::xtensor<uint16_t, 1>({ 100, 200, 300, 400 })));
 
     // decode on demand (via the container, which knows the encoding)
     auto mag = dat.beams().get_magnitude(0);
@@ -223,6 +214,12 @@ TEST_CASE("CompressedWaterColumn should decode and round trip", TESTTAG)
     REQUIRE(mag(0) == Catch::Approx(100.f));
     REQUIRE(mag(3) == Catch::Approx(400.f));
     REQUIRE(dat.beams().get_phase(0).size() == 0);
+
+    // raw (native) access keeps the on-disk integer values
+    auto raw_mag = b.get_raw_magnitude();
+    REQUIRE(raw_mag.size() == 4);
+    REQUIRE(raw_mag(2) == 300u);
+    REQUIRE(b.has_phase() == false);
 
     REQUIRE(dat.beams().get_total_number_of_samples() == 4);
     REQUIRE(dat.beams().get_magnitude(0)(2) == Catch::Approx(300.f));

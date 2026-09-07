@@ -1,4 +1,4 @@
-//sourcehash: c6032b98643fa8176c558242527ac3dd1a8e054b5d81ad8756d0fe8f1b5d6c5c
+//sourcehash: 677a1196d555d5c5e4465946f9efc28d2a9cc89dc9ed96a444be1f7ec6a30693
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -102,15 +102,41 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_compression_factor = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_downsampling_divisor = R"doc(Bits 4-7: downsampling divisor (1 means no downsampling).)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_downsampling_type = R"doc(Bits 8-11: downsampling type (0 none, 1 middle, 2 peak, 3 average).)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_first_sample = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_32bit_data = R"doc(Bit 12: magnitude is stored as 32-bit values.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_compression_factor_available =
+R"doc(Bit 13: a custom compression factor is available (else a factor of 40
+is used).)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_first_sample_is_rxdelay = R"doc(Bit 15: the first sample contains the RxDelay value.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_intensity_only = R"doc(Bit 1: only intensity (magnitude) data is included, phase is stripped.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_magnitude_to_db =
+R"doc(Bit 2: magnitude is converted to dB and stored as an 8-bit value
+(phase as 8-bit).)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_segment_numbers_available = R"doc(Bit 14: per-beam segment numbers are available.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_use_maximum_bottom_detection =
+R"doc(Bit 0: water column data is limited to the bottom detection point
+(+10%).)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flags = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_has_phase = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_has_phase = R"doc(whether the record contains phase data (derived from bit 1))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_magnitude_bytes = R"doc(number of bytes per magnitude sample as stored on disk (1, 2 or 4))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_magnitude_is_db = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_magnitude_is_db =
+R"doc(whether the magnitude is stored as 8-bit dB values (derived from bit
+2))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_multi_ping = R"doc()doc";
 

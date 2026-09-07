@@ -35,11 +35,14 @@ class CompressedWaterColumn : public S7KDatagram
   public:
     static constexpr auto DatagramIdentifier = t_S7KDatagramIdentifier::CompressedWaterColumnData;
 
-    // flag bits
-    static constexpr uint32_t FLAG_MAGNITUDE_ONLY = 1u << 1; ///< strip phase
-    static constexpr uint32_t FLAG_MAGNITUDE_DB   = 1u << 2; ///< 8-bit dB magnitude / 8-bit phase
-    static constexpr uint32_t FLAG_32BIT_DATA     = 1u << 12; ///< 32-bit magnitude
-    static constexpr uint32_t FLAG_SEGMENT_NUMBERS = 1u << 14; ///< per-beam segment number present
+    // flag bits (Table 83)
+    static constexpr uint32_t FLAG_USE_MAX_BOTTOM_DETECTION = 1u << 0;  ///< limit to bottom + 10%
+    static constexpr uint32_t FLAG_MAGNITUDE_ONLY           = 1u << 1;  ///< strip phase
+    static constexpr uint32_t FLAG_MAGNITUDE_DB             = 1u << 2;  ///< 8-bit dB mag / 8-bit phase
+    static constexpr uint32_t FLAG_32BIT_DATA               = 1u << 12; ///< 32-bit magnitude
+    static constexpr uint32_t FLAG_COMPRESSION_FACTOR       = 1u << 13; ///< compression factor avail
+    static constexpr uint32_t FLAG_SEGMENT_NUMBERS          = 1u << 14; ///< per-beam segment number
+    static constexpr uint32_t FLAG_FIRST_SAMPLE_RXDELAY     = 1u << 15; ///< first sample = RxDelay
 
   protected:
 #pragma pack(push, 1)
@@ -100,7 +103,45 @@ class CompressedWaterColumn : public S7KDatagram
     void set_compression_factor(float val) { _content._compression_factor = val; }
     void set_checksum(uint32_t val) { _checksum = val; }
 
+    // ----- processed (decoded flags) -----
+    /// Bit 0: water column data is limited to the bottom detection point (+10%).
+    bool get_flag_use_maximum_bottom_detection() const
+    {
+        return (_content._flags & FLAG_USE_MAX_BOTTOM_DETECTION) != 0;
+    }
+    /// Bit 1: only intensity (magnitude) data is included, phase is stripped.
+    bool get_flag_intensity_only() const { return (_content._flags & FLAG_MAGNITUDE_ONLY) != 0; }
+    /// Bit 2: magnitude is converted to dB and stored as an 8-bit value (phase as 8-bit).
+    bool get_flag_magnitude_to_db() const { return (_content._flags & FLAG_MAGNITUDE_DB) != 0; }
+    /// Bit 12: magnitude is stored as 32-bit values.
+    bool get_flag_32bit_data() const { return (_content._flags & FLAG_32BIT_DATA) != 0; }
+    /// Bit 13: a custom compression factor is available (else a factor of 40 is used).
+    bool get_flag_compression_factor_available() const
+    {
+        return (_content._flags & FLAG_COMPRESSION_FACTOR) != 0;
+    }
+    /// Bit 14: per-beam segment numbers are available.
+    bool get_flag_segment_numbers_available() const
+    {
+        return (_content._flags & FLAG_SEGMENT_NUMBERS) != 0;
+    }
+    /// Bit 15: the first sample contains the RxDelay value.
+    bool get_flag_first_sample_is_rxdelay() const
+    {
+        return (_content._flags & FLAG_FIRST_SAMPLE_RXDELAY) != 0;
+    }
+    /// Bits 4-7: downsampling divisor (1 means no downsampling).
+    uint8_t get_downsampling_divisor() const
+    {
+        uint8_t divisor = uint8_t((_content._flags >> 4) & 0xFu);
+        return divisor == 0 ? uint8_t(1) : divisor;
+    }
+    /// Bits 8-11: downsampling type (0 none, 1 middle, 2 peak, 3 average).
+    uint8_t get_downsampling_type() const { return uint8_t((_content._flags >> 8) & 0xFu); }
+
+    /// whether the record contains phase data (derived from bit 1)
     bool get_has_phase() const { return (_content._flags & FLAG_MAGNITUDE_ONLY) == 0; }
+    /// whether the magnitude is stored as 8-bit dB values (derived from bit 2)
     bool get_magnitude_is_db() const { return (_content._flags & FLAG_MAGNITUDE_DB) != 0; }
     /// number of bytes per magnitude sample as stored on disk (1, 2 or 4)
     int get_magnitude_bytes() const

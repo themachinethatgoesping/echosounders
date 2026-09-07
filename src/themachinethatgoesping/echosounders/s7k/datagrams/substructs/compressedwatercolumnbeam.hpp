@@ -10,12 +10,16 @@
 // std includes
 #include <cstdint>
 #include <iosfwd>
-#include <string>
+#include <utility>
+#include <variant>
+
+// xtensor includes
+#include <xtensor/containers/xtensor.hpp>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include "../../types.hpp"
+#include "compressedwatercolumndatatypes.hpp"
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -24,19 +28,21 @@ namespace datagrams {
 namespace substructs {
 
 /**
- * @brief Per-beam data of a 7042 CompressedWaterColumnData record, exactly as stored on disk.
+ * @brief Per-beam data of a 7042 CompressedWaterColumnData record.
  *
- * Holds the beam number, optional segment number, sample count and the raw (interleaved
- * magnitude[+phase]) sample bytes. The sample bytes are read straight from the stream into
- * _raw_samples (no intermediate copy). Decoding to magnitude/phase is done by the owning
- * CompressedWaterColumnBeamContainer, which knows the record-wide sample encoding.
+ * Holds the beam number, optional segment number, sample count and the per-beam samples. The
+ * samples are stored in their native (on-disk) encoding as xtensors inside a
+ * CompressedWaterColumnDataVariant (one alternative per encoding, see Table 84); no floating point
+ * / dB conversion is done at read. Decoding to dB/degrees is deferred to the ping water column
+ * accessor.
  */
 class CompressedWaterColumnBeam
 {
-    uint16_t    _beam_number    = 0; ///< beam number
-    uint8_t     _segment_number = 0; ///< segment number (0 if segments are not used)
-    uint32_t    _sample_count   = 0; ///< number of samples for this beam
-    std::string _raw_samples;        ///< raw interleaved [magnitude][phase] sample bytes (on disk)
+    uint16_t _beam_number    = 0; ///< beam number
+    uint8_t  _segment_number = 0; ///< segment number (0 if segments are not used)
+    uint32_t _sample_count   = 0; ///< number of samples for this beam
+
+    CompressedWaterColumnDataVariant _samples; ///< per-beam samples in their native encoding
 
   public:
     CompressedWaterColumnBeam()  = default;
@@ -51,11 +57,29 @@ class CompressedWaterColumnBeam
     void set_segment_number(uint8_t val) { _segment_number = val; }
     void set_sample_count(uint32_t val) { _sample_count = val; }
 
-    const std::string& get_raw_samples() const { return _raw_samples; }
-    void               set_raw_samples(const std::string& raw_samples) { _raw_samples = raw_samples; }
+    // ----- sample data access -----
+    const CompressedWaterColumnDataVariant& get_samples() const { return _samples; }
+    CompressedWaterColumnDataVariant&       samples() { return _samples; }
+    void set_samples(CompressedWaterColumnDataVariant samples) { _samples = std::move(samples); }
 
-    // ----- stream i/o (read/write directly, no intermediate buffer) -----
-    void read(std::istream& is, bool has_segment, size_t sample_stride);
+    /// whether this beam holds phase data
+    bool has_phase() const
+    {
+        return std::visit([](const auto& data) { return data.has_phase(); }, _samples);
+    }
+    /// magnitude samples in their raw (unconverted) values, widened to uint32
+    xt::xtensor<uint32_t, 1> get_raw_magnitude() const
+    {
+        return std::visit([](const auto& data) { return data.get_raw_magnitude(); }, _samples);
+    }
+    /// phase samples in their raw (unconverted) int16 values (empty if there is no phase)
+    xt::xtensor<int16_t, 1> get_raw_phase() const
+    {
+        return std::visit([](const auto& data) { return data.get_raw_phase(); }, _samples);
+    }
+
+    // ----- stream i/o -----
+    void read(std::istream& is, bool has_segment, t_CompressedWaterColumnDataType type);
     void to_stream(std::ostream& os, bool has_segment) const;
 
     // ----- operators -----

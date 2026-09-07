@@ -8,9 +8,14 @@
 #include ".docstrings/s7kpingbottom.doc.hpp"
 
 /* std includes */
+#include <limits>
 #include <memory>
+#include <vector>
 
 #include <fmt/format.h>
+
+// xtensor includes
+#include <xtensor/containers/xtensor.hpp>
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -30,9 +35,9 @@ namespace filedatatypes {
 /**
  * @brief Bottom detection (bathymetry) accessor of an s7k ping.
  *
- * @note The bottom-detection processing functions are not implemented yet; they inherit the base
- * I_PingBottom "not implemented" behavior. This class currently only provides the structure so it
- * can be filled in in a later step.
+ * The bottom detections come from the 7027 RawDetection record. s7k raw detections do not carry a
+ * ready-made XYZ position (has_xyz() is false); the per-beam receive angles and two-way travel
+ * times are provided as best guesses so the bottom can be raytraced later.
  *
  * @tparam t_ifstream
  */
@@ -59,8 +64,76 @@ class S7KPingBottom
     }
     virtual ~S7KPingBottom() = default;
 
-    // TODO: implement the bottom-detection accessors (get_xyz, get_number_of_beams,
-    // get_two_way_travel_times, get_beam_crosstrack_angles, ...).
+    // un-hide the base no-argument convenience overloads (hidden by the selection overrides below)
+    using t_base1::get_beam_crosstrack_angles;
+    using t_base1::get_beam_numbers_per_tx_sector;
+    using t_base1::get_tx_sector_per_beam;
+    using t_base1::get_two_way_travel_times;
+
+    // ----- transmit sectors (single sector for now) -----
+    size_t get_number_of_tx_sectors() override { return 1; }
+
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
+        const pingtools::BeamSelection& selection) override
+    {
+        auto sectors = xt::xtensor<size_t, 1>::from_shape({ selection.get_number_of_beams() });
+        sectors.fill(0);
+        return sectors;
+    }
+
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
+        const pingtools::BeamSelection& selection) override
+    {
+        std::vector<std::vector<size_t>> beam_numbers_per_tx_sector(1);
+        for (size_t i = 0; i < selection.get_number_of_beams(); ++i)
+            beam_numbers_per_tx_sector[0].push_back(i);
+        return beam_numbers_per_tx_sector;
+    }
+
+    // ----- feature checks -----
+    // s7k raw detections carry angles + travel times, but no ready-made XYZ position
+    bool has_xyz() const override { return false; }
+    bool has_two_way_travel_times() const override { return _file_data->has_raw_detection(); }
+    bool has_beam_crosstrack_angles() const override { return has_two_way_travel_times(); }
+
+    // ----- geometry -----
+    uint32_t get_number_of_beams() override
+    {
+        if (!_file_data->has_raw_detection())
+            return 0;
+        // one beam per distinct beam number (the raw detection may hold several detections per beam)
+        return uint32_t(_file_data->get_rx_angle_in_degrees_per_beam_number().size());
+    }
+
+    xt::xtensor<float, 1> get_beam_crosstrack_angles(
+        const pingtools::BeamSelection& selection) override
+    {
+        return index_beams(_file_data->get_rx_angle_in_degrees_per_beam_number(),
+                           selection.get_beam_numbers(),
+                           std::numeric_limits<float>::quiet_NaN());
+    }
+
+    xt::xtensor<float, 1> get_two_way_travel_times(
+        const pingtools::BeamSelection& selection) override
+    {
+        // detected bottom sample number / sample rate -> two-way travel time in seconds
+        const auto  detection_points = _file_data->get_detection_point_per_beam_number();
+        const float sampling_rate    = _file_data->get_raw_detection().get_sampling_rate();
+
+        const auto& beam_numbers = selection.get_beam_numbers();
+        auto twtt = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });
+
+        for (size_t i = 0; i < beam_numbers.size(); ++i)
+        {
+            if (beam_numbers[i] < detection_points.size() && sampling_rate > 0.f &&
+                std::isfinite(detection_points.unchecked(beam_numbers[i])))
+                twtt.unchecked(i) = detection_points.unchecked(beam_numbers[i]) / sampling_rate;
+            else
+                twtt.unchecked(i) = std::numeric_limits<float>::quiet_NaN();
+        }
+
+        return twtt;
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
@@ -69,11 +142,22 @@ class S7KPingBottom
         tools::classhelper::ObjectPrinter printer(
             this->class_name(), float_precision, superscript_exponents);
 
-        // Do NOT append the I_PingBottom base printer here: it queries the bottom-detection
-        // accessors (get_number_of_beams, ...) which are not implemented yet and would throw.
-        printer.register_string("status", "not implemented yet");
+        printer.append(t_base1::__printer__(float_precision, superscript_exponents));
 
         return printer;
+    }
+
+  private:
+    template<typename t_value>
+    static xt::xtensor<t_value, 1> index_beams(const xt::xtensor<t_value, 1>& source,
+                                               const std::vector<uint32_t>&   beam_numbers,
+                                               t_value                        fill_value)
+    {
+        auto result = xt::xtensor<t_value, 1>::from_shape({ beam_numbers.size() });
+        for (size_t i = 0; i < beam_numbers.size(); ++i)
+            result.unchecked(i) =
+                beam_numbers[i] < source.size() ? source.unchecked(beam_numbers[i]) : fill_value;
+        return result;
     }
 };
 

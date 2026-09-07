@@ -54,6 +54,16 @@ void init_c_compressedwatercolumn(nb::module_& m)
         .def("get_has_phase", &CompressedWaterColumn::get_has_phase, DOC_C(CompressedWaterColumn, get_has_phase))
         .def("get_magnitude_is_db", &CompressedWaterColumn::get_magnitude_is_db, DOC_C(CompressedWaterColumn, get_magnitude_is_db))
         .def("get_magnitude_bytes", &CompressedWaterColumn::get_magnitude_bytes, DOC_C(CompressedWaterColumn, get_magnitude_bytes))
+        // ----- decoded flags -----
+        .def("get_flag_use_maximum_bottom_detection", &CompressedWaterColumn::get_flag_use_maximum_bottom_detection, DOC_C(CompressedWaterColumn, get_flag_use_maximum_bottom_detection))
+        .def("get_flag_intensity_only", &CompressedWaterColumn::get_flag_intensity_only, DOC_C(CompressedWaterColumn, get_flag_intensity_only))
+        .def("get_flag_magnitude_to_db", &CompressedWaterColumn::get_flag_magnitude_to_db, DOC_C(CompressedWaterColumn, get_flag_magnitude_to_db))
+        .def("get_flag_32bit_data", &CompressedWaterColumn::get_flag_32bit_data, DOC_C(CompressedWaterColumn, get_flag_32bit_data))
+        .def("get_flag_compression_factor_available", &CompressedWaterColumn::get_flag_compression_factor_available, DOC_C(CompressedWaterColumn, get_flag_compression_factor_available))
+        .def("get_flag_segment_numbers_available", &CompressedWaterColumn::get_flag_segment_numbers_available, DOC_C(CompressedWaterColumn, get_flag_segment_numbers_available))
+        .def("get_flag_first_sample_is_rxdelay", &CompressedWaterColumn::get_flag_first_sample_is_rxdelay, DOC_C(CompressedWaterColumn, get_flag_first_sample_is_rxdelay))
+        .def("get_downsampling_divisor", &CompressedWaterColumn::get_downsampling_divisor, DOC_C(CompressedWaterColumn, get_downsampling_divisor))
+        .def("get_downsampling_type", &CompressedWaterColumn::get_downsampling_type, DOC_C(CompressedWaterColumn, get_downsampling_type))
         .def_prop_rw("beams",
                      &CompressedWaterColumn::beams,
                      &CompressedWaterColumn::set_beams,

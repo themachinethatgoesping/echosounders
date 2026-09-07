@@ -1,4 +1,4 @@
-//sourcehash: 9c47fa1467e5870ed14c683a9ef799cbb59ef82ad0c227b0b50667fc0219abd4
+//sourcehash: 8f6a0a9c3eb951a6dabb2f307526e47c49518c82a53b8c38b396a720324da6c5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,11 +45,14 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 R"doc(Container for the per-beam data of a 7042 CompressedWaterColumnData
 record.
 
-Holds the per-beam raw sample blocks and the record-wide sample
-encoding (magnitude bit depth, presence/bit depth of phase). Magnitude
-and phase are decoded from the raw bytes on demand. If the samples
-were skipped while reading, the file position is stored so they can be
-read lazily.)doc";
+Holds the per-beam samples (each beam stores its data in its native,
+on-disk encoding, see CompressedWaterColumnDataVariant) and the
+record-wide sample encoding (magnitude bit depth, presence of phase).
+Magnitude/phase are converted to float / dB / degrees on demand; the
+dB and phase conversions are centralized here (convert_magnitude_to_db
+/ phase constants) and reused by the ping water column accessor for
+the deferred, vectorized bulk conversion. If the samples were skipped
+while reading, the file position is stored so they can be read lazily.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_CompressedWaterColumnBeamContainer = R"doc()doc";
 
@@ -59,17 +62,29 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_clear_skipped = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_decode_magnitude = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_convert_magnitude_to_db =
+R"doc(Convert raw magnitude values (as float) to dB, according to the record
+encoding.
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_decode_phase = R"doc()doc";
+This is a vectorized (xsimd-friendly) expression that is reused by the
+ping water column accessor to convert only the selected beams/samples.
+8 bit values are already stored in a (compressed) dB scale and pass
+through; 16/32 bit values are 20*log10(mag/full_scale).
+
+Template Args:
+    Tensor: xtensor of float (1D per beam or 2D beams x samples))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_beam_number_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_beams = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_data_type =
+R"doc(the per-sample encoding of this record (derived from the encoding
+flags))doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_has_phase = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_magnitude = R"doc(magnitude of a beam (raw value, or dB if get_magnitude_is_db()))doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_magnitude = R"doc(magnitude of a beam (raw values as float, not dB))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_magnitude_bytes = R"doc()doc";
 
@@ -77,7 +92,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 R"doc(magnitude of a beam in dB (already-dB values pass through, else
 20*log10(mag/full_scale)))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_magnitude_is_32bit_float = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_magnitude_is_32bit = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_magnitude_is_db = R"doc()doc";
 
@@ -85,15 +100,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_phase = R"doc(phase of a beam in radians (empty if there is no phase))doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_phase_8bit = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_phase_in_degrees = R"doc(phase of a beam in degrees (empty if there is no phase))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_sample_count_tensor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_sample_position = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_sample_stride = R"doc(number of on-disk bytes per sample (magnitude + optional phase))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_get_samples_are_skipped = R"doc()doc";
 
@@ -105,13 +116,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_magnitude_bytes = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_magnitude_is_32bit_float = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_magnitude_is_db = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_operator_eq = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_phase_8bit = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_printer = R"doc()doc";
 
@@ -123,11 +130,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_set_magnitude_bytes = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_set_magnitude_is_32bit_float = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_set_magnitude_is_db = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_set_phase_8bit = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeamContainer_set_skipped = R"doc()doc";
 

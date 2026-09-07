@@ -54,18 +54,12 @@ void init_c_compressedwatercolumnbeamcontainer(nanobind::module_& m)
         .def("get_has_phase",
              &CompressedWaterColumnBeamContainer::get_has_phase,
              DOC_CompressedWaterColumnBeamContainer(get_has_phase))
-        .def("get_phase_8bit",
-             &CompressedWaterColumnBeamContainer::get_phase_8bit,
-             DOC_CompressedWaterColumnBeamContainer(get_phase_8bit))
         .def("get_magnitude_is_db",
              &CompressedWaterColumnBeamContainer::get_magnitude_is_db,
              DOC_CompressedWaterColumnBeamContainer(get_magnitude_is_db))
-        .def("get_magnitude_is_32bit_float",
-             &CompressedWaterColumnBeamContainer::get_magnitude_is_32bit_float,
-             DOC_CompressedWaterColumnBeamContainer(get_magnitude_is_32bit_float))
-        .def("get_sample_stride",
-             &CompressedWaterColumnBeamContainer::get_sample_stride,
-             DOC_CompressedWaterColumnBeamContainer(get_sample_stride))
+        .def("get_magnitude_is_32bit",
+             &CompressedWaterColumnBeamContainer::get_magnitude_is_32bit,
+             DOC_CompressedWaterColumnBeamContainer(get_magnitude_is_32bit))
 
         // ----- per-field tensors -----
         .def("get_beam_number_tensor",

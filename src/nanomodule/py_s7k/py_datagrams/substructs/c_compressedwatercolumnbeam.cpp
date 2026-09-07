@@ -7,6 +7,7 @@
 #include <nanobind/stl/string.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
+#include <xtensor-python/nanobind/pytensor.hpp>
 
 #include <themachinethatgoesping/echosounders/s7k/datagrams/substructs/compressedwatercolumnbeam.hpp>
 
@@ -60,20 +61,15 @@ void init_c_compressedwatercolumnbeam(nanobind::module_& m)
              &CompressedWaterColumnBeam::set_sample_count,
              DOC_CompressedWaterColumnBeam(set_sample_count),
              nb::arg("val"))
-        .def(
-            "get_raw_samples",
-            [](const CompressedWaterColumnBeam& self) {
-                const std::string& raw = self.get_raw_samples();
-                return nb::bytes(raw.data(), raw.size());
-            },
-            DOC_CompressedWaterColumnBeam(get_raw_samples))
-        .def(
-            "set_raw_samples",
-            [](CompressedWaterColumnBeam& self, nb::bytes raw_samples) {
-                self.set_raw_samples(std::string(raw_samples.c_str(), raw_samples.size()));
-            },
-            DOC_CompressedWaterColumnBeam(set_raw_samples),
-            nb::arg("raw_samples"))
+        .def("has_phase",
+             &CompressedWaterColumnBeam::has_phase,
+             DOC_CompressedWaterColumnBeam(has_phase))
+        .def("get_raw_magnitude",
+             &CompressedWaterColumnBeam::get_raw_magnitude,
+             DOC_CompressedWaterColumnBeam(get_raw_magnitude))
+        .def("get_raw_phase",
+             &CompressedWaterColumnBeam::get_raw_phase,
+             DOC_CompressedWaterColumnBeam(get_raw_phase))
         .def("__eq__",
              &CompressedWaterColumnBeam::operator==,
              DOC_CompressedWaterColumnBeam(operator_eq),

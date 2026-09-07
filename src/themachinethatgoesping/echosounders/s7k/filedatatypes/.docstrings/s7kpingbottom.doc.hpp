@@ -1,4 +1,4 @@
-//sourcehash: 1a70cf64c285158e1a01d257c6a901cfa1f00e753d091d70a19fdbfdec640801
+//sourcehash: e466663ec019a1eed99dbd7a231f5426294a85bfb59409cdcd0932296734c639
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,14 +44,10 @@
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom =
 R"doc(Bottom detection (bathymetry) accessor of an s7k ping.
 
-
-
-$.. note::
-
-The bottom-detection processing functions are not implemented yet;
-they inherit the base I_PingBottom "not implemented" behavior. This
-class currently only provides the structure so it can be filled in in
-a later step.
+The bottom detections come from the 7027 RawDetection record. s7k raw
+detections do not carry a ready-made XYZ position (has_xyz() is
+false); the per-beam receive angles and two-way travel times are
+provided as best guesses so the bottom can be raytraced later.
 
 Template Args:
     t_ifstream:)doc";
@@ -59,6 +55,26 @@ Template Args:
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_S7KPingBottom = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_class_name = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_beam_crosstrack_angles = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_number_of_beams = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_number_of_tx_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_two_way_travel_times = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_tx_sector_per_beam = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_has_beam_crosstrack_angles = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_has_two_way_travel_times = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_has_xyz = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_index_beams = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_printer = R"doc()doc";
 

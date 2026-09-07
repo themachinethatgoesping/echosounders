@@ -1,4 +1,4 @@
-//sourcehash: 927cf04e7f8fcec180adf8938737b76e9abdc91d6502816f9f584aaea57e8363
+//sourcehash: d193ebeb396ed6f956b013ec73cffd56af6dbe4966220c1db3c7b43d639d5eed
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,15 +42,14 @@
 
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam =
-R"doc(Per-beam data of a 7042 CompressedWaterColumnData record, exactly as
-stored on disk.
+R"doc(Per-beam data of a 7042 CompressedWaterColumnData record.
 
 Holds the beam number, optional segment number, sample count and the
-raw (interleaved magnitude[+phase]) sample bytes. The sample bytes are
-read straight from the stream into _raw_samples (no intermediate
-copy). Decoding to magnitude/phase is done by the owning
-CompressedWaterColumnBeamContainer, which knows the record-wide sample
-encoding.)doc";
+per-beam samples. The samples are stored in their native (on-disk)
+encoding as xtensors inside a CompressedWaterColumnDataVariant (one
+alternative per encoding, see Table 84); no floating point / dB
+conversion is done at read. Decoding to dB/degrees is deferred to the
+ping water column accessor.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_CompressedWaterColumnBeam = R"doc()doc";
 
@@ -58,29 +57,39 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_beam_number = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_raw_samples = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_raw_magnitude = R"doc(magnitude samples in their raw (unconverted) values, widened to uint32)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_raw_phase =
+R"doc(phase samples in their raw (unconverted) int16 values (empty if there
+is no phase))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_sample_count = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_samples = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_segment_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_has_phase = R"doc(whether this beam holds phase data)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_raw_samples = R"doc(raw interleaved [magnitude][phase] sample bytes (on disk))doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_sample_count = R"doc(number of samples for this beam)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_samples = R"doc(per-beam samples in their native encoding)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_samples_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_segment_number = R"doc(segment number (0 if segments are not used))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_set_beam_number = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_set_raw_samples = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_set_sample_count = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_set_samples = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_set_segment_number = R"doc()doc";
 

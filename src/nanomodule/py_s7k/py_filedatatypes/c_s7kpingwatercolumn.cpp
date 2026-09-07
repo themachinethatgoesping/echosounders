@@ -38,6 +38,32 @@ void py_create_class_s7kpingwatercolumn(nanobind::module_& m, const std::string&
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, s7k, filedatatypes, S7KPingWatercolumn))
 
+        // ----- s7k specific: raw (unconverted) water column access -----
+        .def("get_raw_amplitudes",
+             nb::overload_cast<>(&t_S7KPingWatercolumn::get_raw_amplitudes),
+             DOC_S7KPingWatercolumn(get_raw_amplitudes))
+        .def("get_raw_amplitudes",
+             nb::overload_cast<const pingtools::BeamSampleSelection&>(
+                 &t_S7KPingWatercolumn::get_raw_amplitudes),
+             DOC_S7KPingWatercolumn(get_raw_amplitudes),
+             nb::arg("beam_selection"))
+        .def("get_raw_phase",
+             nb::overload_cast<>(&t_S7KPingWatercolumn::get_raw_phase),
+             DOC_S7KPingWatercolumn(get_raw_phase))
+        .def("get_raw_phase",
+             nb::overload_cast<const pingtools::BeamSampleSelection&>(
+                 &t_S7KPingWatercolumn::get_raw_phase),
+             DOC_S7KPingWatercolumn(get_raw_phase),
+             nb::arg("beam_selection"))
+        .def("get_phase",
+             nb::overload_cast<>(&t_S7KPingWatercolumn::get_phase),
+             DOC_S7KPingWatercolumn(get_phase))
+        .def("get_phase",
+             nb::overload_cast<const pingtools::BeamSampleSelection&>(
+                 &t_S7KPingWatercolumn::get_phase),
+             DOC_S7KPingWatercolumn(get_phase),
+             nb::arg("beam_selection"))
+
         // ----- nanobind macros -----
         __PYCLASS_DEFAULT_COPY__(t_S7KPingWatercolumn)
         //
