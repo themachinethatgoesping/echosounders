@@ -12,7 +12,9 @@
 
 #include <fstream>
 #include <limits>
+#include <map>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -178,6 +180,24 @@ class DatagramContainer
         return datagram_identifiers;
     }
 
+    /**
+     * @brief Like count_datagrams_per_type, but the keys are the datagram-identifier strings
+     * (4-char code or decimal record number). Robust against record types that are not named enum
+     * members (which cannot be represented as a Python enum), so it never fails when a file
+     * contains an unknown/proprietary record type.
+     *
+     * @return std::map<std::string, size_t>
+     */
+    std::map<std::string, size_t> count_datagrams_per_type_as_string() const
+    {
+        std::map<std::string, size_t> result;
+
+        for (const auto& [type, count] : count_datagrams_per_type())
+            result[datagram_identifier_to_string(type)] = count;
+
+        return result;
+    }
+
     std::vector<t_DatagramIdentifier> find_datagram_types() const
     {
         std::vector<t_DatagramIdentifier> datagram_identifiers;
@@ -191,6 +211,22 @@ class DatagramContainer
         std::copy(
             datagram_identifiers.begin(), datagram_identifiers.end(), std::back_inserter(vec));
         return vec;
+    }
+
+    /**
+     * @brief Like find_datagram_types, but returns the datagram-identifier strings. Robust against
+     * unknown/proprietary record types (see count_datagrams_per_type_as_string).
+     *
+     * @return std::vector<std::string>
+     */
+    std::vector<std::string> find_datagram_types_as_string() const
+    {
+        std::vector<std::string> result;
+
+        for (const auto& type : find_datagram_types())
+            result.push_back(datagram_identifier_to_string(type));
+
+        return result;
     }
 
     /**

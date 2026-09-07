@@ -29,9 +29,9 @@ S7KUnknown S7KUnknown::from_stream(std::istream& is, o_S7KDatagramIdentifier dat
     return from_stream(is, S7KDatagram::from_stream(is, datagram_identifier));
 }
 
-void S7KUnknown::to_stream(std::ostream& os)
+void S7KUnknown::to_stream(std::ostream& os) const
 {
-    _size = uint32_t(_raw_content.size() + __size);
+    //_size = uint32_t(_raw_content.size() + __size);
     S7KDatagram::to_stream(os);
     os.write(_raw_content.data(), _raw_content.size());
 }

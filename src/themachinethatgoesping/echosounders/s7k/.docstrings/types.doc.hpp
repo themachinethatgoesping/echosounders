@@ -1,4 +1,4 @@
-//sourcehash: 0c8cc4b140a56ca737cd6d44e33e73395c749b4ff170550a1d04a6b5f6ae6aaf
+//sourcehash: 935a10f20ce1c05c513b8d7bee25120abfe2a1607d73d890d98eb6af6115a436
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,16 +41,17 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_types_hpp_370_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_types_hpp_376_68 = R"doc()doc";
 
 
 
 
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KDatagram_type_from_string =
-R"doc(Parse a record type identifier from its numeric string representation.
+R"doc(Parse a record type identifier from its string representation.
 Args:
-    value: String containing the decimal record number (e.g. "7027").
+    value: String containing either the decimal record number (e.g.
+           "7027") or the record name (e.g. "RawDetectionData").
 
 Returns:
     Parsed record type identifier.)doc";

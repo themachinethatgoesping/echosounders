@@ -6,6 +6,7 @@
 #pragma once
 
 #include <nanobind/nanobind.h>
+#include <nanobind/stl/map.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/variant.h>
@@ -53,22 +54,22 @@ void _add_DatagramReading(T_PyClass& cls)
 
     /* implement find info functions */
     cls.def("count_datagrams_per_type",
-            &T_BaseClass::count_datagrams_per_type,
+            &T_BaseClass::count_datagrams_per_type_as_string,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 datacontainers,
                 DatagramContainer,
-                count_datagrams_per_type));
+                count_datagrams_per_type_as_string));
 
     cls.def("find_datagram_types",
-            &T_BaseClass::find_datagram_types,
+            &T_BaseClass::find_datagram_types_as_string,
             DOC(themachinethatgoesping,
                 echosounders,
                 filetemplates,
                 datacontainers,
                 DatagramContainer,
-                find_datagram_types));
+                find_datagram_types_as_string));
 
     /* datagram infos filters */
     cls.def("__call__",

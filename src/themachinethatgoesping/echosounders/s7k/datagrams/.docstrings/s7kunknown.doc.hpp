@@ -1,4 +1,4 @@
-//sourcehash: d69f8d1a4b3d0a637e37ae6a8fed4734ac4a846e28193820cf1dad9c968c798d
+//sourcehash: dc3d777678306be8d09645d58e6360dd9c70458e2bf699254ca90692da36bf1f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,7 +54,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7K
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KUnknown_S7KUnknown_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KUnknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS_NOT_CONST = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KUnknown_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KUnknown_from_stream = R"doc()doc";
 

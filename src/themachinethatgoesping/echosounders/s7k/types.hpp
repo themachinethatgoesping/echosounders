@@ -317,13 +317,15 @@ inline std::string datagram_type_to_string(t_S7KDatagramIdentifier value)
 }
 
 /**
- * @brief Parse a record type identifier from its numeric string representation.
- * @param value String containing the decimal record number (e.g. "7027").
+ * @brief Parse a record type identifier from its string representation.
+ * @param value String containing either the decimal record number (e.g. "7027") or the record
+ * name (e.g. "RawDetectionData").
  * @return Parsed record type identifier.
  */
 inline t_S7KDatagramIdentifier S7KDatagram_type_from_string(std::string_view value)
 {
-    return static_cast<t_S7KDatagramIdentifier>(tools::helper::string_as_int<uint32_t>(value));
+    // OptionFrozen resolves both the descriptive name and the decimal record number (alt name).
+    return o_S7KDatagramIdentifier(value).value;
 }
 
 } // namespace s7k
@@ -333,7 +335,11 @@ inline t_S7KDatagramIdentifier S7KDatagram_type_from_string(std::string_view val
 // IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_to_string
 inline std::string datagram_identifier_to_string(s7k::t_S7KDatagramIdentifier value)
 {
-    return tools::helper::int_as_string<uint32_t>(uint32_t(value));
+    // s7k record identifiers are decimal numbers (not 4-char codes), so render the record number
+    // as its decimal string (e.g. "7027"). Using int_as_string here would emit the raw 4 bytes of
+    // the number, which is not valid UTF-8 and breaks printing. std::to_string never throws, so
+    // this also works for unknown/proprietary record types.
+    return std::to_string(uint32_t(value));
 }
 
 // IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifiers_to_string

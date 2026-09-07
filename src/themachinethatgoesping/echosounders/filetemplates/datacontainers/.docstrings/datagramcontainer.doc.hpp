@@ -1,4 +1,4 @@
-//sourcehash: c8c554b1c6ea87e0096638a75446a843acde74c2b6d6715be9433bb33348c2c6
+//sourcehash: 7339a1d154a14deaefba785b9bb9febf3c7fa1259bd8fc2e33823a96f7c7e678
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -55,9 +55,27 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_count_datagrams_per_type = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_count_datagrams_per_type_as_string =
+R"doc(Like count_datagrams_per_type, but the keys are the datagram-
+identifier strings (4-char code or decimal record number). Robust
+against record types that are not named enum members (which cannot be
+represented as a Python enum), so it never fails when a file contains
+an unknown/proprietary record type.
+
+Returns:
+    std::map<std::string, size_t>)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_datagram_infos = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_find_datagram_types = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_find_datagram_types_as_string =
+R"doc(Like find_datagram_types, but returns the datagram-identifier strings.
+Robust against unknown/proprietary record types (see
+count_datagrams_per_type_as_string).
+
+Returns:
+    std::vector<std::string>)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_DatagramContainer_get_datagram_infos = R"doc()doc";
 

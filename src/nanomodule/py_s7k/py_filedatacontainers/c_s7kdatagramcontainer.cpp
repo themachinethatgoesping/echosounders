@@ -39,22 +39,54 @@ void init_c_s7kdatagramcontainer(nanobind::module_& m)
                                                         t_S7KDatagramIdentifier>(
         m, "S7KDatagramContainer_Unknown");
 
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::ReferencePoint, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_ReferencePoint");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::Position, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_Position");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::RollPitchHeave, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_RollPitchHeave");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::Heading, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_Heading");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::Navigation, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_Navigation");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SonarSettings, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_SonarSettings");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::MatchFilter, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_MatchFilter");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SoundVelocity, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_SoundVelocity");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::AbsorptionLoss, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_AbsorptionLoss");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SpreadingLoss, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_SpreadingLoss");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::RawDetection, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_RawDetection");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SnippetData, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_Snippet");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::CompressedWaterColumn, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_CompressedWaterColumn");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::BeamGeometry, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_BeamGeometry");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::Attitude, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_Attitude");
-    py_datagramcontainer::create_DatagramContainerTypes<datagrams::FileHeader, t_S7KDatagramIdentifier>(m, "S7KDatagramContainer_FileHeader");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::ReferencePoint,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_ReferencePoint");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::Position,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_Position");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::RollPitchHeave,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_RollPitchHeave");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::Heading,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_Heading");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::Navigation,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_Navigation");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SonarSettings,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_SonarSettings");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::MatchFilter,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_MatchFilter");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SoundVelocity,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_SoundVelocity");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::AbsorptionLoss,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_AbsorptionLoss");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SpreadingLoss,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_SpreadingLoss");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::RawDetection,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_RawDetection");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::SnippetData,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_Snippet");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::CompressedWaterColumn,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_CompressedWaterColumn");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::BeamGeometry,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_BeamGeometry");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::Attitude,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_Attitude");
+    py_datagramcontainer::create_DatagramContainerTypes<datagrams::FileHeader,
+                                                        t_S7KDatagramIdentifier>(
+        m, "S7KDatagramContainer_FileHeader");
 
     // water-column records with the (large) sample data skipped
     py_datagramcontainer::create_DatagramContainerTypes<

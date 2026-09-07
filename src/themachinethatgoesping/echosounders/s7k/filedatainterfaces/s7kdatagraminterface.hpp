@@ -48,13 +48,15 @@ class S7KDatagramInterface
     std::string datagram_identifier_to_string(
         t_S7KDatagramIdentifier datagram_identifier) const final
     {
-        return std::string(o_S7KDatagramIdentifier(datagram_identifier).alt_name());
+        // decimal record number (e.g. "7027"); never throws, so unknown record types still print
+        return std::to_string(uint32_t(datagram_identifier));
     }
 
     // IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
     std::string datagram_identifier_info(t_S7KDatagramIdentifier datagram_identifier) const final
     {
-        return std::string(o_S7KDatagramIdentifier(datagram_identifier).name());
+        // descriptive name (e.g. "RawDetectionData") or "unknown"; never throws
+        return datagram_type_to_string(datagram_identifier);
     }
 
     // filter types
