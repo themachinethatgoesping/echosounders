@@ -1,4 +1,4 @@
-//sourcehash: 61b99eeed6435dd4aaa597023fa7b78c19370c5be184ce0bb1c341e690ccfb16
+//sourcehash: a5551da8f1d281fea6f9a53b70f64ff8611e7d7bc0fcc5a58ae8413da08da288
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,6 +61,30 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainter
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingDataInterfacePerFile_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_read_pings =
+R"doc(Group this file's ping datagrams into pings.
+
+This first version only assembles the per-ping datagram index
+(ping.file_data) so that all datagrams belonging to a ping can be
+listed via ping.file_data.datagrams(). The bottom and water-column
+data are not read yet (that is a later step).
+
+Grouping is done in file order: a new ping is started at every 7000
+SonarSettings record (the record that starts a ping cycle in the 7k
+format); every following ping datagram is added to the current ping.
+Datagrams that appear before the first SonarSettings record are
+collected into a leading ping so no datagram is lost.
+
+
+
+$.. note::
+
+This simple file-order grouping assumes each ping starts with a
+SonarSettings record. Multi-head / multi-ping files (interleaved
+SonarSettings) and files without SonarSettings are not handled
+precisely yet and can be refined later (e.g. by grouping on the record
+ping_number).)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -150,20 +150,20 @@ class S7KFileHandler
     }
 
     using t_base::init_interfaces;
-    void init_interfaces([[maybe_unused]] bool                                force,
-                         [[maybe_unused]] tools::progressbars::I_ProgressBar& progress_bar,
-                         [[maybe_unused]] int mp_cores = 1) final
+    void init_interfaces(bool                                force,
+                         tools::progressbars::I_ProgressBar& progress_bar,
+                         int                                 mp_cores = 1) final
     {
-        // The generic datagram-data, configuration and navigation interfaces are initialized. The
-        // configuration interface currently falls back to an empty sensor configuration (its read_*
-        // function is not implemented yet), but the navigation interface treats that as a valid
-        // (zero-offset) configuration and builds/caches the navigation interpolators from it. The
-        // environment/other/ping interfaces are structurally present and the datagrams are already
-        // sorted into them (see callback_scan_packet), but their read_* processing functions are not
-        // implemented yet, so initializing them is deferred to the next step.
+        // All file-data interfaces are initialized. The configuration interface currently falls
+        // back to an empty sensor configuration (its read_* function is not implemented yet), the
+        // navigation interface builds/caches the navigation interpolators, the environment and
+        // other-file-data interfaces only track their datagrams (their read_* processing is not
+        // implemented yet), and the ping interface groups the ping datagrams into pings (bottom /
+        // water-column data are not read yet, see S7KPingDataInterfacePerFile::read_pings).
         auto number_of_primary_files = _datagramdata_interface->per_primary_file().size();
-        progress_bar.init(
-            0., double(number_of_primary_files + 2), std::string("Initializing file interfaces"));
+        progress_bar.init(0.,
+                          double(2 * number_of_primary_files + 4),
+                          std::string("Initializing file interfaces"));
 
         progress_bar.set_prefix("Initializing datagramdata interface");
         _datagramdata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
@@ -176,13 +176,19 @@ class S7KFileHandler
         progress_bar.set_prefix("Initializing navigation");
         _navigation_interface->init_from_file(this->get_index_paths(), force, progress_bar, true);
 
-        progress_bar.close(std::string("Done"));
+        progress_bar.set_prefix("Initializing environment");
+        _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
+        progress_bar.tick();
 
-        // TODO(next step): enable these as each interface is implemented:
-        // _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
-        // _otherfiledata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
-        // _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true,
-        //                                 mp_cores);
+        progress_bar.set_prefix("Initializing other file data");
+        _otherfiledata_interface->init_from_file(this->get_index_paths(), force, progress_bar);
+        progress_bar.tick();
+
+        progress_bar.set_prefix("Initializing pings");
+        _ping_interface->init_from_file(
+            this->get_index_paths(), force, progress_bar, true, mp_cores);
+
+        progress_bar.close(std::string("Done"));
     }
 
     auto& datagramdata_interface() { return *_datagramdata_interface; }
