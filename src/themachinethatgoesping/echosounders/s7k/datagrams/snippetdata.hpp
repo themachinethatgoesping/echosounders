@@ -61,46 +61,39 @@ class SnippetData : public S7KDatagram
     uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
   public:
-    SnippetData()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    SnippetData();
     ~SnippetData() = default;
 
     // ----- record type header access -----
-    uint64_t get_serial_number() const { return _content._serial_number; }
-    uint32_t get_ping_number() const { return _content._ping_number; }
-    uint16_t get_multi_ping() const { return _content._multi_ping; }
-    uint16_t get_number_beams() const { return _content._number_beams; }
-    uint8_t  get_error_flag() const { return _content._error_flag; }
-    uint8_t  get_control_flags() const { return _content._control_flags; }
-    uint32_t get_flags() const { return _content._flags; }
-    uint32_t get_checksum() const { return _checksum; }
+    uint64_t get_serial_number() const;
+    uint32_t get_ping_number() const;
+    uint16_t get_multi_ping() const;
+    uint16_t get_number_beams() const;
+    uint8_t  get_error_flag() const;
+    uint8_t  get_control_flags() const;
+    uint32_t get_flags() const;
+    uint32_t get_checksum() const;
 
-    void set_serial_number(uint64_t val) { _content._serial_number = val; }
-    void set_ping_number(uint32_t val) { _content._ping_number = val; }
-    void set_multi_ping(uint16_t val) { _content._multi_ping = val; }
-    void set_number_beams(uint16_t val) { _content._number_beams = val; }
-    void set_error_flag(uint8_t val) { _content._error_flag = val; }
-    void set_control_flags(uint8_t val) { _content._control_flags = val; }
-    void set_flags(uint32_t val) { _content._flags = val; }
-    void set_checksum(uint32_t val) { _checksum = val; }
+    void set_serial_number(uint64_t val);
+    void set_ping_number(uint32_t val);
+    void set_multi_ping(uint16_t val);
+    void set_number_beams(uint16_t val);
+    void set_error_flag(uint8_t val);
+    void set_control_flags(uint8_t val);
+    void set_flags(uint32_t val);
+    void set_checksum(uint32_t val);
 
     /// true if the intensity samples are stored as 32-bit values (flags bit 0)
-    bool get_samples_are_32bit() const { return (_content._flags & 0x1) != 0; }
+    bool get_samples_are_32bit() const;
 
     // ----- substructure access -----
-    const substructs::SnippetDataBeamContainer& get_beams() const { return _beams; }
-    substructs::SnippetDataBeamContainer&       beams() { return _beams; }
-    void set_beams(const substructs::SnippetDataBeamContainer& beams) { _beams = beams; }
+    const substructs::SnippetDataBeamContainer& get_beams() const;
+    substructs::SnippetDataBeamContainer&       beams();
+    void set_beams(const substructs::SnippetDataBeamContainer& beams);
 
-    const substructs::SnippetDataAmplitudes& get_amplitudes() const { return _amplitudes; }
-    substructs::SnippetDataAmplitudes&       amplitudes() { return _amplitudes; }
-    void set_amplitudes(const substructs::SnippetDataAmplitudes& amplitudes)
-    {
-        _amplitudes = amplitudes;
-    }
+    const substructs::SnippetDataAmplitudes& get_amplitudes() const;
+    substructs::SnippetDataAmplitudes&       amplitudes();
+    void set_amplitudes(const substructs::SnippetDataAmplitudes& amplitudes);
 
     // ----- operators -----
     bool operator==(const SnippetData& other) const = default;
@@ -123,10 +116,7 @@ class SnippetData : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SnippetData)
 
   private:
-    explicit SnippetData(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
+    explicit SnippetData(S7KDatagram header);
     void __read__(std::istream& is, bool skip_data = false);
 };
 

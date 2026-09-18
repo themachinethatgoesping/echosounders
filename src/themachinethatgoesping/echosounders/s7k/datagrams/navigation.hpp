@@ -10,8 +10,6 @@
 // std includes
 #include <array>
 #include <cstdint>
-#include <numbers>
-#include <string>
 #include <string_view>
 
 // themachinethatgoesping import
@@ -79,54 +77,41 @@ class Navigation : public S7KDatagram
     static constexpr size_t __content_size = sizeof(Content);
 
   public:
-    Navigation()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    Navigation();
     ~Navigation() = default;
 
     // ----- convenient member access -----
-    o_vertical_reference get_vertical_reference() const { return _content._vertical_reference; }
-    double               get_latitude() const { return _content._latitude; }
-    double               get_longitude() const { return _content._longitude; }
-    float                get_position_accuracy() const { return _content._position_accuracy; }
-    float                get_height() const { return _content._height; }
-    float                get_height_accuracy() const { return _content._height_accuracy; }
-    float                get_speed() const { return _content._speed; }
-    float                get_course() const { return _content._course; }
-    float                get_heading() const { return _content._heading; }
-    uint32_t             get_checksum() const { return _content._checksum; }
+    o_vertical_reference get_vertical_reference() const;
+    double               get_latitude() const;
+    double               get_longitude() const;
+    float                get_position_accuracy() const;
+    float                get_height() const;
+    float                get_height_accuracy() const;
+    float                get_speed() const;
+    float                get_course() const;
+    float                get_heading() const;
+    uint32_t             get_checksum() const;
 
-    void set_vertical_reference(o_vertical_reference val) { _content._vertical_reference = val; }
-    void set_latitude(double val) { _content._latitude = val; }
-    void set_longitude(double val) { _content._longitude = val; }
-    void set_position_accuracy(float val) { _content._position_accuracy = val; }
-    void set_height(float val) { _content._height = val; }
-    void set_height_accuracy(float val) { _content._height_accuracy = val; }
-    void set_speed(float val) { _content._speed = val; }
-    void set_course(float val) { _content._course = val; }
-    void set_heading(float val) { _content._heading = val; }
-    void set_checksum(uint32_t val) { _content._checksum = val; }
+    void set_vertical_reference(o_vertical_reference val);
+    void set_latitude(double val);
+    void set_longitude(double val);
+    void set_position_accuracy(float val);
+    void set_height(float val);
+    void set_height_accuracy(float val);
+    void set_speed(float val);
+    void set_course(float val);
+    void set_heading(float val);
+    void set_checksum(uint32_t val);
 
     // ----- processed data access -----
     /// @brief Get the latitude in degrees (converted from radians).
-    double get_latitude_in_degrees() const { return _content._latitude * 180.0 / std::numbers::pi; }
+    double get_latitude_in_degrees() const;
     /// @brief Get the longitude in degrees (converted from radians).
-    double get_longitude_in_degrees() const
-    {
-        return _content._longitude * 180.0 / std::numbers::pi;
-    }
+    double get_longitude_in_degrees() const;
     /// @brief Get the course over ground in degrees (converted from radians).
-    float get_course_in_degrees() const
-    {
-        return _content._course * 180.f / float(std::numbers::pi);
-    }
+    float get_course_in_degrees() const;
     /// @brief Get the heading in degrees (converted from radians).
-    float get_heading_in_degrees() const
-    {
-        return _content._heading * 180.f / float(std::numbers::pi);
-    }
+    float get_heading_in_degrees() const;
 
     // ----- operators -----
     bool operator==(const Navigation& other) const = default;
@@ -147,17 +132,20 @@ class Navigation : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(Navigation)
 
   private:
-    explicit Navigation(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
-    void __read__(std::istream& is)
-    {
-        is.read(reinterpret_cast<char*>(&_content), __content_size);
-    }
+    explicit Navigation(S7KDatagram header);
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams
 } // namespace s7k
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+// ----- explicit template instantiation (defined in navigation.cpp) -----
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::Navigation::t_vertical_reference,
+    themachinethatgoesping::echosounders::s7k::datagrams::Navigation::t_vertical_reference_values
+        .size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::Navigation::t_vertical_reference_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::Navigation::t_vertical_reference_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::Navigation::t_vertical_reference_alt_names>;

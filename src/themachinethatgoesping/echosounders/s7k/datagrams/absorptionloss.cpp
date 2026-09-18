@@ -4,10 +4,51 @@
 
 #include "absorptionloss.hpp"
 
+#include <utility>
+
+#include <fmt/format.h>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+AbsorptionLoss::AbsorptionLoss()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+AbsorptionLoss::AbsorptionLoss(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- convenient member access -----
+float AbsorptionLoss::get_absorption_loss() const
+{
+    return _content._absorption_loss;
+}
+uint32_t AbsorptionLoss::get_checksum() const
+{
+    return _content._checksum;
+}
+
+void AbsorptionLoss::set_absorption_loss(float val)
+{
+    _content._absorption_loss = val;
+}
+void AbsorptionLoss::set_checksum(uint32_t val)
+{
+    _content._checksum = val;
+}
+
+// ----- to/from stream functions -----
+void AbsorptionLoss::__read__(std::istream& is)
+{
+    is.read(reinterpret_cast<char*>(&_content), __content_size);
+}
 
 AbsorptionLoss AbsorptionLoss::from_stream(std::istream& is, S7KDatagram header)
 {

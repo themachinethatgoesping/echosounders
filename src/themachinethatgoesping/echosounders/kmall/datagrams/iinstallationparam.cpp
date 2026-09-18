@@ -114,18 +114,18 @@ o_KMALLSystemTransducerConfiguration IInstallationParam::get_system_transducer_c
 {
     const auto& install_txt_map = get_install_txt_decoded_cached();
 
+    // Some systems only have one possible transducer configuration, so the SYSTEM key might be
+    // missing.
+    static constexpr frozen::unordered_set<frozen::string, 6> SingleTxSingleRx_systems = {
+        "EM122", "EM124", "EM302", "EM304", "EM710", "EM712"
+    };
+    if (SingleTxSingleRx_systems.find(std::string_view(get_system_name())) !=
+        SingleTxSingleRx_systems.end())
+        return t_KMALLSystemTransducerConfiguration::SingleTxSingleRx;
+
     auto it = install_txt_map.find("SYSTEM");
     if (it == install_txt_map.end())
     {
-        // Some systems only have one possible transducer configuration, so the SYSTEM key might be
-        // missing.
-        static constexpr frozen::unordered_set<frozen::string, 6> SingleTxSingleRx_systems = {
-            "EM122", "EM124", "EM302", "EM304", "EM710", "EM712"
-        };
-        if (SingleTxSingleRx_systems.find(std::string_view(get_system_name())) !=
-            SingleTxSingleRx_systems.end())
-            return t_KMALLSystemTransducerConfiguration::SingleTxSingleRx;
-
         throw(std::runtime_error("InstallationParameters::get_system_transducer_configuration: "
                                  "missing SYSTEM key in install_txt"));
     }
@@ -178,39 +178,6 @@ bool IInstallationParam::is_dual_rx() const
                                                  "unsupported transducer configuration: {}",
                                                  stc.name())));
     }
-}
-
-std::map<std::string, navigation::datastructures::SensorPose>
-IInstallationParam::get_transducer_offsets() const
-{
-    std::map<std::string, navigation::datastructures::SensorPose> offsets;
-
-    for (auto& [key, value] : get_transducer_serial_numbers())
-    {
-        if (key == "TRX") // single head transceiver
-        {
-            offsets["TRX"]      = get_transducer_offsets("TRAI_HD1");
-            offsets["TRX"].name = fmt::format("TRX-{}", value);
-        }
-        else if (key == "TX")
-        {
-            offsets["TX"]      = get_transducer_offsets("TRAI_TX1");
-            offsets["TX"].name = fmt::format("TX-{}", value);
-        }
-        else if (key == "RX")
-        {
-            offsets["RX"]      = get_transducer_offsets("TRAI_RX1");
-            offsets["RX"].name = fmt::format("RX-{}", value);
-        }
-        else
-        {
-            throw(std::runtime_error(fmt::format(
-                "Installation Parameters::get_transducer_offsets: unknown transducer key: {}",
-                key)));
-        }
-    }
-
-    return offsets;
 }
 
 // ----- processed data access -----

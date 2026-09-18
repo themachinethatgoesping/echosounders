@@ -4,10 +4,186 @@
 
 #include "compressedwatercolumn.hpp"
 
+#include <utility>
+
+#include <fmt/format.h>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+CompressedWaterColumn::CompressedWaterColumn()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+CompressedWaterColumn::CompressedWaterColumn(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- record type header access -----
+uint64_t CompressedWaterColumn::get_serial_number() const
+{
+    return _content._serial_number;
+}
+uint32_t CompressedWaterColumn::get_ping_number() const
+{
+    return _content._ping_number;
+}
+uint16_t CompressedWaterColumn::get_multi_ping() const
+{
+    return _content._multi_ping;
+}
+uint16_t CompressedWaterColumn::get_number_beams() const
+{
+    return _content._number_beams;
+}
+uint32_t CompressedWaterColumn::get_samples() const
+{
+    return _content._samples;
+}
+uint32_t CompressedWaterColumn::get_compressed_samples() const
+{
+    return _content._compressed_samples;
+}
+uint32_t CompressedWaterColumn::get_flags() const
+{
+    return _content._flags;
+}
+uint32_t CompressedWaterColumn::get_first_sample() const
+{
+    return _content._first_sample;
+}
+float CompressedWaterColumn::get_sample_rate() const
+{
+    return _content._sample_rate;
+}
+float CompressedWaterColumn::get_compression_factor() const
+{
+    return _content._compression_factor;
+}
+uint32_t CompressedWaterColumn::get_checksum() const
+{
+    return _checksum;
+}
+
+void CompressedWaterColumn::set_serial_number(uint64_t val)
+{
+    _content._serial_number = val;
+}
+void CompressedWaterColumn::set_ping_number(uint32_t val)
+{
+    _content._ping_number = val;
+}
+void CompressedWaterColumn::set_multi_ping(uint16_t val)
+{
+    _content._multi_ping = val;
+}
+void CompressedWaterColumn::set_number_beams(uint16_t val)
+{
+    _content._number_beams = val;
+}
+void CompressedWaterColumn::set_samples(uint32_t val)
+{
+    _content._samples = val;
+}
+void CompressedWaterColumn::set_compressed_samples(uint32_t val)
+{
+    _content._compressed_samples = val;
+}
+void CompressedWaterColumn::set_flags(uint32_t val)
+{
+    _content._flags = val;
+}
+void CompressedWaterColumn::set_first_sample(uint32_t val)
+{
+    _content._first_sample = val;
+}
+void CompressedWaterColumn::set_sample_rate(float val)
+{
+    _content._sample_rate = val;
+}
+void CompressedWaterColumn::set_compression_factor(float val)
+{
+    _content._compression_factor = val;
+}
+void CompressedWaterColumn::set_checksum(uint32_t val)
+{
+    _checksum = val;
+}
+
+// ----- processed (decoded flags) -----
+bool CompressedWaterColumn::get_flag_use_maximum_bottom_detection() const
+{
+    return (_content._flags & FLAG_USE_MAX_BOTTOM_DETECTION) != 0;
+}
+bool CompressedWaterColumn::get_flag_intensity_only() const
+{
+    return (_content._flags & FLAG_MAGNITUDE_ONLY) != 0;
+}
+bool CompressedWaterColumn::get_flag_magnitude_to_db() const
+{
+    return (_content._flags & FLAG_MAGNITUDE_DB) != 0;
+}
+bool CompressedWaterColumn::get_flag_32bit_data() const
+{
+    return (_content._flags & FLAG_32BIT_DATA) != 0;
+}
+bool CompressedWaterColumn::get_flag_compression_factor_available() const
+{
+    return (_content._flags & FLAG_COMPRESSION_FACTOR) != 0;
+}
+bool CompressedWaterColumn::get_flag_segment_numbers_available() const
+{
+    return (_content._flags & FLAG_SEGMENT_NUMBERS) != 0;
+}
+bool CompressedWaterColumn::get_flag_first_sample_is_rxdelay() const
+{
+    return (_content._flags & FLAG_FIRST_SAMPLE_RXDELAY) != 0;
+}
+uint8_t CompressedWaterColumn::get_downsampling_divisor() const
+{
+    uint8_t divisor = uint8_t((_content._flags >> 4) & 0xFu);
+    return divisor == 0 ? uint8_t(1) : divisor;
+}
+uint8_t CompressedWaterColumn::get_downsampling_type() const
+{
+    return uint8_t((_content._flags >> 8) & 0xFu);
+}
+bool CompressedWaterColumn::get_has_phase() const
+{
+    return (_content._flags & FLAG_MAGNITUDE_ONLY) == 0;
+}
+bool CompressedWaterColumn::get_magnitude_is_db() const
+{
+    return (_content._flags & FLAG_MAGNITUDE_DB) != 0;
+}
+int CompressedWaterColumn::get_magnitude_bytes() const
+{
+    if (_content._flags & FLAG_32BIT_DATA)
+        return 4;
+    if (_content._flags & FLAG_MAGNITUDE_DB)
+        return 1;
+    return 2;
+}
+
+// ----- substructure access -----
+const substructs::CompressedWaterColumnBeamContainer& CompressedWaterColumn::get_beams() const
+{
+    return _beams;
+}
+substructs::CompressedWaterColumnBeamContainer& CompressedWaterColumn::beams()
+{
+    return _beams;
+}
+void CompressedWaterColumn::set_beams(const substructs::CompressedWaterColumnBeamContainer& beams)
+{
+    _beams = beams;
+}
 
 void CompressedWaterColumn::__read__(std::istream& is, bool skip_data)
 {

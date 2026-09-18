@@ -10,8 +10,6 @@
 // std includes
 #include <array>
 #include <cstdint>
-#include <numbers>
-#include <string>
 #include <string_view>
 
 // themachinethatgoesping import
@@ -200,126 +198,101 @@ class SonarSettings : public S7KDatagram
     static constexpr size_t __content_size = sizeof(Content);
 
   public:
-    SonarSettings()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    SonarSettings();
     ~SonarSettings() = default;
 
     // ----- convenient member access -----
-    uint64_t            get_serial_number() const { return _content._serial_number; }
-    uint32_t            get_ping_number() const { return _content._ping_number; }
-    uint16_t            get_multi_ping() const { return _content._multi_ping; }
-    float               get_frequency() const { return _content._frequency; }
-    float               get_sample_rate() const { return _content._sample_rate; }
-    float               get_receiver_bandwidth() const { return _content._receiver_bandwidth; }
-    float               get_tx_pulse_width() const { return _content._tx_pulse_width; }
-    o_tx_pulse_type     get_tx_pulse_type() const { return _content._tx_pulse_type; }
-    o_tx_pulse_envelope get_tx_pulse_envelope() const { return _content._tx_pulse_envelope; }
-    float get_tx_pulse_envelope_parameter() const { return _content._tx_pulse_envelope_parameter; }
-    o_tx_pulse_mode get_tx_pulse_mode() const { return _content._tx_pulse_mode; }
-    float           get_max_ping_rate() const { return _content._max_ping_rate; }
-    float           get_ping_period() const { return _content._ping_period; }
-    float           get_range_selection() const { return _content._range_selection; }
-    float           get_power_selection() const { return _content._power_selection; }
-    float           get_gain_selection() const { return _content._gain_selection; }
-    uint32_t        get_control_flags() const { return _content._control_flags; }
-    uint32_t        get_projector_id() const { return _content._projector_id; }
-    float           get_steering_vertical() const { return _content._steering_vertical; }
-    float           get_steering_horizontal() const { return _content._steering_horizontal; }
-    float           get_beamwidth_vertical() const { return _content._beamwidth_vertical; }
-    float           get_beamwidth_horizontal() const { return _content._beamwidth_horizontal; }
-    float           get_focal_point() const { return _content._focal_point; }
-    o_projector_weighting get_projector_weighting() const { return _content._projector_weighting; }
-    float               get_projector_weighting_parameter() const
-    {
-        return _content._projector_weighting_parameter;
-    }
-    uint32_t       get_transmit_flags() const { return _content._transmit_flags; }
-    uint32_t       get_hydrophone_id() const { return _content._hydrophone_id; }
-    o_rx_weighting get_rx_weighting() const { return _content._rx_weighting; }
-    float          get_rx_weighting_parameter() const { return _content._rx_weighting_parameter; }
-    uint32_t       get_rx_flags() const { return _content._rx_flags; }
-    float          get_rx_width() const { return _content._rx_width; }
-    float          get_range_minimum() const { return _content._range_minimum; }
-    float          get_range_maximum() const { return _content._range_maximum; }
-    float          get_depth_minimum() const { return _content._depth_minimum; }
-    float          get_depth_maximum() const { return _content._depth_maximum; }
-    float          get_absorption() const { return _content._absorption; }
-    float          get_sound_velocity() const { return _content._sound_velocity; }
-    float          get_spreading() const { return _content._spreading; }
-    uint32_t       get_checksum() const { return _content._checksum; }
+    uint64_t              get_serial_number() const;
+    uint32_t              get_ping_number() const;
+    uint16_t              get_multi_ping() const;
+    float                 get_frequency() const;
+    float                 get_sample_rate() const;
+    float                 get_receiver_bandwidth() const;
+    float                 get_tx_pulse_width() const;
+    o_tx_pulse_type       get_tx_pulse_type() const;
+    o_tx_pulse_envelope   get_tx_pulse_envelope() const;
+    float                 get_tx_pulse_envelope_parameter() const;
+    o_tx_pulse_mode       get_tx_pulse_mode() const;
+    float                 get_max_ping_rate() const;
+    float                 get_ping_period() const;
+    float                 get_range_selection() const;
+    float                 get_power_selection() const;
+    float                 get_gain_selection() const;
+    uint32_t              get_control_flags() const;
+    uint32_t              get_projector_id() const;
+    float                 get_steering_vertical() const;
+    float                 get_steering_horizontal() const;
+    float                 get_beamwidth_vertical() const;
+    float                 get_beamwidth_horizontal() const;
+    float                 get_focal_point() const;
+    o_projector_weighting get_projector_weighting() const;
+    float                 get_projector_weighting_parameter() const;
+    uint32_t              get_transmit_flags() const;
+    uint32_t              get_hydrophone_id() const;
+    o_rx_weighting        get_rx_weighting() const;
+    float                 get_rx_weighting_parameter() const;
+    uint32_t              get_rx_flags() const;
+    float                 get_rx_width() const;
+    float                 get_range_minimum() const;
+    float                 get_range_maximum() const;
+    float                 get_depth_minimum() const;
+    float                 get_depth_maximum() const;
+    float                 get_absorption() const;
+    float                 get_sound_velocity() const;
+    float                 get_spreading() const;
+    uint32_t              get_checksum() const;
 
-    void set_serial_number(uint64_t val) { _content._serial_number = val; }
-    void set_ping_number(uint32_t val) { _content._ping_number = val; }
-    void set_multi_ping(uint16_t val) { _content._multi_ping = val; }
-    void set_frequency(float val) { _content._frequency = val; }
-    void set_sample_rate(float val) { _content._sample_rate = val; }
-    void set_receiver_bandwidth(float val) { _content._receiver_bandwidth = val; }
-    void set_tx_pulse_width(float val) { _content._tx_pulse_width = val; }
-    void set_tx_pulse_type(o_tx_pulse_type val) { _content._tx_pulse_type = val; }
-    void set_tx_pulse_envelope(o_tx_pulse_envelope val) { _content._tx_pulse_envelope = val; }
-    void set_tx_pulse_envelope_parameter(float val) { _content._tx_pulse_envelope_parameter = val; }
-    void set_tx_pulse_mode(o_tx_pulse_mode val) { _content._tx_pulse_mode = val; }
-    void set_max_ping_rate(float val) { _content._max_ping_rate = val; }
-    void set_ping_period(float val) { _content._ping_period = val; }
-    void set_range_selection(float val) { _content._range_selection = val; }
-    void set_power_selection(float val) { _content._power_selection = val; }
-    void set_gain_selection(float val) { _content._gain_selection = val; }
-    void set_control_flags(uint32_t val) { _content._control_flags = val; }
-    void set_projector_id(uint32_t val) { _content._projector_id = val; }
-    void set_steering_vertical(float val) { _content._steering_vertical = val; }
-    void set_steering_horizontal(float val) { _content._steering_horizontal = val; }
-    void set_beamwidth_vertical(float val) { _content._beamwidth_vertical = val; }
-    void set_beamwidth_horizontal(float val) { _content._beamwidth_horizontal = val; }
-    void set_focal_point(float val) { _content._focal_point = val; }
-    void set_projector_weighting(o_projector_weighting val) { _content._projector_weighting = val; }
-    void set_projector_weighting_parameter(float val)
-    {
-        _content._projector_weighting_parameter = val;
-    }
-    void set_transmit_flags(uint32_t val) { _content._transmit_flags = val; }
-    void set_hydrophone_id(uint32_t val) { _content._hydrophone_id = val; }
-    void set_rx_weighting(o_rx_weighting val) { _content._rx_weighting = val; }
-    void set_rx_weighting_parameter(float val) { _content._rx_weighting_parameter = val; }
-    void set_rx_flags(uint32_t val) { _content._rx_flags = val; }
-    void set_rx_width(float val) { _content._rx_width = val; }
-    void set_range_minimum(float val) { _content._range_minimum = val; }
-    void set_range_maximum(float val) { _content._range_maximum = val; }
-    void set_depth_minimum(float val) { _content._depth_minimum = val; }
-    void set_depth_maximum(float val) { _content._depth_maximum = val; }
-    void set_absorption(float val) { _content._absorption = val; }
-    void set_sound_velocity(float val) { _content._sound_velocity = val; }
-    void set_spreading(float val) { _content._spreading = val; }
-    void set_checksum(uint32_t val) { _content._checksum = val; }
+    void set_serial_number(uint64_t val);
+    void set_ping_number(uint32_t val);
+    void set_multi_ping(uint16_t val);
+    void set_frequency(float val);
+    void set_sample_rate(float val);
+    void set_receiver_bandwidth(float val);
+    void set_tx_pulse_width(float val);
+    void set_tx_pulse_type(o_tx_pulse_type val);
+    void set_tx_pulse_envelope(o_tx_pulse_envelope val);
+    void set_tx_pulse_envelope_parameter(float val);
+    void set_tx_pulse_mode(o_tx_pulse_mode val);
+    void set_max_ping_rate(float val);
+    void set_ping_period(float val);
+    void set_range_selection(float val);
+    void set_power_selection(float val);
+    void set_gain_selection(float val);
+    void set_control_flags(uint32_t val);
+    void set_projector_id(uint32_t val);
+    void set_steering_vertical(float val);
+    void set_steering_horizontal(float val);
+    void set_beamwidth_vertical(float val);
+    void set_beamwidth_horizontal(float val);
+    void set_focal_point(float val);
+    void set_projector_weighting(o_projector_weighting val);
+    void set_projector_weighting_parameter(float val);
+    void set_transmit_flags(uint32_t val);
+    void set_hydrophone_id(uint32_t val);
+    void set_rx_weighting(o_rx_weighting val);
+    void set_rx_weighting_parameter(float val);
+    void set_rx_flags(uint32_t val);
+    void set_rx_width(float val);
+    void set_range_minimum(float val);
+    void set_range_maximum(float val);
+    void set_depth_minimum(float val);
+    void set_depth_maximum(float val);
+    void set_absorption(float val);
+    void set_sound_velocity(float val);
+    void set_spreading(float val);
+    void set_checksum(uint32_t val);
 
     // ----- processed data access -----
     /// @brief Get the transmit steering angle vertical in degrees (converted from radians).
-    float get_steering_vertical_in_degrees() const
-    {
-        return _content._steering_vertical * 180.f / float(std::numbers::pi);
-    }
+    float get_steering_vertical_in_degrees() const;
     /// @brief Get the transmit steering angle horizontal in degrees (converted from radians).
-    float get_steering_horizontal_in_degrees() const
-    {
-        return _content._steering_horizontal * 180.f / float(std::numbers::pi);
-    }
+    float get_steering_horizontal_in_degrees() const;
     /// @brief Get the transmit -3dB beam width vertical in degrees (converted from radians).
-    float get_beamwidth_vertical_in_degrees() const
-    {
-        return _content._beamwidth_vertical * 180.f / float(std::numbers::pi);
-    }
+    float get_beamwidth_vertical_in_degrees() const;
     /// @brief Get the transmit -3dB beam width horizontal in degrees (converted from radians).
-    float get_beamwidth_horizontal_in_degrees() const
-    {
-        return _content._beamwidth_horizontal * 180.f / float(std::numbers::pi);
-    }
+    float get_beamwidth_horizontal_in_degrees() const;
     /// @brief Get the receiver beam width in degrees (converted from radians).
-    float get_rx_width_in_degrees() const
-    {
-        return _content._rx_width * 180.f / float(std::numbers::pi);
-    }
+    float get_rx_width_in_degrees() const;
 
     // ----- operators -----
     bool operator==(const SonarSettings& other) const = default;
@@ -340,17 +313,50 @@ class SonarSettings : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SonarSettings)
 
   private:
-    explicit SonarSettings(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
-    void __read__(std::istream& is)
-    {
-        is.read(reinterpret_cast<char*>(&_content), __content_size);
-    }
+    explicit SonarSettings(S7KDatagram header);
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams
 } // namespace s7k
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+// ----- explicit template instantiation (defined in sonarsettings.cpp) -----
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_type,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_type_values
+        .size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_type_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_type_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_type_alt_names>;
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_envelope,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_envelope_values
+        .size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_envelope_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_envelope_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::
+        t_tx_pulse_envelope_alt_names>;
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_mode,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_mode_values
+        .size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_mode_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_mode_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_tx_pulse_mode_alt_names>;
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_projector_weighting,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_projector_weighting_values
+        .size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_projector_weighting_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_projector_weighting_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::
+        t_projector_weighting_alt_names>;
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_rx_weighting,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_rx_weighting_values
+        .size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_rx_weighting_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_rx_weighting_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::SonarSettings::t_rx_weighting_alt_names>;

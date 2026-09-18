@@ -37,27 +37,18 @@ class FileHeaderDeviceInfo
     ~FileHeaderDeviceInfo() = default;
 
     // ----- convenient member access -----
-    uint32_t get_device_identifier() const { return _device_identifier; }
-    uint16_t get_system_enumerator() const { return _system_enumerator; }
+    uint32_t get_device_identifier() const;
+    uint16_t get_system_enumerator() const;
 
-    void set_device_identifier(uint32_t val) { _device_identifier = val; }
-    void set_system_enumerator(uint16_t val) { _system_enumerator = val; }
+    void set_device_identifier(uint32_t val);
+    void set_system_enumerator(uint16_t val);
 
     // ----- operators -----
     bool operator==(const FileHeaderDeviceInfo& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            "FileHeaderDeviceInfo", float_precision, superscript_exponents);
-
-        printer.register_value("device_identifier", _device_identifier);
-        printer.register_value("system_enumerator", _system_enumerator);
-
-        return printer;
-    }
+                                                  bool         superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

@@ -1,4 +1,4 @@
-//sourcehash: 27aca1eccfe7999680a087e351ffa60ca3b86f6df503099b661242259d245ac4
+//sourcehash: 2706b13e4eb1ecdb5e8dfbe9d293427a1cee12a668040889a12dd4cf14878788
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,6 +40,16 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_326_68 = R"doc()doc";
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_333_68 = R"doc()doc";
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_341_68 = R"doc()doc";
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_348_68 = R"doc()doc";
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_356_68 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings = R"doc(7k record SonarSettings)doc";
 
@@ -238,6 +248,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_set_absorption = R"doc()doc";
 

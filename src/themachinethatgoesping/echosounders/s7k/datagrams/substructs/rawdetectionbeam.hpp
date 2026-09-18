@@ -46,48 +46,32 @@ class RawDetectionBeam
     ~RawDetectionBeam() = default;
 
     // ----- convenient member access -----
-    uint16_t get_beam_descriptor() const { return _beam_descriptor; }
-    float    get_detection_point() const { return _detection_point; }
-    float    get_rx_angle() const { return _rx_angle; }
-    uint32_t get_flags() const { return _flags; }
-    uint32_t get_quality() const { return _quality; }
-    float    get_uncertainty() const { return _uncertainty; }
-    float    get_signal_strength() const { return _signal_strength; }
-    float    get_min_limit() const { return _min_limit; }
-    float    get_max_limit() const { return _max_limit; }
+    uint16_t get_beam_descriptor() const;
+    float    get_detection_point() const;
+    float    get_rx_angle() const;
+    uint32_t get_flags() const;
+    uint32_t get_quality() const;
+    float    get_uncertainty() const;
+    float    get_signal_strength() const;
+    float    get_min_limit() const;
+    float    get_max_limit() const;
 
-    void set_beam_descriptor(uint16_t val) { _beam_descriptor = val; }
-    void set_detection_point(float val) { _detection_point = val; }
-    void set_rx_angle(float val) { _rx_angle = val; }
-    void set_flags(uint32_t val) { _flags = val; }
-    void set_quality(uint32_t val) { _quality = val; }
-    void set_uncertainty(float val) { _uncertainty = val; }
-    void set_signal_strength(float val) { _signal_strength = val; }
-    void set_min_limit(float val) { _min_limit = val; }
-    void set_max_limit(float val) { _max_limit = val; }
+    void set_beam_descriptor(uint16_t val);
+    void set_detection_point(float val);
+    void set_rx_angle(float val);
+    void set_flags(uint32_t val);
+    void set_quality(uint32_t val);
+    void set_uncertainty(float val);
+    void set_signal_strength(float val);
+    void set_min_limit(float val);
+    void set_max_limit(float val);
 
     // ----- operators -----
     bool operator==(const RawDetectionBeam& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            "RawDetectionBeam", float_precision, superscript_exponents);
-
-        printer.register_value("beam_descriptor", _beam_descriptor);
-        printer.register_value("detection_point", _detection_point, "samples");
-        printer.register_value("rx_angle", _rx_angle, "rad");
-        printer.register_value("flags", _flags);
-        printer.register_value("quality", _quality);
-        printer.register_value("uncertainty", _uncertainty);
-        printer.register_value("signal_strength", _signal_strength);
-        printer.register_value("min_limit", _min_limit, "samples");
-        printer.register_value("max_limit", _max_limit, "samples");
-
-        return printer;
-    }
+                                                  bool         superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

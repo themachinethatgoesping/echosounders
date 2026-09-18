@@ -9,7 +9,6 @@
 
 // std includes
 #include <cstdint>
-#include <string>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -49,25 +48,21 @@ class ReferencePoint : public S7KDatagram
     static constexpr size_t __content_size = sizeof(Content);
 
   public:
-    ReferencePoint()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    ReferencePoint();
     ~ReferencePoint() = default;
 
     // ----- convenient member access -----
-    float    get_offset_x() const { return _content._offset_x; }
-    float    get_offset_y() const { return _content._offset_y; }
-    float    get_offset_z() const { return _content._offset_z; }
-    float    get_water_z() const { return _content._water_z; }
-    uint32_t get_checksum() const { return _content._checksum; }
+    float    get_offset_x() const;
+    float    get_offset_y() const;
+    float    get_offset_z() const;
+    float    get_water_z() const;
+    uint32_t get_checksum() const;
 
-    void set_offset_x(float val) { _content._offset_x = val; }
-    void set_offset_y(float val) { _content._offset_y = val; }
-    void set_offset_z(float val) { _content._offset_z = val; }
-    void set_water_z(float val) { _content._water_z = val; }
-    void set_checksum(uint32_t val) { _content._checksum = val; }
+    void set_offset_x(float val);
+    void set_offset_y(float val);
+    void set_offset_z(float val);
+    void set_water_z(float val);
+    void set_checksum(uint32_t val);
 
     // ----- operators -----
     bool operator==(const ReferencePoint& other) const = default;
@@ -88,14 +83,8 @@ class ReferencePoint : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(ReferencePoint)
 
   private:
-    explicit ReferencePoint(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
-    void __read__(std::istream& is)
-    {
-        is.read(reinterpret_cast<char*>(&_content), __content_size);
-    }
+    explicit ReferencePoint(S7KDatagram header);
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams

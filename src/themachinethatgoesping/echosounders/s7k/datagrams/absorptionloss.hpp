@@ -9,7 +9,6 @@
 
 // std includes
 #include <cstdint>
-#include <string>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -46,19 +45,15 @@ class AbsorptionLoss : public S7KDatagram
     static constexpr size_t __content_size = sizeof(Content);
 
   public:
-    AbsorptionLoss()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    AbsorptionLoss();
     ~AbsorptionLoss() = default;
 
     // ----- convenient member access -----
-    float    get_absorption_loss() const { return _content._absorption_loss; }
-    uint32_t get_checksum() const { return _content._checksum; }
+    float    get_absorption_loss() const;
+    uint32_t get_checksum() const;
 
-    void set_absorption_loss(float val) { _content._absorption_loss = val; }
-    void set_checksum(uint32_t val) { _content._checksum = val; }
+    void set_absorption_loss(float val);
+    void set_checksum(uint32_t val);
 
     // ----- operators -----
     bool operator==(const AbsorptionLoss& other) const = default;
@@ -79,14 +74,8 @@ class AbsorptionLoss : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(AbsorptionLoss)
 
   private:
-    explicit AbsorptionLoss(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
-    void __read__(std::istream& is)
-    {
-        is.read(reinterpret_cast<char*>(&_content), __content_size);
-    }
+    explicit AbsorptionLoss(S7KDatagram header);
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams

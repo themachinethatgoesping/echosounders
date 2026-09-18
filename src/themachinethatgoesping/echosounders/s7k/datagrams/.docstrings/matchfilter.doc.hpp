@@ -1,4 +1,4 @@
-//sourcehash: 74e3f0b862a790fd2292ac494977b20205748d9b359e784bc3c58b30c35919ee
+//sourcehash: 0161dcd862d78e396e06b0b1ca2ae691551bc837aefb46cc755fc5df75d1bd48
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,6 +40,10 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_matchfilter_hpp_153_68 = R"doc()doc";
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_matchfilter_hpp_159_68 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter = R"doc(7k record MatchFilter)doc";
 
@@ -100,6 +104,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Mat
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter_set_checksum = R"doc()doc";
 

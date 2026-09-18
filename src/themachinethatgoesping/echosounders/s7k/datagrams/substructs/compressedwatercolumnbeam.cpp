@@ -7,6 +7,7 @@
 #include <istream>
 #include <ostream>
 #include <string>
+#include <utility>
 #include <variant>
 
 namespace themachinethatgoesping {
@@ -14,6 +15,60 @@ namespace echosounders {
 namespace s7k {
 namespace datagrams {
 namespace substructs {
+
+// ----- convenient member access -----
+uint16_t CompressedWaterColumnBeam::get_beam_number() const
+{
+    return _beam_number;
+}
+uint8_t CompressedWaterColumnBeam::get_segment_number() const
+{
+    return _segment_number;
+}
+uint32_t CompressedWaterColumnBeam::get_sample_count() const
+{
+    return _sample_count;
+}
+
+void CompressedWaterColumnBeam::set_beam_number(uint16_t val)
+{
+    _beam_number = val;
+}
+void CompressedWaterColumnBeam::set_segment_number(uint8_t val)
+{
+    _segment_number = val;
+}
+void CompressedWaterColumnBeam::set_sample_count(uint32_t val)
+{
+    _sample_count = val;
+}
+
+// ----- sample data access -----
+const CompressedWaterColumnDataVariant& CompressedWaterColumnBeam::get_samples() const
+{
+    return _samples;
+}
+CompressedWaterColumnDataVariant& CompressedWaterColumnBeam::samples()
+{
+    return _samples;
+}
+void CompressedWaterColumnBeam::set_samples(CompressedWaterColumnDataVariant samples)
+{
+    _samples = std::move(samples);
+}
+
+bool CompressedWaterColumnBeam::has_phase() const
+{
+    return std::visit([](const auto& data) { return data.has_phase(); }, _samples);
+}
+xt::xtensor<uint32_t, 1> CompressedWaterColumnBeam::get_raw_magnitude() const
+{
+    return std::visit([](const auto& data) { return data.get_raw_magnitude(); }, _samples);
+}
+xt::xtensor<int16_t, 1> CompressedWaterColumnBeam::get_raw_phase() const
+{
+    return std::visit([](const auto& data) { return data.get_raw_phase(); }, _samples);
+}
 
 void CompressedWaterColumnBeam::read(std::istream&                   is,
                                      bool                            has_segment,

@@ -71,92 +71,65 @@ class CompressedWaterColumn : public S7KDatagram
     uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
   public:
-    CompressedWaterColumn()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    CompressedWaterColumn();
     ~CompressedWaterColumn() = default;
 
     // ----- record type header access -----
-    uint64_t get_serial_number() const { return _content._serial_number; }
-    uint32_t get_ping_number() const { return _content._ping_number; }
-    uint16_t get_multi_ping() const { return _content._multi_ping; }
-    uint16_t get_number_beams() const { return _content._number_beams; }
-    uint32_t get_samples() const { return _content._samples; }
-    uint32_t get_compressed_samples() const { return _content._compressed_samples; }
-    uint32_t get_flags() const { return _content._flags; }
-    uint32_t get_first_sample() const { return _content._first_sample; }
-    float    get_sample_rate() const { return _content._sample_rate; }
-    float    get_compression_factor() const { return _content._compression_factor; }
-    uint32_t get_checksum() const { return _checksum; }
+    uint64_t get_serial_number() const;
+    uint32_t get_ping_number() const;
+    uint16_t get_multi_ping() const;
+    uint16_t get_number_beams() const;
+    uint32_t get_samples() const;
+    uint32_t get_compressed_samples() const;
+    uint32_t get_flags() const;
+    uint32_t get_first_sample() const;
+    float    get_sample_rate() const;
+    float    get_compression_factor() const;
+    uint32_t get_checksum() const;
 
-    void set_serial_number(uint64_t val) { _content._serial_number = val; }
-    void set_ping_number(uint32_t val) { _content._ping_number = val; }
-    void set_multi_ping(uint16_t val) { _content._multi_ping = val; }
-    void set_number_beams(uint16_t val) { _content._number_beams = val; }
-    void set_samples(uint32_t val) { _content._samples = val; }
-    void set_compressed_samples(uint32_t val) { _content._compressed_samples = val; }
-    void set_flags(uint32_t val) { _content._flags = val; }
-    void set_first_sample(uint32_t val) { _content._first_sample = val; }
-    void set_sample_rate(float val) { _content._sample_rate = val; }
-    void set_compression_factor(float val) { _content._compression_factor = val; }
-    void set_checksum(uint32_t val) { _checksum = val; }
+    void set_serial_number(uint64_t val);
+    void set_ping_number(uint32_t val);
+    void set_multi_ping(uint16_t val);
+    void set_number_beams(uint16_t val);
+    void set_samples(uint32_t val);
+    void set_compressed_samples(uint32_t val);
+    void set_flags(uint32_t val);
+    void set_first_sample(uint32_t val);
+    void set_sample_rate(float val);
+    void set_compression_factor(float val);
+    void set_checksum(uint32_t val);
 
     // ----- processed (decoded flags) -----
     /// Bit 0: water column data is limited to the bottom detection point (+10%).
-    bool get_flag_use_maximum_bottom_detection() const
-    {
-        return (_content._flags & FLAG_USE_MAX_BOTTOM_DETECTION) != 0;
-    }
+    bool get_flag_use_maximum_bottom_detection() const;
     /// Bit 1: only intensity (magnitude) data is included, phase is stripped.
-    bool get_flag_intensity_only() const { return (_content._flags & FLAG_MAGNITUDE_ONLY) != 0; }
+    bool get_flag_intensity_only() const;
     /// Bit 2: magnitude is converted to dB and stored as an 8-bit value (phase as 8-bit).
-    bool get_flag_magnitude_to_db() const { return (_content._flags & FLAG_MAGNITUDE_DB) != 0; }
+    bool get_flag_magnitude_to_db() const;
     /// Bit 12: magnitude is stored as 32-bit values.
-    bool get_flag_32bit_data() const { return (_content._flags & FLAG_32BIT_DATA) != 0; }
+    bool get_flag_32bit_data() const;
     /// Bit 13: a custom compression factor is available (else a factor of 40 is used).
-    bool get_flag_compression_factor_available() const
-    {
-        return (_content._flags & FLAG_COMPRESSION_FACTOR) != 0;
-    }
+    bool get_flag_compression_factor_available() const;
     /// Bit 14: per-beam segment numbers are available.
-    bool get_flag_segment_numbers_available() const
-    {
-        return (_content._flags & FLAG_SEGMENT_NUMBERS) != 0;
-    }
+    bool get_flag_segment_numbers_available() const;
     /// Bit 15: the first sample contains the RxDelay value.
-    bool get_flag_first_sample_is_rxdelay() const
-    {
-        return (_content._flags & FLAG_FIRST_SAMPLE_RXDELAY) != 0;
-    }
+    bool get_flag_first_sample_is_rxdelay() const;
     /// Bits 4-7: downsampling divisor (1 means no downsampling).
-    uint8_t get_downsampling_divisor() const
-    {
-        uint8_t divisor = uint8_t((_content._flags >> 4) & 0xFu);
-        return divisor == 0 ? uint8_t(1) : divisor;
-    }
+    uint8_t get_downsampling_divisor() const;
     /// Bits 8-11: downsampling type (0 none, 1 middle, 2 peak, 3 average).
-    uint8_t get_downsampling_type() const { return uint8_t((_content._flags >> 8) & 0xFu); }
+    uint8_t get_downsampling_type() const;
 
     /// whether the record contains phase data (derived from bit 1)
-    bool get_has_phase() const { return (_content._flags & FLAG_MAGNITUDE_ONLY) == 0; }
+    bool get_has_phase() const;
     /// whether the magnitude is stored as 8-bit dB values (derived from bit 2)
-    bool get_magnitude_is_db() const { return (_content._flags & FLAG_MAGNITUDE_DB) != 0; }
+    bool get_magnitude_is_db() const;
     /// number of bytes per magnitude sample as stored on disk (1, 2 or 4)
-    int get_magnitude_bytes() const
-    {
-        if (_content._flags & FLAG_32BIT_DATA)
-            return 4;
-        if (_content._flags & FLAG_MAGNITUDE_DB)
-            return 1;
-        return 2;
-    }
+    int get_magnitude_bytes() const;
 
     // ----- substructure access -----
-    const substructs::CompressedWaterColumnBeamContainer& get_beams() const { return _beams; }
-    substructs::CompressedWaterColumnBeamContainer&       beams() { return _beams; }
-    void set_beams(const substructs::CompressedWaterColumnBeamContainer& beams) { _beams = beams; }
+    const substructs::CompressedWaterColumnBeamContainer& get_beams() const;
+    substructs::CompressedWaterColumnBeamContainer&       beams();
+    void set_beams(const substructs::CompressedWaterColumnBeamContainer& beams);
 
     // ----- operators -----
     bool operator==(const CompressedWaterColumn& other) const = default;
@@ -185,10 +158,7 @@ class CompressedWaterColumn : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(CompressedWaterColumn)
 
   private:
-    explicit CompressedWaterColumn(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
+    explicit CompressedWaterColumn(S7KDatagram header);
     void __read__(std::istream& is, bool skip_data = false);
     void __read_beams__(std::istream& is);
 };

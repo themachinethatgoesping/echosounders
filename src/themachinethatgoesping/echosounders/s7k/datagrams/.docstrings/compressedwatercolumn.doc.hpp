@@ -1,4 +1,4 @@
-//sourcehash: 677a1196d555d5c5e4465946f9efc28d2a9cc89dc9ed96a444be1f7ec6a30693
+//sourcehash: 2c24d9c27454f7b160344876045895a34c66c348dd361902b309ddd01701306b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -153,6 +153,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_read_beams = R"doc()doc";
 

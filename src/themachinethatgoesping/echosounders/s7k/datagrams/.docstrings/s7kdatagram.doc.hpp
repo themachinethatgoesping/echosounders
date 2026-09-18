@@ -1,4 +1,4 @@
-//sourcehash: baa28f2b6d5e570439d52c0d1e517f996626d8a99d57f998a77ff129f523b156
+//sourcehash: 8c64217a246b8e42bb30a1050e73ca91aabb23d3e1c098e7d23e36a241a6b1fb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -58,6 +58,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7K
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_S7KDatagram_3 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_check_datagram_identifier = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_S7KDatagram_compute_checksum =
 R"doc(Compute the 7k record checksum of a serialized datagram (debugging

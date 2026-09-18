@@ -1,4 +1,4 @@
-//sourcehash: 663b0bf1871971be256250395241a59f4ddd687b30fb06f4ff6d3aa9484cbaa4
+//sourcehash: 4fb3939b26c534b5759d3d3444382da24eb44575350e242c1b1e917a31658c20
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -124,6 +124,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Raw
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RawDetection_set_applied_roll = R"doc()doc";
 

@@ -236,28 +236,41 @@ class KMALLConfigurationDataInterfacePerFile
         if (_active_attitude_sensor_number == 0)
             _active_attitude_sensor_number = param.get_active_attitude_sensor_number();
 
-        auto transducer_offsets = param.get_transducer_offsets();
         // std::string system_name = param.get_system_name();
         // int pu_serial = param.get_system_serial_number();
 
         switch (param.get_system_transducer_configuration().value)
         {
-            case t_KMALLSystemTransducerConfiguration::SingleHead:
-                [[fallthrough]];
-            case t_KMALLSystemTransducerConfiguration::PortableMKIIHead:
-                [[fallthrough]];
-            case t_KMALLSystemTransducerConfiguration::PortableSingleHead: {
-                auto trx = transducer_offsets["TRX"];
-                config.add_target(trx.name, std::move(trx));
-                break;
-            }
+            // case t_KMALLSystemTransducerConfiguration::SingleHead:
+            //     [[fallthrough]];
+            // case t_KMALLSystemTransducerConfiguration::PortableMKIIHead:
+            //     [[fallthrough]];
+            // case t_KMALLSystemTransducerConfiguration::PortableSingleHead: {
+            //     auto trx = transducer_offsets["TRX"];
+            //     config.add_target(trx.name, std::move(trx));
+            //     break;
+            // }
             case t_KMALLSystemTransducerConfiguration::SingleTxSingleRx: {
-                auto tx  = transducer_offsets["TX"];
-                auto rx  = transducer_offsets["RX"];
-                auto trx = SensorPose::from_txrx(tx, rx, "T" + rx.name);
+                auto tx  = param.get_transducer_offsets("TRAI_TX1");
+                auto rx  = param.get_transducer_offsets("TRAI_RX1");
+                auto trx = SensorPose::from_txrx(tx, rx, "TRX-" + rx.name);
                 config.add_target(tx.name, std::move(tx));
                 config.add_target(rx.name, std::move(rx));
                 config.add_target(trx.name, std::move(trx));
+                break;
+            }
+            case t_KMALLSystemTransducerConfiguration::SingleTxDualRx: {
+                auto tx  = param.get_transducer_offsets("TRAI_TX1");
+                auto rx1 = param.get_transducer_offsets("TRAI_RX1");
+                auto rx2 = param.get_transducer_offsets("TRAI_RX2");
+
+                auto trx1 = SensorPose::from_txrx(tx, rx1, "TRX-" + rx1.name);
+                auto trx2 = SensorPose::from_txrx(tx, rx2, "TRX-" + rx2.name);
+
+                config.add_target(tx.name, std::move(tx));
+                config.add_target(rx.name, std::move(rx));
+                config.add_target(trx1.name, std::move(trx1));
+                config.add_target(trx2.name, std::move(trx2));
                 break;
             }
             default:
@@ -271,11 +284,11 @@ class KMALLConfigurationDataInterfacePerFile
         }
 
         // ----- transmit/receive subarray phase-center offsets -----
-        // Prefer the per-subarray internal lever arms stored in the installation text; fill any
-        // gaps (e.g. an EM2040P single-head file only stores the port subarray) from the hardcoded
-        // model preset. Attach the transmit subarrays ("0"/"1"/"2") only to transmit targets and
-        // the receive phase center ("RX") only to receive targets; TRX targets (combined tx+rx) get
-        // both.
+        // Prefer the per-subarray internal lever arms stored in the installation text; fill
+        // any gaps (e.g. an EM2040P single-head file only stores the port subarray) from
+        // the hardcoded model preset. Attach the transmit subarrays ("0"/"1"/"2") only to
+        // transmit targets and the receive phase center ("RX") only to receive targets; TRX
+        // targets (combined tx+rx) get both.
         {
             auto subarrays = navigation::SensorConfiguration::get_model_subarray_offsets(
                 param.get_system_name());
@@ -303,12 +316,12 @@ class KMALLConfigurationDataInterfacePerFile
         config.set_waterline_offset(param.get_water_line_vertical_location_in_meters());
 
         // add the attitude sensor (if available)
-        // Note: unlike the .all format, the kmall #SKM (KM binary) attitude samples are logged
-        // uncorrected ("All parameters are uncorrected. For processing of data, installation
-        // offsets, installation angles and attitude values are needed to correct the data for
-        // motion." - kmall #SKM datagram spec). We therefore leave SensorPose::
-        // ypr_offsets_applied at its default (false) so the SensorConfiguration applies the
-        // offsets.
+        // Note: unlike the .all format, the kmall #SKM (KM binary) attitude samples are
+        // logged uncorrected ("All parameters are uncorrected. For processing of data,
+        // installation offsets, installation angles and attitude values are needed to
+        // correct the data for motion." - kmall #SKM datagram spec). We therefore leave
+        // SensorPose:: ypr_offsets_applied at its default (false) so the
+        // SensorConfiguration applies the offsets.
         if (_active_attitude_sensor_number > 0)
         {
             try
@@ -329,8 +342,8 @@ class KMALLConfigurationDataInterfacePerFile
             {
                 config.set_position_source(
                     param.get_position_system_offsets(_active_position_system_number));
-                // .kmall positions are motion compensated when POSI C=On (position re reference
-                // point)
+                // .kmall positions are motion compensated when POSI C=On (position re
+                // reference point)
                 config.set_position_source_motion_compensated(
                     param.get_active_position_system_motion_compensation());
             }
@@ -342,8 +355,8 @@ class KMALLConfigurationDataInterfacePerFile
 
         // NOTE: the .kmall IIP installation text has no field equivalent to the .all "SHC"
         // (transducer depth sound speed source), so
-        // use_surface_sound_speed_in_sound_velocity_profile is left at its default (true = use the
-        // measured surface sound speed).
+        // use_surface_sound_speed_in_sound_velocity_profile is left at its default (true =
+        // use the measured surface sound speed).
 
         return config;
     }
@@ -379,8 +392,10 @@ class KMALLConfigurationDataInterfacePerFile
                             this->get_file_nr(),
                             this->get_file_path()));
 
-        //TODO: this should be handled more gracefully, e.g., by allowing the user to select which datagram to use or 
-        // by using a buffered where pings choose the last datagram issued before their timestamp.
+        // TODO: this should be handled more gracefully, e.g., by allowing the user to select
+        // which datagram to use or
+        //  by using a buffered where pings choose the last datagram issued before their
+        //  timestamp.
         if (datagram_infos.size() > 1)
             std::cerr << fmt::format(
                              "WARNING: read_installation_parameters: There are multiple ({}) "
@@ -417,7 +432,6 @@ class KMALLConfigurationDataInterfacePerFile
         return printer;
     }
 };
-
 }
 } // namespace kmall
 } // namespace echosounders

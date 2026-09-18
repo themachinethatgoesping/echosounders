@@ -9,6 +9,7 @@
 #include <istream>
 #include <limits>
 #include <stdexcept>
+#include <utility>
 
 #include <fmt/format.h>
 
@@ -17,6 +18,61 @@ namespace echosounders {
 namespace s7k {
 namespace datagrams {
 namespace substructs {
+
+// ----- meta data access -----
+bool SnippetDataAmplitudes::get_samples_are_32bit() const
+{
+    return _samples_are_32bit;
+}
+size_t SnippetDataAmplitudes::get_number_of_beams() const
+{
+    return _beam_offsets.size() > 0 ? _beam_offsets.size() - 1 : 0;
+}
+size_t SnippetDataAmplitudes::get_total_number_of_samples() const
+{
+    return _beam_offsets.size() > 0 ? size_t(_beam_offsets.unchecked(_beam_offsets.size() - 1)) : 0;
+}
+bool SnippetDataAmplitudes::get_samples_are_skipped() const
+{
+    return _skipped;
+}
+
+// ----- raw sample access -----
+const SnippetDataAmplitudes::t_SamplesVariant& SnippetDataAmplitudes::get_samples() const
+{
+    return _samples;
+}
+const xt::xtensor<uint64_t, 1>& SnippetDataAmplitudes::get_beam_offsets() const
+{
+    return _beam_offsets;
+}
+
+// ----- setters -----
+void SnippetDataAmplitudes::set_samples(t_SamplesVariant samples)
+{
+    _samples           = std::move(samples);
+    _samples_are_32bit = _samples.index() == 1;
+    _skipped           = false;
+}
+void SnippetDataAmplitudes::set_beam_offsets(xt::xtensor<uint64_t, 1> beam_offsets)
+{
+    _beam_offsets = std::move(beam_offsets);
+}
+void SnippetDataAmplitudes::set_samples_are_32bit(bool value)
+{
+    _samples_are_32bit = value;
+}
+void SnippetDataAmplitudes::set_skipped(int64_t sample_position)
+{
+    _skipped         = true;
+    _sample_position = sample_position;
+}
+
+// ----- operators -----
+bool SnippetDataAmplitudes::operator!=(const SnippetDataAmplitudes& other) const
+{
+    return !operator==(other);
+}
 
 int64_t SnippetDataAmplitudes::get_sample_position() const
 {

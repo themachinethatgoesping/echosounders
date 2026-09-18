@@ -1,4 +1,4 @@
-//sourcehash: b9438a100b749b3f084a7dab22d90afff09155a43fc1fec0f2687cade53553eb
+//sourcehash: f7bfd5ca9350d56c28160e25bffcfd05130986b97e9ac57c48f83670f7321c50
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,6 +40,8 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_navigation_hpp_145_68 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation = R"doc(7k record Navigation)doc";
 
@@ -110,6 +112,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Nav
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation_set_checksum = R"doc()doc";
 

@@ -359,9 +359,8 @@ void init_runtime_parameters()
                 config.add_target(trx.name, std::move(trx));
                 break;
             }
-            case 2: // Dual head
+            case 2: // Dual Rx
             {
-
                 auto trx1 = param.get_transducer_offsets(
                     1, "TRX-" + std::to_string(param.get_system_main_head_serial_number()));
                 auto trx2 = param.get_transducer_offsets(

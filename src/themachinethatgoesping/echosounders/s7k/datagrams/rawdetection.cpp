@@ -6,12 +6,143 @@
 
 #include <algorithm>
 #include <limits>
+#include <numbers>
 #include <string>
+#include <utility>
+
+#include <fmt/format.h>
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+RawDetection::RawDetection()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+RawDetection::RawDetection(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- convenient member access (record type header) -----
+uint64_t RawDetection::get_serial_number() const
+{
+    return _content._serial_number;
+}
+uint32_t RawDetection::get_ping_number() const
+{
+    return _content._ping_number;
+}
+uint16_t RawDetection::get_multi_ping() const
+{
+    return _content._multi_ping;
+}
+uint32_t RawDetection::get_number_beams() const
+{
+    return _content._number_beams;
+}
+uint32_t RawDetection::get_data_field_size() const
+{
+    return _content._data_field_size;
+}
+uint8_t RawDetection::get_detection_algorithm() const
+{
+    return _content._detection_algorithm;
+}
+uint32_t RawDetection::get_flags() const
+{
+    return _content._flags;
+}
+float RawDetection::get_sampling_rate() const
+{
+    return _content._sampling_rate;
+}
+float RawDetection::get_tx_angle() const
+{
+    return _content._tx_angle;
+}
+float RawDetection::get_applied_roll() const
+{
+    return _content._applied_roll;
+}
+uint32_t RawDetection::get_checksum() const
+{
+    return _checksum;
+}
+
+void RawDetection::set_serial_number(uint64_t val)
+{
+    _content._serial_number = val;
+}
+void RawDetection::set_ping_number(uint32_t val)
+{
+    _content._ping_number = val;
+}
+void RawDetection::set_multi_ping(uint16_t val)
+{
+    _content._multi_ping = val;
+}
+void RawDetection::set_number_beams(uint32_t val)
+{
+    _content._number_beams = val;
+}
+void RawDetection::set_data_field_size(uint32_t val)
+{
+    _content._data_field_size = val;
+}
+void RawDetection::set_detection_algorithm(uint8_t val)
+{
+    _content._detection_algorithm = val;
+}
+void RawDetection::set_flags(uint32_t val)
+{
+    _content._flags = val;
+}
+void RawDetection::set_sampling_rate(float val)
+{
+    _content._sampling_rate = val;
+}
+void RawDetection::set_tx_angle(float val)
+{
+    _content._tx_angle = val;
+}
+void RawDetection::set_applied_roll(float val)
+{
+    _content._applied_roll = val;
+}
+void RawDetection::set_checksum(uint32_t val)
+{
+    _checksum = val;
+}
+
+// ----- processed data access -----
+float RawDetection::get_tx_angle_in_degrees() const
+{
+    return _content._tx_angle * 180.f / float(std::numbers::pi);
+}
+float RawDetection::get_applied_roll_in_degrees() const
+{
+    return _content._applied_roll * 180.f / float(std::numbers::pi);
+}
+
+// ----- substructure access -----
+const substructs::RawDetectionBeamContainer& RawDetection::get_beams() const
+{
+    return _beams;
+}
+substructs::RawDetectionBeamContainer& RawDetection::beams()
+{
+    return _beams;
+}
+void RawDetection::set_beams(const substructs::RawDetectionBeamContainer& beams)
+{
+    _beams = beams;
+}
 
 void RawDetection::__read__(std::istream& is)
 {

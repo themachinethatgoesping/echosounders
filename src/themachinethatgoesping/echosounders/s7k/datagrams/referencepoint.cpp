@@ -4,10 +4,75 @@
 
 #include "referencepoint.hpp"
 
+#include <utility>
+
+#include <fmt/format.h>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+ReferencePoint::ReferencePoint()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+ReferencePoint::ReferencePoint(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- convenient member access -----
+float ReferencePoint::get_offset_x() const
+{
+    return _content._offset_x;
+}
+float ReferencePoint::get_offset_y() const
+{
+    return _content._offset_y;
+}
+float ReferencePoint::get_offset_z() const
+{
+    return _content._offset_z;
+}
+float ReferencePoint::get_water_z() const
+{
+    return _content._water_z;
+}
+uint32_t ReferencePoint::get_checksum() const
+{
+    return _content._checksum;
+}
+
+void ReferencePoint::set_offset_x(float val)
+{
+    _content._offset_x = val;
+}
+void ReferencePoint::set_offset_y(float val)
+{
+    _content._offset_y = val;
+}
+void ReferencePoint::set_offset_z(float val)
+{
+    _content._offset_z = val;
+}
+void ReferencePoint::set_water_z(float val)
+{
+    _content._water_z = val;
+}
+void ReferencePoint::set_checksum(uint32_t val)
+{
+    _content._checksum = val;
+}
+
+// ----- to/from stream functions -----
+void ReferencePoint::__read__(std::istream& is)
+{
+    is.read(reinterpret_cast<char*>(&_content), __content_size);
+}
 
 ReferencePoint ReferencePoint::from_stream(std::istream& is, S7KDatagram header)
 {

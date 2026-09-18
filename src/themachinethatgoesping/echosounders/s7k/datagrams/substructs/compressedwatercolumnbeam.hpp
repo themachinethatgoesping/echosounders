@@ -49,34 +49,25 @@ class CompressedWaterColumnBeam
     ~CompressedWaterColumnBeam() = default;
 
     // ----- convenient member access -----
-    uint16_t get_beam_number() const { return _beam_number; }
-    uint8_t  get_segment_number() const { return _segment_number; }
-    uint32_t get_sample_count() const { return _sample_count; }
+    uint16_t get_beam_number() const;
+    uint8_t  get_segment_number() const;
+    uint32_t get_sample_count() const;
 
-    void set_beam_number(uint16_t val) { _beam_number = val; }
-    void set_segment_number(uint8_t val) { _segment_number = val; }
-    void set_sample_count(uint32_t val) { _sample_count = val; }
+    void set_beam_number(uint16_t val);
+    void set_segment_number(uint8_t val);
+    void set_sample_count(uint32_t val);
 
     // ----- sample data access -----
-    const CompressedWaterColumnDataVariant& get_samples() const { return _samples; }
-    CompressedWaterColumnDataVariant&       samples() { return _samples; }
-    void set_samples(CompressedWaterColumnDataVariant samples) { _samples = std::move(samples); }
+    const CompressedWaterColumnDataVariant& get_samples() const;
+    CompressedWaterColumnDataVariant&       samples();
+    void set_samples(CompressedWaterColumnDataVariant samples);
 
     /// whether this beam holds phase data
-    bool has_phase() const
-    {
-        return std::visit([](const auto& data) { return data.has_phase(); }, _samples);
-    }
+    bool has_phase() const;
     /// magnitude samples in their raw (unconverted) values, widened to uint32
-    xt::xtensor<uint32_t, 1> get_raw_magnitude() const
-    {
-        return std::visit([](const auto& data) { return data.get_raw_magnitude(); }, _samples);
-    }
+    xt::xtensor<uint32_t, 1> get_raw_magnitude() const;
     /// phase samples in their raw (unconverted) int16 values (empty if there is no phase)
-    xt::xtensor<int16_t, 1> get_raw_phase() const
-    {
-        return std::visit([](const auto& data) { return data.get_raw_phase(); }, _samples);
-    }
+    xt::xtensor<int16_t, 1> get_raw_phase() const;
 
     // ----- stream i/o -----
     void read(std::istream& is, bool has_segment, t_CompressedWaterColumnDataType type);

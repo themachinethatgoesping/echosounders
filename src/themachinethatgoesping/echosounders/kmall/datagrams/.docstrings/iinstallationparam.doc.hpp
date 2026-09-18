@@ -1,4 +1,4 @@
-//sourcehash: 6be0a107a55e0f40af9395ac1b6fde185e12df72503c0abdbdd0d277c400a1a6
+//sourcehash: f39ff1805330678d2dde3c6df253751536b7ee2af297ec8b8c485836d675a9c5
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -223,9 +223,7 @@ Returns:
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_system_transducer_configuration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_offsets = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_offsets_2 =
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_offsets =
 R"doc(Get the transducer offsets for a given transducer
 
 Parses TRAI_TX1, TRAI_TX2, TRAI_RX1, TRAI_RX2, or TRAI_HD1 entries

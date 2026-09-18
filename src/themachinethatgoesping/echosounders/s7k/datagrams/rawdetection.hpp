@@ -9,7 +9,6 @@
 
 // std includes
 #include <cstdint>
-#include <numbers>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -61,54 +60,44 @@ class RawDetection : public S7KDatagram
     uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
   public:
-    RawDetection()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    RawDetection();
     ~RawDetection() = default;
 
     // ----- convenient member access (record type header) -----
-    uint64_t get_serial_number() const { return _content._serial_number; }
-    uint32_t get_ping_number() const { return _content._ping_number; }
-    uint16_t get_multi_ping() const { return _content._multi_ping; }
-    uint32_t get_number_beams() const { return _content._number_beams; }
-    uint32_t get_data_field_size() const { return _content._data_field_size; }
-    uint8_t  get_detection_algorithm() const { return _content._detection_algorithm; }
-    uint32_t get_flags() const { return _content._flags; }
-    float    get_sampling_rate() const { return _content._sampling_rate; }
-    float    get_tx_angle() const { return _content._tx_angle; }
-    float    get_applied_roll() const { return _content._applied_roll; }
-    uint32_t get_checksum() const { return _checksum; }
+    uint64_t get_serial_number() const;
+    uint32_t get_ping_number() const;
+    uint16_t get_multi_ping() const;
+    uint32_t get_number_beams() const;
+    uint32_t get_data_field_size() const;
+    uint8_t  get_detection_algorithm() const;
+    uint32_t get_flags() const;
+    float    get_sampling_rate() const;
+    float    get_tx_angle() const;
+    float    get_applied_roll() const;
+    uint32_t get_checksum() const;
 
-    void set_serial_number(uint64_t val) { _content._serial_number = val; }
-    void set_ping_number(uint32_t val) { _content._ping_number = val; }
-    void set_multi_ping(uint16_t val) { _content._multi_ping = val; }
-    void set_number_beams(uint32_t val) { _content._number_beams = val; }
-    void set_data_field_size(uint32_t val) { _content._data_field_size = val; }
-    void set_detection_algorithm(uint8_t val) { _content._detection_algorithm = val; }
-    void set_flags(uint32_t val) { _content._flags = val; }
-    void set_sampling_rate(float val) { _content._sampling_rate = val; }
-    void set_tx_angle(float val) { _content._tx_angle = val; }
-    void set_applied_roll(float val) { _content._applied_roll = val; }
-    void set_checksum(uint32_t val) { _checksum = val; }
+    void set_serial_number(uint64_t val);
+    void set_ping_number(uint32_t val);
+    void set_multi_ping(uint16_t val);
+    void set_number_beams(uint32_t val);
+    void set_data_field_size(uint32_t val);
+    void set_detection_algorithm(uint8_t val);
+    void set_flags(uint32_t val);
+    void set_sampling_rate(float val);
+    void set_tx_angle(float val);
+    void set_applied_roll(float val);
+    void set_checksum(uint32_t val);
 
     // ----- processed data access -----
     /// @brief Get the transmit steering angle in degrees (converted from radians).
-    float get_tx_angle_in_degrees() const
-    {
-        return _content._tx_angle * 180.f / float(std::numbers::pi);
-    }
+    float get_tx_angle_in_degrees() const;
     /// @brief Get the roll applied to the data in degrees (converted from radians).
-    float get_applied_roll_in_degrees() const
-    {
-        return _content._applied_roll * 180.f / float(std::numbers::pi);
-    }
+    float get_applied_roll_in_degrees() const;
 
     // ----- substructure access -----
-    const substructs::RawDetectionBeamContainer& get_beams() const { return _beams; }
-    substructs::RawDetectionBeamContainer&        beams() { return _beams; }
-    void set_beams(const substructs::RawDetectionBeamContainer& beams) { _beams = beams; }
+    const substructs::RawDetectionBeamContainer& get_beams() const;
+    substructs::RawDetectionBeamContainer&        beams();
+    void set_beams(const substructs::RawDetectionBeamContainer& beams);
 
     // ----- operators -----
     bool operator==(const RawDetection& other) const = default;
@@ -129,10 +118,7 @@ class RawDetection : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(RawDetection)
 
   private:
-    explicit RawDetection(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
+    explicit RawDetection(S7KDatagram header);
     void __read__(std::istream& is);
 };
 

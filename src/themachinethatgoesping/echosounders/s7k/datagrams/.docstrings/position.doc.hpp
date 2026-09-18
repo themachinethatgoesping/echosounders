@@ -1,4 +1,4 @@
-//sourcehash: 1f692f45efe4b8f9b00369ec2e21b5d4291b211a4fd5336976424d2bb2283c85
+//sourcehash: f2dd4578636eeef5b2462154c8e9406b532d5fea8fec1a84c23593215bfa3410
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -40,6 +40,12 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_position_hpp_260_68 = R"doc()doc";
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_position_hpp_267_68 = R"doc()doc";
+
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_position_hpp_273_68 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position =
 R"doc(7k Position Record (1003) used in conjunction with Record Type 1011
@@ -120,6 +126,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Pos
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position_set_checksum = R"doc()doc";
 

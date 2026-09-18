@@ -1,4 +1,4 @@
-//sourcehash: 6b77219cdfeb1227a2d90daeceeb79d57313041a08a5f8146a842f4582de8ca4
+//sourcehash: 3c0b89f6558129ffffddd03996b1413abcb9b5efc6ded846cced560dcb803a74
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -119,6 +119,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Fil
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_optional_data = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_FileHeader_set_checksum = R"doc()doc";
 

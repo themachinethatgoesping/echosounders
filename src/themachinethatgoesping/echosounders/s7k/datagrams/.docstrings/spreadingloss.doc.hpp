@@ -1,4 +1,4 @@
-//sourcehash: 8f17c07489b9e8a850f99a0e91e1d098bc179e3e59fd4687d0ed489020efdb8d
+//sourcehash: 6f12d9c599f04577c9c5b2a6a41e1478fb8aadc7fdbe351b4b9a00daf5e410c4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,6 +70,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Spr
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SpreadingLoss_set_checksum = R"doc()doc";
 

@@ -4,12 +4,106 @@
 
 #include "beamgeometry.hpp"
 
+#include <utility>
+
+#include <fmt/format.h>
+
 #include <xtensor/core/xmath.hpp> // for xt::rad2deg
 
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+BeamGeometry::BeamGeometry()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+BeamGeometry::BeamGeometry(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- record type header access -----
+uint64_t BeamGeometry::get_serial_number() const
+{
+    return _content._serial_number;
+}
+uint32_t BeamGeometry::get_number_beams() const
+{
+    return _content._number_beams;
+}
+uint32_t BeamGeometry::get_checksum() const
+{
+    return _checksum;
+}
+
+void BeamGeometry::set_serial_number(uint64_t val)
+{
+    _content._serial_number = val;
+}
+void BeamGeometry::set_number_beams(uint32_t val)
+{
+    _content._number_beams = val;
+}
+void BeamGeometry::set_checksum(uint32_t val)
+{
+    _checksum = val;
+}
+
+// ----- per-beam data access -----
+const xt::xtensor<float, 1>& BeamGeometry::get_beam_vertical_angle() const
+{
+    return _beam_vertical_angle;
+}
+const xt::xtensor<float, 1>& BeamGeometry::get_beam_horizontal_angle() const
+{
+    return _beam_horizontal_angle;
+}
+const xt::xtensor<float, 1>& BeamGeometry::get_beamwidth_vertical() const
+{
+    return _beamwidth_vertical;
+}
+const xt::xtensor<float, 1>& BeamGeometry::get_beamwidth_horizontal() const
+{
+    return _beamwidth_horizontal;
+}
+bool BeamGeometry::get_has_tx_delay() const
+{
+    return _has_tx_delay;
+}
+const xt::xtensor<float, 1>& BeamGeometry::get_tx_delay() const
+{
+    return _tx_delay;
+}
+
+void BeamGeometry::set_beam_vertical_angle(const xt::xtensor<float, 1>& v)
+{
+    _beam_vertical_angle = v;
+}
+void BeamGeometry::set_beam_horizontal_angle(const xt::xtensor<float, 1>& v)
+{
+    _beam_horizontal_angle = v;
+}
+void BeamGeometry::set_beamwidth_vertical(const xt::xtensor<float, 1>& v)
+{
+    _beamwidth_vertical = v;
+}
+void BeamGeometry::set_beamwidth_horizontal(const xt::xtensor<float, 1>& v)
+{
+    _beamwidth_horizontal = v;
+}
+void BeamGeometry::set_tx_delay(const xt::xtensor<float, 1>& v)
+{
+    _tx_delay = v;
+}
+void BeamGeometry::set_has_tx_delay(bool v)
+{
+    _has_tx_delay = v;
+}
 
 void BeamGeometry::__read__(std::istream& is)
 {

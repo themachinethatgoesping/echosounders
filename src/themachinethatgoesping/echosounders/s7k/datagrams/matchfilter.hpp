@@ -10,7 +10,6 @@
 // std includes
 #include <array>
 #include <cstdint>
-#include <string>
 #include <string_view>
 
 // themachinethatgoesping import
@@ -98,33 +97,29 @@ class MatchFilter : public S7KDatagram
     static constexpr size_t __content_size = sizeof(Content);
 
   public:
-    MatchFilter()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    MatchFilter();
     ~MatchFilter() = default;
 
     // ----- convenient member access -----
-    uint64_t      get_serial_number() const { return _content._serial_number; }
-    uint32_t      get_ping_number() const { return _content._ping_number; }
-    o_operation   get_operation() const { return _content._operation; }
-    float         get_start_frequency() const { return _content._start_frequency; }
-    float         get_end_frequency() const { return _content._end_frequency; }
-    o_window_type get_window_type() const { return _content._window_type; }
-    float         get_shading() const { return _content._shading; }
-    float         get_effective_pulse_width() const { return _content._effective_pulse_width; }
-    uint32_t      get_checksum() const { return _content._checksum; }
+    uint64_t      get_serial_number() const;
+    uint32_t      get_ping_number() const;
+    o_operation   get_operation() const;
+    float         get_start_frequency() const;
+    float         get_end_frequency() const;
+    o_window_type get_window_type() const;
+    float         get_shading() const;
+    float         get_effective_pulse_width() const;
+    uint32_t      get_checksum() const;
 
-    void set_serial_number(uint64_t val) { _content._serial_number = val; }
-    void set_ping_number(uint32_t val) { _content._ping_number = val; }
-    void set_operation(o_operation val) { _content._operation = val; }
-    void set_start_frequency(float val) { _content._start_frequency = val; }
-    void set_end_frequency(float val) { _content._end_frequency = val; }
-    void set_window_type(o_window_type val) { _content._window_type = val; }
-    void set_shading(float val) { _content._shading = val; }
-    void set_effective_pulse_width(float val) { _content._effective_pulse_width = val; }
-    void set_checksum(uint32_t val) { _content._checksum = val; }
+    void set_serial_number(uint64_t val);
+    void set_ping_number(uint32_t val);
+    void set_operation(o_operation val);
+    void set_start_frequency(float val);
+    void set_end_frequency(float val);
+    void set_window_type(o_window_type val);
+    void set_shading(float val);
+    void set_effective_pulse_width(float val);
+    void set_checksum(uint32_t val);
 
     // ----- operators -----
     bool operator==(const MatchFilter& other) const = default;
@@ -145,17 +140,25 @@ class MatchFilter : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(MatchFilter)
 
   private:
-    explicit MatchFilter(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
-    void __read__(std::istream& is)
-    {
-        is.read(reinterpret_cast<char*>(&_content), __content_size);
-    }
+    explicit MatchFilter(S7KDatagram header);
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams
 } // namespace s7k
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+// ----- explicit template instantiation (defined in matchfilter.cpp) -----
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_operation,
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_operation_values.size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_operation_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_operation_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_operation_alt_names>;
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_window_type,
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_window_type_values.size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_window_type_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_window_type_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::MatchFilter::t_window_type_alt_names>;

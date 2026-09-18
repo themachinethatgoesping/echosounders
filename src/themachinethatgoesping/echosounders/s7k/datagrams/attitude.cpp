@@ -4,10 +4,53 @@
 
 #include "attitude.hpp"
 
+#include <utility>
+
+#include <fmt/format.h>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+Attitude::Attitude()
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+Attitude::Attitude(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- record type header access -----
+uint8_t Attitude::get_number_of_attitudes() const
+{
+    return uint8_t(_attitudes.get_number_of_attitudes());
+}
+uint32_t Attitude::get_checksum() const
+{
+    return _checksum;
+}
+void Attitude::set_checksum(uint32_t val)
+{
+    _checksum = val;
+}
+
+// ----- substructure access -----
+const substructs::AttitudeSampleContainer& Attitude::get_attitudes() const
+{
+    return _attitudes;
+}
+substructs::AttitudeSampleContainer& Attitude::attitudes()
+{
+    return _attitudes;
+}
+void Attitude::set_attitudes(const substructs::AttitudeSampleContainer& attitudes)
+{
+    _attitudes = attitudes;
+}
 
 void Attitude::__read__(std::istream& is)
 {

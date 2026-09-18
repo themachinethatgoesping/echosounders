@@ -4,10 +4,109 @@
 
 #include "fileheader.hpp"
 
+#include <cstring>
+#include <utility>
+
+#include <fmt/format.h>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- helper -----
+std::string FileHeader::trim(const char* s, size_t n)
+{
+    return std::string(s, ::strnlen(s, n));
+}
+
+// ----- constructors -----
+FileHeader::FileHeader()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+FileHeader::FileHeader(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- record type header access -----
+uint16_t FileHeader::get_version() const
+{
+    return _content._version;
+}
+uint32_t FileHeader::get_record_data_size() const
+{
+    return _content._record_data_size;
+}
+uint32_t FileHeader::get_number_devices() const
+{
+    return _content._number_devices;
+}
+std::string FileHeader::get_recording_name() const
+{
+    return trim(_content._recording_name, 64);
+}
+std::string FileHeader::get_recording_version() const
+{
+    return trim(_content._recording_version, 16);
+}
+std::string FileHeader::get_user_defined_name() const
+{
+    return trim(_content._user_defined_name, 64);
+}
+std::string FileHeader::get_notes() const
+{
+    return trim(_content._notes, 128);
+}
+uint32_t FileHeader::get_checksum() const
+{
+    return _checksum;
+}
+void FileHeader::set_checksum(uint32_t val)
+{
+    _checksum = val;
+}
+
+// ----- substructure access -----
+const substructs::FileHeaderDeviceInfoContainer& FileHeader::get_devices() const
+{
+    return _devices;
+}
+substructs::FileHeaderDeviceInfoContainer& FileHeader::devices()
+{
+    return _devices;
+}
+void FileHeader::set_devices(const substructs::FileHeaderDeviceInfoContainer& devices)
+{
+    _devices = devices;
+}
+
+// ----- optional data (file catalog pointer, if present) -----
+const std::string& FileHeader::get_optional_data() const
+{
+    return _optional_data;
+}
+bool FileHeader::has_file_catalog_info() const
+{
+    return _optional_data.size() >= 12;
+}
+uint32_t FileHeader::get_file_catalog_size() const
+{
+    uint32_t v = 0;
+    if (has_file_catalog_info())
+        std::memcpy(&v, _optional_data.data(), sizeof(v));
+    return v;
+}
+uint64_t FileHeader::get_file_catalog_offset() const
+{
+    uint64_t v = 0;
+    if (has_file_catalog_info())
+        std::memcpy(&v, _optional_data.data() + 4, sizeof(v));
+    return v;
+}
 
 void FileHeader::__read__(std::istream& is)
 {

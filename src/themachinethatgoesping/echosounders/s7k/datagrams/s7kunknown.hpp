@@ -35,10 +35,7 @@ class S7KUnknown : public S7KDatagram
 
   private:
     // ----- private constructors -----
-    explicit S7KUnknown(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
+    explicit S7KUnknown(S7KDatagram header);
 
   public:
     // ----- public constructors -----
@@ -46,13 +43,9 @@ class S7KUnknown : public S7KDatagram
     ~S7KUnknown() override = default;
 
     // ----- convenient member access -----
-    const std::string& get_raw_content() const { return _raw_content; }
+    const std::string& get_raw_content() const;
 
-    void set_raw_content(const std::string& value)
-    {
-        _raw_content = value;
-        _size        = uint32_t(_raw_content.size() + __size);
-    }
+    void set_raw_content(const std::string& value);
 
     // ----- operators -----
     bool operator==(const S7KUnknown& other) const = default;

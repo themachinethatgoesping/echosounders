@@ -140,9 +140,6 @@ void init_c_iinstallationparam(nanobind::module_& m)
         .def("get_transducer_serial_numbers",
              &IInstallationParam::get_transducer_serial_numbers,
              DOC_IInstallationParam(get_transducer_serial_numbers))
-        .def("get_transducer_offsets",
-             nb::overload_cast<>(&IInstallationParam::get_transducer_offsets, nb::const_),
-             DOC_IInstallationParam(get_transducer_offsets))
 
         // ----- operators -----
         .def("__eq__",

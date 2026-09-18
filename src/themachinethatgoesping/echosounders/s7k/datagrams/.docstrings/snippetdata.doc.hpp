@@ -1,4 +1,4 @@
-//sourcehash: f81e500c8745e5de52b2fe605eae1bd7db1d79afab1d86d63af2d992d646d135
+//sourcehash: 6373196428ebd5e130f34eab7390f2196d3a4841d073c93c958705193e789d11
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -121,6 +121,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sni
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SnippetData_set_amplitudes = R"doc()doc";
 

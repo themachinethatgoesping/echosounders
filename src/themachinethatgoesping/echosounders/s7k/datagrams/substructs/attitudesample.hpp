@@ -40,36 +40,24 @@ class AttitudeSample
     ~AttitudeSample() = default;
 
     // ----- convenient member access -----
-    uint16_t get_delta_time() const { return _delta_time; }
-    float    get_roll() const { return _roll; }
-    float    get_pitch() const { return _pitch; }
-    float    get_heave() const { return _heave; }
-    float    get_heading() const { return _heading; }
+    uint16_t get_delta_time() const;
+    float    get_roll() const;
+    float    get_pitch() const;
+    float    get_heave() const;
+    float    get_heading() const;
 
-    void set_delta_time(uint16_t val) { _delta_time = val; }
-    void set_roll(float val) { _roll = val; }
-    void set_pitch(float val) { _pitch = val; }
-    void set_heave(float val) { _heave = val; }
-    void set_heading(float val) { _heading = val; }
+    void set_delta_time(uint16_t val);
+    void set_roll(float val);
+    void set_pitch(float val);
+    void set_heave(float val);
+    void set_heading(float val);
 
     // ----- operators -----
     bool operator==(const AttitudeSample& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            "AttitudeSample", float_precision, superscript_exponents);
-
-        printer.register_value("delta_time", _delta_time, "ms");
-        printer.register_value("roll", _roll, "rad");
-        printer.register_value("pitch", _pitch, "rad");
-        printer.register_value("heave", _heave, "m");
-        printer.register_value("heading", _heading, "rad");
-
-        return printer;
-    }
+                                                  bool         superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

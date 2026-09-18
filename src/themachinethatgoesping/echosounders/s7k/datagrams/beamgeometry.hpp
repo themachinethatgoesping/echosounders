@@ -55,36 +55,32 @@ class BeamGeometry : public S7KDatagram
     uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
   public:
-    BeamGeometry()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    BeamGeometry();
     ~BeamGeometry() = default;
 
     // ----- record type header access -----
-    uint64_t get_serial_number() const { return _content._serial_number; }
-    uint32_t get_number_beams() const { return _content._number_beams; }
-    uint32_t get_checksum() const { return _checksum; }
+    uint64_t get_serial_number() const;
+    uint32_t get_number_beams() const;
+    uint32_t get_checksum() const;
 
-    void set_serial_number(uint64_t val) { _content._serial_number = val; }
-    void set_number_beams(uint32_t val) { _content._number_beams = val; }
-    void set_checksum(uint32_t val) { _checksum = val; }
+    void set_serial_number(uint64_t val);
+    void set_number_beams(uint32_t val);
+    void set_checksum(uint32_t val);
 
     // ----- per-beam data access -----
-    const xt::xtensor<float, 1>& get_beam_vertical_angle() const { return _beam_vertical_angle; }
-    const xt::xtensor<float, 1>& get_beam_horizontal_angle() const { return _beam_horizontal_angle; }
-    const xt::xtensor<float, 1>& get_beamwidth_vertical() const { return _beamwidth_vertical; }
-    const xt::xtensor<float, 1>& get_beamwidth_horizontal() const { return _beamwidth_horizontal; }
-    bool                         get_has_tx_delay() const { return _has_tx_delay; }
-    const xt::xtensor<float, 1>& get_tx_delay() const { return _tx_delay; }
+    const xt::xtensor<float, 1>& get_beam_vertical_angle() const;
+    const xt::xtensor<float, 1>& get_beam_horizontal_angle() const;
+    const xt::xtensor<float, 1>& get_beamwidth_vertical() const;
+    const xt::xtensor<float, 1>& get_beamwidth_horizontal() const;
+    bool                         get_has_tx_delay() const;
+    const xt::xtensor<float, 1>& get_tx_delay() const;
 
-    void set_beam_vertical_angle(const xt::xtensor<float, 1>& v) { _beam_vertical_angle = v; }
-    void set_beam_horizontal_angle(const xt::xtensor<float, 1>& v) { _beam_horizontal_angle = v; }
-    void set_beamwidth_vertical(const xt::xtensor<float, 1>& v) { _beamwidth_vertical = v; }
-    void set_beamwidth_horizontal(const xt::xtensor<float, 1>& v) { _beamwidth_horizontal = v; }
-    void set_tx_delay(const xt::xtensor<float, 1>& v) { _tx_delay = v; }
-    void set_has_tx_delay(bool v) { _has_tx_delay = v; }
+    void set_beam_vertical_angle(const xt::xtensor<float, 1>& v);
+    void set_beam_horizontal_angle(const xt::xtensor<float, 1>& v);
+    void set_beamwidth_vertical(const xt::xtensor<float, 1>& v);
+    void set_beamwidth_horizontal(const xt::xtensor<float, 1>& v);
+    void set_tx_delay(const xt::xtensor<float, 1>& v);
+    void set_has_tx_delay(bool v);
 
     // ----- processed data access -----
     /// @brief Get the along-track (vertical) beam angles in degrees (converted from radians).
@@ -115,10 +111,7 @@ class BeamGeometry : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(BeamGeometry)
 
   private:
-    explicit BeamGeometry(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
+    explicit BeamGeometry(S7KDatagram header);
     void __read__(std::istream& is);
 };
 

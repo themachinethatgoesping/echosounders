@@ -1,4 +1,4 @@
-//sourcehash: f74add3e0205b51dbfdf318e8cdb919a38d106774f24549c658019162363fc0a
+//sourcehash: 5f160967f6b1eb92b79e57617cbd6ef86833d0ed6fac89e8401dc1d813db01cb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -114,6 +114,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Bea
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_BeamGeometry_set_beam_horizontal_angle = R"doc()doc";
 

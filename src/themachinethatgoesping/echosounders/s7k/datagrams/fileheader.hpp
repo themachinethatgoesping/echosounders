@@ -9,7 +9,6 @@
 
 // std includes
 #include <cstdint>
-#include <cstring>
 #include <string>
 
 // themachinethatgoesping import
@@ -61,52 +60,33 @@ class FileHeader : public S7KDatagram
 
     uint32_t _checksum = 0; ///< record checksum (last 4 bytes; see S7KDatagram, debugging only)
 
-    static std::string trim(const char* s, size_t n) { return std::string(s, ::strnlen(s, n)); }
+    static std::string trim(const char* s, size_t n);
 
   public:
-    FileHeader()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    FileHeader();
     ~FileHeader() = default;
 
     // ----- record type header access -----
-    uint16_t get_version() const { return _content._version; }
-    uint32_t get_record_data_size() const { return _content._record_data_size; }
-    uint32_t get_number_devices() const { return _content._number_devices; }
-    std::string get_recording_name() const { return trim(_content._recording_name, 64); }
-    std::string get_recording_version() const { return trim(_content._recording_version, 16); }
-    std::string get_user_defined_name() const { return trim(_content._user_defined_name, 64); }
-    std::string get_notes() const { return trim(_content._notes, 128); }
-    uint32_t    get_checksum() const { return _checksum; }
-    void        set_checksum(uint32_t val) { _checksum = val; }
+    uint16_t    get_version() const;
+    uint32_t    get_record_data_size() const;
+    uint32_t    get_number_devices() const;
+    std::string get_recording_name() const;
+    std::string get_recording_version() const;
+    std::string get_user_defined_name() const;
+    std::string get_notes() const;
+    uint32_t    get_checksum() const;
+    void        set_checksum(uint32_t val);
 
     // ----- substructure access -----
-    const substructs::FileHeaderDeviceInfoContainer& get_devices() const { return _devices; }
-    substructs::FileHeaderDeviceInfoContainer&       devices() { return _devices; }
-    void set_devices(const substructs::FileHeaderDeviceInfoContainer& devices)
-    {
-        _devices = devices;
-    }
+    const substructs::FileHeaderDeviceInfoContainer& get_devices() const;
+    substructs::FileHeaderDeviceInfoContainer&       devices();
+    void set_devices(const substructs::FileHeaderDeviceInfoContainer& devices);
 
     // ----- optional data (file catalog pointer, if present) -----
-    const std::string& get_optional_data() const { return _optional_data; }
-    bool               has_file_catalog_info() const { return _optional_data.size() >= 12; }
-    uint32_t           get_file_catalog_size() const
-    {
-        uint32_t v = 0;
-        if (has_file_catalog_info())
-            std::memcpy(&v, _optional_data.data(), sizeof(v));
-        return v;
-    }
-    uint64_t get_file_catalog_offset() const
-    {
-        uint64_t v = 0;
-        if (has_file_catalog_info())
-            std::memcpy(&v, _optional_data.data() + 4, sizeof(v));
-        return v;
-    }
+    const std::string& get_optional_data() const;
+    bool               has_file_catalog_info() const;
+    uint32_t           get_file_catalog_size() const;
+    uint64_t           get_file_catalog_offset() const;
 
     // ----- operators -----
     bool operator==(const FileHeader& other) const = default;
@@ -127,10 +107,7 @@ class FileHeader : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(FileHeader)
 
   private:
-    explicit FileHeader(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
+    explicit FileHeader(S7KDatagram header);
     void __read__(std::istream& is);
 };
 

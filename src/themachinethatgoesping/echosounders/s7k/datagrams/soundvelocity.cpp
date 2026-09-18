@@ -4,10 +4,51 @@
 
 #include "soundvelocity.hpp"
 
+#include <utility>
+
+#include <fmt/format.h>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+SoundVelocity::SoundVelocity()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+SoundVelocity::SoundVelocity(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- convenient member access -----
+float SoundVelocity::get_sound_velocity() const
+{
+    return _content._sound_velocity;
+}
+uint32_t SoundVelocity::get_checksum() const
+{
+    return _content._checksum;
+}
+
+void SoundVelocity::set_sound_velocity(float val)
+{
+    _content._sound_velocity = val;
+}
+void SoundVelocity::set_checksum(uint32_t val)
+{
+    _content._checksum = val;
+}
+
+// ----- to/from stream functions -----
+void SoundVelocity::__read__(std::istream& is)
+{
+    is.read(reinterpret_cast<char*>(&_content), __content_size);
+}
 
 SoundVelocity SoundVelocity::from_stream(std::istream& is, S7KDatagram header)
 {

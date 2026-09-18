@@ -1,4 +1,4 @@
-//sourcehash: f3190f7b4556b807e6fc1e22b51657d9602d695689d5cbc8e18d6d4c0b2ec8a3
+//sourcehash: ac855d3e1b59c50537c906f9b485a368ee59ece67c3f59da294496cd7c4dc3f7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -82,6 +82,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Rol
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_RollPitchHeave_set_checksum = R"doc()doc";
 

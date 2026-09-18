@@ -73,7 +73,6 @@ class IInstallationParam : public KMALLDatagram
     bool                                 is_dual_rx() const;
     o_KMALLSystemTransducerConfiguration get_system_transducer_configuration() const;
     std::map<std::string, std::string>   get_transducer_serial_numbers() const;
-    std::map<std::string, navigation::datastructures::SensorPose> get_transducer_offsets() const;
 
     // ----- processed data access -----
     /**

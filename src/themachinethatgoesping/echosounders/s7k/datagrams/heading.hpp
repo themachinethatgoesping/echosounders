@@ -9,8 +9,6 @@
 
 // std includes
 #include <cstdint>
-#include <numbers>
-#include <string>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -47,26 +45,19 @@ class Heading : public S7KDatagram
     static constexpr size_t __content_size = sizeof(Content);
 
   public:
-    Heading()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    Heading();
     ~Heading() = default;
 
     // ----- convenient member access -----
-    float    get_heading() const { return _content._heading; }
-    uint32_t get_checksum() const { return _content._checksum; }
+    float    get_heading() const;
+    uint32_t get_checksum() const;
 
-    void set_heading(float val) { _content._heading = val; }
-    void set_checksum(uint32_t val) { _content._checksum = val; }
+    void set_heading(float val);
+    void set_checksum(uint32_t val);
 
     // ----- processed data access -----
     /// @brief Get the vessel heading in degrees (converted from radians).
-    float get_heading_in_degrees() const
-    {
-        return _content._heading * 180.f / float(std::numbers::pi);
-    }
+    float get_heading_in_degrees() const;
 
     // ----- operators -----
     bool operator==(const Heading& other) const = default;
@@ -87,14 +78,8 @@ class Heading : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(Heading)
 
   private:
-    explicit Heading(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
-    void __read__(std::istream& is)
-    {
-        is.read(reinterpret_cast<char*>(&_content), __content_size);
-    }
+    explicit Heading(S7KDatagram header);
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams

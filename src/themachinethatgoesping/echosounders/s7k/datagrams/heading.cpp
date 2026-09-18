@@ -4,10 +4,58 @@
 
 #include "heading.hpp"
 
+#include <numbers>
+#include <utility>
+
+#include <fmt/format.h>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+Heading::Heading()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+Heading::Heading(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- convenient member access -----
+float Heading::get_heading() const
+{
+    return _content._heading;
+}
+uint32_t Heading::get_checksum() const
+{
+    return _content._checksum;
+}
+
+void Heading::set_heading(float val)
+{
+    _content._heading = val;
+}
+void Heading::set_checksum(uint32_t val)
+{
+    _content._checksum = val;
+}
+
+// ----- processed data access -----
+float Heading::get_heading_in_degrees() const
+{
+    return _content._heading * 180.f / float(std::numbers::pi);
+}
+
+// ----- to/from stream functions -----
+void Heading::__read__(std::istream& is)
+{
+    is.read(reinterpret_cast<char*>(&_content), __content_size);
+}
 
 Heading Heading::from_stream(std::istream& is, S7KDatagram header)
 {

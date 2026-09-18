@@ -4,10 +4,30 @@
 
 #include "s7kunknown.hpp"
 
+#include <utility>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+S7KUnknown::S7KUnknown(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- convenient member access -----
+const std::string& S7KUnknown::get_raw_content() const
+{
+    return _raw_content;
+}
+
+void S7KUnknown::set_raw_content(const std::string& value)
+{
+    _raw_content = value;
+    _size        = uint32_t(_raw_content.size() + __size);
+}
 
 S7KUnknown S7KUnknown::from_stream(std::istream& is, S7KDatagram header)
 {

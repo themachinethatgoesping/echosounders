@@ -1,4 +1,4 @@
-//sourcehash: 43c3d3ffdf5c359edd4833d3544d5cb88d2353b49fc0a83f488c1c08dd13f1d0
+//sourcehash: c23f75c2067851d99ce56ae01de61bda3ee6b774bc55b1c7668bdd165c024ffa
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,6 +70,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Att
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Attitude_set_attitudes = R"doc()doc";
 

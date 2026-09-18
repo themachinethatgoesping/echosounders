@@ -1,4 +1,4 @@
-//sourcehash: bf62c4e1ea13cf1b011e246a4684264aadc88674ce2e8d096f95aef3f3b9bc50
+//sourcehash: 650a59f83283cff91bf2ed757b32dc7bb07921486d5715ff6000b34c8aa8c464
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,6 +70,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sou
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_checksum = R"doc()doc";
 

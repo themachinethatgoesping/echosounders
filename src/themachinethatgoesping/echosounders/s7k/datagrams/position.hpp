@@ -10,8 +10,6 @@
 // std includes
 #include <array>
 #include <cstdint>
-#include <numbers>
-#include <string>
 #include <string_view>
 
 // themachinethatgoesping import
@@ -189,62 +187,46 @@ class Position : public S7KDatagram
     static constexpr size_t __content_size = sizeof(Content);
 
   public:
-    Position()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    Position();
     ~Position() = default;
 
     // ----- convenient member access -----
-    uint32_t             get_datum_identifier() const { return _content._datum_identifier; }
-    float                get_latency() const { return _content._latency; }
-    double               get_latitude_or_northing() const { return _content._latitude_or_northing; }
-    double               get_longitude_or_easting() const { return _content._longitude_or_easting; }
-    double               get_height() const { return _content._height; }
-    o_position_type_flag get_position_type_flag() const { return _content._position_type_flag; }
-    uint8_t              get_utm_zone() const { return _content._utm_zone; }
-    o_quality_flag       get_quality_flag() const { return _content._quality_flag; }
-    o_position_method    get_position_method() const { return _content._position_method; }
-    uint8_t              get_number_of_satellites() const { return _content._number_of_satellites; }
-    uint32_t             get_checksum() const { return _content._checksum; }
+    uint32_t             get_datum_identifier() const;
+    float                get_latency() const;
+    double               get_latitude_or_northing() const;
+    double               get_longitude_or_easting() const;
+    double               get_height() const;
+    o_position_type_flag get_position_type_flag() const;
+    uint8_t              get_utm_zone() const;
+    o_quality_flag       get_quality_flag() const;
+    o_position_method    get_position_method() const;
+    uint8_t              get_number_of_satellites() const;
+    uint32_t             get_checksum() const;
 
-    void set_datum_identifier(uint32_t val) { _content._datum_identifier = val; }
-    void set_latency(float val) { _content._latency = val; }
-    void set_latitude_or_northing(double val) { _content._latitude_or_northing = val; }
-    void set_longitude_or_easting(double val) { _content._longitude_or_easting = val; }
-    void set_height(double val) { _content._height = val; }
-    void set_position_type_flag(o_position_type_flag val) { _content._position_type_flag = val; }
-    void set_utm_zone(uint8_t val) { _content._utm_zone = val; }
-    void set_quality_flag(o_quality_flag val) { _content._quality_flag = val; }
-    void set_position_method(o_position_method val) { _content._position_method = val; }
-    void set_number_of_satellites(uint8_t val) { _content._number_of_satellites = val; }
-    void set_checksum(uint32_t val) { _content._checksum = val; }
+    void set_datum_identifier(uint32_t val);
+    void set_latency(float val);
+    void set_latitude_or_northing(double val);
+    void set_longitude_or_easting(double val);
+    void set_height(double val);
+    void set_position_type_flag(o_position_type_flag val);
+    void set_utm_zone(uint8_t val);
+    void set_quality_flag(o_quality_flag val);
+    void set_position_method(o_position_method val);
+    void set_number_of_satellites(uint8_t val);
+    void set_checksum(uint32_t val);
 
     // ----- processed data access -----
     /**
      * @brief Get the latitude in degrees (only meaningful for geographical coordinates).
      * @return latitude_or_northing converted from radians to degrees.
      */
-    double get_latitude_in_degrees() const
-    {
-        if (get_position_type_flag() == t_position_type_flag::grid)
-            throw std::runtime_error("ERROR[S7K Position (1003) get_latitude_in_degrees]: Position "
-                                     "type 'grid' is not yet implemented");
-        return _content._latitude_or_northing * 180.0 / std::numbers::pi;
-    }
+    double get_latitude_in_degrees() const;
 
     /**
      * @brief Get the longitude in degrees (only meaningful for geographical coordinates).
      * @return longitude_or_easting converted from radians to degrees.
      */
-    double get_longitude_in_degrees() const
-    {
-        if (get_position_type_flag() == t_position_type_flag::grid)
-            throw std::runtime_error("ERROR[S7K Position (1003) get_longitude_in_degrees]: "
-                                     "Position type 'grid' is not yet implemented");
-        return _content._longitude_or_easting * 180.0 / std::numbers::pi;
-    }
+    double get_longitude_in_degrees() const;
 
     // ----- operators -----
     bool operator==(const Position& other) const = default;
@@ -265,14 +247,32 @@ class Position : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(Position)
 
   private:
-    explicit Position(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
-    void __read__(std::istream& is) { is.read(reinterpret_cast<char*>(&_content), __content_size); }
+    explicit Position(S7KDatagram header);
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams
 } // namespace s7k
 } // namespace echosounders
 } // namespace themachinethatgoesping
+
+// ----- explicit template instantiation (defined in position.cpp) -----
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_type_flag,
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_type_flag_values
+        .size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_type_flag_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_type_flag_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_type_flag_alt_names>;
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_quality_flag,
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_quality_flag_values.size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_quality_flag_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_quality_flag_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_quality_flag_alt_names>;
+extern template struct themachinethatgoesping::tools::classhelper::OptionFrozen<
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_method,
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_method_values.size(),
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_method_values,
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_method_names,
+    themachinethatgoesping::echosounders::s7k::datagrams::Position::t_position_method_alt_names>;

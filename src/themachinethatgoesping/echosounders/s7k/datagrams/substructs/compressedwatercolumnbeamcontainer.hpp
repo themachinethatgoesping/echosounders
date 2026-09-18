@@ -51,20 +51,17 @@ class CompressedWaterColumnBeamContainer
     void set_beams(const std::vector<CompressedWaterColumnBeam>& beams);
 
     // ----- record-wide sample encoding -----
-    uint8_t get_magnitude_bytes() const { return _magnitude_bytes; }
-    bool    get_has_phase() const { return _has_phase; }
-    bool    get_magnitude_is_db() const { return _magnitude_is_db; }
-    bool    get_magnitude_is_32bit() const { return _magnitude_bytes == 4; }
+    uint8_t get_magnitude_bytes() const;
+    bool    get_has_phase() const;
+    bool    get_magnitude_is_db() const;
+    bool    get_magnitude_is_32bit() const;
 
-    void set_magnitude_bytes(uint8_t val) { _magnitude_bytes = val; }
-    void set_has_phase(bool val) { _has_phase = val; }
-    void set_magnitude_is_db(bool val) { _magnitude_is_db = val; }
+    void set_magnitude_bytes(uint8_t val);
+    void set_has_phase(bool val);
+    void set_magnitude_is_db(bool val);
 
     /// the per-sample encoding of this record (derived from the encoding flags)
-    t_CompressedWaterColumnDataType get_data_type() const
-    {
-        return compressed_water_column_data_type(_magnitude_bytes, _has_phase);
-    }
+    t_CompressedWaterColumnDataType get_data_type() const;
 
     // ----- per-field tensor access (built on demand) -----
     xt::xtensor<uint16_t, 1> get_beam_number_tensor() const;
@@ -110,14 +107,10 @@ class CompressedWaterColumnBeamContainer
     size_t get_total_number_of_samples() const;
 
     // ----- skip / lazy reading -----
-    bool    get_samples_are_skipped() const { return _skipped; }
+    bool    get_samples_are_skipped() const;
     int64_t get_sample_position() const;
-    void    set_skipped(int64_t sample_position)
-    {
-        _skipped         = true;
-        _sample_position = sample_position;
-    }
-    void clear_skipped() { _skipped = false; }
+    void    set_skipped(int64_t sample_position);
+    void    clear_skipped();
 
     // ----- operators -----
     bool operator==(const CompressedWaterColumnBeamContainer& other) const = default;

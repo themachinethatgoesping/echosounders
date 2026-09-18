@@ -4,10 +4,51 @@
 
 #include "spreadingloss.hpp"
 
+#include <utility>
+
+#include <fmt/format.h>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+SpreadingLoss::SpreadingLoss()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+SpreadingLoss::SpreadingLoss(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- convenient member access -----
+float SpreadingLoss::get_spreading_loss() const
+{
+    return _content._spreading_loss;
+}
+uint32_t SpreadingLoss::get_checksum() const
+{
+    return _content._checksum;
+}
+
+void SpreadingLoss::set_spreading_loss(float val)
+{
+    _content._spreading_loss = val;
+}
+void SpreadingLoss::set_checksum(uint32_t val)
+{
+    _content._checksum = val;
+}
+
+// ----- to/from stream functions -----
+void SpreadingLoss::__read__(std::istream& is)
+{
+    is.read(reinterpret_cast<char*>(&_content), __content_size);
+}
 
 SpreadingLoss SpreadingLoss::from_stream(std::istream& is, S7KDatagram header)
 {

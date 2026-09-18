@@ -54,26 +54,19 @@ class SnippetDataAmplitudes
 
     // ----- meta data access -----
     /// true if the intensity samples are stored as 32-bit values (else 16-bit)
-    bool   get_samples_are_32bit() const { return _samples_are_32bit; }
-    size_t get_number_of_beams() const
-    {
-        return _beam_offsets.size() > 0 ? _beam_offsets.size() - 1 : 0;
-    }
-    size_t get_total_number_of_samples() const
-    {
-        return _beam_offsets.size() > 0 ? size_t(_beam_offsets.unchecked(_beam_offsets.size() - 1))
-                                        : 0;
-    }
-    bool get_samples_are_skipped() const { return _skipped; }
+    bool   get_samples_are_32bit() const;
+    size_t get_number_of_beams() const;
+    size_t get_total_number_of_samples() const;
+    bool   get_samples_are_skipped() const;
 
     /// file position of the first sample byte (only valid if the samples were skipped)
     int64_t get_sample_position() const;
 
     // ----- raw sample access -----
     /// flat samples of all beams (16- or 32-bit, concatenated over all beams)
-    const t_SamplesVariant& get_samples() const { return _samples; }
+    const t_SamplesVariant& get_samples() const;
     /// per-beam start offsets into the flat sample array (size = number_of_beams + 1)
-    const xt::xtensor<uint64_t, 1>& get_beam_offsets() const { return _beam_offsets; }
+    const xt::xtensor<uint64_t, 1>& get_beam_offsets() const;
 
     // ----- per-beam / processed access (computed on demand) -----
     /// intensity samples of a single beam (as float, in the raw amplitude scale)
@@ -86,23 +79,11 @@ class SnippetDataAmplitudes
     std::vector<xt::xtensor<float, 1>> get_beams_in_db(float db_offset = 0.f) const;
 
     // ----- setters -----
-    void set_samples(t_SamplesVariant samples)
-    {
-        _samples           = std::move(samples);
-        _samples_are_32bit = _samples.index() == 1;
-        _skipped           = false;
-    }
-    void set_beam_offsets(xt::xtensor<uint64_t, 1> beam_offsets)
-    {
-        _beam_offsets = std::move(beam_offsets);
-    }
-    void set_samples_are_32bit(bool value) { _samples_are_32bit = value; }
+    void set_samples(t_SamplesVariant samples);
+    void set_beam_offsets(xt::xtensor<uint64_t, 1> beam_offsets);
+    void set_samples_are_32bit(bool value);
     /// mark the samples as skipped and remember the file position of the first sample byte
-    void set_skipped(int64_t sample_position)
-    {
-        _skipped         = true;
-        _sample_position = sample_position;
-    }
+    void set_skipped(int64_t sample_position);
 
     // ----- lazy reading -----
     /**
@@ -113,7 +94,7 @@ class SnippetDataAmplitudes
 
     // ----- operators -----
     bool operator==(const SnippetDataAmplitudes& other) const;
-    bool operator!=(const SnippetDataAmplitudes& other) const { return !operator==(other); }
+    bool operator!=(const SnippetDataAmplitudes& other) const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,

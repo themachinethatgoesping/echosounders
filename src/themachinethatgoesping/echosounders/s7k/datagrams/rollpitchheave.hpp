@@ -9,8 +9,6 @@
 
 // std includes
 #include <cstdint>
-#include <numbers>
-#include <string>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -49,29 +47,25 @@ class RollPitchHeave : public S7KDatagram
     static constexpr size_t __content_size = sizeof(Content);
 
   public:
-    RollPitchHeave()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    RollPitchHeave();
     ~RollPitchHeave() = default;
 
     // ----- convenient member access -----
-    float    get_roll() const { return _content._roll; }
-    float    get_pitch() const { return _content._pitch; }
-    float    get_heave() const { return _content._heave; }
-    uint32_t get_checksum() const { return _content._checksum; }
+    float    get_roll() const;
+    float    get_pitch() const;
+    float    get_heave() const;
+    uint32_t get_checksum() const;
 
-    void set_roll(float val) { _content._roll = val; }
-    void set_pitch(float val) { _content._pitch = val; }
-    void set_heave(float val) { _content._heave = val; }
-    void set_checksum(uint32_t val) { _content._checksum = val; }
+    void set_roll(float val);
+    void set_pitch(float val);
+    void set_heave(float val);
+    void set_checksum(uint32_t val);
 
     // ----- processed data access -----
     /// @brief Get the vessel roll in degrees (converted from radians).
-    float get_roll_in_degrees() const { return _content._roll * 180.f / float(std::numbers::pi); }
+    float get_roll_in_degrees() const;
     /// @brief Get the vessel pitch in degrees (converted from radians).
-    float get_pitch_in_degrees() const { return _content._pitch * 180.f / float(std::numbers::pi); }
+    float get_pitch_in_degrees() const;
 
     // ----- operators -----
     bool operator==(const RollPitchHeave& other) const = default;
@@ -92,14 +86,8 @@ class RollPitchHeave : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(RollPitchHeave)
 
   private:
-    explicit RollPitchHeave(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
-    void __read__(std::istream& is)
-    {
-        is.read(reinterpret_cast<char*>(&_content), __content_size);
-    }
+    explicit RollPitchHeave(S7KDatagram header);
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams

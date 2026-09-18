@@ -4,7 +4,10 @@
 
 #include "snippetdata.hpp"
 
+#include <utility>
 #include <variant>
+
+#include <fmt/format.h>
 
 #include <xtensor/containers/xtensor.hpp>
 
@@ -12,6 +15,117 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
 namespace datagrams {
+
+// ----- constructors -----
+SnippetData::SnippetData()
+    : _content{}
+{
+    set_datagram_identifier(DatagramIdentifier);
+}
+
+SnippetData::SnippetData(S7KDatagram header)
+    : S7KDatagram(std::move(header))
+{
+}
+
+// ----- record type header access -----
+uint64_t SnippetData::get_serial_number() const
+{
+    return _content._serial_number;
+}
+uint32_t SnippetData::get_ping_number() const
+{
+    return _content._ping_number;
+}
+uint16_t SnippetData::get_multi_ping() const
+{
+    return _content._multi_ping;
+}
+uint16_t SnippetData::get_number_beams() const
+{
+    return _content._number_beams;
+}
+uint8_t SnippetData::get_error_flag() const
+{
+    return _content._error_flag;
+}
+uint8_t SnippetData::get_control_flags() const
+{
+    return _content._control_flags;
+}
+uint32_t SnippetData::get_flags() const
+{
+    return _content._flags;
+}
+uint32_t SnippetData::get_checksum() const
+{
+    return _checksum;
+}
+
+void SnippetData::set_serial_number(uint64_t val)
+{
+    _content._serial_number = val;
+}
+void SnippetData::set_ping_number(uint32_t val)
+{
+    _content._ping_number = val;
+}
+void SnippetData::set_multi_ping(uint16_t val)
+{
+    _content._multi_ping = val;
+}
+void SnippetData::set_number_beams(uint16_t val)
+{
+    _content._number_beams = val;
+}
+void SnippetData::set_error_flag(uint8_t val)
+{
+    _content._error_flag = val;
+}
+void SnippetData::set_control_flags(uint8_t val)
+{
+    _content._control_flags = val;
+}
+void SnippetData::set_flags(uint32_t val)
+{
+    _content._flags = val;
+}
+void SnippetData::set_checksum(uint32_t val)
+{
+    _checksum = val;
+}
+
+bool SnippetData::get_samples_are_32bit() const
+{
+    return (_content._flags & 0x1) != 0;
+}
+
+// ----- substructure access -----
+const substructs::SnippetDataBeamContainer& SnippetData::get_beams() const
+{
+    return _beams;
+}
+substructs::SnippetDataBeamContainer& SnippetData::beams()
+{
+    return _beams;
+}
+void SnippetData::set_beams(const substructs::SnippetDataBeamContainer& beams)
+{
+    _beams = beams;
+}
+
+const substructs::SnippetDataAmplitudes& SnippetData::get_amplitudes() const
+{
+    return _amplitudes;
+}
+substructs::SnippetDataAmplitudes& SnippetData::amplitudes()
+{
+    return _amplitudes;
+}
+void SnippetData::set_amplitudes(const substructs::SnippetDataAmplitudes& amplitudes)
+{
+    _amplitudes = amplitudes;
+}
 
 void SnippetData::__read__(std::istream& is, bool skip_data)
 {

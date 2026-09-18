@@ -8,15 +8,12 @@
 #include ".docstrings/s7kdatagram.doc.hpp"
 
 // std includes
-#include <cstring>
 #include <iostream>
-#include <limits>
 #include <string>
 #include <string_view>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/tools/timeconv.hpp>
 
 #include "../types.hpp"
 
@@ -86,35 +83,17 @@ class S7KDatagram
      * @brief Skip the data section of the datagram (position stream at the next DRF).
      * @param is Input stream, positioned directly after the DRF header.
      */
-    void skip(std::istream& is) const
-    {
-        // _size describes the full record size (version field to end of checksum); __size bytes of
-        // the DRF header have already been consumed by from_stream
-        is.seekg(_size - __size, std::ios::cur);
-    }
+    void skip(std::istream& is) const;
 
     // ----- interface -----
-    void set_datagram_identifier(o_DatagramIdentifier datagram_identifier)
-    {
-        _record_type_identifier = datagram_identifier;
-    }
-    o_DatagramIdentifier get_datagram_identifier() const { return _record_type_identifier; }
+    void                 set_datagram_identifier(o_DatagramIdentifier datagram_identifier);
+    o_DatagramIdentifier get_datagram_identifier() const;
 
     /**
      * @brief Get the record timestamp as unix time (seconds since 1970-01-01 UTC).
      * @return Unix timestamp, or NaN if no time is available (all 7KTIME fields zero).
      */
-    virtual double get_timestamp() const
-    {
-        // spec: if no time is available all 7KTIME fields are zero
-        if (_year == 0)
-            return std::numeric_limits<double>::quiet_NaN();
-
-        // unix time at midnight (Jan 1) of the year + day-of-year offset + time of day
-        const double midnight_jan1 = tools::timeconv::year_month_day_to_unixtime(int(_year), 1, 1);
-        return midnight_jan1 + double(int(_day) - 1) * 86400.0 + double(_hours) * 3600.0 +
-               double(_minutes) * 60.0 + double(_seconds);
-    }
+    virtual double get_timestamp() const;
 
     /**
      * @brief Get the timestamp as a formatted date string.
@@ -123,74 +102,67 @@ class S7KDatagram
      * @return Formatted date string.
      */
     std::string get_date_string(unsigned int       fractionalSecondsDigits = 2,
-                                const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const
-    {
-        return tools::timeconv::unixtime_to_datestring(
-            get_timestamp(), fractionalSecondsDigits, format);
-    }
+                                const std::string& format = "%z__%d-%m-%Y__%H:%M:%S") const;
 
     // ----- convenient member access -----
-    uint16_t get_protocol_version() const { return _protocol_version; }
-    uint16_t get_offset() const { return _offset; }
-    uint32_t get_sync_pattern() const { return _sync_pattern; }
-    uint32_t get_size() const { return _size; }
-    uint32_t get_optional_data_offset() const { return _optional_data_offset; }
-    uint32_t get_optional_data_identifier() const { return _optional_data_identifier; }
-    uint16_t get_year() const { return _year; }
-    uint16_t get_day() const { return _day; }
-    float    get_seconds() const { return _seconds; }
-    uint8_t  get_hours() const { return _hours; }
-    uint8_t  get_minutes() const { return _minutes; }
-    uint16_t get_record_version() const { return _record_version; }
-    uint32_t get_record_type_identifier() const { return uint32_t(_record_type_identifier); }
-    uint32_t get_device_identifier() const { return _device_identifier; }
-    uint16_t get_system_enumerator() const { return _system_enumerator; }
-    uint16_t get_flags() const { return _flags; }
-    uint32_t get_total_records_in_fragmented_data_record_set() const
-    {
-        return _total_records_in_fragmented_data_record_set;
-    }
-    uint32_t get_fragment_number() const { return _fragment_number; }
+    uint16_t get_protocol_version() const;
+    uint16_t get_offset() const;
+    uint32_t get_sync_pattern() const;
+    uint32_t get_size() const;
+    uint32_t get_optional_data_offset() const;
+    uint32_t get_optional_data_identifier() const;
+    uint16_t get_year() const;
+    uint16_t get_day() const;
+    float    get_seconds() const;
+    uint8_t  get_hours() const;
+    uint8_t  get_minutes() const;
+    uint16_t get_record_version() const;
+    uint32_t get_record_type_identifier() const;
+    uint32_t get_device_identifier() const;
+    uint16_t get_system_enumerator() const;
+    uint16_t get_flags() const;
+    uint32_t get_total_records_in_fragmented_data_record_set() const;
+    uint32_t get_fragment_number() const;
 
-    void set_protocol_version(uint16_t v) { _protocol_version = v; }
-    void set_offset(uint16_t v) { _offset = v; }
-    void set_sync_pattern(uint32_t v) { _sync_pattern = v; }
-    void set_size(uint32_t v) { _size = v; }
-    void set_optional_data_offset(uint32_t v) { _optional_data_offset = v; }
-    void set_optional_data_identifier(uint32_t v) { _optional_data_identifier = v; }
-    void set_year(uint16_t v) { _year = v; }
-    void set_day(uint16_t v) { _day = v; }
-    void set_seconds(float v) { _seconds = v; }
-    void set_hours(uint8_t v) { _hours = v; }
-    void set_minutes(uint8_t v) { _minutes = v; }
-    void set_record_version(uint16_t v) { _record_version = v; }
-    void set_device_identifier(uint32_t v) { _device_identifier = v; }
-    void set_system_enumerator(uint16_t v) { _system_enumerator = v; }
-    void set_flags(uint16_t v) { _flags = v; }
+    void set_protocol_version(uint16_t v);
+    void set_offset(uint16_t v);
+    void set_sync_pattern(uint32_t v);
+    void set_size(uint32_t v);
+    void set_optional_data_offset(uint32_t v);
+    void set_optional_data_identifier(uint32_t v);
+    void set_year(uint16_t v);
+    void set_day(uint16_t v);
+    void set_seconds(float v);
+    void set_hours(uint8_t v);
+    void set_minutes(uint8_t v);
+    void set_record_version(uint16_t v);
+    void set_device_identifier(uint32_t v);
+    void set_system_enumerator(uint16_t v);
+    void set_flags(uint16_t v);
 
     // ----- processed -----
     /**
      * @brief Test if the flags field indicates a valid checksum (bit 0).
      * 
      */
-    bool get_flag_checksum_is_valued() const { return (_flags & 0b0000000000000001) != 0; }
+    bool get_flag_checksum_is_valued() const;
 
     /**
      * @brief Test if the flags field indicates live or recorded data (bit 15).
      * 
      */
-    bool get_flag_data_live_or_recorded() const { return (_flags & 0b1000000000000000) != 0; }
+    bool get_flag_data_live_or_recorded() const;
 
     /**
      * @brief Test if the DRF sync pattern is valid.
      */
-    bool drf_sync_pattern_is_valid() const { return _sync_pattern == SYNC_PATTERN; }
+    bool drf_sync_pattern_is_valid() const;
 
     // ----- helper -----
     /**
      * @brief Number of bytes of the record following the DRF header (RTH + data + checksum).
      */
-    size_t compute_size_content() const { return _size - __size; }
+    size_t compute_size_content() const;
 
     // ----- checksum (debugging only) -----
     // Every 7k record ends with a 4-byte checksum (see 7k Data Format Definition, Table 5). The
@@ -208,14 +180,7 @@ class S7KDatagram
      * @param buffer Serialized record bytes (DRF + RTH + data + checksum).
      * @return Computed 32-bit checksum (sum of all bytes except the trailing four).
      */
-    static uint32_t compute_checksum(std::string_view buffer)
-    {
-        uint32_t     checksum = 0;
-        const size_t n        = buffer.size() > 4 ? buffer.size() - 4 : 0;
-        for (size_t i = 0; i < n; ++i)
-            checksum += static_cast<uint8_t>(buffer[i]);
-        return checksum;
-    }
+    static uint32_t compute_checksum(std::string_view buffer);
 
     /**
      * @brief Read the stored checksum (last four bytes) from a serialized record buffer.
@@ -223,14 +188,7 @@ class S7KDatagram
      * @param buffer Serialized record bytes (DRF + RTH + data + checksum).
      * @return The stored checksum, or 0 if the buffer is too small.
      */
-    static uint32_t read_checksum(std::string_view buffer)
-    {
-        if (buffer.size() < 4)
-            return 0;
-        uint32_t checksum = 0;
-        std::memcpy(&checksum, buffer.data() + buffer.size() - 4, sizeof(checksum));
-        return checksum;
-    }
+    static uint32_t read_checksum(std::string_view buffer);
 
     /**
      * @brief Check whether the stored checksum of a serialized record matches its computed
@@ -239,10 +197,7 @@ class S7KDatagram
      * @param buffer Serialized record bytes (DRF + RTH + data + checksum).
      * @return true if compute_checksum(buffer) == read_checksum(buffer).
      */
-    static bool test_checksum_is_correct(std::string_view buffer)
-    {
-        return compute_checksum(buffer) == read_checksum(buffer);
-    }
+    static bool test_checksum_is_correct(std::string_view buffer);
 
     // ----- operators -----
     bool operator==(const S7KDatagram& other) const = default;
@@ -263,22 +218,9 @@ class S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(S7KDatagram)
 
   protected:
-    inline void __s7kdatagram_read__(std::istream& is)
-    {
-        // all DRF fields are naturally aligned in declaration order, thus the __size bytes can be
-        // read directly into the contiguous member block starting at _protocol_version
-        is.read(reinterpret_cast<char*>(&(_protocol_version)), __size);
-    }
-    inline static void __check_datagram_identifier__(const o_DatagramIdentifier actual,
-                                                     const o_DatagramIdentifier expected)
-    {
-        if (actual.value != expected.value)
-            throw std::runtime_error(fmt::format(
-                "S7KDatagram::__check_datagram_identifier__: datagram identifier is not "
-                "{}, but {}",
-                datagram_type_to_string(expected),
-                datagram_type_to_string(actual)));
-    }
+    void        __s7kdatagram_read__(std::istream& is);
+    static void __check_datagram_identifier__(const o_DatagramIdentifier actual,
+                                              const o_DatagramIdentifier expected);
 };
 
 } // namespace datagrams

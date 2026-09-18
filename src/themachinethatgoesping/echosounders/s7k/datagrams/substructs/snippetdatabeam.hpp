@@ -41,38 +41,26 @@ class SnippetDataBeam
     ~SnippetDataBeam() = default;
 
     // ----- convenient member access -----
-    uint16_t get_beam_descriptor() const { return _beam_descriptor; }
-    uint32_t get_snippet_start() const { return _snippet_start; }
-    uint32_t get_detection_sample() const { return _detection_sample; }
-    uint32_t get_snippet_end() const { return _snippet_end; }
+    uint16_t get_beam_descriptor() const;
+    uint32_t get_snippet_start() const;
+    uint32_t get_detection_sample() const;
+    uint32_t get_snippet_end() const;
 
-    void set_beam_descriptor(uint16_t val) { _beam_descriptor = val; }
-    void set_snippet_start(uint32_t val) { _snippet_start = val; }
-    void set_detection_sample(uint32_t val) { _detection_sample = val; }
-    void set_snippet_end(uint32_t val) { _snippet_end = val; }
+    void set_beam_descriptor(uint16_t val);
+    void set_snippet_start(uint32_t val);
+    void set_detection_sample(uint32_t val);
+    void set_snippet_end(uint32_t val);
 
     // ----- processed member access -----
     /// number of intensity samples in this beam's snippet (snippet_end - snippet_start + 1)
-    uint32_t get_number_of_samples() const { return _snippet_end - _snippet_start + 1; }
+    uint32_t get_number_of_samples() const;
 
     // ----- operators -----
     bool operator==(const SnippetDataBeam& other) const = default;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
-                                                  bool         superscript_exponents) const
-    {
-        tools::classhelper::ObjectPrinter printer(
-            "SnippetDataBeam", float_precision, superscript_exponents);
-
-        printer.register_value("beam_descriptor", _beam_descriptor);
-        printer.register_value("snippet_start", _snippet_start, "samples");
-        printer.register_value("detection_sample", _detection_sample, "samples");
-        printer.register_value("snippet_end", _snippet_end, "samples");
-        printer.register_value("number_of_samples", get_number_of_samples(), "samples");
-
-        return printer;
-    }
+                                                  bool         superscript_exponents) const;
 
     // ----- class helper macros -----
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__

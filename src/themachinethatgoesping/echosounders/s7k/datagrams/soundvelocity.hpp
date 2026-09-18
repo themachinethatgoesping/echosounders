@@ -9,7 +9,6 @@
 
 // std includes
 #include <cstdint>
-#include <string>
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
@@ -46,19 +45,15 @@ class SoundVelocity : public S7KDatagram
     static constexpr size_t __content_size = sizeof(Content);
 
   public:
-    SoundVelocity()
-        : _content{}
-    {
-        set_datagram_identifier(DatagramIdentifier);
-    }
+    SoundVelocity();
     ~SoundVelocity() = default;
 
     // ----- convenient member access -----
-    float    get_sound_velocity() const { return _content._sound_velocity; }
-    uint32_t get_checksum() const { return _content._checksum; }
+    float    get_sound_velocity() const;
+    uint32_t get_checksum() const;
 
-    void set_sound_velocity(float val) { _content._sound_velocity = val; }
-    void set_checksum(uint32_t val) { _content._checksum = val; }
+    void set_sound_velocity(float val);
+    void set_checksum(uint32_t val);
 
     // ----- operators -----
     bool operator==(const SoundVelocity& other) const = default;
@@ -79,14 +74,8 @@ class SoundVelocity : public S7KDatagram
     __STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS__(SoundVelocity)
 
   private:
-    explicit SoundVelocity(S7KDatagram header)
-        : S7KDatagram(std::move(header))
-    {
-    }
-    void __read__(std::istream& is)
-    {
-        is.read(reinterpret_cast<char*>(&_content), __content_size);
-    }
+    explicit SoundVelocity(S7KDatagram header);
+    void __read__(std::istream& is);
 };
 
 } // namespace datagrams
