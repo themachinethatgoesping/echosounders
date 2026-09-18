@@ -154,40 +154,7 @@ std::map<std::string, std::string> IInstallationParam::get_transducer_serial_num
         }
     }
 
-    // check for validity
-    auto stc = get_system_transducer_configuration();
-
-    switch (stc.value)
-    {
-        case t_KMALLSystemTransducerConfiguration::SingleHead:
-            [[fallthrough]];
-        case t_KMALLSystemTransducerConfiguration::PortableMKIIHead:
-            [[fallthrough]];
-        case t_KMALLSystemTransducerConfiguration::PortableSingleHead:
-            if (serial_numbers.size() == 2 && serial_numbers.contains("TX") &&
-                serial_numbers.contains("RX"))
-            {
-                return { { "TRX", serial_numbers["TX"] } };
-            }
-            throw(std::runtime_error(
-                fmt::format("InstallationParameters::get_transducer_serial_numbers: "
-                            "invalid serial numbers for SingleHead configuration: {}",
-                            fmt::join(serial_numbers, ", "))));
-        case t_KMALLSystemTransducerConfiguration::SingleTxSingleRx:
-            if (serial_numbers.size() == 2 && serial_numbers.contains("TX") &&
-                serial_numbers.contains("RX"))
-            {
-                return serial_numbers;
-            }
-            throw(std::runtime_error(
-                fmt::format("InstallationParameters::get_transducer_serial_numbers: "
-                            "invalid serial numbers for SingleTxSingleRx configuration: {}",
-                            fmt::join(serial_numbers, ", "))));
-        default:
-            throw(std::runtime_error(fmt::format("InstallationParameters::is_dual_rx: "
-                                                 "unsupported transducer configuration: {}",
-                                                 stc.name())));
-    }
+    return serial_numbers;
 }
 
 bool IInstallationParam::is_dual_rx() const
