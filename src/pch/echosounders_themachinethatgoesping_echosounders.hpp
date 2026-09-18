@@ -9,6 +9,9 @@
 #include <set>
 #include <iostream>
 #include <magic_enum/magic_enum.hpp>
+#include <frozen/set.h>
+#include <frozen/map.h>
+#include <frozen/unordered_set.h>
 #include <frozen/unordered_map.h>
 #include <complex>
 #include <map>
