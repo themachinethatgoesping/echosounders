@@ -50,6 +50,16 @@ constexpr t_return c_chars2Int(const char chars[N])
     return std::bit_cast<t_return>(chars_array);
 }
 
+/** @brief Inverts c_chars2Int: recovers the 4-char KMALL code from a raw uint32_t identifier. */
+struct KMALLUnknownFormatter
+{
+    static std::string format(uint32_t v)
+    {
+        const auto chars = std::bit_cast<std::array<char, 4>>(v);
+        return std::string(chars.data(), 4);
+    }
+};
+
 enum class t_KMALLDatagramIdentifier : uint32_t
 {
     // I-datagrams (Installation)
@@ -133,7 +143,9 @@ using o_KMALLDatagramIdentifier = themachinethatgoesping::tools::classhelper::Op
     t_KMALLDatagramIdentifier_values.size(),
     t_KMALLDatagramIdentifier_values,
     t_KMALLDatagramIdentifier_names,
-    t_KMALLDatagramIdentifier_alt_names>;
+    t_KMALLDatagramIdentifier_alt_names,
+    t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM,
+    KMALLUnknownFormatter>;
 
 enum class t_KMALLSystemTransducerConfiguration : uint8_t
 {
@@ -255,7 +267,9 @@ extern template class themachinethatgoesping::tools::classhelper::OptionFrozen<
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_values.size(),
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_values,
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_names,
-    themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_alt_names>;
+    themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_alt_names,
+    themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM,
+    themachinethatgoesping::echosounders::kmall::KMALLUnknownFormatter>;
 
 extern template class themachinethatgoesping::tools::classhelper::OptionFrozen<
     themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration,

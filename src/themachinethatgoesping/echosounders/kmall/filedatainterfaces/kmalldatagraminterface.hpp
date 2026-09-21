@@ -47,7 +47,7 @@ class KMALLDatagramInterface
     std::string datagram_identifier_to_string(
         t_KMALLDatagramIdentifier datagram_identifier) const final
     {
-        return std::string(o_KMALLDatagramIdentifier(datagram_identifier).alt_name());
+        return o_KMALLDatagramIdentifier(datagram_identifier).alt_name_safe();
     }
 
     std::vector<std::string > datagram_identifiers_to_string(std::vector<t_KMALLDatagramIdentifier> datagram_identifiers) const
@@ -64,8 +64,7 @@ class KMALLDatagramInterface
     //IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
     std::string datagram_identifier_info(t_KMALLDatagramIdentifier datagram_identifier) const final
     {
-        // this should work, but doesn't
-        return std::string(o_KMALLDatagramIdentifier(datagram_identifier).name());
+        return o_KMALLDatagramIdentifier(datagram_identifier).name_safe();
     }
 
     // filter types

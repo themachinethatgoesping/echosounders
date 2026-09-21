@@ -262,7 +262,7 @@ class KMALLNavigationDataInterfacePerFile
 
         // if (times.back() > packet_timestamp)
         //     throw std::runtime_error(
-        //         fmt::format("ERROR in file [{}]: {} "
+        //         fmt::format("WARNING in file [{}]: {} "
         //                     "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
         //                     "{} datagrams are not in chronological order.",
         //                     this->get_file_nr(),
@@ -308,7 +308,7 @@ class KMALLNavigationDataInterfacePerFile
 
         if (!sorted)
         {
-            std::cerr << fmt::format("ERROR in file [{}]: {} "
+            std::cerr << fmt::format("WARNING in file [{}]: {} "
                                      "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
                                      "{} datagrams are not in chronological order and will be "
                                      "sorted. This could indicate a navigation data problem.",
@@ -356,7 +356,7 @@ class KMALLNavigationDataInterfacePerFile
 
         if (!sorted)
         {
-            std::cerr << fmt::format("ERROR in file [{}]: {} "
+            std::cerr << fmt::format("WARNING in file [{}]: {} "
                                      "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
                                      "{} datagrams are not in chronological order and will be "
                                      "sorted. This could indicate a navigation data problem.",
@@ -465,7 +465,7 @@ class KMALLNavigationDataInterfacePerFile
 
         if (!sorted)
         {
-            std::cerr << fmt::format("ERROR in file [{}]: {} "
+            std::cerr << fmt::format("WARNING in file [{}]: {} "
                                      "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
                                      "{} datagrams are not in chronological order and will be "
                                      "sorted. This could indicate a navigation data problem.",

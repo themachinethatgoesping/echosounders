@@ -1,4 +1,4 @@
-//sourcehash: 7d7b20e70059476c715e7df50c5e6065a4d9d9c6e416a6c340c3f619e37ff9b8
+//sourcehash: ce69ff370db23dff95e09fb31f45b85ab62e6ef682a1a3f55a2b3c725db0e5b8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,9 +41,9 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_253_67 = R"doc()doc";
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_265_67 = R"doc()doc";
 
-static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_260_67 = R"doc()doc";
+static const char *mkd_doc__unnamed_class_at_themachinethatgoesping_echosounders_kmall_types_hpp_274_67 = R"doc()doc";
 
 
 
@@ -56,6 +56,12 @@ Args:
 
 Returns:
     Parsed datagram type numeric value.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLUnknownFormatter =
+R"doc(Inverts c_chars2Int: recovers the 4-char KMALL code from a raw
+uint32_t identifier.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLUnknownFormatter_format = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_c_chars2Int = R"doc()doc";
 

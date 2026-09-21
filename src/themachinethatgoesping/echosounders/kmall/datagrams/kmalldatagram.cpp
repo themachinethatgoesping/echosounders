@@ -47,8 +47,9 @@ tools::classhelper::ObjectPrinter KMALLDatagram::__printer__(unsigned int float_
         "KMALLDatagram", float_precision, superscript_exponents);
 
     printer.register_value("bytes_datagram", _bytes_datagram, "bytes");
-    printer.register_value(
-        "datagram_identifier", _datagram_identifier.alt_name(), _datagram_identifier.name());
+    printer.register_value("datagram_identifier",
+                           _datagram_identifier.alt_name_safe(),
+                           _datagram_identifier.name_safe());
     printer.register_value("datagram_version", _datagram_version);
     printer.register_value("system_id", _system_id);
     printer.register_value("echo_sounder_id", _echo_sounder_id);

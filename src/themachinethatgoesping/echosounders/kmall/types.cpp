@@ -24,8 +24,7 @@ std::vector<std::string> datagram_identifiers_to_string(
 // IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_datagram_identifier_info
 std::string datagram_identifier_info(kmall::t_KMALLDatagramIdentifier datagram_identifier)
 {
-    // this should work, but doesn't
-    return std::string(kmall::o_KMALLDatagramIdentifier(datagram_identifier).name());
+    return kmall::o_KMALLDatagramIdentifier(datagram_identifier).name_safe();
 }
 
 }
@@ -36,7 +35,9 @@ template class themachinethatgoesping::tools::classhelper::OptionFrozen<
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_values.size(),
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_values,
     themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_names,
-    themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_alt_names>;
+    themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier_alt_names,
+    themachinethatgoesping::echosounders::kmall::t_KMALLDatagramIdentifier::I_INSTALLATION_PARAM,
+    themachinethatgoesping::echosounders::kmall::KMALLUnknownFormatter>;
     
 template class themachinethatgoesping::tools::classhelper::OptionFrozen<
     themachinethatgoesping::echosounders::kmall::t_KMALLSystemTransducerConfiguration,
