@@ -1,7 +1,7 @@
 project(
   'pugixml',
   'cpp',
-  default_options: 'cpp_std=c++23',
+  default_options: 'cpp_std=c++26',
   version: '1.16',
   meson_version: '>=0.49.0',
 )

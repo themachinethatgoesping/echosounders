@@ -20,7 +20,6 @@
 #include <themachinethatgoesping/navigation/navigationinterpolatorlatlon.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
 #include "../../filetemplates/datainterfaces/i_configurationdatainterface.hpp"
 
 #include "../datagrams.hpp"
@@ -61,8 +60,7 @@ class KongsbergAllConfigurationDataInterfacePerFile
     // raytracing) can resolve the *correct* per-head TX and RX mounts for
     // dual-head / dual-RX systems where the TRX target is a synthetic merge
     // and looking up "TX" / "RX" by global name picks the wrong head.
-    std::map<std::string, std::pair<std::string, std::string>>
-        _txrx_target_names_per_trx_channel;
+    std::map<std::string, std::pair<std::string, std::string>> _txrx_target_names_per_trx_channel;
 
   public:
     KongsbergAllConfigurationDataInterfacePerFile()
@@ -84,9 +82,9 @@ class KongsbergAllConfigurationDataInterfacePerFile
         return _txrx_target_names_per_trx_channel;
     }
     int8_t get_active_position_system_number() const { return _active_position_system_number; }
-    auto    get_active_pitch_roll_sensor() const { return _active_pitch_roll_sensor; }
-    auto    get_active_heave_sensor() const { return _active_heave_sensor; }
-    auto    get_active_heading_sensor() const { return _active_heading_sensor; }
+    auto   get_active_pitch_roll_sensor() const { return _active_pitch_roll_sensor; }
+    auto   get_active_heave_sensor() const { return _active_heave_sensor; }
+    auto   get_active_heading_sensor() const { return _active_heading_sensor; }
 
     // ----- setters -----
     /**
@@ -143,7 +141,7 @@ class KongsbergAllConfigurationDataInterfacePerFile
      * This function is automatically called by get_runtime_parameters
      *
      */
-void init_runtime_parameters()
+    void init_runtime_parameters()
     {
         if (_runtime_parameters_initialized)
             return;
@@ -178,14 +176,12 @@ void init_runtime_parameters()
                 // singleTxDualRx seems to create only one runtime parameter for both systems
                 // (probably because there is only one TX unit). We thus add copy the runtime
                 // parameters of the primary system for the secondary system
-                if (installation_parameters.get_system_transducer_configuration() ==
-                    t_KongsbergAllSystemTransducerConfiguration::SingleTXDualRX)
-                    if (!_runtime_parameters_by_system_serial_number.contains(
-                            installation_parameters.get_secondary_system_serial_number()))
-                        _runtime_parameters_by_system_serial_number
-                            [installation_parameters.get_secondary_system_serial_number()] =
-                                _runtime_parameters_by_system_serial_number
-                                    [installation_parameters.get_system_serial_number()];
+                if (!_runtime_parameters_by_system_serial_number.contains(
+                        installation_parameters.get_secondary_system_serial_number()))
+                    _runtime_parameters_by_system_serial_number
+                        [installation_parameters.get_secondary_system_serial_number()] =
+                            _runtime_parameters_by_system_serial_number
+                                [installation_parameters.get_system_serial_number()];
                 break;
 
                 // dual head should have runtime parameters for both systems
@@ -437,8 +433,8 @@ void init_runtime_parameters()
         // The .all model number does not distinguish the EM2040 variants (EM2040P and EM2040M both
         // report number 2040) -- only the STC (system transducer configuration) does. Refine the
         // model name accordingly so the correct subarray preset is selected; the .kmall format
-        // reports the variant directly (EMXV), which is why an EM2040P reads as EM2040 from .all but
-        // EM2040P from .kmall.
+        // reports the variant directly (EMXV), which is why an EM2040P reads as EM2040 from .all
+        // but EM2040P from .kmall.
         std::string model_name = param.get_model_number_as_string();
         if (param.get_model_number() == 2040)
         {
@@ -459,9 +455,11 @@ void init_runtime_parameters()
         // The .all installation datagram has no per-subarray lever arms, so use the hardcoded
         // per-model preset (empty for unknown models). Attach the transmit subarrays ("0"/"1"/"2")
         // only to transmit targets and the receive phase center ("RX") only to receive targets so a
-        // head never carries the other array's offset; TRX targets (a combined tx+rx head) get both.
+        // head never carries the other array's offset; TRX targets (a combined tx+rx head) get
+        // both.
         {
-            auto subarrays = navigation::SensorConfiguration::get_model_subarray_offsets(model_name);
+            auto subarrays =
+                navigation::SensorConfiguration::get_model_subarray_offsets(model_name);
             config.set_subarrays_by_role(subarrays);
         }
 
@@ -484,9 +482,10 @@ void init_runtime_parameters()
         config.set_waterline_offset(param.get_water_line_vertical_location_in_meters());
 
         // add the gyro
-        // The .all format logs the attitude already corrected for the sensor mounting offsets (roll,
-        // pitch, heading bias) by the PU, so flag the offset as pre-applied to avoid re-applying it.
-        auto attitude_offsets                = param.get_attitude_sensor_offsets(_active_pitch_roll_sensor);
+        // The .all format logs the attitude already corrected for the sensor mounting offsets
+        // (roll, pitch, heading bias) by the PU, so flag the offset as pre-applied to avoid
+        // re-applying it.
+        auto attitude_offsets = param.get_attitude_sensor_offsets(_active_pitch_roll_sensor);
         attitude_offsets.ypr_offsets_applied = true;
         config.set_attitude_source(attitude_offsets);
 
@@ -494,7 +493,8 @@ void init_runtime_parameters()
         config.set_position_source(
             param.get_position_system_offsets(_active_position_system_number));
         // flag whether the logged positions are already motion compensated (P{n}M=1): then the beam
-        // x,y are referenced to the vessel reference point and no antenna lever arm must be applied.
+        // x,y are referenced to the vessel reference point and no antenna lever arm must be
+        // applied.
         config.set_position_source_motion_compensated(
             param.get_active_position_system_motion_compensation());
 

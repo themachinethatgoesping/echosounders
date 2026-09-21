@@ -181,8 +181,7 @@ class KMALLNavigationDataInterfacePerFile
 
   private:
     template<typename... ValueVectors>
-    void sort_and_deduplicate_time_series(std::vector<double>& times,
-                                          ValueVectors&... values) const
+    void sort_and_deduplicate_time_series(std::vector<double>& times, ValueVectors&... values) const
     {
         if (times.empty())
             return;
@@ -242,8 +241,8 @@ class KMALLNavigationDataInterfacePerFile
 
     /**
      * @brief Internal function to check if a timestamp is within the allowed time range
-     * If the timestamp is equal to the previous one, it is ignored (return false).
-     * If the timestamp is smaller than the previous one, an exception is thrown.
+     * If the timestamp is equal or smaller to the previous one, it will be sorted with a warning
+     * (return false).
      *
      * @param times vector with previous timestamps
      * @param packet_timestamp timestamp to check
@@ -251,25 +250,24 @@ class KMALLNavigationDataInterfacePerFile
      * @return true if timestamp is valid and should be added
      * @return false if timestamp should be ignored (duplicate)
      */
-    bool packet_timestamp_in_range(const std::vector<double>& times,
-                                   double                     packet_timestamp,
-                                   std::string_view           data_name) const
+    bool packet_timestamp_in_range(const std::vector<double>& times, double packet_timestamp
+                                   //, std::string_view           data_name)
+    ) const
     {
         if (times.empty())
             return true;
 
-        // Silently ignore datagrams with the same timestamp as the previous one
-        if (times.back() == packet_timestamp)
+        if (times.back() >= packet_timestamp)
             return false;
 
-        if (times.back() > packet_timestamp)
-            throw std::runtime_error(
-                fmt::format("ERROR in file [{}]: {} "
-                            "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
-                            "{} datagrams are not in chronological order.",
-                            this->get_file_nr(),
-                            this->get_file_path(),
-                            data_name));
+        // if (times.back() > packet_timestamp)
+        //     throw std::runtime_error(
+        //         fmt::format("ERROR in file [{}]: {} "
+        //                     "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
+        //                     "{} datagrams are not in chronological order.",
+        //                     this->get_file_nr(),
+        //                     this->get_file_path(),
+        //                     data_name));
 
         return true;
     }
@@ -283,8 +281,11 @@ class KMALLNavigationDataInterfacePerFile
         std::vector<double>&                                      longitudes,
         const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
     {
-        // config active number is 1-based (POSI_n, 0 = none); the #SPO sensorSystem field is 0-based.
+        // config active number is 1-based (POSI_n, 0 = none); the #SPO sensorSystem field is
+        // 0-based.
         int active_pos_system = int(config.get_active_position_system_number()) - 1;
+
+        bool sorted = false;
 
         for (const auto& packet :
              this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::S_POSITION))
@@ -297,12 +298,26 @@ class KMALLNavigationDataInterfacePerFile
 
             double timestamp = datagram.get_timestamp();
 
-            if (!packet_timestamp_in_range(times_pos, timestamp, "S_POSITION"))
-                continue;
+            if (sorted)
+                sorted = packet_timestamp_in_range(times_pos, timestamp);
 
             times_pos.push_back(timestamp);
             latitudes.push_back(datagram.get_corrected_lat_deg());
             longitudes.push_back(datagram.get_corrected_lon_deg());
+        }
+
+        if (!sorted)
+        {
+            std::cerr << fmt::format("ERROR in file [{}]: {} "
+                                     "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
+                                     "{} datagrams are not in chronological order and will be "
+                                     "sorted. This could indicate a navigation data problem.",
+                                     this->get_file_nr(),
+                                     this->get_file_path(),
+                                     "S_POSITION")
+                      << std::endl;
+
+            sort_and_deduplicate_time_series(times_pos, latitudes, longitudes);
         }
     }
 
@@ -315,9 +330,11 @@ class KMALLNavigationDataInterfacePerFile
         std::vector<double>&                                      longitudes,
         const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
     {
-        // config active number is 1-based (POSI_n, 0 = none); the #CPO sensorSystem field is 0-based.
+        // config active number is 1-based (POSI_n, 0 = none); the #CPO sensorSystem field is
+        // 0-based.
         int active_pos_system = int(config.get_active_position_system_number()) - 1;
 
+        bool sorted = false;
         for (const auto& packet :
              this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::C_POSITION))
         {
@@ -329,12 +346,26 @@ class KMALLNavigationDataInterfacePerFile
 
             double timestamp = datagram.get_timestamp();
 
-            if (!packet_timestamp_in_range(times_pos, timestamp, "C_POSITION"))
-                continue;
+            if (sorted)
+                sorted = packet_timestamp_in_range(times_pos, timestamp);
 
             times_pos.push_back(timestamp);
             latitudes.push_back(datagram.get_corrected_lat_deg());
             longitudes.push_back(datagram.get_corrected_lon_deg());
+        }
+
+        if (!sorted)
+        {
+            std::cerr << fmt::format("ERROR in file [{}]: {} "
+                                     "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
+                                     "{} datagrams are not in chronological order and will be "
+                                     "sorted. This could indicate a navigation data problem.",
+                                     this->get_file_nr(),
+                                     this->get_file_path(),
+                                     "C_POSITION")
+                      << std::endl;
+
+            sort_and_deduplicate_time_series(times_pos, latitudes, longitudes);
         }
     }
 
@@ -357,7 +388,8 @@ class KMALLNavigationDataInterfacePerFile
         std::vector<double>&                                      times_heave,
         const KMALLConfigurationDataInterfacePerFile<t_ifstream>& config) const
     {
-        // config active number is 1-based (ATTI_n, 0 = none); the #SKM sensorSystem field is 0-based.
+        // config active number is 1-based (ATTI_n, 0 = none); the #SKM sensorSystem field is
+        // 0-based.
         int active_attitude_sensor_number = int(config.get_active_attitude_sensor_number()) - 1;
 
         for (const auto& packet :
@@ -415,18 +447,34 @@ class KMALLNavigationDataInterfacePerFile
      */
     void read_heave_from_che(std::vector<double>& heaves, std::vector<double>& times_heave) const
     {
+        bool sorted = false;
+
         for (const auto& packet :
              this->_datagram_infos_by_type.at_const(t_KMALLDatagramIdentifier::C_HEAVE))
         {
             auto   datagram  = packet->template read_datagram_from_file<datagrams::CHeave>();
             double timestamp = datagram.get_timestamp();
 
-            if (!packet_timestamp_in_range(times_heave, timestamp, "C_HEAVE"))
-                continue;
+            if (sorted)
+                sorted = packet_timestamp_in_range(times_heave, timestamp);
 
             times_heave.push_back(timestamp);
             // km CHE heave is positive downwards, convert to positive upwards
             heaves.push_back(-datagram.get_heave_m());
+        }
+
+        if (!sorted)
+        {
+            std::cerr << fmt::format("ERROR in file [{}]: {} "
+                                     "\nKMALLNavigationDataInterfacePerFile::read_navigation_data: "
+                                     "{} datagrams are not in chronological order and will be "
+                                     "sorted. This could indicate a navigation data problem.",
+                                     this->get_file_nr(),
+                                     this->get_file_path(),
+                                     "C_HEAVE")
+                      << std::endl;
+
+            sort_and_deduplicate_time_series(times_heave, heaves);
         }
     }
 };

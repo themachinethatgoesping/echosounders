@@ -162,13 +162,16 @@ class KMALLConfigurationDataInterfacePerFile
     /**
      * @brief Get the runtime parameters for a specific ping
      *
-     * This function searches for the runtime parameters that were active at the given ping time.
-     * It uses last_index as an optimization to avoid searching from the beginning each time.
+     * This function searches for the runtime parameters that were active at the given
+     * ping time. It uses last_index as an optimization to avoid searching from the
+     * beginning each time.
      *
      * @param system_serial_number The PU serial number to search for
      * @param ping_time The timestamp of the ping
-     * @param last_index Shared pointer to the last index used for optimization (will be updated)
-     * @return boost::flyweight<datagrams::IOpRuntime> The runtime parameters for the ping
+     * @param last_index Shared pointer to the last index used for optimization (will be
+     * updated)
+     * @return boost::flyweight<datagrams::IOpRuntime> The runtime parameters for the
+     * ping
      */
     boost::flyweight<datagrams::IOpRuntime> get_runtime_parameters(
         int                     system_serial_number,
@@ -241,15 +244,26 @@ class KMALLConfigurationDataInterfacePerFile
 
         switch (param.get_system_transducer_configuration().value)
         {
-            // case t_KMALLSystemTransducerConfiguration::SingleHead:
-            //     [[fallthrough]];
-            // case t_KMALLSystemTransducerConfiguration::PortableMKIIHead:
-            //     [[fallthrough]];
-            // case t_KMALLSystemTransducerConfiguration::PortableSingleHead: {
-            //     auto trx = transducer_offsets["TRX"];
-            //     config.add_target(trx.name, std::move(trx));
-            //     break;
-            // }
+            case t_KMALLSystemTransducerConfiguration::SingleHead:
+                [[fallthrough]];
+            case t_KMALLSystemTransducerConfiguration::PortableMKIIHead:
+                [[fallthrough]];
+            case t_KMALLSystemTransducerConfiguration::PortableSingleHead: {
+                auto trx = param.get_transducer_offsets("TRAI_HD1");
+                config.add_target(trx.name, std::move(trx));
+                config.add_target("TRX-" + trx.name, std::move(trx));
+                break;
+            }
+            case t_KMALLSystemTransducerConfiguration::DualHead: {
+                auto trx1 = param.get_transducer_offsets("TRAI_HD1");
+                auto trx2 = param.get_transducer_offsets("TRAI_HD2");
+
+                config.add_target(trx1.name, std::move(trx1));
+                config.add_target(trx2.name, std::move(trx2));
+                config.add_target("TRX-" + trx1.name, std::move(trx1));
+                config.add_target("TRX-" + trx2.name, std::move(trx2));
+                break;
+            }
             case t_KMALLSystemTransducerConfiguration::SingleTxSingleRx: {
                 auto tx  = param.get_transducer_offsets("TRAI_TX1");
                 auto rx  = param.get_transducer_offsets("TRAI_RX1");
@@ -268,7 +282,25 @@ class KMALLConfigurationDataInterfacePerFile
                 auto trx2 = SensorPose::from_txrx(tx, rx2, "TRX-" + rx2.name);
 
                 config.add_target(tx.name, std::move(tx));
-                config.add_target(rx.name, std::move(rx));
+                config.add_target(rx1.name, std::move(rx1));
+                config.add_target(rx2.name, std::move(rx2));
+                config.add_target(trx1.name, std::move(trx1));
+                config.add_target(trx2.name, std::move(trx2));
+                break;
+            }
+            case t_KMALLSystemTransducerConfiguration::DualTxDualRx: {
+                auto tx1 = param.get_transducer_offsets("TRAI_TX1");
+                auto tx2 = param.get_transducer_offsets("TRAI_TX2");
+                auto rx1 = param.get_transducer_offsets("TRAI_RX1");
+                auto rx2 = param.get_transducer_offsets("TRAI_RX2");
+
+                auto trx1 = SensorPose::from_txrx(tx1, rx1, "TRX-" + rx1.name);
+                auto trx2 = SensorPose::from_txrx(tx2, rx2, "TRX-" + rx2.name);
+
+                config.add_target(tx1.name, std::move(tx1));
+                config.add_target(tx2.name, std::move(tx2));
+                config.add_target(rx1.name, std::move(rx1));
+                config.add_target(rx2.name, std::move(rx2));
                 config.add_target(trx1.name, std::move(trx1));
                 config.add_target(trx2.name, std::move(trx2));
                 break;
@@ -284,11 +316,11 @@ class KMALLConfigurationDataInterfacePerFile
         }
 
         // ----- transmit/receive subarray phase-center offsets -----
-        // Prefer the per-subarray internal lever arms stored in the installation text; fill
-        // any gaps (e.g. an EM2040P single-head file only stores the port subarray) from
-        // the hardcoded model preset. Attach the transmit subarrays ("0"/"1"/"2") only to
-        // transmit targets and the receive phase center ("RX") only to receive targets; TRX
-        // targets (combined tx+rx) get both.
+        // Prefer the per-subarray internal lever arms stored in the installation text;
+        // fill any gaps (e.g. an EM2040P single-head file only stores the port
+        // subarray) from the hardcoded model preset. Attach the transmit subarrays
+        // ("0"/"1"/"2") only to transmit targets and the receive phase center ("RX")
+        // only to receive targets; TRX targets (combined tx+rx) get both.
         {
             auto subarrays = navigation::SensorConfiguration::get_model_subarray_offsets(
                 param.get_system_name());
@@ -353,10 +385,10 @@ class KMALLConfigurationDataInterfacePerFile
             }
         }
 
-        // NOTE: the .kmall IIP installation text has no field equivalent to the .all "SHC"
-        // (transducer depth sound speed source), so
-        // use_surface_sound_speed_in_sound_velocity_profile is left at its default (true =
-        // use the measured surface sound speed).
+        // NOTE: the .kmall IIP installation text has no field equivalent to the .all
+        // "SHC" (transducer depth sound speed source), so
+        // use_surface_sound_speed_in_sound_velocity_profile is left at its default
+        // (true = use the measured surface sound speed).
 
         return config;
     }
@@ -392,14 +424,15 @@ class KMALLConfigurationDataInterfacePerFile
                             this->get_file_nr(),
                             this->get_file_path()));
 
-        // TODO: this should be handled more gracefully, e.g., by allowing the user to select
-        // which datagram to use or
+        // TODO: this should be handled more gracefully, e.g., by allowing the user to
+        // select which datagram to use or
         //  by using a buffered where pings choose the last datagram issued before their
         //  timestamp.
         if (datagram_infos.size() > 1)
             std::cerr << fmt::format(
                              "WARNING: read_installation_parameters: There are multiple ({}) "
-                             "installation parameters datagrams in file nr {} [{}]! Defaulting to "
+                             "installation parameters datagrams in file nr {} [{}]! "
+                             "Defaulting to "
                              "the last one.",
                              datagram_infos.size(),
                              this->get_file_nr(),

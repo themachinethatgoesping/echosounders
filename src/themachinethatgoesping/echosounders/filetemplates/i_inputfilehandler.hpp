@@ -24,10 +24,10 @@
 #include <fmt/format.h>
 
 /* themachinethatgoesping includes */
+#include <themachinethatgoesping/tools/classhelper/fixedstring.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include <themachinethatgoesping/tools/exceptions/version_error.hpp>
-
 
 #include "datacontainers/datagramcontainer.hpp"
 #include "datainterfaces/i_datagraminterface.hpp"
@@ -38,14 +38,19 @@
 #include "datatypes/filecache.hpp"
 #include "internal/inputfilemanager.hpp"
 
+// TEST reported c++ standard
+// #define STR2(x) #x
+// #define STR(x)  STR2(x)
+// #pragma message("DIAGNOSTIC: Current C++ standard: " STR(__cplusplus))
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
-
 template<typename t_DatagramBase, ///< the datagram base class which should
                                   ///< contain the header and functions
                                   ///< specified in the DatagramBase interface
-         typename t_DatagramInterface>
+         typename t_DatagramInterface,
+         tools::classhelper::FixedString FilePackageCacheName = "FilePackageIndex">
 class I_InputFileHandler
 {
   public:
@@ -60,6 +65,9 @@ class I_InputFileHandler
         typename datatypes::cache_structures::FileInfos<t_DatagramIdentifier, t_ifstream>;
     using FilePackageIndex =
         typename datatypes::cache_structures::FilePackageIndex<t_DatagramIdentifier>;
+
+    // name of the cache section that stores the FilePackageIndex (from the FixedString NTTP)
+    static inline const std::string __FilePackageCacheName__ = FilePackageCacheName.str();
 
   protected:
     std::shared_ptr<internal::InputFileManager<t_ifstream>> _input_file_manager =
@@ -135,7 +143,9 @@ class I_InputFileHandler
         this->init_interfaces(force, progress_bar.get(), mp_cores);
     }
 
-    virtual void init_interfaces(bool force, tools::progressbars::I_ProgressBar& progress_bar, int mp_cores = 1) = 0;
+    virtual void init_interfaces(bool                                force,
+                                 tools::progressbars::I_ProgressBar& progress_bar,
+                                 int                                 mp_cores = 1) = 0;
 
     /* access containers */
     const auto& datagram_interface() const { return _datagram_interface; }
@@ -232,15 +242,15 @@ class I_InputFileHandler
         datatypes::FileCache file_cache(index_path,
                                         file_path,
                                         std::filesystem::file_size(file_path),
-                                        { "FilePackageIndex" });
+                                        { __FilePackageCacheName__ });
 
-        if (file_cache.has_cache("FilePackageIndex"))
+        if (file_cache.has_cache(__FilePackageCacheName__))
         {
             bool package_index_initialized = false;
             try
             {
                 auto file_package_index =
-                    file_cache.get_from_cache<FilePackageIndex>("FilePackageIndex");
+                    file_cache.get_from_cache<FilePackageIndex>(__FilePackageCacheName__);
 
                 package_index_initialized = true;
 
@@ -307,7 +317,7 @@ class I_InputFileHandler
 
         // add to cache
         FilePackageIndex file_package_index(file_info);
-        file_cache.add_to_cache("FilePackageIndex", file_package_index);
+        file_cache.add_to_cache(__FilePackageCacheName__, file_package_index);
         _datagram_interface.add_datagram_infos(file_info.datagram_infos);
 
         // update cache file
@@ -445,15 +455,18 @@ class I_InputFileHandler
 
   public:
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("I_InputFileHandler", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "I_InputFileHandler", float_precision, superscript_exponents);
 
         printer.register_section("File infos");
         printer.append(_input_file_manager->__printer__(float_precision, superscript_exponents));
 
         printer.register_section("Detected datagrams", '^');
-        printer.append(_datagram_interface.__printer__(float_precision, superscript_exponents), true);
+        printer.append(_datagram_interface.__printer__(float_precision, superscript_exponents),
+                       true);
         return printer;
     }
 

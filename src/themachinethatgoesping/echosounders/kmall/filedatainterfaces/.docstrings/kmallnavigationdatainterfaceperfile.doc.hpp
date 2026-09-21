@@ -1,4 +1,4 @@
-//sourcehash: c0b51c20516e2f913dc787dbbd867dace37f6038a09322e65d75e86561eb634f
+//sourcehash: 890c3dc5b06202ecafea4807a21f41146f59796e5a87f92c6f4463c6c9e64551
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -59,9 +59,8 @@ Returns:
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLNavigationDataInterfacePerFile_packet_timestamp_in_range =
 R"doc(Internal function to check if a timestamp is within the allowed time
-range If the timestamp is equal to the previous one, it is ignored
-(return false). If the timestamp is smaller than the previous one, an
-exception is thrown.
+range If the timestamp is equal or smaller to the previous one, it
+will be sorted with a warning (return false).
 
 Args:
     times: vector with previous timestamps

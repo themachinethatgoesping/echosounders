@@ -38,12 +38,14 @@ template<typename t_ifstream>
 class KMALLFileHandler
     : public filetemplates::I_InputFileHandler<
           datagrams::KMALLDatagram,
-          filedatainterfaces::KMALLDatagramInterface<t_ifstream>>
+          filedatainterfaces::KMALLDatagramInterface<t_ifstream>,
+          "KMALLFilePackageIndex_V1">
 {
   public:
     using t_base =
         filetemplates::I_InputFileHandler<datagrams::KMALLDatagram,
-                                          filedatainterfaces::KMALLDatagramInterface<t_ifstream>>;
+                                          filedatainterfaces::KMALLDatagramInterface<t_ifstream>,
+                                          "KMALLFilePackageIndex_V1">;
 
     // ----- types -----
     using t_DatagramDataInterface =
@@ -271,7 +273,7 @@ class KMALLFileHandler
     using t_base::init_interfaces;
     void init_interfaces([[maybe_unused]] bool                                force,
                          [[maybe_unused]] tools::progressbars::I_ProgressBar& progress_bar,
-                         int mp_cores = 1) final
+                         int                                                  mp_cores = 1) final
     {
         auto number_of_primary_files = _datagramdata_interface->per_primary_file().size();
         progress_bar.init(
@@ -297,7 +299,8 @@ class KMALLFileHandler
 
         // std::cout << std::endl; // TODO: remove this workaround
         progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping interface"));
-        _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true, mp_cores);
+        _ping_interface->init_from_file(
+            this->get_index_paths(), force, progress_bar, true, mp_cores);
 
         progress_bar.close(std::string("Done"));
     }
@@ -434,14 +437,22 @@ class KMALLFileHandler
                datagram_info,
         size_t offset)
     {
-        if (datagram_info->get_extra_infos().size() != 2)
+        if (datagram_info->get_extra_infos().size() != 4)
         {
             // read the ping counter
             auto& ifs = datagram_info->get_stream_and_seek(offset); // offset=16 bytes (header size)
-            uint16_t ping_counter;
-            ifs.read(reinterpret_cast<char*>(&ping_counter), sizeof(ping_counter));
+            struct
+            {
+                uint16_t ping_count;
+                uint8_t  rx_fans_per_ping;
+                uint8_t  rx_fan_index;
+            } tmp;
 
-            datagram_info->template add_extra_info<uint16_t>(ping_counter);
+            ifs.read(reinterpret_cast<char*>(&tmp), sizeof(tmp));
+
+            datagram_info->template add_extra_info<uint16_t>(tmp.ping_count);
+            datagram_info->template add_extra_info<uint8_t>(tmp.rx_fans_per_ping);
+            datagram_info->template add_extra_info<uint8_t>(tmp.rx_fan_index);
         }
     }
 };
