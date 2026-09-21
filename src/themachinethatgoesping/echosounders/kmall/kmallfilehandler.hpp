@@ -39,13 +39,13 @@ class KMALLFileHandler
     : public filetemplates::I_InputFileHandler<
           datagrams::KMALLDatagram,
           filedatainterfaces::KMALLDatagramInterface<t_ifstream>,
-          "KMALLFilePackageIndex_V1">
+          "KMALLFilePackageIndex_v1">
 {
   public:
     using t_base =
         filetemplates::I_InputFileHandler<datagrams::KMALLDatagram,
                                           filedatainterfaces::KMALLDatagramInterface<t_ifstream>,
-                                          "KMALLFilePackageIndex_V1">;
+                                          "KMALLFilePackageIndex_v1">;
 
     // ----- types -----
     using t_DatagramDataInterface =
@@ -375,7 +375,7 @@ class KMALLFileHandler
             case t_KMALLDatagramIdentifier::M_RANGE_AND_DEPTH:
                 [[fallthrough]];
             case t_KMALLDatagramIdentifier::M_WATER_COLUMN:
-                add_ping_counter_extra_info(datagram_info, 26);
+                add_ping_counter_extra_info(datagram_info, 20);
                 _ping_interface->add_datagram_info(datagram_info);
                 break;
 
@@ -437,22 +437,14 @@ class KMALLFileHandler
                datagram_info,
         size_t offset)
     {
-        if (datagram_info->get_extra_infos().size() != 4)
+        if (datagram_info->get_extra_infos().size() !=
+            sizeof(datagrams::KMALLMultibeamDatagram::SCommon))
         {
             // read the ping counter
             auto& ifs = datagram_info->get_stream_and_seek(offset); // offset=16 bytes (header size)
-            struct
-            {
-                uint16_t ping_count;
-                uint8_t  rx_fans_per_ping;
-                uint8_t  rx_fan_index;
-            } tmp;
 
-            ifs.read(reinterpret_cast<char*>(&tmp), sizeof(tmp));
-
-            datagram_info->template add_extra_info<uint16_t>(tmp.ping_count);
-            datagram_info->template add_extra_info<uint8_t>(tmp.rx_fans_per_ping);
-            datagram_info->template add_extra_info<uint8_t>(tmp.rx_fan_index);
+            datagram_info->template add_extra_info_from_stream<t_ifstream>(
+                ifs, sizeof(datagrams::KMALLMultibeamDatagram::SCommon));
         }
     }
 };

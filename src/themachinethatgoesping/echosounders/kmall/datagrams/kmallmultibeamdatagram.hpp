@@ -34,7 +34,7 @@ class KMALLMultibeamDatagram : public KMALLDatagram
     static constexpr size_t __size             = 4 * sizeof(uint16_t) + 8 * sizeof(uint8_t);
     static constexpr size_t __size_no_mpart    = 2 * sizeof(uint16_t) + 8 * sizeof(uint8_t);
 
-  protected:
+  public:
 #pragma pack(push, 4) // force 4-byte alignment
     struct SCommon
     {
@@ -55,7 +55,10 @@ class KMALLMultibeamDatagram : public KMALLDatagram
         uint8_t  algorithm_type;           ///< Algorithm type used for this ping
 
         bool operator==(const SCommon& other) const = default;
-    } _scommon;
+    };
+
+  protected:
+    struct SCommon _scommon;
 #pragma pack(pop)
 
   public:
@@ -120,8 +123,8 @@ class KMALLMultibeamDatagram : public KMALLDatagram
     inline void __read_multibeamdatagram_no_mpart__(std::istream& is)
     {
         is.read(reinterpret_cast<char*>(&_scommon.bytes_content), __size_no_mpart);
-        _scommon.number_of_datagrams=0;
-        _scommon.datagram_number=0;
+        _scommon.number_of_datagrams = 0;
+        _scommon.datagram_number     = 0;
     }
     inline void to_stream_no_mpart(std::ostream& os) const
     {

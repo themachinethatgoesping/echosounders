@@ -48,6 +48,12 @@ class KongsbergAllPingDataInterfacePerFile
         KongsbergAllEnvironmentDataInterface<t_ifstream>,
         filedatacontainers::KongsbergAllPingContainer<t_ifstream>>;
 
+    struct t_KongsbergAllExtraInfoStruct
+    {
+        uint16_t ping_counter;
+        uint16_t serial_number;
+    };
+
   public:
     KongsbergAllPingDataInterfacePerFile()
         : t_base("KongsbergAllPingDataInterfacePerFile")
@@ -118,8 +124,7 @@ class KongsbergAllPingDataInterfacePerFile
             environment_data_interface_for_file.has_soundspeed_profiles();
 
         std::map<uint16_t, std::shared_ptr<size_t>> last_runtime_parameter_index_per_serial_number;
-        std::map<uint16_t, std::shared_ptr<size_t>>
-            last_soundspeed_profile_index_per_serial_number;
+        std::map<uint16_t, std::shared_ptr<size_t>> last_soundspeed_profile_index_per_serial_number;
 
         t_ping base_ping;
         base_ping.file_data().set_primary_file_nr(this->get_file_nr());
@@ -142,30 +147,34 @@ class KongsbergAllPingDataInterfacePerFile
                     [[fallthrough]];
                 case t_KongsbergAllDatagramIdentifier::WatercolumnDatagram: {
                     {
-                        uint16_t ping_counter, serial_number;
-                        this->read_extra_infos(datagram_ptr, ping_counter, serial_number);
+                        const t_KongsbergAllExtraInfoStruct& extra_info =
+                            this->read_extra_infos(datagram_ptr);
 
                         // create a new ping if it does not exist
-                        auto& pings_for_counter = pings_by_counter_by_id[ping_counter];
-                        auto ping_it = pings_for_counter.find(serial_number);
+                        auto& pings_for_counter = pings_by_counter_by_id[extra_info.ping_counter];
+                        auto  ping_it           = pings_for_counter.find(extra_info.serial_number);
                         if (ping_it == pings_for_counter.end())
                         {
                             auto [inserted_it, _] = pings_for_counter.emplace(
-                                serial_number, std::make_shared<t_ping>(base_ping.deep_copy()));
+                                extra_info.serial_number,
+                                std::make_shared<t_ping>(base_ping.deep_copy()));
                             ping_it = inserted_it;
-                            ping_it->second->file_data().set_file_ping_counter(ping_counter);
+                            ping_it->second->file_data().set_file_ping_counter(
+                                extra_info.ping_counter);
 
                             // ensure last_index is pre-initialized (fix: null shared_ptr was
                             // never updated by get_runtime_parameters)
-                            auto& last_idx = last_runtime_parameter_index_per_serial_number[serial_number];
+                            auto& last_idx =
+                                last_runtime_parameter_index_per_serial_number[extra_info
+                                                                                   .serial_number];
                             if (!last_idx)
                                 last_idx = std::make_shared<size_t>(0);
 
                             auto rp = configuration_data_interface_for_file.get_runtime_parameters(
-                                    serial_number,
-                                    ping_counter,
-                                    ping_it->second->get_timestamp(),
-                                    last_idx);
+                                extra_info.serial_number,
+                                extra_info.ping_counter,
+                                ping_it->second->get_timestamp(),
+                                last_idx);
 
                             ping_it->second->file_data().set_runtime_parameters(std::move(rp));
 
@@ -174,27 +183,23 @@ class KongsbergAllPingDataInterfacePerFile
                             // are optional in .all files.
                             if (soundspeed_profiles_available)
                             {
-                                auto& last_ssp_idx =
-                                    last_soundspeed_profile_index_per_serial_number[serial_number];
+                                auto& last_ssp_idx = last_soundspeed_profile_index_per_serial_number
+                                    [extra_info.serial_number];
                                 if (!last_ssp_idx)
                                     last_ssp_idx = std::make_shared<size_t>(0);
 
-                                auto ssp = environment_data_interface_for_file
-                                               .get_soundspeed_profile(
-                                                   ping_it->second->get_timestamp(),
-                                                   last_ssp_idx);
+                                auto ssp =
+                                    environment_data_interface_for_file.get_soundspeed_profile(
+                                        ping_it->second->get_timestamp(), last_ssp_idx);
 
-                                ping_it->second->file_data().set_soundspeed_profile(
-                                    std::move(ssp));
+                                ping_it->second->file_data().set_soundspeed_profile(std::move(ssp));
 
                                 // Also attach the converted SoundVelocityProfile
                                 // (raytracers2 form, absolute depth). Reuses the
                                 // same selection logic / shared search index.
                                 auto svp =
-                                    environment_data_interface_for_file
-                                        .get_sound_speed_profile(
-                                            ping_it->second->get_timestamp(),
-                                            last_ssp_idx);
+                                    environment_data_interface_for_file.get_sound_speed_profile(
+                                        ping_it->second->get_timestamp(), last_ssp_idx);
                                 ping_it->second->file_data().set_sound_speed_profile(
                                     std::move(svp));
                             }
@@ -340,9 +345,8 @@ class KongsbergAllPingDataInterfacePerFile
     }
 
   private:
-    void read_extra_infos(const typename t_base::type_DatagramInfo_ptr& datagram_ptr,
-                          uint16_t&                                     ping_counter,
-                          uint16_t&                                     serial_number)
+    const t_KongsbergAllExtraInfoStruct& read_extra_infos(
+        const typename t_base::type_DatagramInfo_ptr& datagram_ptr)
     {
         if (datagram_ptr->get_extra_infos().size() != 4)
             throw std::runtime_error(
@@ -352,8 +356,7 @@ class KongsbergAllPingDataInterfacePerFile
                             datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
                             datagram_ptr->get_file_pos()));
 
-        ping_counter  = datagram_ptr->template get_extra_info<uint16_t>(0);
-        serial_number = datagram_ptr->template get_extra_info<uint16_t>(sizeof(uint16_t));
+        return datagram_ptr->template get_extra_info<t_KongsbergAllExtraInfoStruct>();
     }
 
     class KongsbergPingCacheHandler

@@ -23,8 +23,6 @@
 #include <fmt/format.h>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-
-
 #include "../internal/inputfilemanager.hpp"
 
 namespace themachinethatgoesping {
@@ -80,15 +78,47 @@ class DatagramInfoData
         set_extra_info(offset, extra_info);
     }
 
-    const std::string& get_extra_infos() const { return _extra_infos; }
-    template<typename t_ExtraInfo>
-    t_ExtraInfo get_extra_info(size_t offset) const
+    template<typename t_ifstream>
+    void add_extra_info_from_stream(t_ifstream& ifs, const size_t size)
     {
-        if (offset + sizeof(t_ExtraInfo) > _extra_infos.size())
-            throw std::runtime_error(
-                fmt::format("DatagramInfoData: extra info at offset {} is not available", offset));
+        _extra_infos.resize(size);
 
-        return reinterpret_cast<const t_ExtraInfo*>(_extra_infos.data() + offset)[0];
+        ifs.read(_extra_infos.data(), size);
+    }
+
+    template<typename t_ifstream>
+    void add_extra_info_from_stream(t_ifstream& ifs, const size_t size, const size_t offset)
+    {
+        _extra_infos.resize(offset + size);
+
+        ifs.read(_extra_infos.data() + offset, size);
+    }
+
+    const std::string& get_extra_infos() const { return _extra_infos; }
+
+    template<typename t_ExtraInfo, size_t ExtraInfo_size = sizeof(t_ExtraInfo)>
+    const t_ExtraInfo& get_extra_info() const
+    {
+        if (ExtraInfo_size > _extra_infos.size())
+            throw std::runtime_error(
+                fmt::format("DatagramInfoData: extra info at offset 0 is not available ({} > {})",
+                            ExtraInfo_size,
+                            _extra_infos.size()));
+
+        return *reinterpret_cast<const t_ExtraInfo*>(_extra_infos.data());
+    }
+
+    template<typename t_ExtraInfo, size_t ExtraInfo_size = sizeof(t_ExtraInfo)>
+    const t_ExtraInfo& get_extra_info(const size_t offset) const
+    {
+        if (offset + ExtraInfo_size > _extra_infos.size())
+            throw std::runtime_error(
+                fmt::format("DatagramInfoData: extra info at offset {}  ({} > {})",
+                            offset,
+                            ExtraInfo_size,
+                            _extra_infos.size()));
+
+        return *reinterpret_cast<const t_ExtraInfo*>(_extra_infos.data() + offset);
     }
 
     bool operator==(const t_base&) const = default;
@@ -105,6 +135,9 @@ class DatagramInfoData
         return data;
     }
 
+    // TODO: this is almost certainly slower than reading without the extrainfor workaround
+    // We should consider reworking this structure if performance for re-reading the index
+    // becomes a problem
     static DatagramInfoData<t_DatagramIdentifier> from_stream(std::istream& is)
     {
         DatagramInfoData<t_DatagramIdentifier> data = from_stream_no_extra_infos(is);
@@ -127,9 +160,11 @@ class DatagramInfoData
     }
 
     // ----- objectprinter -----
-    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision, bool superscript_exponents) const
+    tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
+                                                  bool         superscript_exponents) const
     {
-        tools::classhelper::ObjectPrinter printer("DatagramInfoData", float_precision, superscript_exponents);
+        tools::classhelper::ObjectPrinter printer(
+            "DatagramInfoData", float_precision, superscript_exponents);
 
         // raw values
         printer.register_value("file_pos", size_t(_file_pos));

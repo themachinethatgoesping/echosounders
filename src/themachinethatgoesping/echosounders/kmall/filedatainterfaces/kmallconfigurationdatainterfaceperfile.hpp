@@ -55,6 +55,10 @@ class KMALLConfigurationDataInterfacePerFile
     std::map<int, std::vector<boost::flyweight<datagrams::IOpRuntime>>>
         _runtime_parameters_by_system_serial_number;
 
+    std::vector<std::string> _transducer_id_by_reciever_number;
+    std::vector<std::string> _reciver_id_by_reciever_number;
+    std::vector<std::string> _transmitter_id_by_reciever_number;
+
     // Cached search keys for fast lookup (avoid flyweight dereference in hot path)
     std::map<int, std::vector<double>> _runtime_timestamps_by_ssn;
 
@@ -97,21 +101,27 @@ class KMALLConfigurationDataInterfacePerFile
         _active_attitude_sensor_number = number;
     }
 
-    auto get_transducer_id() const
+    auto get_transducer_id(const int reciever_number) const
     {
-        for (const auto& target_id : this->get_sensor_configuration().get_target_ids())
+        if (reciever_number < 0 ||
+            reciever_number >= static_cast<int>(_transducer_id_by_reciever_number.size()))
         {
-            if (target_id.starts_with("TRX"))
-            {
-                return target_id;
-            }
+            if (_transducer_id_by_reciever_number.empty())
+                throw std::out_of_range(
+                    fmt::format("ERROR[KMALLConfigurationDataInterface::get_transducer_id]: No "
+                                "transducer ids found. Has interface been initialized?",
+                                this->get_file_nr(),
+                                this->get_file_path()));
+
+            throw std::out_of_range(
+                fmt::format("ERROR[KMALLConfigurationDataInterface::get_transducer_id]: Receiver "
+                            "number '{}' is out of range for file nr {} [{}]!",
+                            reciever_number,
+                            this->get_file_nr(),
+                            this->get_file_path()));
         }
 
-        throw std::runtime_error(
-            fmt::format("get_transducer_id: No transducer found in sensor configuration for file "
-                        "nr {} [{}]!",
-                        this->get_file_nr(),
-                        this->get_file_path()));
+        return _transducer_id_by_reciever_number[reciever_number];
     }
 
     // ----- runtime parameters -----
@@ -239,6 +249,10 @@ class KMALLConfigurationDataInterfacePerFile
         if (_active_attitude_sensor_number == 0)
             _active_attitude_sensor_number = param.get_active_attitude_sensor_number();
 
+        _transducer_id_by_reciever_number.clear();
+        _reciver_id_by_reciever_number.clear();
+        _transmitter_id_by_reciever_number.clear();
+
         // std::string system_name = param.get_system_name();
         // int pu_serial = param.get_system_serial_number();
 
@@ -252,6 +266,12 @@ class KMALLConfigurationDataInterfacePerFile
                 auto trx = param.get_transducer_offsets("TRAI_HD1");
                 config.add_target(trx.name, std::move(trx));
                 config.add_target("TRX-" + trx.name, std::move(trx));
+
+                // map channel id
+                _transducer_id_by_reciever_number.push_back("TRX-" + trx.name);
+                _transmitter_id_by_reciever_number.push_back(trx.name);
+                _reciver_id_by_reciever_number.push_back(trx.name);
+
                 break;
             }
             case t_KMALLSystemTransducerConfiguration::DualHead: {
@@ -262,6 +282,14 @@ class KMALLConfigurationDataInterfacePerFile
                 config.add_target(trx2.name, std::move(trx2));
                 config.add_target("TRX-" + trx1.name, std::move(trx1));
                 config.add_target("TRX-" + trx2.name, std::move(trx2));
+
+                // map channel id
+                _transducer_id_by_reciever_number.push_back("TRX-" + trx1.name);
+                _transducer_id_by_reciever_number.push_back("TRX-" + trx2.name);
+                _transmitter_id_by_reciever_number.push_back(trx1.name);
+                _transmitter_id_by_reciever_number.push_back(trx2.name);
+                _reciver_id_by_reciever_number.push_back(trx1.name);
+                _reciver_id_by_reciever_number.push_back(trx2.name);
                 break;
             }
             case t_KMALLSystemTransducerConfiguration::SingleTxSingleRx: {
@@ -271,6 +299,11 @@ class KMALLConfigurationDataInterfacePerFile
                 config.add_target(tx.name, std::move(tx));
                 config.add_target(rx.name, std::move(rx));
                 config.add_target(trx.name, std::move(trx));
+
+                // map channel id
+                _transducer_id_by_reciever_number.push_back(trx.name);
+                _transmitter_id_by_reciever_number.push_back(tx.name);
+                _reciver_id_by_reciever_number.push_back(rx.name);
                 break;
             }
             case t_KMALLSystemTransducerConfiguration::SingleTxDualRx: {
@@ -286,6 +319,13 @@ class KMALLConfigurationDataInterfacePerFile
                 config.add_target(rx2.name, std::move(rx2));
                 config.add_target(trx1.name, std::move(trx1));
                 config.add_target(trx2.name, std::move(trx2));
+
+                // map channel id
+                _transducer_id_by_reciever_number.push_back(trx1.name);
+                _transducer_id_by_reciever_number.push_back(trx2.name);
+                _transmitter_id_by_reciever_number.push_back(tx.name);
+                _reciver_id_by_reciever_number.push_back(rx1.name);
+                _reciver_id_by_reciever_number.push_back(rx2.name);
                 break;
             }
             case t_KMALLSystemTransducerConfiguration::DualTxDualRx: {
@@ -303,6 +343,14 @@ class KMALLConfigurationDataInterfacePerFile
                 config.add_target(rx2.name, std::move(rx2));
                 config.add_target(trx1.name, std::move(trx1));
                 config.add_target(trx2.name, std::move(trx2));
+
+                // map channel id
+                _transducer_id_by_reciever_number.push_back(trx1.name);
+                _transducer_id_by_reciever_number.push_back(trx2.name);
+                _transmitter_id_by_reciever_number.push_back(tx1.name);
+                _transmitter_id_by_reciever_number.push_back(tx2.name);
+                _reciver_id_by_reciever_number.push_back(rx1.name);
+                _reciver_id_by_reciever_number.push_back(rx2.name);
                 break;
             }
             default:
@@ -459,8 +507,13 @@ class KMALLConfigurationDataInterfacePerFile
         printer.register_value("_active_position_system_number", _active_position_system_number);
         printer.register_value("_active_attitude_sensor_number", _active_attitude_sensor_number);
         printer.register_value("_runtime_parameters_initialized", _runtime_parameters_initialized);
-        printer.register_value("Number of PU serial numbers with runtime parameters",
-                               _runtime_parameters_by_system_serial_number.size());
+
+        for (const auto& [system_serial_number, runtime_parameters] :
+             _runtime_parameters_by_system_serial_number)
+        {
+            printer.register_value(fmt::format("Runtime parameters [{}]", system_serial_number),
+                                   runtime_parameters.size());
+        }
 
         return printer;
     }

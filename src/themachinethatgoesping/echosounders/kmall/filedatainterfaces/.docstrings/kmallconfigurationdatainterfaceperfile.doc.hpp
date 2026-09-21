@@ -1,4 +1,4 @@
-//sourcehash: 98c8cb9b1d4892fdc9db0044f00e88fa1dedb843734edf90d1570ac745fee07f
+//sourcehash: da4922a20373088e35ee16b4f87e72d37d5a9dd621b49f0d122eabe2528f2806
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -89,6 +89,8 @@ Returns:
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_reciver_id_by_reciever_number = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_parameters_by_system_serial_number = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_runtime_parameters_initialized = R"doc()doc";
@@ -112,6 +114,10 @@ R"doc(Set the active position system number
 
 Args:
     number:)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_transducer_id_by_reciever_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_transmitter_id_by_reciever_number = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

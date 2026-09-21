@@ -1,4 +1,4 @@
-//sourcehash: b45641ef814b82e59144f8a858a2774536aad77c83e4643d371c89b7cf2a876f
+//sourcehash: 4e8e522d957ef87d7eda39c822498d90bf6542ffd0cd3d7d3d1d30218dc21fbb
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -88,6 +88,12 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_read_extra_infos = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_read_pings = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_KongsbergAllExtraInfoStruct = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_KongsbergAllExtraInfoStruct_ping_counter = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_t_KongsbergAllExtraInfoStruct_serial_number = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -38,12 +38,14 @@ template<typename t_ifstream>
 class KongsbergAllFileHandler
     : public filetemplates::I_InputFileHandler<
           datagrams::KongsbergAllDatagram,
-          filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>>
+          filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>,
+          "KongsbergAllFilePackageIndex_v1">
 {
   public:
     using t_base = filetemplates::I_InputFileHandler<
         datagrams::KongsbergAllDatagram,
-        filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>>;
+        filedatainterfaces::KongsbergAllDatagramInterface<t_ifstream>,
+        "KongsbergAllFilePackageIndex_v1">;
 
     // ----- types -----
     using t_DatagramDataInterface =
@@ -72,22 +74,20 @@ class KongsbergAllFileHandler
         filetemplates::datatypes::DatagramInfo_ptr<t_KongsbergAllDatagramIdentifier, t_ifstream>
             datagram_info)
     {
-        if (datagram_info->get_extra_infos().size() != 4)
+        constexpr size_t extra_info_size = sizeof(uint16_t) + sizeof(uint16_t);
+
+        if (datagram_info->get_extra_infos().size() != extra_info_size)
         {
             // read the ping counter
-            auto& ifs =
-                datagram_info->get_stream_and_seek(16); // offset=16 bytes (header size)
+            auto& ifs = datagram_info->get_stream_and_seek(16); // offset=16 bytes (header size)
 
-            struct
-            {
-                uint16_t ping_counter;
-                uint16_t serial_number;
-            } counter_snumber;
-
-            ifs.read(reinterpret_cast<char*>(&counter_snumber), sizeof(counter_snumber));
-
-            datagram_info->template add_extra_info<uint16_t>(counter_snumber.ping_counter);
-            datagram_info->template add_extra_info<uint16_t>(counter_snumber.serial_number);
+            // read the following extra info: ping counter and serial number
+            // struct
+            // {
+            //     uint16_t ping_counter;
+            //     uint16_t serial_number;
+            // } counter_snumber;
+            datagram_info->template add_extra_info_from_stream<t_ifstream>(ifs, extra_info_size);
         }
     }
 
@@ -282,23 +282,25 @@ class KongsbergAllFileHandler
 
     void setup_interfaces()
     {
-        //auto t_start = std::chrono::high_resolution_clock::now();
-        // link wcd/all files
+        // auto t_start = std::chrono::high_resolution_clock::now();
+        //  link wcd/all files
         link_all_and_wcd_files();
-        //auto t_end = std::chrono::high_resolution_clock::now();
+        // auto t_end = std::chrono::high_resolution_clock::now();
 
-        //double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+        // double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end -
+        // t_start).count();
 
         // TODO: such messages should be logged, could also be part of the object printer
-        // std::cerr << fmt::format("Linking wcd/all files took: {}ms", elapsed_time_ms) << std::endl;
-        // std::cerr << fmt::format("Linking wcd/all files took: {}µs", elapsed_time_ms / 1000)
+        // std::cerr << fmt::format("Linking wcd/all files took: {}ms", elapsed_time_ms) <<
+        // std::endl; std::cerr << fmt::format("Linking wcd/all files took: {}µs", elapsed_time_ms /
+        // 1000)
         //           << std::endl;
     }
 
     using t_base::init_interfaces;
     void init_interfaces([[maybe_unused]] bool               force,
                          tools::progressbars::I_ProgressBar& progress_bar,
-                         int mp_cores = 1) final
+                         int                                 mp_cores = 1) final
     {
         auto number_of_primary_files = _configuration_interface->per_primary_file().size();
         progress_bar.init(
@@ -313,8 +315,7 @@ class KongsbergAllFileHandler
         progress_bar.tick();
 
         progress_bar.set_prefix("Initializing navigation");
-        _navigation_interface->init_from_file(
-            this->get_index_paths(), force, progress_bar, true);
+        _navigation_interface->init_from_file(this->get_index_paths(), force, progress_bar, true);
 
         progress_bar.set_prefix("Initializing environment");
         _environment_interface->init_from_file(this->get_index_paths(), force, progress_bar);
@@ -325,7 +326,8 @@ class KongsbergAllFileHandler
 
         // std::cout << std::endl; // TODO: remove this workaround
         progress_bar.init(0., number_of_primary_files, fmt::format("Initializing ping interface"));
-        _ping_interface->init_from_file(this->get_index_paths(), force, progress_bar, true, mp_cores);
+        _ping_interface->init_from_file(
+            this->get_index_paths(), force, progress_bar, true, mp_cores);
 
         progress_bar.close(std::string("Done"));
     }

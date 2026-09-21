@@ -713,7 +713,6 @@ class KongsbergAllConfigurationDataInterfacePerFile
                 datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
                 datagram_ptr->get_file_pos()));
 
-        // ping_counter  = datagram_ptr->template get_extra_info<uint16_t>(0);
         return datagram_ptr->template get_extra_info<uint16_t>(sizeof(uint16_t));
     }
 };

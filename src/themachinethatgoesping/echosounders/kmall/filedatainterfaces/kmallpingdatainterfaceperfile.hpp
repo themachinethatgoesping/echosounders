@@ -89,7 +89,6 @@ class KMALLPingDataInterfacePerFile
 
         t_ping base_ping;
         base_ping.file_data().set_primary_file_nr(this->get_file_nr());
-        base_ping.set_channel_id(configuration_data_interface_for_file.get_transducer_id());
 
         for (const auto& datagram_ptr : this->_datagram_infos_all)
         {
@@ -102,28 +101,34 @@ class KMALLPingDataInterfacePerFile
                 case t_KMALLDatagramIdentifier::M_WATER_COLUMN: {
                     {
                         const uint16_t serial_number = 40;
-                        uint16_t       ping_count;
-                        uint8_t        rx_fans_per_ping, rx_fan_index;
-                        this->read_extra_infos(
-                            datagram_ptr, ping_count, rx_fans_per_ping, rx_fan_index);
+
+                        // read extra info (zero copy)
+                        const datagrams::KMALLMultibeamDatagram::SCommon& extra_info =
+                            this->read_extra_infos(datagram_ptr);
 
                         // create a new ping if it does not exist
-                        auto& pings_for_counter = pings_by_counter_by_id[ping_count];
+                        auto& pings_for_counter = pings_by_counter_by_id[extra_info.ping_count];
                         // this is for dual rx: serial numbver is the same but rx_fan_index changes
-                        //auto  ping_it           = pings_for_counter.find(serial_number);
-                        auto  ping_it           = pings_for_counter.find(rx_fan_index);
+                        // auto  ping_it           = pings_for_counter.find(serial_number);
+                        auto ping_it = pings_for_counter.find(extra_info.rx_fan_index);
                         if (ping_it == pings_for_counter.end())
                         {
                             auto [inserted_it, _] = pings_for_counter.emplace(
-                                rx_fan_index, std::make_shared<t_ping>(base_ping.deep_copy()));
+                                extra_info.rx_fan_index,
+                                std::make_shared<t_ping>(base_ping.deep_copy()));
                             ping_it = inserted_it;
 
-                            ping_it->second->file_data().set_file_ping_counter(ping_count);
+                            ping_it->second->set_channel_id(
+                                configuration_data_interface_for_file.get_transducer_id(
+                                    extra_info.rx_transducer_ind));
+
+                            ping_it->second->file_data().set_file_ping_counter(
+                                extra_info.ping_count);
 
                             ping_it->second->file_data().set_runtime_parameters(
                                 configuration_data_interface_for_file.get_runtime_parameters(
                                     serial_number,
-                                    ping_count,
+                                    extra_info.ping_count,
                                     ping_it->second->get_timestamp(),
                                     last_runtime_parameter_index_per_serial_number[serial_number]));
                         }
@@ -262,12 +267,11 @@ class KMALLPingDataInterfacePerFile
     }
 
   private:
-    void read_extra_infos(const typename t_base::type_DatagramInfo_ptr& datagram_ptr,
-                          uint16_t&                                     ping_count,
-                          uint8_t&                                      rx_fans_per_ping,
-                          uint8_t&                                      rx_fan_index)
+    const datagrams::KMALLMultibeamDatagram::SCommon& read_extra_infos(
+        const typename t_base::type_DatagramInfo_ptr& datagram_ptr)
     {
-        if (datagram_ptr->get_extra_infos().size() != 4)
+        if (datagram_ptr->get_extra_infos().size() !=
+            sizeof(datagrams::KMALLMultibeamDatagram::SCommon))
             throw std::runtime_error(
                 fmt::format("KongsbergAllPingDataInterfacePerFile::read_pings: "
                             "DatagramInfoData: extra info for datagram {} at pos "
@@ -275,10 +279,7 @@ class KMALLPingDataInterfacePerFile
                             datagram_type_to_string(datagram_ptr->get_datagram_identifier()),
                             datagram_ptr->get_file_pos()));
 
-        ping_count       = datagram_ptr->template get_extra_info<uint16_t>(0);
-        rx_fans_per_ping = datagram_ptr->template get_extra_info<uint8_t>(sizeof(uint16_t));
-        rx_fan_index =
-            datagram_ptr->template get_extra_info<uint8_t>(sizeof(uint16_t) + sizeof(uint8_t));
+        return datagram_ptr->template get_extra_info<datagrams::KMALLMultibeamDatagram::SCommon>();
     }
 
     class KMALLPingCacheHandler

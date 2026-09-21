@@ -1,4 +1,4 @@
-//sourcehash: 50696bd6c7d3ca35a626ff5578df774fbfbdd66dbd354d46eb8237d684b6a985
+//sourcehash: 0f4fc0655801d6e9bd3bfc3cf8cd0f9167177c1a480d7825a935141fc1e01c17
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -55,6 +55,10 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_add_extra_info = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_add_extra_info_from_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_add_extra_info_from_stream_2 = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_datagram_identifier = R"doc(datagram type of this datagram)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_extra_infos = R"doc()doc";
@@ -68,6 +72,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_datagram_identifier = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_extra_info = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_extra_info_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_DatagramInfoData_get_extra_infos = R"doc()doc";
 
