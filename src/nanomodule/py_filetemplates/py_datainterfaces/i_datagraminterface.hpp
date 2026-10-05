@@ -5,7 +5,10 @@
 
 #pragma once
 
+#include <vector>
+
 #include <nanobind/nanobind.h>
+#include <nanobind/stl/vector.h>
 
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
@@ -27,7 +30,7 @@ namespace py_i_datagraminterface {
         I_DatagramInterface,                                                                       \
         ARG)
 
-template<typename T_BaseClass, typename T_PyClass>
+template<typename T_BaseClass, typename T_OptionDatagramIdentifier, typename T_PyClass>
 void add_InterfaceFunctions([[maybe_unused]] T_PyClass& cls)
 {
     namespace nb = nanobind;
@@ -51,7 +54,20 @@ void add_InterfaceFunctions([[maybe_unused]] T_PyClass& cls)
             &T_BaseClass::get_timestamp_range,
             DOC_DatagramInterface(get_timestamp_range));
 
-    cls.def("keys", &T_BaseClass::keys, DOC_DatagramInterface(keys));
+    // return the datagram identifiers as the format's OptionFrozen wrapper: the raw enum cannot be
+    // cast to python for values outside the registered set (proprietary record ids), whereas the
+    // option wrapper stores the raw value and round-trips back into datagrams()
+    cls.def(
+        "keys",
+        [](const T_BaseClass& self) {
+            const auto                              raw_keys = self.keys();
+            std::vector<T_OptionDatagramIdentifier> keys;
+            keys.reserve(raw_keys.size());
+            for (const auto& key : raw_keys)
+                keys.emplace_back(key);
+            return keys;
+        },
+        DOC_DatagramInterface(keys));
 }
 
 }
