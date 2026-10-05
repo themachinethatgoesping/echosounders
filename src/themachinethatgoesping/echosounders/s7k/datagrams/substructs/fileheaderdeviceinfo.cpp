@@ -29,6 +29,13 @@ void FileHeaderDeviceInfo::set_system_enumerator(uint16_t val)
     _system_enumerator = val;
 }
 
+// ----- operators -----
+bool FileHeaderDeviceInfo::operator==(const FileHeaderDeviceInfo& other) const
+{
+    return _device_identifier == other._device_identifier &&
+           _system_enumerator == other._system_enumerator;
+}
+
 // ----- objectprinter -----
 tools::classhelper::ObjectPrinter FileHeaderDeviceInfo::__printer__(
     unsigned int float_precision,

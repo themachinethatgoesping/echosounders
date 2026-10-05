@@ -44,7 +44,7 @@ class FileHeaderDeviceInfo
     void set_system_enumerator(uint16_t val);
 
     // ----- operators -----
-    bool operator==(const FileHeaderDeviceInfo& other) const = default;
+    bool operator==(const FileHeaderDeviceInfo& other) const;
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
