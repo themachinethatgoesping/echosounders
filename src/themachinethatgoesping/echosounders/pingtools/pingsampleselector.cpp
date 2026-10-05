@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <themachinethatgoesping/tools/classhelper/stream.hpp>
 #include <themachinethatgoesping/tools/pyhelper/pyindexer.hpp>
+#include <xtensor/core/xmath.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {
@@ -30,8 +31,9 @@ BeamSampleSelection PingSampleSelector::apply_selection(
         return selection;
     }
     
-    auto       number_of_samples_per_beam = ping_watercolumn.get_number_of_samples_per_beam();
-    auto       min_sample_nr_per_beam     = xt::zeros_like(number_of_samples_per_beam);
+    auto       number_of_samples_per_beam   = ping_watercolumn.get_number_of_samples_per_beam();
+    const auto first_sample_offset_pb       = ping_watercolumn.get_first_sample_offset_per_beam();
+    auto       min_sample_nr_per_beam       = first_sample_offset_pb; // absolute first sample per beam
 
     const auto beam_crosstrack_angles = ping_watercolumn.get_beam_crosstrack_angles();
     if (beam_crosstrack_angles.size() < number_of_beams)
@@ -42,21 +44,23 @@ BeamSampleSelection PingSampleSelector::apply_selection(
 
     if (_max_bottom_range_percent)
     {
-        const xt::xtensor<uint32_t, 1> bottom_range_samples =
-            ping_watercolumn.get_bottom_range_samples() *
-            (_max_bottom_range_percent.value() * 0.01f);
-
-        number_of_samples_per_beam =
-            xt::minimum(number_of_samples_per_beam, bottom_range_samples);
+        // get_bottom_range_samples() returns absolute sample numbers; subtract first_sample_offset
+        // to get relative counts (clamped to 0 when bottom is before beam start)
+        const xt::xtensor<uint32_t, 1> bottom_abs = ping_watercolumn.get_bottom_range_samples() *
+                                                     (_max_bottom_range_percent.value() * 0.01f);
+        const xt::xtensor<uint32_t, 1> bottom_rel = xt::eval(
+            xt::where(bottom_abs > first_sample_offset_pb,
+                      bottom_abs - first_sample_offset_pb,
+                      xt::zeros_like(bottom_abs)));
+        number_of_samples_per_beam = xt::minimum(number_of_samples_per_beam, bottom_rel);
     }
 
     if (_min_bottom_range_percent)
     {
-        const xt::xtensor<uint32_t, 1> bottom_range_samples =
-            ping_watercolumn.get_bottom_range_samples() *
-            (_min_bottom_range_percent.value() * 0.01f);
-
-        min_sample_nr_per_beam = xt::maximum(min_sample_nr_per_beam, bottom_range_samples);
+        // keep in absolute domain to match min_sample_nr_per_beam
+        const xt::xtensor<uint32_t, 1> bottom_abs = ping_watercolumn.get_bottom_range_samples() *
+                                                     (_min_bottom_range_percent.value() * 0.01f);
+        min_sample_nr_per_beam = xt::maximum(min_sample_nr_per_beam, bottom_abs);
     }
 
     // convert min/max beam numbers to indices (if set, and according to python negative
@@ -111,22 +115,34 @@ BeamSampleSelection PingSampleSelector::apply_selection(
         if (_max_beam_angle && beam_crosstrack_angles.unchecked(bn) > *_max_beam_angle)
             continue;
 
-        size_t number_of_samples = number_of_samples_per_beam.unchecked(bn);
+        const size_t first_sample_offset = first_sample_offset_pb.unchecked(bn);
+        size_t       number_of_samples  = number_of_samples_per_beam.unchecked(bn);
+
+        // Absolute sample numbers for this beam
         size_t min_sample_number =
             min_sample_nr_ping.value_or(min_sample_nr_per_beam.unchecked(bn));
-        size_t max_sample_number = max_sample_nr_ping.value_or(number_of_samples - 1);
+        size_t max_sample_number =
+            max_sample_nr_ping.value_or(first_sample_offset + number_of_samples - 1);
 
-        if (min_sample_number >= number_of_samples)
+        const size_t beam_last = first_sample_offset + number_of_samples - 1;
+        if (min_sample_number > beam_last)
             continue;
         if (min_sample_number < min_sample_nr_per_beam.unchecked(bn))
             min_sample_number = min_sample_nr_per_beam.unchecked(bn);
-        if (max_sample_number >= number_of_samples)
-            max_sample_number = number_of_samples - 1;
+        if (max_sample_number > beam_last)
+            max_sample_number = beam_last;
+        if (min_sample_number > max_sample_number)
+            continue;
+
+        // Convert to 0-based indices within beam storage for PyIndexer
+        const size_t rel_min = min_sample_number - first_sample_offset;
+        const size_t rel_max = max_sample_number - first_sample_offset;
 
         tools::pyhelper::PyIndexer sample_indexer(
-            number_of_samples, min_sample_number, max_sample_number + 1, _sample_step);
+            number_of_samples, rel_min, rel_max + 1, _sample_step);
 
-        selection.add_beam(bn, sample_indexer(0), sample_indexer(-1));
+        selection.add_beam(
+            bn, first_sample_offset + sample_indexer(0), first_sample_offset + sample_indexer(-1));
 
         bn++;
     }
