@@ -82,6 +82,8 @@ class KongsbergAllPingWatercolumn
     bool has_number_of_beams() const { return has_tx_signal_parameters(); }
 
     bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
+    // kongsbergall WC beam_crosstrack_angle is re vertical (roll stabilized, gravity-referenced)
+    bool has_beam_crosstrack_angles_in_world_frame() const override { return true; }
 
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
     get_tx_signal_parameters() const override

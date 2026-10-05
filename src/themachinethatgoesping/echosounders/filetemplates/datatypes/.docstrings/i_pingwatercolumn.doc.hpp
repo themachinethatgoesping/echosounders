@@ -1,4 +1,4 @@
-//sourcehash: 5a9ee9e656409d8603a8b66336db3fa80447c904b4abd0f58b1198b338b83c21
+//sourcehash: f5ece96c434d9150c109eae3a9344f124259f18cbdbcc5d5e4473a1a855954b8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -178,6 +178,12 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_av = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_crosstrack_angles = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_crosstrack_angles_in_world_frame =
+R"doc(Returns true if get_beam_crosstrack_angles() produces gravity-
+referenced (world-frame) angles. When false (default), angles are in
+the vessel/transducer frame and the raytracer must apply the sensor
+orientation (roll/pitch) to convert to world-frame.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_numbers_per_tx_sector = R"doc()doc";
 

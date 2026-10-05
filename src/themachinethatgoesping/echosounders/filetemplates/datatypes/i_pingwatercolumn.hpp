@@ -84,6 +84,10 @@ class I_PingWatercolumn : public I_PingCommon
     bool         has_beam_selection_all() const;
     virtual bool has_number_of_beams() const;
     virtual bool has_beam_crosstrack_angles() const;
+    /// Returns true if get_beam_crosstrack_angles() produces gravity-referenced (world-frame)
+    /// angles. When false (default), angles are in the vessel/transducer frame and the raytracer
+    /// must apply the sensor orientation (roll/pitch) to convert to world-frame.
+    virtual bool has_beam_crosstrack_angles_in_world_frame() const { return false; }
 
     virtual bool has_watercolumn_calibration() const;
     virtual bool has_multisectorwatercolumn_calibration() const;

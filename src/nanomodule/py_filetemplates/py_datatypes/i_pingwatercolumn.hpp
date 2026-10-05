@@ -89,6 +89,9 @@ void I_PingWatercolumn_add_interface(T_PyClass& cls)
                 &T_BaseClass::get_beam_crosstrack_angles),
             DOC_I_PingWatercolumn(get_beam_crosstrack_angles),
             nb::arg("beam_selection"));
+    cls.def("has_beam_crosstrack_angles_in_world_frame",
+            &T_BaseClass::has_beam_crosstrack_angles_in_world_frame,
+            DOC_I_PingWatercolumn(has_beam_crosstrack_angles_in_world_frame));
     cls.def("get_beam_alongtrack_angles",
             nb::overload_cast<>(&T_BaseClass::get_beam_alongtrack_angles),
             DOC_I_PingWatercolumn(get_beam_alongtrack_angles));

@@ -1,4 +1,4 @@
-//sourcehash: b87cbcd5401639ccf99e228db5910e4231556585be78a9abc8e78b6c36489d41
+//sourcehash: 4cd02680cb1813616387f14bbc891e4bf4ba84c116d1dd0bae2e423a8926047c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -98,6 +98,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_amplitudes = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_beam_crosstrack_angles = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_beam_crosstrack_angles_in_world_frame = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_beam_numbers_per_tx_sector = R"doc()doc";
 
