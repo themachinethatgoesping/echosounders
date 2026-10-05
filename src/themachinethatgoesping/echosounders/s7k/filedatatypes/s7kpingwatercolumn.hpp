@@ -8,6 +8,7 @@
 #include ".docstrings/s7kpingwatercolumn.doc.hpp"
 
 /* std includes */
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <limits>
@@ -160,10 +161,16 @@ class S7KPingWatercolumn
     xt::xtensor<float, 1> get_beam_crosstrack_angles(
         const pingtools::BeamSelection& selection) override
     {
-        // receive steering angles from the raw detection record (degrees), one value per beam
-        return index_beams(_file_data->get_rx_angle_in_degrees_per_beam_number(),
-                           selection.get_beam_numbers(),
-                           std::numeric_limits<float>::quiet_NaN());
+        // Receive steering angles from the raw detection record (degrees), one value per beam.
+        // The 7027 rx_angle is in the s7k sonar frame (+starboard, beam 0 = port); the ping/kmall
+        // crosstrack convention is +port, so negate. (MB-System negates rx_angle for the same
+        // reason.) These are vessel-frame angles -> has_beam_crosstrack_angles_in_world_frame()
+        // stays false so the raytracer/backtracer applies the roll.
+        auto angles = index_beams(_file_data->get_rx_angle_in_degrees_per_beam_number(),
+                                  selection.get_beam_numbers(),
+                                  std::numeric_limits<float>::quiet_NaN());
+        angles *= -1.f;
+        return angles;
     }
 
     xt::xtensor<float, 1> get_beam_alongtrack_angles(
@@ -274,9 +281,13 @@ class S7KPingWatercolumn
     xt::xtensor<uint32_t, 1> get_bottom_range_samples(
         const pingtools::BeamSelection& selection) override
     {
-        // detected bottom sample number per beam (fractional detection point rounded to samples)
+        // The 7027 detection_point is in the original (full-rate) sample domain, but the 7042
+        // water-column samples use the compressed (downsampled) rate.  Divide by the
+        // downsampling divisor to convert to the same sample-number domain as the WCI.
         const auto  detection_points = _file_data->get_detection_point_per_beam_number();
         const auto& beam_numbers     = selection.get_beam_numbers();
+        const float divisor =
+            float(std::max(uint8_t(1), _file_data->get_water_column().get_downsampling_divisor()));
 
         auto bottom_range_samples = xt::xtensor<uint32_t, 1>::from_shape({ beam_numbers.size() });
         for (size_t i = 0; i < beam_numbers.size(); ++i)
@@ -284,7 +295,7 @@ class S7KPingWatercolumn
             if (beam_numbers[i] < detection_points.size() &&
                 std::isfinite(detection_points.unchecked(beam_numbers[i])))
                 bottom_range_samples.unchecked(i) =
-                    uint32_t(detection_points.unchecked(beam_numbers[i]));
+                    uint32_t(detection_points.unchecked(beam_numbers[i]) / divisor);
             else
                 bottom_range_samples.unchecked(i) = 0;
         }

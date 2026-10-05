@@ -108,9 +108,13 @@ class S7KPingBottom
     xt::xtensor<float, 1> get_beam_crosstrack_angles(
         const pingtools::BeamSelection& selection) override
     {
-        return index_beams(_file_data->get_rx_angle_in_degrees_per_beam_number(),
-                           selection.get_beam_numbers(),
-                           std::numeric_limits<float>::quiet_NaN());
+        // 7027 rx_angle is +starboard (s7k sonar frame, beam 0 = port); ping convention is +port,
+        // so negate (see S7KPingWatercolumn::get_beam_crosstrack_angles).
+        auto angles = index_beams(_file_data->get_rx_angle_in_degrees_per_beam_number(),
+                                  selection.get_beam_numbers(),
+                                  std::numeric_limits<float>::quiet_NaN());
+        angles *= -1.f;
+        return angles;
     }
 
     xt::xtensor<float, 1> get_two_way_travel_times(
