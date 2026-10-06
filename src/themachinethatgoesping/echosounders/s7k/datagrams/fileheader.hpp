@@ -33,7 +33,7 @@ class FileHeader : public S7KDatagram
     static constexpr auto DatagramIdentifier = t_S7KDatagramIdentifier::FileHeader;
 
   protected:
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read/written as one block
     struct Content
     {
         uint64_t _file_identifier[2];    ///< unique file identifier (magic number)
@@ -51,7 +51,9 @@ class FileHeader : public S7KDatagram
     } _content;
 #pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content); // 316
+    static constexpr size_t __content_size = sizeof(Content); // 316 bytes (packed on-disk RTH)
+    static_assert(__content_size == 316,
+                  "s7k FileHeader (7200): Content must equal the 316-byte packed on-disk RTH");
 
     substructs::FileHeaderDeviceInfoContainer _devices; ///< device entries
 

@@ -55,7 +55,7 @@ class Navigation : public S7KDatagram
                                                                  t_vertical_reference_alt_names>;
 
   protected:
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read/written as one block
     struct Content
     {
         o_vertical_reference _vertical_reference; ///< 1 = ellipsoid, 2 = geoid, 3 = chart datum
@@ -74,7 +74,9 @@ class Navigation : public S7KDatagram
     } _content;
 #pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content);
+    static constexpr size_t __content_size = sizeof(Content); // 45 bytes (packed on-disk RTH)
+    static_assert(__content_size == 45,
+                  "s7k Navigation (1015): Content must equal the 45-byte packed on-disk RTH");
 
   public:
     Navigation();

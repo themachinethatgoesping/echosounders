@@ -30,7 +30,7 @@ class RollPitchHeave : public S7KDatagram
     static constexpr auto DatagramIdentifier = t_S7KDatagramIdentifier::RollPitchHeave;
 
   protected:
-#pragma pack(push, 1)
+    // naturally aligned (only 4-byte members); C++ layout already matches the packed on-disk RTH
     struct Content
     {
         float _roll  = 0.f; ///< vessel roll in radians
@@ -42,9 +42,10 @@ class RollPitchHeave : public S7KDatagram
 
         bool operator==(const Content& other) const = default;
     } _content;
-#pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content);
+    static constexpr size_t __content_size = sizeof(Content); // 16 bytes (RTH + checksum)
+    static_assert(__content_size == 16,
+                  "s7k RollPitchHeave (1012): Content must equal the 16-byte on-disk RTH + checksum");
 
   public:
     RollPitchHeave();

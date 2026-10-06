@@ -75,7 +75,7 @@ class MatchFilter : public S7KDatagram
                                                            t_window_type_alt_names>;
 
   protected:
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read/written as one block
     struct Content
     {
         uint64_t      _serial_number   = 0;   ///< sonar serial number
@@ -94,7 +94,9 @@ class MatchFilter : public S7KDatagram
     } _content;
 #pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content);
+    static constexpr size_t __content_size = sizeof(Content); // 92 bytes (packed on-disk RTH)
+    static_assert(__content_size == 92,
+                  "s7k MatchFilter (7002): Content must equal the 92-byte packed on-disk RTH");
 
   public:
     MatchFilter();

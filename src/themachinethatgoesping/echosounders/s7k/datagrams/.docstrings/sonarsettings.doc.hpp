@@ -1,4 +1,4 @@
-//sourcehash: 2706b13e4eb1ecdb5e8dfbe9d293427a1cee12a668040889a12dd4cf14878788
+//sourcehash: 6a4cde4bc988d35183845d689cbc0f0ca8742866c1aa64ddf1a9759fce1aee74
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,15 +41,15 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_326_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_329_68 = R"doc()doc";
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_333_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_336_68 = R"doc()doc";
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_341_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_344_68 = R"doc()doc";
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_348_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_351_68 = R"doc()doc";
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_356_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_sonarsettings_hpp_359_68 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings = R"doc(7k record SonarSettings)doc";
 
@@ -132,6 +132,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Son
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_tx_pulse_envelope_parameter = R"doc(envelope parameter)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_tx_pulse_mode = R"doc(1-4 (single/multi-ping mode))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_tx_pulse_reserved = R"doc(reserved (follows the u16 tx pulse mode))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SonarSettings_Content_tx_pulse_type = R"doc(0 = CW, 1 = chirp)doc";
 

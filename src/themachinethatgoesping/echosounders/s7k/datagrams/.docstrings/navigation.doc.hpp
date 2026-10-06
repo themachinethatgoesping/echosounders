@@ -1,4 +1,4 @@
-//sourcehash: f7bfd5ca9350d56c28160e25bffcfd05130986b97e9ac57c48f83670f7321c50
+//sourcehash: 9c5f9b976cf82a1c5183d650ad3777aeb3cf8f2f2e3927ffb3738f48426f1566
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,7 +41,7 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_navigation_hpp_145_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_navigation_hpp_147_68 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Navigation = R"doc(7k record Navigation)doc";
 

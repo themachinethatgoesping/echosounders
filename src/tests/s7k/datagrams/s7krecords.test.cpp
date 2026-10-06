@@ -15,6 +15,7 @@
 #include "../themachinethatgoesping/echosounders/s7k/datagrams/rawdetection.hpp"
 #include "../themachinethatgoesping/echosounders/s7k/datagrams/snippetdata.hpp"
 #include "../themachinethatgoesping/echosounders/s7k/datagrams/sonarsettings.hpp"
+#include "../themachinethatgoesping/echosounders/s7k/datagrams/soundvelocity.hpp"
 
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
@@ -227,4 +228,28 @@ TEST_CASE("CompressedWaterColumn should decode and round trip", TESTTAG)
     // binary round trip
     REQUIRE(dat == CompressedWaterColumn(dat.from_binary(dat.to_binary())));
     REQUIRE(dat.info_string().size() != 0);
+}
+
+TEST_CASE("SoundVelocity should round trip with and without optional temperature/pressure", TESTTAG)
+{
+    // older IO modules: sound velocity only (4-byte RTH)
+    SoundVelocity sv;
+    sv.set_sound_velocity(1501.6f);
+    REQUIRE(sv.get_sound_velocity() == Catch::Approx(1501.6f));
+    REQUIRE(sv.has_temperature_and_pressure() == false);
+    REQUIRE(sv == SoundVelocity(sv.from_binary(sv.to_binary())));
+    // round-tripped record stays the minimal 4-byte RTH (+ 64 DRF + 4 checksum)
+    REQUIRE(SoundVelocity(sv.from_binary(sv.to_binary())).get_size() == 64 + 8);
+
+    // newer IO modules (>= V4.0.0.8): sound velocity + temperature + pressure (12-byte RTH)
+    SoundVelocity svtp;
+    svtp.set_sound_velocity(1480.2f);
+    svtp.set_temperature(283.15f); // Kelvin
+    svtp.set_pressure(101325.f);   // Pascal
+    REQUIRE(svtp.has_temperature_and_pressure() == true);
+    REQUIRE(svtp.get_temperature() == Catch::Approx(283.15f));
+    REQUIRE(svtp.get_pressure() == Catch::Approx(101325.f));
+    REQUIRE(svtp == SoundVelocity(svtp.from_binary(svtp.to_binary())));
+    REQUIRE(SoundVelocity(svtp.from_binary(svtp.to_binary())).get_size() == 64 + 16);
+    REQUIRE(svtp.info_string().size() != 0);
 }

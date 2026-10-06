@@ -163,9 +163,10 @@ ids and possibly different subsets/optional-data.
   - Generic/nav: 1000 ReferencePoint, 1003 Position, 1012 RollPitchHeave, 1013 Heading,
     1015 Navigation, 1016 Attitude.
   - Sonar/bathy: 7000 SonarSettings, 7002 MatchFilter, 7004 BeamGeometry, 7027 RawDetection,
-    7610 SoundVelocity, 7611 AbsorptionLoss, 7612 SpreadingLoss.
+    7610 SoundVelocity (incl. optional temperature/pressure), 7611 AbsorptionLoss, 7612 SpreadingLoss.
   - Water column: 7028 Snippet, 7042 CompressedWaterColumn.
   - File: 7200 FileHeader.
+  - Struct packing / alignment, the Windows SIMD constraint and reserved-field completeness: see §12.
 
   **Remaining in-use records to add (layouts in §11 below; add via the step-2 pattern):**
   1009 SoundVelocityProfile, 7010 TVG, 7012 PingMotion, 7018 Beamformed (full water column),
@@ -225,3 +226,50 @@ All records start after the 64-byte DRF; multibyte fields are little-endian; RTH
   { magic u32, description char[60], serial u64, info_length u32, info char[info_length] }. Parse the
   header and the per-device metadata; store the info blob raw.
 
+
+## 12. Struct packing, alignment & the Windows SIMD constraint
+
+The RTH/record structs are read/written as one contiguous block, so `sizeof(Content)` and every
+field offset must exactly match the on-disk bytes. The 7k format is **byte-packed** (no padding
+between fields), but the implementation packs **fine-grained — only where the natural C++ layout
+would differ from the on-disk layout**, and pins every struct with a
+`static_assert(sizeof(X) == <on-disk bytes>)` so a regression is caught at compile time on every
+platform.
+
+- **No `#pragma pack` needed** (natural layout already == on-disk): records whose fields are all
+  4-byte (f32/u32) — **7611 AbsorptionLoss (8), 7612 SpreadingLoss (8), 1000 ReferencePoint (20),
+  1012 RollPitchHeave (16), 1013 Heading (8)** and (minimal) **7610 SoundVelocity**. The 64-byte DRF
+  header is likewise naturally aligned by design (every reserved field present) and is never packed.
+- **`#pragma pack(push,1)` required** (natural layout would insert padding): 7004 BeamGeometry (12),
+  7042 CompressedWaterColumn (44), 7200 FileHeader (316), 7002 MatchFilter (92), 1015 Navigation
+  (45), 1003 Position (41), 7027 RawDetection (99), 7028 SnippetData (46), 7000 SonarSettings (160),
+  and the AoS rows 1016 AttitudeSample (18), 7200 FileHeaderDeviceInfo (6), 7027 RawDetectionBeam
+  (34), 7028 SnippetDataBeam (14).
+
+### Windows / MSVC-STL SIMD on `bind_vector` rows
+clang-cl & MSVC route `std::find/count/remove` (emitted by `nb::bind_vector` for the per-row vectors'
+`__contains__`/`count`/`remove`) through a vectorized path that only supports element sizes 1/2/4/8
+bytes and `static_assert`-fails for any other size — but **only** for "trivially equality comparable"
+types (all-integer, no padding, *defaulted* `operator==`). Two packed all-integer rows hit this:
+**FileHeaderDeviceInfo (6 B)** and **SnippetDataBeam (14 B)**. Fix: give just those two rows a
+*user-provided* `operator==` (memberwise, not `= default`), which flips
+`__is_trivially_equality_comparable` to false → scalar path. This keeps the exact 6/14-byte on-disk
+layout and does **not** disable SIMD anywhere else (verified: a defaulted `==` reports
+`__is_trivially_equality_comparable == 1`, the user-provided one `== 0`, with `sizeof` unchanged).
+Rows that contain any float/double (AttitudeSample, RawDetectionBeam, CompressedWaterColumnBeam) are
+never affected because floats aren't memcmp-comparable. The project-wide
+`_USE_STD_VECTOR_ALGORITHMS=0` escape hatch is therefore **not** used (it would disable SIMD
+globally). See `echosounders/meson.build` and the substruct headers.
+
+### Reserved-field completeness (checked against spec v3.12)
+All implemented records carry every reserved byte the spec defines (sizes match the spec exactly):
+reserved u32×13 (7002), u32×15 (7027), u32×6 (7028), u32×1 (7042), trailing u16 (7000 & 7200),
+and the DRF reserved u16/u32 fields. Two refinements made while verifying this:
+
+- **7000 SonarSettings** — the spec splits "Tx pulse mode (u16)" + "Tx pulse reserved (u16)". These
+  are now modelled explicitly: `t_tx_pulse_mode` is backed by `uint16_t` and a `_tx_pulse_reserved`
+  u16 follows it (record size unchanged at 160 bytes).
+- **7610 SoundVelocity** — now reads the **optional Temperature (f32, Kelvin) + Pressure (f32,
+  Pascal)** that follow sound velocity on IO module >= V4.0.0.8 (spec Table 118). The record is
+  variable-size (4-byte RTH or 12-byte RTH); presence is driven by the DRF record size, the optional
+  pair is 0 when absent, and `has_temperature_and_pressure()` reports whether they are present.

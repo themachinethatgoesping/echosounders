@@ -77,8 +77,8 @@ class SonarSettings : public S7KDatagram
                                                                 t_tx_pulse_envelope_names,
                                                                 t_tx_pulse_envelope_alt_names>;
 
-    // ----- transmit pulse mode (7k DFD Table 42; low 16 bits, high 16 bits reserved) -----
-    enum class t_tx_pulse_mode : uint32_t
+    // ----- transmit pulse mode (7k DFD Table 42; u16 mode followed by a reserved u16) -----
+    enum class t_tx_pulse_mode : uint16_t
     {
         undefined    = 0, ///< undefined / not set (written by some sonars, e.g. Norbit)
         single_ping  = 1, ///< single ping
@@ -146,7 +146,7 @@ class SonarSettings : public S7KDatagram
                                                             t_rx_weighting_alt_names>;
 
   protected:
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read/written as one block
     struct Content
     {
         uint64_t            _serial_number       = 0;   ///< sonar serial number
@@ -160,6 +160,7 @@ class SonarSettings : public S7KDatagram
         o_tx_pulse_envelope _tx_pulse_envelope;         ///< envelope/window type (0-4)
         float               _tx_pulse_envelope_parameter = 0.f; ///< envelope parameter
         o_tx_pulse_mode     _tx_pulse_mode;             ///< 1-4 (single/multi-ping mode)
+        uint16_t            _tx_pulse_reserved   = 0;   ///< reserved (follows the u16 tx pulse mode)
         float               _max_ping_rate       = 0.f; ///< maximum ping rate in pings per second
         float               _ping_period         = 0.f; ///< seconds since previous ping
         float               _range_selection     = 0.f; ///< range selection in meters
@@ -195,7 +196,9 @@ class SonarSettings : public S7KDatagram
     } _content;
 #pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content);
+    static constexpr size_t __content_size = sizeof(Content); // 160 bytes (packed on-disk RTH)
+    static_assert(__content_size == 160,
+                  "s7k SonarSettings (7000): Content must equal the 160-byte packed on-disk RTH");
 
   public:
     SonarSettings();

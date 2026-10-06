@@ -162,7 +162,7 @@ class Position : public S7KDatagram
                                                                t_position_method_alt_names>;
 
   protected:
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read/written as one block
     struct Content
     {
         uint32_t _datum_identifier = 0;   ///< datum identifier (0 = WGS84, >0 = reserved)
@@ -184,7 +184,9 @@ class Position : public S7KDatagram
     } _content;
 #pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content);
+    static constexpr size_t __content_size = sizeof(Content); // 41 bytes (packed on-disk RTH)
+    static_assert(__content_size == 41,
+                  "s7k Position (1003): Content must equal the 41-byte packed on-disk RTH");
 
   public:
     Position();

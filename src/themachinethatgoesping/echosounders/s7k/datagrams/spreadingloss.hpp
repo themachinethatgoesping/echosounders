@@ -30,7 +30,7 @@ class SpreadingLoss : public S7KDatagram
     static constexpr auto DatagramIdentifier = t_S7KDatagramIdentifier::SpreadingLoss;
 
   protected:
-#pragma pack(push, 1)
+    // naturally aligned (only 4-byte members); C++ layout already matches the packed on-disk RTH
     struct Content
     {
         float _spreading_loss = 0.f; ///< spreading loss in dB (0-60)
@@ -40,9 +40,10 @@ class SpreadingLoss : public S7KDatagram
 
         bool operator==(const Content& other) const = default;
     } _content;
-#pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content);
+    static constexpr size_t __content_size = sizeof(Content); // 8 bytes (RTH + checksum)
+    static_assert(__content_size == 8,
+                  "s7k SpreadingLoss (7612): Content must equal the 8-byte on-disk RTH + checksum");
 
   public:
     SpreadingLoss();

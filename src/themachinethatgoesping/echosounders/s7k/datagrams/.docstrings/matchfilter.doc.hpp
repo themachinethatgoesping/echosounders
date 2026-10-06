@@ -1,4 +1,4 @@
-//sourcehash: 0161dcd862d78e396e06b0b1ca2ae691551bc837aefb46cc755fc5df75d1bd48
+//sourcehash: 33e7e2e1b79d65fed5c3615caa559cf90dd3fdc9026549bdd951a230c708f1a4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,9 +41,9 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_matchfilter_hpp_153_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_matchfilter_hpp_155_68 = R"doc()doc";
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_matchfilter_hpp_159_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_matchfilter_hpp_161_68 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_MatchFilter = R"doc(7k record MatchFilter)doc";
 

@@ -28,7 +28,7 @@ namespace substructs {
  * 30 or 34 bytes depending on the record version; trailing fields that are not present are filled
  * with NaN when the record is read. The first 34 bytes are represented here.
  */
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read as one contiguous block
 class RawDetectionBeam
 {
     uint16_t _beam_descriptor = 0; ///< beam number
@@ -77,6 +77,9 @@ class RawDetectionBeam
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 #pragma pack(pop)
+
+static_assert(sizeof(RawDetectionBeam) == 34,
+              "s7k RawDetectionBeam (7027 RD): must equal the 34-byte packed on-disk beam record");
 
 } // namespace substructs
 } // namespace datagrams

@@ -30,7 +30,7 @@ class ReferencePoint : public S7KDatagram
     static constexpr auto DatagramIdentifier = t_S7KDatagramIdentifier::ReferencePoint;
 
   protected:
-#pragma pack(push, 1)
+    // naturally aligned (only 4-byte members); C++ layout already matches the packed on-disk RTH
     struct Content
     {
         float _offset_x = 0.f; ///< vehicle reference X offset to center of gravity (meters)
@@ -43,9 +43,10 @@ class ReferencePoint : public S7KDatagram
 
         bool operator==(const Content& other) const = default;
     } _content;
-#pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content);
+    static constexpr size_t __content_size = sizeof(Content); // 20 bytes (RTH + checksum)
+    static_assert(__content_size == 20,
+                  "s7k ReferencePoint (1000): Content must equal the 20-byte on-disk RTH + checksum");
 
   public:
     ReferencePoint();

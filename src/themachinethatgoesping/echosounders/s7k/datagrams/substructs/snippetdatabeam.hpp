@@ -28,7 +28,7 @@ namespace substructs {
  * beam headers are stored as one contiguous block (see spec Table 76) and are therefore read as a
  * single bulk read. The actual intensity samples are decoded separately (SnippetDataAmplitudes).
  */
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read as one contiguous block
 class SnippetDataBeam
 {
     uint16_t _beam_descriptor  = 0; ///< beam number
@@ -56,7 +56,18 @@ class SnippetDataBeam
     uint32_t get_number_of_samples() const;
 
     // ----- operators -----
-    bool operator==(const SnippetDataBeam& other) const = default;
+    // NOTE: user-provided (NOT defaulted) on purpose. A defaulted operator== makes this tightly
+    // packed, all-integer 14-byte struct "trivially equality comparable", which makes clang-cl /
+    // MSVC route std::find/count/remove (instantiated by nanobind's bind_vector) through a SIMD
+    // path that only supports element sizes 1/2/4/8 bytes and fails to compile ("unexpected
+    // size") for 14 bytes. A user-provided operator== keeps the scalar path while preserving the
+    // on-disk layout. See the s7k skill / meson.build note.
+    bool operator==(const SnippetDataBeam& other) const
+    {
+        return _beam_descriptor == other._beam_descriptor &&
+               _snippet_start == other._snippet_start &&
+               _detection_sample == other._detection_sample && _snippet_end == other._snippet_end;
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
@@ -66,6 +77,9 @@ class SnippetDataBeam
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 #pragma pack(pop)
+
+static_assert(sizeof(SnippetDataBeam) == 14,
+              "s7k SnippetDataBeam (7028 RD): must equal the 14-byte packed on-disk beam header");
 
 } // namespace substructs
 } // namespace datagrams

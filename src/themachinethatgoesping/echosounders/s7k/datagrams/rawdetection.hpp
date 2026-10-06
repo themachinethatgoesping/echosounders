@@ -34,7 +34,7 @@ class RawDetection : public S7KDatagram
     static constexpr auto DatagramIdentifier = t_S7KDatagramIdentifier::RawDetectionData;
 
   protected:
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read/written as one block
     struct Content
     {
         uint64_t _serial_number       = 0;   ///< sonar serial number
@@ -53,7 +53,9 @@ class RawDetection : public S7KDatagram
     } _content;
 #pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content); // 99
+    static constexpr size_t __content_size = sizeof(Content); // 99 bytes (packed on-disk RTH)
+    static_assert(__content_size == 99,
+                  "s7k RawDetection (7027): Content must equal the 99-byte packed on-disk RTH");
 
     substructs::RawDetectionBeamContainer _beams; ///< per-beam raw detections
 

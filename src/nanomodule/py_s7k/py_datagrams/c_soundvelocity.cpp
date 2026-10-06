@@ -22,6 +22,7 @@ using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
 
 #define DOC_C(CLASS, ...) DOC(themachinethatgoesping, echosounders, s7k, datagrams, CLASS, __VA_ARGS__)
+#define DOC_SoundVelocity(ARG) DOC(themachinethatgoesping, echosounders, s7k, datagrams, SoundVelocity, ARG)
 
 void init_c_soundvelocity(nb::module_& m)
 {
@@ -29,8 +30,13 @@ void init_c_soundvelocity(nb::module_& m)
         .def(nb::init<>(), DOC_C(SoundVelocity, SoundVelocity))
         .def("get_sound_velocity", &SoundVelocity::get_sound_velocity, DOC_C(SoundVelocity, Content, sound_velocity))
         .def("set_sound_velocity", &SoundVelocity::set_sound_velocity, DOC_C(SoundVelocity, Content, sound_velocity), nb::arg("val"))
+        .def("get_temperature", &SoundVelocity::get_temperature, DOC_C(SoundVelocity, Content, temperature))
+        .def("set_temperature", &SoundVelocity::set_temperature, DOC_C(SoundVelocity, Content, temperature), nb::arg("val"))
+        .def("get_pressure", &SoundVelocity::get_pressure, DOC_C(SoundVelocity, Content, pressure))
+        .def("set_pressure", &SoundVelocity::set_pressure, DOC_C(SoundVelocity, Content, pressure), nb::arg("val"))
         .def("get_checksum", &SoundVelocity::get_checksum, DOC_C(SoundVelocity, Content, checksum))
         .def("set_checksum", &SoundVelocity::set_checksum, DOC_C(SoundVelocity, Content, checksum), nb::arg("val"))
+        .def("has_temperature_and_pressure", &SoundVelocity::has_temperature_and_pressure, DOC_SoundVelocity(has_temperature_and_pressure))
         .def("__eq__", &SoundVelocity::operator==, nb::arg("other"))
         __PYCLASS_DEFAULT_COPY__(SoundVelocity)
         __PYCLASS_DEFAULT_BINARY__(SoundVelocity)

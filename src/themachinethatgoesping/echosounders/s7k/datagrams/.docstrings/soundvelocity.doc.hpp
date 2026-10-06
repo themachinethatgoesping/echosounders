@@ -1,4 +1,4 @@
-//sourcehash: 650a59f83283cff91bf2ed757b32dc7bb07921486d5715ff6000b34c8aa8c464
+//sourcehash: 02c2255156935bf30a6475c0434e275ed46799fc9da4ca7ac69e8ed4728b28ef
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,7 +49,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sou
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_operator_eq = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_pressure = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_sound_velocity = R"doc(water sound velocity in meters per second)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_temperature = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
 
@@ -65,7 +69,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sou
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_get_checksum = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_get_pressure = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_get_sound_velocity = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_get_temperature = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_has_temperature_and_pressure =
+R"doc(whether the optional temperature + pressure fields are present (not
+NaN))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_operator_eq = R"doc()doc";
 
@@ -75,7 +87,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sou
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_checksum = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_pressure = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_sound_velocity = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_temperature = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_to_stream = R"doc()doc";
 

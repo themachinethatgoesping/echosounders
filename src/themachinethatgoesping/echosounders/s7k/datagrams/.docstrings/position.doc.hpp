@@ -1,4 +1,4 @@
-//sourcehash: f2dd4578636eeef5b2462154c8e9406b532d5fea8fec1a84c23593215bfa3410
+//sourcehash: e229847dbc68ea2811846e5c70dd060cccbed0376d69421d3d294d675e85fcc0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -41,11 +41,11 @@
 #endif
 
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_position_hpp_260_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_position_hpp_262_68 = R"doc()doc";
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_position_hpp_267_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_position_hpp_269_68 = R"doc()doc";
 
-static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_position_hpp_273_68 = R"doc()doc";
+static const char *mkd_doc__unnamed_struct_at_themachinethatgoesping_echosounders_s7k_datagrams_position_hpp_275_68 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Position =
 R"doc(7k Position Record (1003) used in conjunction with Record Type 1011

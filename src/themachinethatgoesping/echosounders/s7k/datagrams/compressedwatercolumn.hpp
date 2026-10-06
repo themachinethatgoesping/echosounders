@@ -45,7 +45,7 @@ class CompressedWaterColumn : public S7KDatagram
     static constexpr uint32_t FLAG_FIRST_SAMPLE_RXDELAY     = 1u << 15; ///< first sample = RxDelay
 
   protected:
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read/written as one block
     struct Content
     {
         uint64_t _serial_number      = 0;   ///< sonar serial number
@@ -64,7 +64,9 @@ class CompressedWaterColumn : public S7KDatagram
     } _content;
 #pragma pack(pop)
 
-    static constexpr size_t __content_size = sizeof(Content); // 44
+    static constexpr size_t __content_size = sizeof(Content); // 44 bytes (packed on-disk RTH)
+    static_assert(__content_size == 44,
+                  "s7k CompressedWaterColumn (7042): Content must equal the 44-byte packed RTH");
 
     substructs::CompressedWaterColumnBeamContainer _beams; ///< per-beam magnitude/phase data
 

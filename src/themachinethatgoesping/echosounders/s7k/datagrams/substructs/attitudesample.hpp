@@ -26,7 +26,7 @@ namespace substructs {
  *
  * The samples are stored as one contiguous block and read as a single bulk read.
  */
-#pragma pack(push, 1)
+#pragma pack(push, 1) // byte-packed on disk (7k spec); bulk read as one contiguous block
 class AttitudeSample
 {
     uint16_t _delta_time = 0;   ///< time offset from the record timestamp (ms)
@@ -63,6 +63,9 @@ class AttitudeSample
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 };
 #pragma pack(pop)
+
+static_assert(sizeof(AttitudeSample) == 18,
+              "s7k AttitudeSample (1016 RD): must equal the 18-byte packed on-disk sample");
 
 } // namespace substructs
 } // namespace datagrams

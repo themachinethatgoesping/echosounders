@@ -16,6 +16,30 @@ project(
 
 projectnamespace = 'themachinethatgoesping'
 
+# --- Windows / MSVC STL note (SIMD std::find in bind_vector) ---
+# clang-cl and MSVC route std::find / std::count / std::remove (instantiated by
+# nanobind's bind_vector for __contains__ / count / remove) through a manually
+# vectorized (SIMD) implementation whenever the element type is "trivially
+# equality comparable" (clang-cl assumes this for a defaulted operator==). That
+# SIMD path only supports element sizes of 1, 2, 4 or 8 bytes, so a tightly
+# packed, all-integer datagram substruct of another size (e.g. the 6-byte
+# s7k FileHeaderDeviceInfo or 14-byte SnippetDataBeam) failed to compile with
+# 'static assertion failed: unexpected size'.
+#
+# Fix: those two substructs give a *user-provided* (non-defaulted) operator==,
+# which makes them not trivially-equality-comparable, so the scalar std::find is
+# used instead. This is fine-grained (only the affected 2 substructs), keeps the
+# exact on-disk byte layout, and does NOT disable the SIMD algorithms elsewhere.
+# See the substruct headers and the tmtgp-echosounders-record-parsers skill.
+#
+# The project-wide escape hatch below (fall back to scalar for ALL element sizes)
+# is therefore not needed; it is kept here only for reference.
+# See https://github.com/microsoft/STL/issues/6294 and
+# https://learn.microsoft.com/cpp/standard-library/vectorized-stl-algorithms
+# if meson.get_compiler('cpp').get_argument_syntax() == 'msvc'
+#   add_project_arguments('/D_USE_STD_VECTOR_ALGORITHMS=0', language: 'cpp')
+# endif
+
 # --- dependencies ---
 
 # boost
