@@ -1,4 +1,4 @@
-//sourcehash: 6854dc40a0f28208b743e618fafb61038feef0e3666bc58c9a6c237e3499beb0
+//sourcehash: 457c66e9bd802454f201b67c32d2be908bc0e860d4d5aca4a5fa510edf9155e0
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,17 +45,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainter
 R"doc(Interface that reads the sensor/sonar configuration (installation
 offsets, transducer setup) of a single .s7k file.
 
-
-
-$.. note::
-
-The datagram-processing functions (read_sensor_configuration) are not
-implemented yet. The class currently only provides the structure so
-the configuration can be filled in in a later step; until then the
-inherited base behavior (empty configuration fallback) is used.
-
 Template Args:
-    t_ifstream:)doc";
+    t_ifstream: 
+
+Note:
+    The datagram-processing functions (read_sensor_configuration) are
+    not implemented yet. The class currently only provides the
+    structure so the configuration can be filled in in a later step;
+    until then the inherited base behavior (empty configuration
+    fallback) is used.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KConfigurationDataInterfacePerFile_S7KConfigurationDataInterfacePerFile = R"doc()doc";
 
