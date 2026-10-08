@@ -21,7 +21,7 @@ namespace py_filetemplates {
 namespace py_datatypes {
 namespace py_i_ping {
 
-#define DOC_I_Ping(ARG)                                                                           \
+#define DOC_I_Ping(ARG)                                                                            \
     DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_Ping, ARG)
 
 namespace navigation = themachinethatgoesping::navigation;
@@ -35,28 +35,27 @@ void I_Ping_add_interface(T_PyClass& cls)
 
     cls.def("has_timestamp", &T_BaseClass::has_timestamp, DOC_I_Ping(has_timestamp));
     cls.def("get_timestamp", &T_BaseClass::get_timestamp, DOC_I_Ping(timestamp));
-    cls.def("set_timestamp",
-            &T_BaseClass::set_timestamp,
-            DOC_I_Ping(timestamp),
-            nb::arg("timestamp"));
+    cls.def(
+        "set_timestamp", &T_BaseClass::set_timestamp, DOC_I_Ping(timestamp), nb::arg("timestamp"));
     cls.def("has_datetime",
             &T_BaseClass::has_timestamp,
             "Return true if the timestamp is available that can be converted to a datetime");
-    cls.def("get_datetime",
-            [](const T_BaseClass& self, double timezone_offset_hours) {
-                return themachinethatgoesping::tools::nanobind_helper::unixtime_to_datetime(
-                    self.get_timestamp(), timezone_offset_hours);
-            },
-            nb::arg("timezone_offset_hours") = 0.,
-            "Return the timestamp as datetime object");
-    cls.def("set_datetime",
-            [](T_BaseClass& self, const nb::handle& datetime) {
-                self.set_timestamp(
-                    themachinethatgoesping::tools::nanobind_helper::datetime_to_unixtime(
-                        datetime));
-            },
-            nb::arg("datetime"),
-            "Set the timestamp using a datetime object");
+    cls.def(
+        "get_datetime",
+        [](const T_BaseClass& self, double timezone_offset_hours) {
+            return themachinethatgoesping::tools::nanobind_helper::unixtime_to_datetime(
+                self.get_timestamp(), timezone_offset_hours);
+        },
+        nb::arg("timezone_offset_hours") = 0.,
+        "Return the timestamp as datetime object");
+    cls.def(
+        "set_datetime",
+        [](T_BaseClass& self, const nb::handle& datetime) {
+            self.set_timestamp(
+                themachinethatgoesping::tools::nanobind_helper::datetime_to_unixtime(datetime));
+        },
+        nb::arg("datetime"),
+        "Set the timestamp using a datetime object");
 
     cls.def("has_channel_id", &T_BaseClass::has_channel_id, DOC_I_Ping(has_channel_id));
     cls.def("get_channel_id", &T_BaseClass::get_channel_id, DOC_I_Ping(channel_id));
@@ -91,8 +90,8 @@ void I_Ping_add_interface(T_PyClass& cls)
             &T_BaseClass::get_navigation_interpolator_latlon,
             DOC_I_Ping(navigation_interpolator_latlon),
             nb::rv_policy::reference_internal);
-        cls.def("set_navigation_interpolator_latlon",
-                        nb::overload_cast<const navigation::NavigationInterpolatorLatLon&>(
+    cls.def("set_navigation_interpolator_latlon",
+            nb::overload_cast<const navigation::NavigationInterpolatorLatLon&>(
                 &T_BaseClass::set_navigation_interpolator_latlon),
             DOC_I_Ping(set_navigation_interpolator_latlon),
             nb::arg("nav_interpolator"));
@@ -101,21 +100,20 @@ void I_Ping_add_interface(T_PyClass& cls)
             &T_BaseClass::get_sensor_data_latlon,
             DOC_I_Ping(get_sensor_data_latlon));
     cls.def("has_geolocation", &T_BaseClass::has_geolocation, DOC_I_Ping(has_geolocation));
-    cls.def("get_geolocation",
-            nb::overload_cast<const std::string&>(&T_BaseClass::get_geolocation, nb::const_),
-            DOC_I_Ping(get_geolocation),
-            nb::arg("target_id") = "Transducer");
+    cls.def(
+        "get_geolocation",
+        nb::overload_cast<std::optional<std::string>>(&T_BaseClass::get_geolocation, nb::const_),
+        DOC_I_Ping(get_geolocation),
+        nb::arg("target_id") = std::nullopt);
 
-    cls.def_prop_ro(
-        "bottom",
-        nb::overload_cast<>(&T_BaseClass::bottom),
-        DOC_I_Ping(bottom),
-        nb::rv_policy::reference_internal);
-    cls.def_prop_ro(
-        "watercolumn",
-        nb::overload_cast<>(&T_BaseClass::watercolumn),
-        DOC_I_Ping(watercolumn),
-        nb::rv_policy::reference_internal);
+    cls.def_prop_ro("bottom",
+                    nb::overload_cast<>(&T_BaseClass::bottom),
+                    DOC_I_Ping(bottom),
+                    nb::rv_policy::reference_internal);
+    cls.def_prop_ro("watercolumn",
+                    nb::overload_cast<>(&T_BaseClass::watercolumn),
+                    DOC_I_Ping(watercolumn),
+                    nb::rv_policy::reference_internal);
 
     cls.def("has_bottom", &T_BaseClass::has_bottom, DOC_I_Ping(has_bottom));
     cls.def("has_watercolumn", &T_BaseClass::has_watercolumn, DOC_I_Ping(has_watercolumn));

@@ -1,4 +1,4 @@
-//sourcehash: c56bf73644c8385cf7081ab9d9d580d7c0ac9201f152d404b51945e85448be63
+//sourcehash: 4ff74e02d268a51f7051ba3c1e756c9f18452401df91bc48660cd308bd91d329
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,16 +45,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainter
 R"doc(Interface that reads the pings (bathymetry, water column) of a single
 .s7k file.
 
-
-
-$.. note::
-
-The datagram-processing function (read_pings) is not implemented yet.
-The class currently only provides the structure so the pings can be
-filled in in a later step.
-
 Template Args:
-    t_ifstream:)doc";
+    t_ifstream: 
+
+Note:
+    The datagram-processing function (read_pings) is not implemented
+    yet. The class currently only provides the structure so the pings
+    can be filled in in a later step.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingDataInterfacePerFile = R"doc()doc";
 
@@ -76,15 +73,14 @@ format); every following ping datagram is added to the current ping.
 Datagrams that appear before the first SonarSettings record are
 collected into a leading ping so no datagram is lost.
 
+Note:
+    This simple file-order grouping assumes each ping starts with a
+    SonarSettings record. Multi-head / multi-ping files (interleaved
+    SonarSettings) and files without SonarSettings are not handled
+    precisely yet and can be refined later (e.g. by grouping on the
+    record ping_number).
 
-
-$.. note::
-
-This simple file-order grouping assumes each ping starts with a
-SonarSettings record. Multi-head / multi-ping files (interleaved
-SonarSettings) and files without SonarSettings are not handled
-precisely yet and can be refined later (e.g. by grouping on the record
-ping_number).)doc";
+)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

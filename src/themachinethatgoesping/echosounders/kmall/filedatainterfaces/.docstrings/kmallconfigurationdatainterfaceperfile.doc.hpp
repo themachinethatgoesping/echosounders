@@ -1,4 +1,4 @@
-//sourcehash: da4922a20373088e35ee16b4f87e72d37d5a9dd621b49f0d122eabe2528f2806
+//sourcehash: 89d0f3dcc1233e3a61763bbae99d7b8987d83dd34e2bba05bba3896ed3073cb7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -70,14 +70,18 @@ Args:
 
 Returns:
     boost::flyweight<datagrams::IOpRuntime> The runtime parameters for
-          the ping)doc";
+    the ping
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_get_transducer_id = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_init_runtime_parameters =
 R"doc(Read the runtime parameters from the file and save them in the
 internal map This function is automatically called by
-get_runtime_parameters)doc";
+get_runtime_parameters
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_printer = R"doc()doc";
 
@@ -85,7 +89,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedataint
 R"doc(Read the installation parameters from the file
 
 Returns:
-    datagrams::IInstallationParam)doc";
+    datagrams::IInstallationParam
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
 
@@ -104,7 +110,9 @@ R"doc(Set the active attitude sensor number
 1-4: attitude sensor 1-4
 
 Args:
-    number:)doc";
+    number:
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_set_active_position_system_number =
 R"doc(Set the active position system number
@@ -113,7 +121,9 @@ R"doc(Set the active position system number
 1-4: position system 1-4
 
 Args:
-    number:)doc";
+    number:
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatainterfaces_KMALLConfigurationDataInterfacePerFile_transducer_id_by_reciever_number = R"doc()doc";
 

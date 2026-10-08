@@ -217,17 +217,14 @@ class KongsbergAllPingDataInterfacePerFile
         }
 
         // get sensor configurations for all channels
-        auto sensor_configurations_per_trx_channel =
-            this->configuration_data_interface().get_trx_sensor_configuration_per_target_id(
-                this->get_file_nr());
-        auto base_sensor_configuration =
-            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
+        boost::flyweights::flyweight<navigation::SensorConfiguration> base_sensor_configuration(
+            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr()));
 
         // get navigation data for this file
         boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
             navigation_data_interpolator =
                 this->navigation_data_interface().get_navigation_interpolator_flyweight(
-                    base_sensor_configuration.binary_hash());
+                    base_sensor_configuration.get().binary_hash());
         bool navigation_is_valid = navigation_data_interpolator.get().valid();
 
         // loop through map and copy pings to vector
@@ -251,9 +248,7 @@ class KongsbergAllPingDataInterfacePerFile
                 // load transducer locations from navigation
                 try
                 {
-                    if (base_sensor_configuration.has_target(channel_id))
-                        ping_ptr->set_sensor_configuration_flyweight(
-                            sensor_configurations_per_trx_channel.at(channel_id));
+                    ping_ptr->set_sensor_configuration_flyweight(base_sensor_configuration);
 
                     if (navigation_is_valid)
                         ping_ptr->set_navigation_interpolator_latlon(navigation_data_interpolator);

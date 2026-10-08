@@ -29,16 +29,16 @@ XML_Configuration::XML_Configuration(const pugi::xml_node& node)
     initialize(node);
 }
 
-const XML_Configuration_Transceiver& XML_Configuration::get_transceiver(std::string_view channel_id) const
+const XML_Configuration_Transceiver& XML_Configuration::get_transceiver(
+    std::string_view channel_id) const
 {
     for (const auto& transceiver : Transceivers)
         for (const auto& channel : transceiver.Channels)
             if (channel.ChannelID == channel_id)
                 return transceiver;
 
-    throw std::runtime_error(
-        "[XML_Configuration_Transceiver]: No transceiver found for channel " +
-        std::string(channel_id));
+    throw std::runtime_error("[XML_Configuration_Transceiver]: No transceiver found for channel " +
+                             std::string(channel_id));
 }
 
 std::map<std::string, XML_Configuration_Transceiver> XML_Configuration::get_transceivers() const
@@ -64,7 +64,8 @@ const XML_Configuration_Transceiver_Channel& XML_Configuration::get_transceiver_
         std::string(channel_id));
 }
 
-std::map<std::string, XML_Configuration_Transceiver_Channel> XML_Configuration::get_transceiver_channels() const
+std::map<std::string, XML_Configuration_Transceiver_Channel>
+XML_Configuration::get_transceiver_channels() const
 {
     std::map<std::string, XML_Configuration_Transceiver_Channel> channels;
     for (const auto& transceiver : Transceivers)
@@ -80,8 +81,7 @@ navigation::SensorConfiguration XML_Configuration::get_sensor_configuration() co
 
     sensor_configuration.set_position_source(
         get_prioritized_sensor({ "Latitude", "Longitude" }).get_sensor_offsets());
-    sensor_configuration.set_depth_source(
-        get_prioritized_sensor({ "Heave" }).get_sensor_offsets());
+    sensor_configuration.set_depth_source(get_prioritized_sensor({ "Heave" }).get_sensor_offsets());
     sensor_configuration.set_attitude_source(
         get_prioritized_sensor({ "Roll", "Pitch", "Heave" }).get_sensor_offsets());
     sensor_configuration.set_heading_source(
@@ -90,6 +90,10 @@ navigation::SensorConfiguration XML_Configuration::get_sensor_configuration() co
     for (const auto& [channel_id, channel] : ChannelConfigurations)
     {
         sensor_configuration.add_target(channel_id, channel.get_sensor_offsets());
+
+        // single transducer that both transmits and receives -> tx == rx == trx == channel_id
+        sensor_configuration.register_transducer_channel(
+            channel_id, channel_id, "", channel_id, "", channel_id, "");
     }
 
     return sensor_configuration;
@@ -129,16 +133,16 @@ std::vector<XML_Configuration_Sensor> XML_Configuration::get_sensors_sorted_by_p
 
     std::vector<XML_Configuration_Sensor> sensors_sorted_by_priority;
 
-    std::sort(sensor_priorities.begin(),
-              sensor_priorities.end(),
-              [](const auto& a, const auto& b) { return a.first > b.first; });
+    std::sort(sensor_priorities.begin(), sensor_priorities.end(), [](const auto& a, const auto& b) {
+        return a.first > b.first;
+    });
 
     for (const auto& sensor : sensor_priorities)
         sensors_sorted_by_priority.push_back(*sensor.second);
 
     if (sensors_sorted_by_priority.empty())
     {
-        sensors_sorted_by_priority = { XML_Configuration_Sensor() };
+        sensors_sorted_by_priority         = { XML_Configuration_Sensor() };
         sensors_sorted_by_priority[0].Type = "fallback";
         sensors_sorted_by_priority[0].Name = "fallback";
     }
@@ -290,8 +294,8 @@ void XML_Configuration::initialize(const pugi::xml_node& root_node)
                 }
 
                 ++unknown_attributes;
-                std::cerr << "WARNING: [Configuration/Header] Unknown Attribute: "
-                          << attr.name() << std::endl;
+                std::cerr << "WARNING: [Configuration/Header] Unknown Attribute: " << attr.name()
+                          << std::endl;
             }
             continue;
         }
@@ -304,9 +308,9 @@ void XML_Configuration::initialize(const pugi::xml_node& root_node)
     initialize_sensorconfigurations();
 }
 
-bool XML_Configuration::parsed_completely() const 
-{ 
-    return unknown_children == 0 && unknown_attributes == 0; 
+bool XML_Configuration::parsed_completely() const
+{
+    return unknown_children == 0 && unknown_attributes == 0;
 }
 
 // ----- file I/O -----
@@ -385,27 +389,23 @@ void XML_Configuration::to_stream(std::ostream& os) const
 // ----- operators -----
 bool XML_Configuration::operator==(const XML_Configuration& other) const
 {
-    return ConfiguredSensors == other.ConfiguredSensors && 
-           Transducers == other.Transducers &&
-           Transceivers == other.Transceivers && 
-           ActivePingMode == other.ActivePingMode &&
-           FileFormatVersion == other.FileFormatVersion && 
-           Version == other.Version &&
-           TimeBias == other.TimeBias && 
-           ApplicationName == other.ApplicationName;
+    return ConfiguredSensors == other.ConfiguredSensors && Transducers == other.Transducers &&
+           Transceivers == other.Transceivers && ActivePingMode == other.ActivePingMode &&
+           FileFormatVersion == other.FileFormatVersion && Version == other.Version &&
+           TimeBias == other.TimeBias && ApplicationName == other.ApplicationName;
 }
 
-bool XML_Configuration::operator!=(const XML_Configuration& other) const 
-{ 
-    return !operator==(other); 
+bool XML_Configuration::operator!=(const XML_Configuration& other) const
+{
+    return !operator==(other);
 }
 
 // ----- objectprinter -----
-tools::classhelper::ObjectPrinter XML_Configuration::__printer__(
-    unsigned int float_precision, bool superscript_exponents) const
+tools::classhelper::ObjectPrinter XML_Configuration::__printer__(unsigned int float_precision,
+                                                                 bool superscript_exponents) const
 {
-    tools::classhelper::ObjectPrinter printer("EK80 XML0 Configuration Datagram",
-                                              float_precision, superscript_exponents);
+    tools::classhelper::ObjectPrinter printer(
+        "EK80 XML0 Configuration Datagram", float_precision, superscript_exponents);
     printer.register_section("children");
     printer.register_value("ConfiguredSensors", ConfiguredSensors.size());
     printer.register_value("Transducers", Transducers.size());

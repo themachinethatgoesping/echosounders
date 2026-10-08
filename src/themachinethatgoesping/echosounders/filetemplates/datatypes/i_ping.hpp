@@ -70,13 +70,12 @@ class I_Ping : public I_PingCommon
 
     bool                                          has_geolocation() const;
     navigation::datastructures::GeolocationLatLon get_geolocation(
-        const std::string& target_id = "Transducer") const;
+        std::optional<std::string> target_id = std::nullopt) const;
 
     const navigation::SensorConfiguration& get_sensor_configuration() const;
 
     /**
      * @brief Returns the hash of the base sensor configuraiton.
-     * This is the sensor configuration with the "Transducer" target removed.
      * This hash can be used to get the correct navigation interpolator from the
      * navigation_data_interface Note: This function is for testing and finding errors. It is rather
      * slow.

@@ -84,18 +84,11 @@ class S7KPingDataInterfacePerFile
         using t_ping          = filedatatypes::S7KPing<t_ifstream>;
         using t_ping_ptr      = std::shared_ptr<t_ping>;
 
-        // sensor configuration + navigation for this file. The configuration is currently empty
-        // (its read_* is not implemented), but an empty SensorConfiguration is valid: it carries a
-        // default target "0", so the "Transducer" alias and the navigation interpolator below still
-        // resolve and geolocation works (vessel reference point).
-        const auto& base_sensor_configuration =
-            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
-        auto sensor_configuration_per_channel =
-            this->configuration_data_interface().get_trx_sensor_configuration_per_target_id(
-                this->get_file_nr());
+        boost::flyweights::flyweight<navigation::SensorConfiguration> base_sensor_configuration(
+            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr()));
         auto navigation_interpolator =
             this->navigation_data_interface().get_navigation_interpolator_flyweight(
-                base_sensor_configuration.binary_hash());
+                base_sensor_configuration.get().binary_hash());
         const bool navigation_is_valid = navigation_interpolator.get().valid();
 
         // process the datagrams in file order (sort a copy so grouping is robust to storage order)
@@ -111,9 +104,8 @@ class S7KPingDataInterfacePerFile
 
         for (const auto& datagram_info : datagram_infos)
         {
-            const bool starts_new_ping =
-                datagram_info->get_datagram_identifier() ==
-                t_S7KDatagramIdentifier::SonarSettings; // 7000
+            const bool starts_new_ping = datagram_info->get_datagram_identifier() ==
+                                         t_S7KDatagramIdentifier::SonarSettings; // 7000
 
             if (starts_new_ping)
             {
@@ -121,9 +113,8 @@ class S7KPingDataInterfacePerFile
                 current_ping->set_channel_id("0"); // single channel for now (config not read yet)
                 current_ping->file_data().set_primary_file_nr(this->get_file_nr());
 
-                if (base_sensor_configuration.has_target(current_ping->get_channel_id()))
-                    current_ping->set_sensor_configuration_flyweight(
-                        sensor_configuration_per_channel.at(current_ping->get_channel_id()));
+                current_ping->set_sensor_configuration_flyweight(base_sensor_configuration);
+                
                 if (navigation_is_valid)
                     current_ping->set_navigation_interpolator_latlon(navigation_interpolator);
 

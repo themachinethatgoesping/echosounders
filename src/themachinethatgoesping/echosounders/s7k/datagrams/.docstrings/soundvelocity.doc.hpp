@@ -1,4 +1,4 @@
-//sourcehash: 02c2255156935bf30a6475c0434e275ed46799fc9da4ca7ac69e8ed4728b28ef
+//sourcehash: 94b5d92590e93d974dbd493524ade31cb800ead989b08f93bb185367482fa4db
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,17 +49,40 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sou
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_operator_eq = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_pressure = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_pressure = R"doc(pressure in Pascal (optional; 0 when absent / not valid))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_sound_velocity = R"doc(water sound velocity in meters per second)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_temperature = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_Content_temperature = R"doc(temperature in Kelvin (optional; 0 when absent / not valid))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_SoundVelocity = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_SoundVelocity_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_binary_hash =
+R"doc(compute a 64 bit hash of the object using xxhash and the       \
+to_binary function. This  function is called binary because the
+\ to_binary  function of the object is used
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_content = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_from_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    check_buffer_is_read_completely: variable for interface
+                                     compatibility, does not do    \
+                                     anything
+                                     \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_from_stream = R"doc()doc";
 
@@ -77,9 +100,43 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sou
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_has_temperature_and_pressure =
 R"doc(whether the optional temperature + pressure fields are present (not
-NaN))doc";
+NaN)
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_printer = R"doc()doc";
 
@@ -92,6 +149,20 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Sou
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_sound_velocity = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_set_temperature = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_to_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    resize_buffer: variable for interface compatibility, does not do
+                   anything             \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_SoundVelocity_to_stream = R"doc()doc";
 

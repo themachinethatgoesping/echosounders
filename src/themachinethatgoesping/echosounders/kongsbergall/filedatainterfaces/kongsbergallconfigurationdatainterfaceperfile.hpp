@@ -323,113 +323,6 @@ class KongsbergAllConfigurationDataInterfacePerFile
         if (_active_heading_sensor == t_KongsbergAllActiveSensor::NotSet)
             _active_heading_sensor = param.get_active_heading_sensor();
 
-        /* get the sensor configuration flag using STC */
-        switch (param.get_value_int("STC", 0)) // if STC is not found: assume single tx + single rx
-        {
-            case 0: // Single TX + single RX
-            {
-                auto tx = param.get_transducer_offsets(1, "TX");
-                auto rx = param.get_transducer_offsets(2, "RX");
-
-                auto trx = SensorPose::from_txrx(
-                    tx, rx, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
-
-                _txrx_target_names_per_trx_channel[trx.name] = { tx.name, rx.name };
-
-                config.add_target(tx.name, std::move(tx));
-                config.add_target(rx.name, std::move(rx));
-                config.add_target(trx.name, std::move(trx));
-                break;
-            }
-            case 5: // Portable single head
-                [[fallthrough]];
-            case 6: // Modular
-                [[fallthrough]];
-            case 1: // Single head
-            {
-                auto trx = param.get_transducer_offsets(
-                    1, "TRX-" + std::to_string(param.get_system_main_head_serial_number()));
-
-                _txrx_target_names_per_trx_channel[trx.name] = { trx.name, trx.name };
-
-                config.add_target(trx.name, std::move(trx));
-                break;
-            }
-            case 2: // Dual Rx
-            {
-                auto trx1 = param.get_transducer_offsets(
-                    1, "TRX-" + std::to_string(param.get_system_main_head_serial_number()));
-                auto trx2 = param.get_transducer_offsets(
-                    2, "TRX-" + std::to_string(param.get_secondary_system_serial_number()));
-
-                _txrx_target_names_per_trx_channel[trx1.name] = { trx1.name, trx1.name };
-                _txrx_target_names_per_trx_channel[trx2.name] = { trx2.name, trx2.name };
-
-                config.add_target(trx1.name, std::move(trx1));
-                config.add_target(trx2.name, std::move(trx2));
-                break;
-            }
-            case 3: // Single TX + dual RX
-            {
-                auto tx = param.get_transducer_offsets(
-                    1, "TX-" + std::to_string(param.get_tx_serial_number()));
-                auto rx1 = param.get_transducer_offsets(
-                    2, "RX-" + std::to_string(param.get_rx1_serial_number()));
-                auto rx2 = param.get_transducer_offsets(
-                    3, "RX-" + std::to_string(param.get_rx2_serial_number()));
-
-                auto trx1 = SensorPose::from_txrx(
-                    tx, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
-                auto trx2 = SensorPose::from_txrx(
-                    tx, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
-
-                _txrx_target_names_per_trx_channel[trx1.name] = { tx.name, rx1.name };
-                _txrx_target_names_per_trx_channel[trx2.name] = { tx.name, rx2.name };
-
-                config.add_target(tx.name, std::move(tx));
-                config.add_target(rx1.name, std::move(rx1));
-                config.add_target(rx2.name, std::move(rx2));
-                config.add_target(trx1.name, std::move(trx1));
-                config.add_target(trx2.name, std::move(trx2));
-
-                break;
-            }
-            case 4: // Dual TX + dual RX
-            {
-                auto tx1 = param.get_transducer_offsets(
-                    0, "TX-" + std::to_string(param.get_tx_serial_number()));
-                auto tx2 = param.get_transducer_offsets(
-                    1, "TX-" + std::to_string(param.get_tx2_serial_number()));
-                auto rx1 = param.get_transducer_offsets(
-                    2, "RX-" + std::to_string(param.get_rx1_serial_number()));
-                auto rx2 = param.get_transducer_offsets(
-                    3, "RX-" + std::to_string(param.get_rx2_serial_number()));
-
-                auto trx1 = SensorPose::from_txrx(
-                    tx1, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
-                auto trx2 = SensorPose::from_txrx(
-                    tx2, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
-
-                _txrx_target_names_per_trx_channel[trx1.name] = { tx1.name, rx1.name };
-                _txrx_target_names_per_trx_channel[trx2.name] = { tx2.name, rx2.name };
-
-                config.add_target(tx1.name, std::move(tx1));
-                config.add_target(tx2.name, std::move(tx2));
-                config.add_target(rx1.name, std::move(rx1));
-                config.add_target(rx2.name, std::move(rx2));
-                config.add_target(trx1.name, std::move(trx1));
-                config.add_target(trx2.name, std::move(trx2));
-                break;
-            }
-            default:
-                throw std::runtime_error(
-                    fmt::format("read_sensor_configuration: Unknown STC "
-                                "value {} in file nr {} [{}] installation parameters!",
-                                param.get_value_int("STC"),
-                                this->get_file_nr(),
-                                this->get_file_path()));
-        }
-
         // The .all model number does not distinguish the EM2040 variants (EM2040P and EM2040M both
         // report number 2040) -- only the STC (system transducer configuration) does. Refine the
         // model name accordingly so the correct subarray preset is selected; the .kmall format
@@ -457,10 +350,188 @@ class KongsbergAllConfigurationDataInterfacePerFile
         // only to transmit targets and the receive phase center ("RX") only to receive targets so a
         // head never carries the other array's offset; TRX targets (a combined tx+rx head) get
         // both.
+        auto [tx_subarrays, rx_subarrays] =
+            navigation::SensorConfiguration::get_model_subarray_offsets(model_name);
+
+        auto trx_subarrays = tx_subarrays;
+        trx_subarrays.insert(rx_subarrays.begin(), rx_subarrays.end());
+
+        std::string tx_default_sub, rx_default_sub, trx_default_sub;
+        if (!tx_subarrays.empty())
+            tx_default_sub = "tx_center";
+        if (!rx_subarrays.empty())
+            rx_default_sub = "rx_center";
+
+        /* get the sensor configuration flag using STC */
+        switch (param.get_value_int("STC", 0)) // if STC is not found: assume single tx + single rx
         {
-            auto subarrays =
-                navigation::SensorConfiguration::get_model_subarray_offsets(model_name);
-            config.set_subarrays_by_role(subarrays);
+            case 0: // Single TX + single RX
+            {
+                auto tx = param.get_transducer_offsets(1, "TX");
+                auto rx = param.get_transducer_offsets(2, "RX");
+
+                auto trx = SensorPose::from_txrx(
+                    tx, rx, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
+
+                _txrx_target_names_per_trx_channel[trx.name] = { tx.name, rx.name };
+                config.register_transducer_channel(trx.name,
+                                                   tx.name,
+                                                   tx_default_sub,
+                                                   rx.name,
+                                                   rx_default_sub,
+                                                   trx.name,
+                                                   trx_default_sub);
+
+                config.add_target(tx.name, std::move(tx));
+                config.add_target(rx.name, std::move(rx));
+                config.add_target(trx.name, std::move(trx));
+
+                config.set_target_subarrays(trx.name, tx_subarrays);
+                config.set_target_subarrays(rx.name, rx_subarrays);
+                break;
+            }
+            case 5: // Portable single head
+                [[fallthrough]];
+            case 6: // Modular
+                [[fallthrough]];
+            case 1: // Single head
+            {
+                auto trx = param.get_transducer_offsets(
+                    1, "TRX-" + std::to_string(param.get_system_main_head_serial_number()));
+
+                _txrx_target_names_per_trx_channel[trx.name] = { trx.name, trx.name };
+                config.register_transducer_channel(trx.name,
+                                                   trx.name,
+                                                   tx_default_sub,
+                                                   trx.name,
+                                                   rx_default_sub,
+                                                   trx.name,
+                                                   trx_default_sub);
+
+                config.add_target(trx.name, std::move(trx));
+
+                // subarrays
+                config.set_target_subarrays(trx.name, trx_subarrays);
+                break;
+            }
+            case 2: // Dual Rx
+            {
+                auto trx1 = param.get_transducer_offsets(
+                    1, "TRX-" + std::to_string(param.get_system_main_head_serial_number()));
+                auto trx2 = param.get_transducer_offsets(
+                    2, "TRX-" + std::to_string(param.get_secondary_system_serial_number()));
+
+                _txrx_target_names_per_trx_channel[trx1.name] = { trx1.name, trx1.name };
+                _txrx_target_names_per_trx_channel[trx2.name] = { trx2.name, trx2.name };
+                config.register_transducer_channel(trx1.name,
+                                                   trx1.name,
+                                                   tx_default_sub,
+                                                   trx1.name,
+                                                   rx_default_sub,
+                                                   trx1.name,
+                                                   trx_default_sub);
+                config.register_transducer_channel(trx2.name,
+                                                   trx2.name,
+                                                   tx_default_sub,
+                                                   trx2.name,
+                                                   rx_default_sub,
+                                                   trx2.name,
+                                                   trx_default_sub);
+
+                config.add_target(trx1.name, std::move(trx1));
+                config.add_target(trx2.name, std::move(trx2));
+
+                // subarrays
+                config.set_target_subarrays(trx1.name, trx_subarrays);
+                config.set_target_subarrays(trx2.name, trx_subarrays);
+                break;
+            }
+            case 3: // Single TX + dual RX
+            {
+                auto tx = param.get_transducer_offsets(
+                    1, "TX-" + std::to_string(param.get_tx_serial_number()));
+                auto rx1 = param.get_transducer_offsets(
+                    2, "RX-" + std::to_string(param.get_rx1_serial_number()));
+                auto rx2 = param.get_transducer_offsets(
+                    3, "RX-" + std::to_string(param.get_rx2_serial_number()));
+
+                auto trx1 = SensorPose::from_txrx(
+                    tx, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
+                auto trx2 = SensorPose::from_txrx(
+                    tx, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
+
+                _txrx_target_names_per_trx_channel[trx1.name] = { tx.name, rx1.name };
+                _txrx_target_names_per_trx_channel[trx2.name] = { tx.name, rx2.name };
+                config.register_transducer_channel(trx1.name,
+                                                   tx.name,
+                                                   tx_default_sub,
+                                                   rx1.name,
+                                                   rx_default_sub,
+                                                   trx1.name,
+                                                   trx_default_sub);
+                config.register_transducer_channel(trx2.name,
+                                                   tx.name,
+                                                   tx_default_sub,
+                                                   rx2.name,
+                                                   rx_default_sub,
+                                                   trx2.name,
+                                                   trx_default_sub);
+
+                config.add_target(tx.name, std::move(tx));
+                config.add_target(rx1.name, std::move(rx1));
+                config.add_target(rx2.name, std::move(rx2));
+                config.add_target(trx1.name, std::move(trx1));
+                config.add_target(trx2.name, std::move(trx2));
+
+                // subarrays
+                config.set_target_subarrays(tx.name, tx_subarrays);
+                config.set_target_subarrays(rx1.name, rx_subarrays);
+                config.set_target_subarrays(rx2.name, rx_subarrays);
+
+                break;
+            }
+            case 4: // Dual TX + dual RX
+            {
+                auto tx1 = param.get_transducer_offsets(
+                    0, "TX-" + std::to_string(param.get_tx_serial_number()));
+                auto tx2 = param.get_transducer_offsets(
+                    1, "TX-" + std::to_string(param.get_tx2_serial_number()));
+                auto rx1 = param.get_transducer_offsets(
+                    2, "RX-" + std::to_string(param.get_rx1_serial_number()));
+                auto rx2 = param.get_transducer_offsets(
+                    3, "RX-" + std::to_string(param.get_rx2_serial_number()));
+
+                auto trx1 = SensorPose::from_txrx(
+                    tx1, rx1, fmt::format("TRX-{}", param.get_system_main_head_serial_number()));
+                auto trx2 = SensorPose::from_txrx(
+                    tx2, rx2, fmt::format("TRX-{}", param.get_secondary_system_serial_number()));
+
+                _txrx_target_names_per_trx_channel[trx1.name] = { tx1.name, rx1.name };
+                _txrx_target_names_per_trx_channel[trx2.name] = { tx2.name, rx2.name };
+                config.register_transducer_channel(trx1.name, tx1.name, tx_default_sub, rx1.name, rx_default_sub, trx1.name, trx_default_sub);
+                config.register_transducer_channel(trx2.name, tx2.name, tx_default_sub, rx2.name, rx_default_sub, trx2.name, trx_default_sub);
+
+                config.add_target(tx1.name, std::move(tx1));
+                config.add_target(tx2.name, std::move(tx2));
+                config.add_target(rx1.name, std::move(rx1));
+                config.add_target(rx2.name, std::move(rx2));
+                config.add_target(trx1.name, std::move(trx1));
+                config.add_target(trx2.name, std::move(trx2));
+
+                // subarrays
+                config.set_target_subarrays(tx1.name, tx_subarrays);
+                config.set_target_subarrays(tx2.name, tx_subarrays);
+                config.set_target_subarrays(rx1.name, rx_subarrays);
+                config.set_target_subarrays(rx2.name, rx_subarrays);
+                break;
+            }
+            default:
+                throw std::runtime_error(
+                    fmt::format("read_sensor_configuration: Unknown STC "
+                                "value {} in file nr {} [{}] installation parameters!",
+                                param.get_value_int("STC"),
+                                this->get_file_nr(),
+                                this->get_file_path()));
         }
 
         // record system name and transducer configuration for downstream use

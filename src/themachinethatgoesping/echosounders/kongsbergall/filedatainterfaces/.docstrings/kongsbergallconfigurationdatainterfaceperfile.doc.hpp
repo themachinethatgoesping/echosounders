@@ -1,4 +1,4 @@
-//sourcehash: b4fe899aed57cd24ea786d0a8ea43ce20d470ebbc69c81c6c3cebc59b24d75f5
+//sourcehash: 64f3194846d23a2813dffc4fa722018250ac7da37c468fe5b0267ee962a0f625
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -69,12 +69,16 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 R"doc(Per-TRX-channel mapping to the (TX, RX) target ids in the file's
 SensorConfiguration. For STC modes that only register a single
 combined transducer (single-head, dual-head with merged TRX), both
-entries point at the TRX target itself.)doc";
+entries point at the TRX target itself.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_init_runtime_parameters =
 R"doc(read the runtime parameters from the file and save them in the
 internal map This function is automatically called by
-get_runtime_parameters)doc";
+get_runtime_parameters
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_printer = R"doc()doc";
 
@@ -85,7 +89,9 @@ R"doc(Read the installation parameters from the file, this function also
 checks if the start and end parameters are the same
 
 Returns:
-    datagrams::InstallationParameters)doc";
+    datagrams::InstallationParameters
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_read_sensor_configuration = R"doc()doc";
 
@@ -103,7 +109,9 @@ R"doc(Set the active heading sensor "NotSet": this will be overwritten by
 o_KongsbergAllActiveSensor
 
 Args:
-    sensor:)doc";
+    sensor:
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_set_active_heave_sensor =
 R"doc(Set the active heave sensor "NotSet": this will be overwritten by
@@ -111,7 +119,9 @@ R"doc(Set the active heave sensor "NotSet": this will be overwritten by
 o_KongsbergAllActiveSensor
 
 Args:
-    sensor:)doc";
+    sensor:
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_set_active_pitch_roll_sensor =
 R"doc(Set the active roll pitch sensor "NotSet": this will be overwritten by
@@ -119,7 +129,9 @@ R"doc(Set the active roll pitch sensor "NotSet": this will be overwritten by
 o_KongsbergAllActiveSensor
 
 Args:
-    sensor:)doc";
+    sensor:
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_set_active_position_system_number =
 R"doc(Set the active position system number
@@ -128,7 +140,9 @@ R"doc(Set the active position system number
 1-3: position system 1-3
 
 Args:
-    number:)doc";
+    number:
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterfacePerFile_txrx_target_names_per_trx_channel = R"doc()doc";
 

@@ -37,24 +37,7 @@ void ConfigurationDataInterface_add_interface(T_PyClass& cls)
                 I_ConfigurationDataInterface,
                 get_sensor_configuration),
             nb::arg("index"));
-    cls.def(
-        "get_trx_sensor_configuration_per_target_id",
-        [](const T_BaseClass& self, int64_t index) {
-            // convert boost unordered flyweight map to nb::dict
-            nb::dict result;
-            for (const auto& [key, value] : self.get_trx_sensor_configuration_per_target_id(index))
-            {
-                result[nb::str(key.c_str())] = value;
-            }
-            return result;
-        },
-        DOC(themachinethatgoesping,
-            echosounders,
-            filetemplates,
-            datainterfaces,
-            I_ConfigurationDataInterface,
-            get_trx_sensor_configuration_per_target_id),
-        nb::arg("index"));
+   
 }
 
 }

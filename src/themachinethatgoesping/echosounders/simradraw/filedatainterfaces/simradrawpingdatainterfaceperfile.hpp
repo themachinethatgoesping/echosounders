@@ -109,17 +109,14 @@ class SimradRawPingDataInterfacePerFile
         }
 
         // get sensor configurations for all channels
-        auto sensor_configurations_per_trx_channel =
-            this->configuration_data_interface().get_trx_sensor_configuration_per_target_id(
-                this->get_file_nr());
-        auto base_sensor_configuration =
-            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr());
+        boost::flyweights::flyweight<navigation::SensorConfiguration> base_sensor_configuration(
+            this->configuration_data_interface().get_sensor_configuration(this->get_file_nr()));
 
         // get navigation data for this file
         boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
             navigation_data_interpolator =
                 this->navigation_data_interface().get_navigation_interpolator_flyweight(
-                    base_sensor_configuration.binary_hash());
+                    base_sensor_configuration.get().binary_hash());
         bool navigation_is_valid = navigation_data_interpolator.get().valid();
 
         // transceiver information
@@ -372,9 +369,7 @@ class SimradRawPingDataInterfacePerFile
                     ping_ptr->file_data().set_environment(_environment_buffer);
 
                     // set sensor configuration
-                    if (base_sensor_configuration.has_target(ping_ptr->get_channel_id()))
-                        ping_ptr->set_sensor_configuration_flyweight(
-                            sensor_configurations_per_trx_channel.at(ping_ptr->get_channel_id()));
+                    ping_ptr->set_sensor_configuration_flyweight(base_sensor_configuration);
 
                     if (navigation_is_valid)
                         ping_ptr->set_navigation_interpolator_latlon(navigation_data_interpolator);

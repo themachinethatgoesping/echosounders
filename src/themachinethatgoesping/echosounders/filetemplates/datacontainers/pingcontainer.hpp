@@ -346,7 +346,6 @@ class PingContainer
         for (const auto& ping : _pings)
         {
             auto sensor_configuration = ping->get_sensor_configuration();
-            sensor_configuration.remove_target("Transducer");
             containers[sensor_configuration].add_ping(ping);
         }
 

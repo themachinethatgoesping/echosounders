@@ -26,8 +26,7 @@ std::map<t_pingfeature, std::function<bool()>> I_Ping::primary_feature_functions
     features[t_pingfeature::channel_id] = std::bind(&I_Ping::has_channel_id, this);
     features[t_pingfeature::sensor_configuration] =
         std::bind(&I_Ping::has_sensor_configuration, this);
-    features[t_pingfeature::sensor_data_latlon] =
-        std::bind(&I_Ping::has_sensor_data_latlon, this);
+    features[t_pingfeature::sensor_data_latlon] = std::bind(&I_Ping::has_sensor_data_latlon, this);
     features[t_pingfeature::navigation_interpolator_latlon] =
         std::bind(&I_Ping::has_navigation_interpolator_latlon, this);
     features[t_pingfeature::geolocation] = std::bind(&I_Ping::has_geolocation, this);
@@ -68,7 +67,7 @@ double I_Ping::get_timestamp() const
     return _timestamp;
 }
 
-bool               I_Ping::has_channel_id() const
+bool I_Ping::has_channel_id() const
 {
     return !_channel_id.get().empty();
 }
@@ -85,9 +84,13 @@ bool I_Ping::has_geolocation() const
     return has_sensor_configuration() && has_navigation_interpolator_latlon();
 }
 navigation::datastructures::GeolocationLatLon I_Ping::get_geolocation(
-    const std::string& target_id) const
+    std::optional<std::string> target_id) const
 {
-    return get_sensor_configuration().compute_target_position(target_id, get_sensor_data_latlon());
+    const auto& sc = get_sensor_configuration();
+
+    return sc.compute_target_position(
+        target_id.value_or(sc.get_transducer_transmit_receive_id(_channel_id.get()).first),
+        get_sensor_data_latlon());
 }
 const navigation::SensorConfiguration& I_Ping::get_sensor_configuration() const
 {
@@ -95,9 +98,7 @@ const navigation::SensorConfiguration& I_Ping::get_sensor_configuration() const
 }
 uint64_t I_Ping::get_sensor_configuration_base_hash() const
 {
-    auto sc = get_sensor_configuration();
-    sc.remove_target("Transducer");
-    return sc.binary_hash();
+    return get_sensor_configuration().binary_hash();
 }
 bool I_Ping::has_sensor_configuration() const
 {
@@ -168,7 +169,7 @@ I_PingBottom& I_Ping::bottom()
 {
     throw not_implemented("bottom", this->class_name());
 }
-const I_PingBottom&   I_Ping::bottom() const
+const I_PingBottom& I_Ping::bottom() const
 {
     return const_cast<I_Ping*>(this)->bottom();
 }
@@ -206,7 +207,7 @@ bool I_Ping::has_watercolumn() const
 }
 I_Ping::not_implemented::not_implemented(std::string_view method_name, std::string_view name)
     : std::runtime_error(
-        fmt::format("method {} not implemented for ping type '{}'", method_name, name))
+          fmt::format("method {} not implemented for ping type '{}'", method_name, name))
 {
 }
 tools::classhelper::ObjectPrinter I_Ping::__printer__(unsigned int float_precision,
@@ -233,18 +234,16 @@ tools::classhelper::ObjectPrinter I_Ping::__printer__(unsigned int float_precisi
     if (has_geolocation())
     {
         printer.register_section("Geolocation");
-        printer.append(get_geolocation("Transducer").__printer__(float_precision,
-                                                                  superscript_exponents));
+        printer.append(get_geolocation().__printer__(float_precision, superscript_exponents));
     }
     else
     {
-        printer.register_string("Geolocation",
-                                "not available",
-                                fmt::format("Sensor configuration: {}, Sensor data: {}",
-                                            has_sensor_configuration() ? "available" :
-                                                                         "not available",
-                                            has_navigation_interpolator_latlon() ? "available" :
-                                                                                   "not available"));
+        printer.register_string(
+            "Geolocation",
+            "not available",
+            fmt::format("Sensor configuration: {}, Sensor data: {}",
+                        has_sensor_configuration() ? "available" : "not available",
+                        has_navigation_interpolator_latlon() ? "available" : "not available"));
     }
 
     return printer;

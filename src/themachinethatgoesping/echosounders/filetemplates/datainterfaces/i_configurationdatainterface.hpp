@@ -54,29 +54,6 @@ class I_ConfigurationDataInterface : public I_FileDataInterface<t_configurationd
         return this->per_file_const(pyindex).get_sensor_configuration();
     }
 
-    boost::unordered_map<std::string, boost::flyweight<navigation::SensorConfiguration>>
-    get_trx_sensor_configuration_per_target_id(int64_t pyindex) const
-    {
-        boost::unordered_map<std::string, boost::flyweight<navigation::SensorConfiguration>> result;
-
-        const auto& base_sensor_configuration = get_sensor_configuration(pyindex);
-
-        // create a sensor configuration for each target that starts with "TRX-"
-        for (const auto& target_id : base_sensor_configuration.get_target_ids())
-        {
-            auto trx_sensor_configuration = base_sensor_configuration;
-            trx_sensor_configuration.add_target("Transducer",
-                                                trx_sensor_configuration.get_target(target_id));
-            // carry the source target's subarray phase-center offsets onto the alias
-            if (base_sensor_configuration.has_target_subarrays(target_id))
-                trx_sensor_configuration.set_target_subarrays(
-                    "Transducer", base_sensor_configuration.get_target_subarrays(target_id));
-            result[target_id] = trx_sensor_configuration;
-        }
-
-        return result;
-    }
-
     /**
      * @brief Throw if the sensor configuration of the linked files is not consistent.
      *

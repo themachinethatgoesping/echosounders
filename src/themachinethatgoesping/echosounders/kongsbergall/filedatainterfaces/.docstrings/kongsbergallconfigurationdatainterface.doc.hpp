@@ -1,4 +1,4 @@
-//sourcehash: 1f1c4849b0296fa4f66204e548c69dd5ca6dd35070d861f20e274d98aa8dc6c9
+//sourcehash: 188ad6abacacd01f00eabe4fba5ccff94acb8be088d0efdacb50d610da381a38
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -44,18 +44,6 @@
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterface = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterface_KongsbergAllConfigurationDataInterface = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterface_get_trx_sensor_configuration_per_target_id =
-R"doc(Build per-TRX-channel SensorConfigurations like the base class, but
-additionally register \"TX\" and \"RX\" aliases that point to the
-**correct per-head** TX and RX mounts. This is required for dual-head
-and dual-RX Kongsberg systems where the synthetic TRX target merges
-two physically separated transducers and a global \"TX\"/\"RX\" lookup
-would pick the wrong head for half of the pings.
-
-The (TX, RX) name mapping per TRX channel is populated by
-KongsbergAllConfigurationDataInterfacePerFile::read_sensor_configurati
-                                              on().)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllConfigurationDataInterface_printer = R"doc()doc";
 

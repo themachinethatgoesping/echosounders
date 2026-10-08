@@ -1,4 +1,4 @@
-//sourcehash: 24870388b1331936e7f3ec101bb0a1d4fc067ef4e942e506d37616f8d91179bb
+//sourcehash: 46f15490cd15df6d66883356b50c87efedf88aa8eb9aaa5e04b5beb11979bfe8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -64,14 +64,16 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_configuration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_configuration_base_hash =
-R"doc(Returns the hash of the base sensor configuraiton. This is the sensor
-configuration with the "Transducer" target removed. This hash can be
-used to get the correct navigation interpolator from the
-navigation_data_interface Note: This function is for testing and
+R"doc(Returns the hash of the base sensor configuraiton.
+
+This hash can be used to get the correct navigation interpolator from
+the navigation_data_interface Note: This function is for testing and
 finding errors. It is rather slow.
 
 Returns:
-    uint64_t)doc";
+    uint64_t
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_get_sensor_data_latlon = R"doc()doc";
 
@@ -93,6 +95,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_has_watercolumn = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_load = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_loaded = R"doc()doc";
@@ -106,6 +125,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_not_implemented_not_implemented = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_primary_feature_functions = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_Ping_printer = R"doc()doc";
 

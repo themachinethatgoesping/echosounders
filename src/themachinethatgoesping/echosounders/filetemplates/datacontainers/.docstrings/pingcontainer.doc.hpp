@@ -1,4 +1,4 @@
-//sourcehash: 4545a603420be3df30f35878c8fb9869a96cbed2e3e550748f6333654fffa60f
+//sourcehash: 70677607e1f914d8837a100e412dd5c17150bd850e7a97c3520644738e1ba83a
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,17 +45,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_PingContainer = R"doc(Construct a new empty PingContainer object)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_PingVector =
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_PingContainer_2 =
 R"doc(Construct a new PingContainer object from a vector of pings
 
 Args:
-    pings:: vector of pings)doc";
+    pings:: vector of pings
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_ping = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_ping_no_reindex =
-R"doc(Add a ping without resetting the pyindexer. Call reindex() after all
-pings have been added.)doc";
+R"doc(Add a ping without resetting the pyindexer.
+
+Call reindex() after all pings have been added.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_add_pings = R"doc()doc";
 
@@ -73,6 +78,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_get_sorted_by_time = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_max_number_of_samples = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_name = R"doc()doc";
@@ -85,19 +107,24 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_pings = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_pings_2 =
-R"doc(Construct a new PingContainer object from a vector of pings
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
 
 Args:
-    pings:: vector of pings)doc";
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_pyindexer = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_pyindexer_2 =
-R"doc(Construct a new PingContainer object from a vector of pings
-
-Args:
-    pings:: vector of pings)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_reindex = R"doc(Reset the pyindexer after batch additions via add_ping_no_reindex.)doc";
 
@@ -107,6 +134,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_size = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_split_by_sensor_configuration =
+R"doc(Split the data into a map of sensor configurations
+TODL: this function makes pybind11_mkdoc crash
+
+Returns:
+    ping container map
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_split_by_time_diff =
 R"doc(Split the data if the time difference between two subsequent datagrams
 is larger than arg Note: for this function to make sense the data
@@ -114,20 +150,23 @@ should be sorted_in_time
 
 Args:
     max_time_diff_seconds:: maximum time difference between two
-                          subsequent datagrams in seconds
+                            subsequent datagrams in seconds
 
 Returns:
-    std::vector<PingContainer<type_Ping>>)doc";
+    std::vector<PingContainer<type_Ping>>
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datacontainers_PingContainer_timeinfo =
 R"doc(Compute some time statistics for the pings in the container The
 is_sorted variable is interpreted as follows:
- - 1: the pings are sorted by time (ascending) - 0: the pings are not
-   sorted by time
-- -1: the pings are sorted by time (descending)
+- 1: the pings are sorted by time (ascending) - 0: the pings are not
+  sorted by time - -1: the pings are sorted by time (descending)
 
 Returns:
-    std::tuple<min_timestamp, max_timestamp, is_sorted()>)doc";
+    std::tuple<min_timestamp, max_timestamp, is_sorted()>
+
+)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

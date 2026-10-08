@@ -1,4 +1,4 @@
-//sourcehash: 4e8e522d957ef87d7eda39c822498d90bf6542ffd0cd3d7d3d1d30218dc21fbb
+//sourcehash: 2853f3a6d338a88495518325ff79ef9de2c7db6b0b98cff55e0d64ce6aacde5f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -81,7 +81,9 @@ This ensures that runtime-parameter and sound-speed-profile flyweights
 are created (and the initialization-done flags are set) on a single
 thread, avoiding concurrent file I/O and concurrent boost::flyweight-
 factory access that can cause data corruption on some platforms (e.g.
-MSVC / Windows).)doc";
+MSVC / Windows).
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatainterfaces_KongsbergAllPingDataInterfacePerFile_printer = R"doc()doc";
 

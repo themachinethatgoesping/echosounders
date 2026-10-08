@@ -253,8 +253,30 @@ class KMALLConfigurationDataInterfacePerFile
         _reciver_id_by_reciever_number.clear();
         _transmitter_id_by_reciever_number.clear();
 
-        // std::string system_name = param.get_system_name();
+        const std::string model_name = param.get_system_name();
         // int pu_serial = param.get_system_serial_number();
+
+        // ----- transmit/receive subarray phase-center offsets -----
+        // Prefer the per-subarray internal lever arms stored in the installation text;
+        // fill any gaps (e.g. an EM2040P single-head file only stores the port
+        // subarray) from the hardcoded model preset. Attach the transmit subarrays
+        // ("0"/"1"/"2") only to transmit targets and the receive phase center
+        auto [tx_subarrays, rx_subarrays] =
+            navigation::SensorConfiguration::get_model_subarray_offsets(model_name);
+
+        auto trx_subarrays = tx_subarrays;
+        trx_subarrays.insert(rx_subarrays.begin(), rx_subarrays.end());
+
+        std::string tx_default_sub, rx_default_sub, trx_default_sub;
+        if (!tx_subarrays.empty())
+            tx_default_sub = "tx_center";
+        if (!rx_subarrays.empty())
+            rx_default_sub = "rx_center";
+
+        // record system name and transducer configuration for downstream use
+        config.set_model_name(model_name);
+        config.set_transducer_configuration(
+            std::string(param.get_system_transducer_configuration().name()));
 
         switch (param.get_system_transducer_configuration().value)
         {
@@ -263,9 +285,23 @@ class KMALLConfigurationDataInterfacePerFile
             case t_KMALLSystemTransducerConfiguration::PortableMKIIHead:
                 [[fallthrough]];
             case t_KMALLSystemTransducerConfiguration::PortableSingleHead: {
-                auto trx = param.get_transducer_offsets("TRAI_HD1");
+                auto              trx        = param.get_transducer_offsets("TRAI_HD1");
+                const std::string channel_id = "TRX-" + trx.name;
+
                 config.add_target(trx.name, std::move(trx));
-                config.add_target("TRX-" + trx.name, std::move(trx));
+                config.add_target(channel_id, std::move(trx));
+
+                // subarrays
+                config.set_target_subarrays(trx.name, trx_subarrays);
+                config.set_target_subarrays(channel_id, trx_subarrays);
+
+                config.register_transducer_channel(channel_id,
+                                                   trx.name,
+                                                   tx_default_sub,
+                                                   trx.name,
+                                                   rx_default_sub,
+                                                   trx.name,
+                                                   trx_default_sub);
 
                 // map channel id
                 _transducer_id_by_reciever_number.push_back("TRX-" + trx.name);
@@ -275,17 +311,40 @@ class KMALLConfigurationDataInterfacePerFile
                 break;
             }
             case t_KMALLSystemTransducerConfiguration::DualHead: {
-                auto trx1 = param.get_transducer_offsets("TRAI_HD1");
-                auto trx2 = param.get_transducer_offsets("TRAI_HD2");
+                auto              trx1         = param.get_transducer_offsets("TRAI_HD1");
+                auto              trx2         = param.get_transducer_offsets("TRAI_HD2");
+                const std::string channel_id_1 = "TRX-" + trx1.name;
+                const std::string channel_id_2 = "TRX-" + trx2.name;
 
                 config.add_target(trx1.name, std::move(trx1));
                 config.add_target(trx2.name, std::move(trx2));
-                config.add_target("TRX-" + trx1.name, std::move(trx1));
-                config.add_target("TRX-" + trx2.name, std::move(trx2));
+                config.add_target(channel_id_1, std::move(trx1));
+                config.add_target(channel_id_2, std::move(trx2));
+
+                // subarrays
+                config.set_target_subarrays(trx1.name, trx_subarrays);
+                config.set_target_subarrays(trx2.name, trx_subarrays);
+                config.set_target_subarrays(channel_id_1, trx_subarrays);
+                config.set_target_subarrays(channel_id_2, trx_subarrays);
+
+                config.register_transducer_channel(channel_id_1,
+                                                   trx1.name,
+                                                   tx_default_sub,
+                                                   trx1.name,
+                                                   rx_default_sub,
+                                                   trx1.name,
+                                                   trx_default_sub);
+                config.register_transducer_channel(channel_id_2,
+                                                   trx2.name,
+                                                   tx_default_sub,
+                                                   trx2.name,
+                                                   rx_default_sub,
+                                                   trx2.name,
+                                                   trx_default_sub);
 
                 // map channel id
-                _transducer_id_by_reciever_number.push_back("TRX-" + trx1.name);
-                _transducer_id_by_reciever_number.push_back("TRX-" + trx2.name);
+                _transducer_id_by_reciever_number.push_back(channel_id_1);
+                _transducer_id_by_reciever_number.push_back(channel_id_2);
                 _transmitter_id_by_reciever_number.push_back(trx1.name);
                 _transmitter_id_by_reciever_number.push_back(trx2.name);
                 _reciver_id_by_reciever_number.push_back(trx1.name);
@@ -293,12 +352,27 @@ class KMALLConfigurationDataInterfacePerFile
                 break;
             }
             case t_KMALLSystemTransducerConfiguration::SingleTxSingleRx: {
-                auto tx  = param.get_transducer_offsets("TRAI_TX1");
-                auto rx  = param.get_transducer_offsets("TRAI_RX1");
-                auto trx = SensorPose::from_txrx(tx, rx, "TRX-" + rx.name);
+                auto              tx         = param.get_transducer_offsets("TRAI_TX1");
+                auto              rx         = param.get_transducer_offsets("TRAI_RX1");
+                const std::string channel_id = "TRX-" + rx.name;
+
+                auto trx = SensorPose::from_txrx(tx, rx, channel_id);
+
                 config.add_target(tx.name, std::move(tx));
                 config.add_target(rx.name, std::move(rx));
                 config.add_target(trx.name, std::move(trx));
+
+                // subarrays
+                config.set_target_subarrays(tx.name, tx_subarrays);
+                config.set_target_subarrays(rx.name, rx_subarrays);
+
+                config.register_transducer_channel(channel_id,
+                                                   tx.name,
+                                                   tx_default_sub,
+                                                   rx.name,
+                                                   rx_default_sub,
+                                                   trx.name,
+                                                   trx_default_sub);
 
                 // map channel id
                 _transducer_id_by_reciever_number.push_back(trx.name);
@@ -307,18 +381,40 @@ class KMALLConfigurationDataInterfacePerFile
                 break;
             }
             case t_KMALLSystemTransducerConfiguration::SingleTxDualRx: {
-                auto tx  = param.get_transducer_offsets("TRAI_TX1");
-                auto rx1 = param.get_transducer_offsets("TRAI_RX1");
-                auto rx2 = param.get_transducer_offsets("TRAI_RX2");
+                auto              tx           = param.get_transducer_offsets("TRAI_TX1");
+                auto              rx1          = param.get_transducer_offsets("TRAI_RX1");
+                auto              rx2          = param.get_transducer_offsets("TRAI_RX2");
+                const std::string channel_id_1 = "TRX-" + rx1.name;
+                const std::string channel_id_2 = "TRX-" + rx2.name;
 
-                auto trx1 = SensorPose::from_txrx(tx, rx1, "TRX-" + rx1.name);
-                auto trx2 = SensorPose::from_txrx(tx, rx2, "TRX-" + rx2.name);
+                auto trx1 = SensorPose::from_txrx(tx, rx1, channel_id_1);
+                auto trx2 = SensorPose::from_txrx(tx, rx2, channel_id_2);
 
                 config.add_target(tx.name, std::move(tx));
                 config.add_target(rx1.name, std::move(rx1));
                 config.add_target(rx2.name, std::move(rx2));
                 config.add_target(trx1.name, std::move(trx1));
                 config.add_target(trx2.name, std::move(trx2));
+
+                // subarrays
+                config.set_target_subarrays(tx.name, tx_subarrays);
+                config.set_target_subarrays(rx1.name, rx_subarrays);
+                config.set_target_subarrays(rx2.name, rx_subarrays);
+
+                config.register_transducer_channel(channel_id_1,
+                                                   tx.name,
+                                                   tx_default_sub,
+                                                   rx1.name,
+                                                   rx_default_sub,
+                                                   trx1.name,
+                                                   trx_default_sub);
+                config.register_transducer_channel(channel_id_2,
+                                                   tx.name,
+                                                   tx_default_sub,
+                                                   rx2.name,
+                                                   rx_default_sub,
+                                                   trx2.name,
+                                                   trx_default_sub);
 
                 // map channel id
                 _transducer_id_by_reciever_number.push_back(trx1.name);
@@ -329,13 +425,15 @@ class KMALLConfigurationDataInterfacePerFile
                 break;
             }
             case t_KMALLSystemTransducerConfiguration::DualTxDualRx: {
-                auto tx1 = param.get_transducer_offsets("TRAI_TX1");
-                auto tx2 = param.get_transducer_offsets("TRAI_TX2");
-                auto rx1 = param.get_transducer_offsets("TRAI_RX1");
-                auto rx2 = param.get_transducer_offsets("TRAI_RX2");
+                auto              tx1          = param.get_transducer_offsets("TRAI_TX1");
+                auto              tx2          = param.get_transducer_offsets("TRAI_TX2");
+                auto              rx1          = param.get_transducer_offsets("TRAI_RX1");
+                auto              rx2          = param.get_transducer_offsets("TRAI_RX2");
+                const std::string channel_id_1 = "TRX-" + rx1.name;
+                const std::string channel_id_2 = "TRX-" + rx2.name;
 
-                auto trx1 = SensorPose::from_txrx(tx1, rx1, "TRX-" + rx1.name);
-                auto trx2 = SensorPose::from_txrx(tx2, rx2, "TRX-" + rx2.name);
+                auto trx1 = SensorPose::from_txrx(tx1, rx1, channel_id_1);
+                auto trx2 = SensorPose::from_txrx(tx2, rx2, channel_id_2);
 
                 config.add_target(tx1.name, std::move(tx1));
                 config.add_target(tx2.name, std::move(tx2));
@@ -343,6 +441,27 @@ class KMALLConfigurationDataInterfacePerFile
                 config.add_target(rx2.name, std::move(rx2));
                 config.add_target(trx1.name, std::move(trx1));
                 config.add_target(trx2.name, std::move(trx2));
+
+                // subarrays
+                config.set_target_subarrays(tx1.name, tx_subarrays);
+                config.set_target_subarrays(tx2.name, tx_subarrays);
+                config.set_target_subarrays(rx1.name, rx_subarrays);
+                config.set_target_subarrays(rx2.name, rx_subarrays);
+
+                config.register_transducer_channel(channel_id_1,
+                                                   tx1.name,
+                                                   tx_default_sub,
+                                                   rx1.name,
+                                                   rx_default_sub,
+                                                   trx1.name,
+                                                   trx_default_sub);
+                config.register_transducer_channel(channel_id_2,
+                                                   tx2.name,
+                                                   tx_default_sub,
+                                                   rx2.name,
+                                                   rx_default_sub,
+                                                   trx2.name,
+                                                   trx_default_sub);
 
                 // map channel id
                 _transducer_id_by_reciever_number.push_back(trx1.name);
@@ -362,25 +481,6 @@ class KMALLConfigurationDataInterfacePerFile
                                 this->get_file_path(),
                                 param.get_system_transducer_configuration().name()));
         }
-
-        // ----- transmit/receive subarray phase-center offsets -----
-        // Prefer the per-subarray internal lever arms stored in the installation text;
-        // fill any gaps (e.g. an EM2040P single-head file only stores the port
-        // subarray) from the hardcoded model preset. Attach the transmit subarrays
-        // ("0"/"1"/"2") only to transmit targets and the receive phase center ("RX")
-        // only to receive targets; TRX targets (combined tx+rx) get both.
-        {
-            auto subarrays = navigation::SensorConfiguration::get_model_subarray_offsets(
-                param.get_system_name());
-            for (auto& [subarray_id, offset] : param.get_subarray_offsets())
-                subarrays[subarray_id] = std::move(offset); // file wins over the model preset
-            config.set_subarrays_by_role(subarrays);
-        }
-
-        // record system name and transducer configuration for downstream use
-        config.set_model_name(param.get_system_name());
-        config.set_transducer_configuration(
-            std::string(param.get_system_transducer_configuration().name()));
 
         // add the depth sensor (if available)
         try

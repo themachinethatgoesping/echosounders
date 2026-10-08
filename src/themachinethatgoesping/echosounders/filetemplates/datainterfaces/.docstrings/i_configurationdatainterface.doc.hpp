@@ -1,4 +1,4 @@
-//sourcehash: aaa847c6cf855538a3720d10b67a91ae962055dc228dc0d11e0531a7117f6fe0
+//sourcehash: 86f66c89f6d69fab9eaca0f8db024bbefc4117c1dd09f86d4486d2b2783f9998
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,13 +47,45 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_get_sensor_configuration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_get_trx_sensor_configuration_per_target_id = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_ConfigurationDataInterface_verify_linked_file_interfaces_are_consistent =
 R"doc(Throw if the sensor configuration of the linked files is not
-consistent.)doc";
+consistent.
+
+)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop
