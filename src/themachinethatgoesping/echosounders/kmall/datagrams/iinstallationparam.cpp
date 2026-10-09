@@ -686,11 +686,27 @@ float IInstallationParam::get_water_line_vertical_location_in_meters() const
     return 0.f;
 }
 
+namespace {
+/**
+ * @brief Return true if a decoded sensor's usage flag (U=...) marks it as active.
+ *
+ * The installation text flags the active position/attitude sensor with U=ACTIVE. Real systems
+ * additionally emit qualified variants, e.g. U=ACTIVE_VEL (attitude also used for velocity) or
+ * U=ACTIVE_EM (attitude used by the EM / echo sounder for motion compensation). Any value starting
+ * with "ACTIVE" therefore denotes an active sensor, while PASSIVE / NOT_SET do not.
+ */
+bool usage_is_active(const std::map<std::string, std::string>& params)
+{
+    auto it = params.find("U");
+    return it != params.end() && boost::algorithm::starts_with(it->second, "ACTIVE");
+}
+} // namespace
+
 int8_t IInstallationParam::get_active_position_system_number() const
 {
     auto decoded = get_install_txt_decoded_cached();
 
-    // Check each position system for U=ACTIVE
+    // Check each position system for an active U= flag
     for (uint8_t i = 1; i <= 4; ++i)
     {
         std::string key = fmt::format("POSI_{}", i);
@@ -698,7 +714,7 @@ int8_t IInstallationParam::get_active_position_system_number() const
         if (it != decoded.end())
         {
             auto params = parse_sensor_string(it->second);
-            if (params.count("U") && params["U"] == "ACTIVE")
+            if (usage_is_active(params))
             {
                 return i;
             }
@@ -733,7 +749,7 @@ int8_t IInstallationParam::get_active_attitude_sensor_number() const
 {
     auto decoded = get_install_txt_decoded_cached();
 
-    // Check each attitude sensor for U=ACTIVE
+    // Check each attitude sensor for an active U= flag
     for (uint8_t i = 1; i <= 4; ++i)
     {
         std::string key = fmt::format("ATTI_{}", i);
@@ -741,7 +757,7 @@ int8_t IInstallationParam::get_active_attitude_sensor_number() const
         if (it != decoded.end())
         {
             auto params = parse_sensor_string(it->second);
-            if (params.count("U") && params["U"] == "ACTIVE")
+            if (usage_is_active(params))
             {
                 return i;
             }

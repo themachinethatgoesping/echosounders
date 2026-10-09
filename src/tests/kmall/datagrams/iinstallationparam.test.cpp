@@ -7,6 +7,8 @@
 
 #include <filesystem>
 
+#include <fmt/format.h>
+
 #include <themachinethatgoesping/echosounders/kmall/datagrams/iinstallationparam.hpp>
 
 // using namespace testing;
@@ -107,4 +109,52 @@ TEST_CASE("IInstallationParam should support common functions", TESTTAG)
 
     REQUIRE(dat.get_bytes_datagram() == dat.get_bytes_datagram_check());
     CHECK(dat.binary_hash() == 7356458248918231941ULL);
+}
+
+TEST_CASE("IInstallationParam active sensor detection handles ACTIVE variants", TESTTAG)
+{
+    // Build a minimal valid installation text with configurable U= usage flags for POSI_1 and
+    // ATTI_1 / ATTI_2. The first 7 comma-separated fields are the positional header fields the
+    // decoder requires (OSCV, EMXV, PU, SN, IP, UDP, TYPE).
+    auto make = [](std::string_view posi1_u, std::string_view atti1_u, std::string_view atti2_u) {
+        return fmt::format(
+            "OSCV:Empty,EMXV:EM2042,PU_0,SN=25002,IP=1.2.3.4,UDP=1997,TYPE=X,"
+            "POSI_1:C=On;I=Net port 1;U={},POSI_2:U=NOT_SET,POSI_3:U=NOT_SET,"
+            "ATTI_1:X=0.000;F=Seapath Binary 26;I=Net port 2;U={},"
+            "ATTI_2:X=0.000;F=EM Attitude;I=Serial port 2;U={},EMXI:SWLZ=0.000,",
+            posi1_u,
+            atti1_u,
+            atti2_u);
+    };
+
+    SECTION("qualified ACTIVE_VEL / ACTIVE_EM are treated as active (real EM304 dual-sensor file)")
+    {
+        // Regression guard: a real EM304 file marks ATTI_1 as ACTIVE_VEL (Seapath Binary 26, the
+        // full-resolution source) and ATTI_2 as ACTIVE_EM (the EM internal copy). The exact
+        // "U==ACTIVE" check used to miss both, dropping ALL #SKM attitude data.
+        IInstallationParam dat;
+        dat.set_install_txt(make("ACTIVE", "ACTIVE_VEL", "ACTIVE_EM"));
+
+        // the first active attitude sensor wins -> ATTI_1 (1-based) -> #SKM sensorSystem 0
+        REQUIRE(dat.get_active_attitude_sensor_number() == 1);
+        REQUIRE(dat.get_active_position_system_number() == 1);
+    }
+
+    SECTION("a passive first sensor is skipped and the active one is selected")
+    {
+        IInstallationParam dat;
+        dat.set_install_txt(make("PASSIVE", "PASSIVE", "ACTIVE_EM"));
+
+        REQUIRE(dat.get_active_attitude_sensor_number() == 2);
+        REQUIRE(dat.get_active_position_system_number() == 0); // no active position system
+    }
+
+    SECTION("no active sensor resolves to 0 (none)")
+    {
+        IInstallationParam dat;
+        dat.set_install_txt(make("PASSIVE", "NOT_SET", "PASSIVE"));
+
+        REQUIRE(dat.get_active_attitude_sensor_number() == 0);
+        REQUIRE(dat.get_active_position_system_number() == 0);
+    }
 }
