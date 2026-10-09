@@ -267,9 +267,15 @@ class KMALLConfigurationDataInterfacePerFile
         auto trx_subarrays = tx_subarrays;
         trx_subarrays.insert(rx_subarrays.begin(), rx_subarrays.end());
 
+        std::vector<std::string> tx_subarray_names = {};
+
         std::string tx_default_sub, rx_default_sub, trx_default_sub;
+
         if (!tx_subarrays.empty())
-            tx_default_sub = "tx_center";
+        {
+            tx_default_sub    = "tx_center";
+            tx_subarray_names = { "tx_port", "tx_center", "tx_starboard" };
+        }
         if (!rx_subarrays.empty())
             rx_default_sub = "rx_center";
 
@@ -297,11 +303,12 @@ class KMALLConfigurationDataInterfacePerFile
 
                 config.register_transducer_channel(channel_id,
                                                    trx.name,
+                                                   trx.name,
+                                                   trx.name,
                                                    tx_default_sub,
-                                                   trx.name,
                                                    rx_default_sub,
-                                                   trx.name,
-                                                   trx_default_sub);
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 // map channel id
                 _transducer_id_by_reciever_number.push_back("TRX-" + trx.name);
@@ -329,18 +336,20 @@ class KMALLConfigurationDataInterfacePerFile
 
                 config.register_transducer_channel(channel_id_1,
                                                    trx1.name,
+                                                   trx1.name,
+                                                   trx1.name,
                                                    tx_default_sub,
-                                                   trx1.name,
                                                    rx_default_sub,
-                                                   trx1.name,
-                                                   trx_default_sub);
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
                 config.register_transducer_channel(channel_id_2,
                                                    trx2.name,
+                                                   trx2.name,
+                                                   trx2.name,
                                                    tx_default_sub,
-                                                   trx2.name,
                                                    rx_default_sub,
-                                                   trx2.name,
-                                                   trx_default_sub);
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 // map channel id
                 _transducer_id_by_reciever_number.push_back(channel_id_1);
@@ -368,11 +377,12 @@ class KMALLConfigurationDataInterfacePerFile
 
                 config.register_transducer_channel(channel_id,
                                                    tx.name,
-                                                   tx_default_sub,
                                                    rx.name,
-                                                   rx_default_sub,
                                                    trx.name,
-                                                   trx_default_sub);
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 // map channel id
                 _transducer_id_by_reciever_number.push_back(trx.name);
@@ -403,18 +413,20 @@ class KMALLConfigurationDataInterfacePerFile
 
                 config.register_transducer_channel(channel_id_1,
                                                    tx.name,
-                                                   tx_default_sub,
                                                    rx1.name,
-                                                   rx_default_sub,
                                                    trx1.name,
-                                                   trx_default_sub);
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
                 config.register_transducer_channel(channel_id_2,
                                                    tx.name,
-                                                   tx_default_sub,
                                                    rx2.name,
-                                                   rx_default_sub,
                                                    trx2.name,
-                                                   trx_default_sub);
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 // map channel id
                 _transducer_id_by_reciever_number.push_back(trx1.name);
@@ -450,18 +462,20 @@ class KMALLConfigurationDataInterfacePerFile
 
                 config.register_transducer_channel(channel_id_1,
                                                    tx1.name,
-                                                   tx_default_sub,
                                                    rx1.name,
-                                                   rx_default_sub,
                                                    trx1.name,
-                                                   trx_default_sub);
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
                 config.register_transducer_channel(channel_id_2,
                                                    tx2.name,
-                                                   tx_default_sub,
                                                    rx2.name,
-                                                   rx_default_sub,
                                                    trx2.name,
-                                                   trx_default_sub);
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 // map channel id
                 _transducer_id_by_reciever_number.push_back(trx1.name);

@@ -356,9 +356,14 @@ class KongsbergAllConfigurationDataInterfacePerFile
         auto trx_subarrays = tx_subarrays;
         trx_subarrays.insert(rx_subarrays.begin(), rx_subarrays.end());
 
+        std::vector<std::string> tx_subarray_names = {};
+
         std::string tx_default_sub, rx_default_sub, trx_default_sub;
         if (!tx_subarrays.empty())
-            tx_default_sub = "tx_center";
+        {
+            tx_default_sub    = "tx_center";
+            tx_subarray_names = { "tx_port", "tx_center", "tx_starboard" };
+        }
         if (!rx_subarrays.empty())
             rx_default_sub = "rx_center";
 
@@ -376,11 +381,12 @@ class KongsbergAllConfigurationDataInterfacePerFile
                 _txrx_target_names_per_trx_channel[trx.name] = { tx.name, rx.name };
                 config.register_transducer_channel(trx.name,
                                                    tx.name,
-                                                   tx_default_sub,
                                                    rx.name,
-                                                   rx_default_sub,
                                                    trx.name,
-                                                   trx_default_sub);
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 config.add_target(tx.name, std::move(tx));
                 config.add_target(rx.name, std::move(rx));
@@ -402,11 +408,12 @@ class KongsbergAllConfigurationDataInterfacePerFile
                 _txrx_target_names_per_trx_channel[trx.name] = { trx.name, trx.name };
                 config.register_transducer_channel(trx.name,
                                                    trx.name,
+                                                   trx.name,
+                                                   trx.name,
                                                    tx_default_sub,
-                                                   trx.name,
                                                    rx_default_sub,
-                                                   trx.name,
-                                                   trx_default_sub);
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 config.add_target(trx.name, std::move(trx));
 
@@ -425,18 +432,20 @@ class KongsbergAllConfigurationDataInterfacePerFile
                 _txrx_target_names_per_trx_channel[trx2.name] = { trx2.name, trx2.name };
                 config.register_transducer_channel(trx1.name,
                                                    trx1.name,
+                                                   trx1.name,
+                                                   trx1.name,
                                                    tx_default_sub,
-                                                   trx1.name,
                                                    rx_default_sub,
-                                                   trx1.name,
-                                                   trx_default_sub);
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
                 config.register_transducer_channel(trx2.name,
                                                    trx2.name,
+                                                   trx2.name,
+                                                   trx2.name,
                                                    tx_default_sub,
-                                                   trx2.name,
                                                    rx_default_sub,
-                                                   trx2.name,
-                                                   trx_default_sub);
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 config.add_target(trx1.name, std::move(trx1));
                 config.add_target(trx2.name, std::move(trx2));
@@ -464,18 +473,20 @@ class KongsbergAllConfigurationDataInterfacePerFile
                 _txrx_target_names_per_trx_channel[trx2.name] = { tx.name, rx2.name };
                 config.register_transducer_channel(trx1.name,
                                                    tx.name,
-                                                   tx_default_sub,
                                                    rx1.name,
-                                                   rx_default_sub,
                                                    trx1.name,
-                                                   trx_default_sub);
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
                 config.register_transducer_channel(trx2.name,
                                                    tx.name,
-                                                   tx_default_sub,
                                                    rx2.name,
-                                                   rx_default_sub,
                                                    trx2.name,
-                                                   trx_default_sub);
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 config.add_target(tx.name, std::move(tx));
                 config.add_target(rx1.name, std::move(rx1));
@@ -508,8 +519,22 @@ class KongsbergAllConfigurationDataInterfacePerFile
 
                 _txrx_target_names_per_trx_channel[trx1.name] = { tx1.name, rx1.name };
                 _txrx_target_names_per_trx_channel[trx2.name] = { tx2.name, rx2.name };
-                config.register_transducer_channel(trx1.name, tx1.name, tx_default_sub, rx1.name, rx_default_sub, trx1.name, trx_default_sub);
-                config.register_transducer_channel(trx2.name, tx2.name, tx_default_sub, rx2.name, rx_default_sub, trx2.name, trx_default_sub);
+                config.register_transducer_channel(trx1.name,
+                                                   tx1.name,
+                                                   rx1.name,
+                                                   trx1.name,
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
+                config.register_transducer_channel(trx2.name,
+                                                   tx2.name,
+                                                   rx2.name,
+                                                   trx2.name,
+                                                   tx_default_sub,
+                                                   rx_default_sub,
+                                                   trx_default_sub,
+                                                   tx_subarray_names);
 
                 config.add_target(tx1.name, std::move(tx1));
                 config.add_target(tx2.name, std::move(tx2));

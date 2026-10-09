@@ -71,7 +71,7 @@ class S7KConfigurationDataInterfacePerFile
 
         // If no datagram is available, return an empty navigation data object.
         auto config = navigation::SensorConfiguration();
-        config.register_transducer_channel("0", "0", "", "0", "", "0", "");
+        config.register_transducer_channel("0", "0", "0", "0");
         return config;
     }
 

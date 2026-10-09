@@ -93,7 +93,7 @@ navigation::SensorConfiguration XML_Configuration::get_sensor_configuration() co
 
         // single transducer that both transmits and receives -> tx == rx == trx == channel_id
         sensor_configuration.register_transducer_channel(
-            channel_id, channel_id, "", channel_id, "", channel_id, "");
+            channel_id, channel_id, channel_id, channel_id);
     }
 
     return sensor_configuration;
