@@ -26,25 +26,40 @@ namespace pymodule {
 
 NB_MODULE(MODULE_NAME, m)
 {
-    // nanobind split mode builds this extension against the stable ABI (abi3),
-    // which uses CPython's multi-phase module initialization. On some
-    // toolchains (observed with VS2026 / clang-cl on Windows) the module
-    // execution callback is invoked more than once for the same module object.
-    // Re-running the body re-registers the bound types, and nanobind 3.x aborts
-    // when it re-adds values to an already-registered enum ("refusing to add
-    // duplicate key ..."). Guard against that: the first pass fully populates
-    // the module, so any subsequent pass can safely return early.
-    if (nb::hasattr(m, "__echosounders_initialized__"))
+    m.doc() =
+        "Python module to read, write and process single- and multibeam echosounder data formats";
+    m.attr("__version__") = MODULE_VERSION;
+
+    // nanobind 3.x initializes every extension through CPython's multi-phase
+    // module mechanism. On some configurations (observed with VS2026 / clang-cl
+    // on Windows) the module body is executed more than once per process, each
+    // time with a *fresh* module object, while nanobind's type registry is
+    // global to the process. Registering the bindings again would therefore
+    // re-add the already bound types, and nanobind aborts the process when an
+    // enum value is registered twice ("refusing to add duplicate key ...").
+    //
+    // Register the bindings exactly once. If the body runs again, mirror the
+    // public attributes of the first, fully initialized module into the new
+    // module object instead of registering anything a second time (a plain
+    // early return would leave that module object empty).
+    static PyObject* initialized_module = nullptr;
+    if (initialized_module != nullptr)
+    {
+        nb::dict first_dict = nb::borrow<nb::dict>(PyModule_GetDict(initialized_module));
+        for (auto [key, value] : first_dict)
+        {
+            PyObject* key_obj = key.ptr();
+            if (PyUnicode_Check(key_obj) && PyUnicode_GetLength(key_obj) > 0 &&
+                PyUnicode_READ_CHAR(key_obj, 0) == '_')
+                continue; // keep this module object's own private / dunder attributes
+            m.attr(key) = value;
+        }
         return;
-    m.attr("__echosounders_initialized__") = true;
+    }
 
     auto tools_module = nb::module_::import_("themachinethatgoesping.tools_nanopy");
     auto navigation_module = nb::module_::import_("themachinethatgoesping.navigation_nanopy");
     auto algorithms_module = nb::module_::import_("themachinethatgoesping.algorithms_nanopy");
-
-    m.doc() =
-        "Python module to read, write and process single- and multibeam echosounder data formats";
-    m.attr("__version__") = MODULE_VERSION;
 
     py_filetemplates::init_m_filetemplates(m);
 
@@ -54,6 +69,12 @@ NB_MODULE(MODULE_NAME, m)
     py_gsf::init_m_gsf(m);
     py_kmall::init_m_kmall(m);
     py_s7k::init_m_s7k(m);
+
+    // Remember the fully initialized module so a possible second (multi-phase)
+    // execution can reuse it without re-registering any types. The reference is
+    // intentionally kept for the lifetime of the process.
+    initialized_module = m.ptr();
+    Py_INCREF(initialized_module);
 }
 
 }
