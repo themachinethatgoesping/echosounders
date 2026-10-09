@@ -46,12 +46,16 @@ NB_MODULE(MODULE_NAME, m)
     if (initialized_module != nullptr)
     {
         nb::dict first_dict = nb::borrow<nb::dict>(PyModule_GetDict(initialized_module));
+        nb::dict this_dict  = nb::borrow<nb::dict>(PyModule_GetDict(m.ptr()));
         for (auto [key, value] : first_dict)
         {
-            PyObject* key_obj = key.ptr();
-            if (PyUnicode_Check(key_obj) && PyUnicode_GetLength(key_obj) > 0 &&
-                PyUnicode_READ_CHAR(key_obj, 0) == '_')
-                continue; // keep this module object's own private / dunder attributes
+            // Copy every binding the fresh module object does not already have.
+            // Skipping keys that are already present preserves this module
+            // object's own import machinery (__name__, __spec__, __loader__, the
+            // __doc__ / __version__ set above, ...) while still exposing all
+            // registered types, enums, functions and submodules.
+            if (this_dict.contains(key))
+                continue;
             m.attr(key) = value;
         }
         return;
