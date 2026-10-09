@@ -26,6 +26,18 @@ namespace pymodule {
 
 NB_MODULE(MODULE_NAME, m)
 {
+    // nanobind split mode builds this extension against the stable ABI (abi3),
+    // which uses CPython's multi-phase module initialization. On some
+    // toolchains (observed with VS2026 / clang-cl on Windows) the module
+    // execution callback is invoked more than once for the same module object.
+    // Re-running the body re-registers the bound types, and nanobind 3.x aborts
+    // when it re-adds values to an already-registered enum ("refusing to add
+    // duplicate key ..."). Guard against that: the first pass fully populates
+    // the module, so any subsequent pass can safely return early.
+    if (nb::hasattr(m, "__echosounders_initialized__"))
+        return;
+    m.attr("__echosounders_initialized__") = true;
+
     auto tools_module = nb::module_::import_("themachinethatgoesping.tools_nanopy");
     auto navigation_module = nb::module_::import_("themachinethatgoesping.navigation_nanopy");
     auto algorithms_module = nb::module_::import_("themachinethatgoesping.algorithms_nanopy");
