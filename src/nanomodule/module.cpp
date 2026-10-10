@@ -26,44 +26,13 @@ namespace pymodule {
 
 NB_MODULE(MODULE_NAME, m)
 {
-    m.doc() =
-        "Python module to read, write and process single- and multibeam echosounder data formats";
-    m.attr("__version__") = MODULE_VERSION;
-
-    // nanobind 3.x initializes every extension through CPython's multi-phase
-    // module mechanism. On some configurations (observed with VS2026 / clang-cl
-    // on Windows) the module body is executed more than once per process, each
-    // time with a *fresh* module object, while nanobind's type registry is
-    // global to the process. Registering the bindings again would therefore
-    // re-add the already bound types, and nanobind aborts the process when an
-    // enum value is registered twice ("refusing to add duplicate key ...").
-    //
-    // Register the bindings exactly once. If the body runs again, mirror the
-    // public attributes of the first, fully initialized module into the new
-    // module object instead of registering anything a second time (a plain
-    // early return would leave that module object empty).
-    static PyObject* initialized_module = nullptr;
-    if (initialized_module != nullptr)
-    {
-        nb::dict first_dict = nb::borrow<nb::dict>(PyModule_GetDict(initialized_module));
-        nb::dict this_dict  = nb::borrow<nb::dict>(PyModule_GetDict(m.ptr()));
-        for (auto [key, value] : first_dict)
-        {
-            // Copy every binding the fresh module object does not already have.
-            // Skipping keys that are already present preserves this module
-            // object's own import machinery (__name__, __spec__, __loader__, the
-            // __doc__ / __version__ set above, ...) while still exposing all
-            // registered types, enums, functions and submodules.
-            if (this_dict.contains(key))
-                continue;
-            m.attr(key) = value;
-        }
-        return;
-    }
-
     auto tools_module = nb::module_::import_("themachinethatgoesping.tools_nanopy");
     auto navigation_module = nb::module_::import_("themachinethatgoesping.navigation_nanopy");
     auto algorithms_module = nb::module_::import_("themachinethatgoesping.algorithms_nanopy");
+
+    m.doc() =
+        "Python module to read, write and process single- and multibeam echosounder data formats";
+    m.attr("__version__") = MODULE_VERSION;
 
     py_filetemplates::init_m_filetemplates(m);
 
@@ -73,12 +42,6 @@ NB_MODULE(MODULE_NAME, m)
     py_gsf::init_m_gsf(m);
     py_kmall::init_m_kmall(m);
     py_s7k::init_m_s7k(m);
-
-    // Remember the fully initialized module so a possible second (multi-phase)
-    // execution can reuse it without re-registering any types. The reference is
-    // intentionally kept for the lifetime of the process.
-    initialized_module = m.ptr();
-    Py_INCREF(initialized_module);
 }
 
 }
