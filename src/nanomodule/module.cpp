@@ -26,8 +26,8 @@ namespace pymodule {
 
 NB_MODULE(MODULE_NAME, m)
 {
-    auto tools_module = nb::module_::import_("themachinethatgoesping.tools_nanopy");
-    auto navigation_module = nb::module_::import_("themachinethatgoesping.navigation_nanopy");
+    //auto tools_module = nb::module_::import_("themachinethatgoesping.tools_nanopy");
+    //auto navigation_module = nb::module_::import_("themachinethatgoesping.navigation_nanopy");
     auto algorithms_module = nb::module_::import_("themachinethatgoesping.algorithms_nanopy");
 
     m.doc() =
