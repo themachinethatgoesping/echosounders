@@ -159,6 +159,22 @@ jobs:
     - name: install pip requirements
       run: pip install -r requirements.txt
 
+    # TEMPORARY DIAGNOSTIC: the compiled module prints '[ECHO_DIAG] exec #N ...'
+    # plus the Python stack each time its NB_MODULE body runs. A second run is the
+    # Windows double-exec that aborts. 'python -v' additionally logs the import
+    # order. continue-on-error so the job still reaches the pytest step. Remove
+    # once the double-exec trigger is identified.
+    - name: 'DIAGNOSTIC trace echosounders double-exec'
+      continue-on-error: true
+      run: |
+        $env:PYTHONFAULTHANDLER = "1"
+        Write-Host "===== (1) plain import: [ECHO_DIAG] prints exec count + Python stack ====="
+        python -c "import themachinethatgoesping.echosounders; print('PLAIN IMPORT OK (single exec)')"
+        Write-Host "===== (2) verbose import order (filtered) ====="
+        python -v -c "import themachinethatgoesping.echosounders" 2>&1 |
+          Select-String -Pattern 'nanopy','ECHO_DIAG','already registered','import themachinethatgoesping' |
+          ForEach-Object { $_.Line }
+
     - name: test (pytest)
       run: pytest -v
     
