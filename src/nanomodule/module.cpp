@@ -4,9 +4,6 @@
 
 #define FORCE_IMPORT_ARRAY // this is needed for xtensor interop when required
 
-#include <cstdio>
-#include <string>
-
 #include <nanobind/nanobind.h>
 
 // larger submodules
@@ -29,36 +26,6 @@ namespace pymodule {
 
 NB_MODULE(MODULE_NAME, m)
 {
-    // ===================== TEMPORARY WINDOWS DIAGNOSTIC =====================
-    // Counts how often this module's exec body runs in the process and prints
-    // the Python stack each time. A second run proves the extension is being
-    // re-exec'd (re-registering types -> fatal under nanobind 3.x).
-    // Remove once the Windows double-exec is understood.
-    {
-        static int echo_exec_count = 0;
-        ++echo_exec_count;
-        std::fprintf(stderr,
-                     "\n[ECHO_DIAG] echosounders_nanopy exec #%d  module=%p\n",
-                     echo_exec_count,
-                     (void*)m.ptr());
-        std::fflush(stderr);
-        // Write __name__ and the Python call stack via Python itself, so this
-        // stays abi3-safe (no C++ string casters, no PyRun/Py_CompileString).
-        try {
-            nb::object err = nb::module_::import_("sys").attr("stderr");
-            err.attr("write")(nb::str("[ECHO_DIAG] __name__="));
-            err.attr("write")(m.attr("__name__"));
-            err.attr("write")(nb::str("\n[ECHO_DIAG] --- python stack (most recent call last) ---\n"));
-            nb::module_::import_("traceback").attr("print_stack")();
-            err.attr("flush")();
-        } catch (...) {
-            std::fprintf(stderr, "[ECHO_DIAG]   (python stack unavailable)\n");
-            std::fflush(stderr);
-        }
-        PyErr_Clear();
-    }
-    // =================== END TEMPORARY WINDOWS DIAGNOSTIC ===================
-
     //auto tools_module = nb::module_::import_("themachinethatgoesping.tools_nanopy");
     //auto navigation_module = nb::module_::import_("themachinethatgoesping.navigation_nanopy");
     auto algorithms_module = nb::module_::import_("themachinethatgoesping.algorithms_nanopy");
