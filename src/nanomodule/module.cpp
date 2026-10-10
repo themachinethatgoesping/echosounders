@@ -31,31 +31,31 @@ NB_MODULE(MODULE_NAME, m)
 {
     // ===================== TEMPORARY WINDOWS DIAGNOSTIC =====================
     // Counts how often this module's exec body runs in the process and prints
-    // the Python import stack each time. A second run proves the extension is
-    // being re-exec'd (re-registering types -> fatal under nanobind 3.x).
+    // the Python stack each time. A second run proves the extension is being
+    // re-exec'd (re-registering types -> fatal under nanobind 3.x).
     // Remove once the Windows double-exec is understood.
     {
         static int echo_exec_count = 0;
         ++echo_exec_count;
-        std::string modname = "?";
-        try {
-            modname = nb::cast<std::string>(m.attr("__name__"));
-        } catch (...) {
-        }
         std::fprintf(stderr,
-                     "\n[ECHO_DIAG] echosounders_nanopy exec #%d  module=%p  __name__=%s\n",
+                     "\n[ECHO_DIAG] echosounders_nanopy exec #%d  module=%p\n",
                      echo_exec_count,
-                     (void*)m.ptr(),
-                     modname.c_str());
+                     (void*)m.ptr());
         std::fflush(stderr);
+        // Write __name__ and the Python call stack via Python itself, so this
+        // stays abi3-safe (no C++ string casters, no PyRun/Py_CompileString).
         try {
-            nb::object stack = nb::module_::import_("traceback").attr("format_stack")();
-            for (nb::handle line : stack)
-                std::fprintf(stderr, "[ECHO_DIAG]   %s", nb::cast<std::string>(line).c_str());
+            nb::object err = nb::module_::import_("sys").attr("stderr");
+            err.attr("write")(nb::str("[ECHO_DIAG] __name__="));
+            err.attr("write")(m.attr("__name__"));
+            err.attr("write")(nb::str("\n[ECHO_DIAG] --- python stack (most recent call last) ---\n"));
+            nb::module_::import_("traceback").attr("print_stack")();
+            err.attr("flush")();
         } catch (...) {
             std::fprintf(stderr, "[ECHO_DIAG]   (python stack unavailable)\n");
+            std::fflush(stderr);
         }
-        std::fflush(stderr);
+        PyErr_Clear();
     }
     // =================== END TEMPORARY WINDOWS DIAGNOSTIC ===================
 

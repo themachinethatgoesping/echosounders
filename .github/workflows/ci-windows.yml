@@ -170,10 +170,19 @@ jobs:
         $env:PYTHONFAULTHANDLER = "1"
         Write-Host "===== (1) plain import: [ECHO_DIAG] prints exec count + Python stack ====="
         python -c "import themachinethatgoesping.echosounders; print('PLAIN IMPORT OK (single exec)')"
-        Write-Host "===== (2) verbose import order (filtered) ====="
-        python -v -c "import themachinethatgoesping.echosounders" 2>&1 |
-          Select-String -Pattern 'nanopy','ECHO_DIAG','already registered','import themachinethatgoesping' |
-          ForEach-Object { $_.Line }
+        Write-Host "===== (2) verbose import trace, context around echosounders_nanopy loads ====="
+        python -v -c "import themachinethatgoesping.echosounders" *>&1 | Tee-Object -FilePath import_trace.log | Out-Null
+        Select-String -Path import_trace.log -Pattern 'echosounders_nanopy','ECHO_DIAG','already registered','refusing to add','# destroy','# cleanup' -Context 3,3 |
+          ForEach-Object { $_.ToString() }
+
+    - name: 'DIAGNOSTIC upload full import trace'
+      if: always()
+      continue-on-error: true
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows_import_trace
+        path: import_trace.log
+        retention-days: 5
 
     - name: test (pytest)
       run: pytest -v
