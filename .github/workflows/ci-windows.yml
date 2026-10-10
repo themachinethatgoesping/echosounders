@@ -145,6 +145,15 @@ jobs:
         # meson setup builddir -D"python.install_env=auto" -Ddefault_library=static -D"python.install_env=auto" -Dcpp_std=${{matrix.cpp_std}}
         meson setup builddir -Dunity=on -Dunity_size=9999999 -D"python.install_env=auto" -Ddefault_library=static -D"python.install_env=auto" -Dcpp_std=${{matrix.cpp_std}}
 
+    - name: 'VERIFY which meta wrap was fetched'
+      continue-on-error: true
+      run: |
+        Write-Host "=== git HEAD of fetched subprojects/meta-main ==="
+        git -C subprojects/meta-main log -1 --oneline
+        Write-Host "=== echosounders block in fetched meta in.__init__.py (expect NO 'as echosounders') ==="
+        Select-String -Path subprojects/meta-main/python/themachinethatgoesping/in.__init__.py -Pattern 'echosounders' |
+          ForEach-Object { "$($_.LineNumber): $($_.Line)" }
+
     - name: compile project
       run: meson compile -C builddir/
 
