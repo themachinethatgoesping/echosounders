@@ -140,25 +140,10 @@ jobs:
         $env:NINJA
         c:\ninja.exe --version
 
-    - name: 'force fresh meta wrap (debug: ensure as-echosounders fix is used)'
-      run: |
-        Remove-Item -Recurse -Force subprojects/meta-main -ErrorAction SilentlyContinue
-        git clone --branch main https://github.com/themachinethatgoesping/meta.git subprojects/meta-main
-        git -C subprojects/meta-main log -1 --oneline
-
     - name: configure meson
       run: |
         # meson setup builddir -D"python.install_env=auto" -Ddefault_library=static -D"python.install_env=auto" -Dcpp_std=${{matrix.cpp_std}}
         meson setup builddir -Dunity=on -Dunity_size=9999999 -D"python.install_env=auto" -Ddefault_library=static -D"python.install_env=auto" -Dcpp_std=${{matrix.cpp_std}}
-
-    - name: 'VERIFY which meta wrap was fetched'
-      continue-on-error: true
-      run: |
-        Write-Host "=== git HEAD of subprojects/meta-main ==="
-        git -C subprojects/meta-main log -1 --oneline
-        Write-Host "=== echosounders block in meta in.__init__.py (expect NO 'as echosounders') ==="
-        Select-String -Path subprojects/meta-main/python/themachinethatgoesping/in.__init__.py -Pattern 'echosounders' |
-          ForEach-Object { "$($_.LineNumber): $($_.Line)" }
 
     - name: compile project
       run: meson compile -C builddir/
