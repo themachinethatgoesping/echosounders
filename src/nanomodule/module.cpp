@@ -26,23 +26,6 @@ namespace pymodule {
 
 NB_MODULE(MODULE_NAME, m)
 {
-    // --- guard against multi-phase re-exec of this extension ---
-    // nanobind uses CPython multi-phase module init, whose exec body may run
-    // more than once in a single process. On Windows / CPython 3.13 this module
-    // is in fact destroyed and re-exec'd mid-import. Re-running the registration
-    // body below re-registers the process-global nanobind types, which is noisy
-    // (RuntimeWarnings) and, depending on the nanobind version, fatal (aborts)
-    // or raises ("bad cast"). Instead, snapshot the fully-built module namespace
-    // after the first successful exec; on any later exec, repopulate the fresh
-    // module object from that snapshot and return before re-registering anything.
-    // Uses only the stable (abi3) C-API so it works in split mode too.
-    static PyObject* module_snapshot = nullptr; // process-global, intentionally leaked
-    if (module_snapshot != nullptr)
-    {
-        PyDict_Update(PyModule_GetDict(m.ptr()), module_snapshot);
-        return;
-    }
-
     //auto tools_module = nb::module_::import_("themachinethatgoesping.tools_nanopy");
     //auto navigation_module = nb::module_::import_("themachinethatgoesping.navigation_nanopy");
     auto algorithms_module = nb::module_::import_("themachinethatgoesping.algorithms_nanopy");
@@ -59,10 +42,6 @@ NB_MODULE(MODULE_NAME, m)
     py_gsf::init_m_gsf(m);
     py_kmall::init_m_kmall(m);
     py_s7k::init_m_s7k(m);
-
-    // Snapshot the fully-built namespace so a later re-exec (see guard above)
-    // can repopulate without re-registering. Kept for the process lifetime.
-    module_snapshot = PyDict_Copy(PyModule_GetDict(m.ptr()));
 }
 
 }
