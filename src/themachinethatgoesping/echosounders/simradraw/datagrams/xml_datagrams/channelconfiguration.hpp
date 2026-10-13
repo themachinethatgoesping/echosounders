@@ -13,7 +13,7 @@
 #include <string>
 
 // project (needed for member types / return types)
-#include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
+#include <themachinethatgoesping/navigation/datastructures/sensorpose.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 #include "xml_configuration_transceiver.hpp"
 #include "xml_configuration_transducer.hpp"

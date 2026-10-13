@@ -16,7 +16,7 @@
 #include <string_view>
 
 // themachinethatgoesping import
-#include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
+#include <themachinethatgoesping/navigation/datastructures/sensorpose.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include "../types.hpp"

@@ -18,7 +18,7 @@
 
 // themachinethatgoesping import
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
-#include <themachinethatgoesping/navigation/datastructures/positionaloffsets.hpp>
+#include <themachinethatgoesping/navigation/datastructures/sensorpose.hpp>
 
 #include "helper.hpp"
 #include "xml_node.hpp"

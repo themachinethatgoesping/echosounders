@@ -20,6 +20,7 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/algorithms/geoprocessing/datastructures/xyz.hpp>
+#include <themachinethatgoesping/algorithms/geoprocessing/raytracers2/mbesrawdetectioninfos.hpp>
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
@@ -37,7 +38,7 @@ namespace datatypes {
  * @brief Interface for all ping bottom detection functions
  *
  */
-class I_PingBottom : public I_PingCommon
+class I_PingBottom : public I_PingCommon, I_MBESRawDetectionInfos
 {
   protected:
     std::string class_name() const override;
