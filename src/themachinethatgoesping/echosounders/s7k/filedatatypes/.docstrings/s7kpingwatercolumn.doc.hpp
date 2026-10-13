@@ -1,4 +1,4 @@
-//sourcehash: 60913cbdbf4e85fed82b1c7726710b70742d5e3dd54a1b8796c2b9854b04143e
+//sourcehash: 4d0b9c207876eba30fa98a92a94156c99c689b4df98d8a7e2f0c97d65ed5c023
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -68,7 +68,9 @@ Missing beams/samples are NaN (floating point) or 0 (integer).
 Template Args:
     t_out: output value type
     t_beam_accessor: callable (const CompressedWaterColumnBeam&) ->
-                     xt::xtensor<...,1>)doc";
+                     xt::xtensor<...,1>
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_class_name = R"doc()doc";
 
@@ -76,9 +78,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_beam_alongtrack_angles = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_bottom_range_samples = R"doc()doc";
 
@@ -86,15 +88,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_multisectorwatercolumn_calibration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_number_of_beams_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_number_of_tx_sectors_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_phase =
 R"doc(Water column phase in degrees (NaN for missing beams/samples, all-NaN
-if the record contains no phase).)doc";
+if the record contains no phase).
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_phase_2 = R"doc()doc";
 
@@ -104,7 +108,9 @@ R"doc(Water column amplitudes (magnitude) in their raw, unconverted values
 
 The values are returned as stored on disk (widened to uint32; 16 bit
 records keep their 0..65535 range). No dB conversion is applied - see
-get_amplitudes for dB. Missing beams/samples are 0.)doc";
+get_amplitudes for dB. Missing beams/samples are 0.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_raw_amplitudes_2 = R"doc()doc";
 
@@ -112,37 +118,39 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 R"doc(Water column phase in its raw, unconverted int16 values (radians =
 value / 10430).
 
-All-zero if the record contains no phase. Missing beams/samples are 0.)doc";
+All-zero if the record contains no phase. Missing beams/samples are 0.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_raw_phase_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_sample_interval = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_sound_speed_at_transducer_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_amplitudes = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_bottom_range_samples = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_multisectorwatercolumn_calibration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_number_of_beams_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_number_of_tx_sectors_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_watercolumn_calibration = R"doc()doc";
 

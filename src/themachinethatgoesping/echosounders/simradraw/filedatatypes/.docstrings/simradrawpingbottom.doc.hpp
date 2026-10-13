@@ -1,4 +1,4 @@
-//sourcehash: 9c1fe4216c086b77818aa946583a67a39135f6a003fae5f3df4171a327a818c3
+//sourcehash: 93da48ec20bd1fc6cf134346d1d7a8ab1e0377599c78709c0c1783fec76b73fd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,15 +47,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_class_name = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_number_of_beams_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_tx_sector_per_beam = R"doc(TODO: these functions should react on the BeamSelection ..)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_get_tx_sector_per_beam_legacy = R"doc(TODO: these functions should react on the BeamSelection ..)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_has_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_has_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_has_two_way_travel_times = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_has_two_way_travel_times_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingBottom_has_xyz = R"doc()doc";
 

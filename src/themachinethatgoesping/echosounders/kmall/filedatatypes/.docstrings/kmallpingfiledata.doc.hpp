@@ -1,4 +1,4 @@
-//sourcehash: ecc7e7d1e389dcda3bca899ad118ff137b7fc0907ce591d76d3cce30a4954af5
+//sourcehash: 9fb8d257eee6ffcbff392ed6e654f77a7131232028b9dcb4b31ab3fcdedb8934
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -63,7 +63,9 @@ Args:
     datagram_identifier: 
 
 Returns:
-    std::istream&)doc";
+    std::istream&
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_get_multisector_calibration = R"doc()doc";
 
@@ -93,6 +95,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_has_watercolumn_calibration = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_init_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_load_sys = R"doc()doc";
@@ -105,6 +124,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_must_have_datagrams = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_read_first_datagram = R"doc()doc";
@@ -113,7 +147,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 R"doc(read XYZ for the bottom detection datagram
 
 Returns:
-    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+    algorithms::geoprocessing::datastructures::XYZ<1>
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_read_xyz_2 =
 R"doc(read XYZ for the specified beams from the bottom detection datagram
@@ -125,7 +161,9 @@ Args:
     bs: beam selection
 
 Returns:
-    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+    algorithms::geoprocessing::datastructures::XYZ<1>
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingFileData_release_multisector_calibration = R"doc()doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: 4cd02680cb1813616387f14bbc891e4bf4ba84c116d1dd0bae2e423a8926047c
+//sourcehash: cc0ad96e3b8ee90fa4df6936df62841f6387d0b95eeaa9e0beb485a81eacb707
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,9 +51,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_beam_alongtrack_angles = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_bottom_range_samples = R"doc()doc";
 
@@ -65,11 +65,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_multisectorwatercolumn_calibration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_number_of_beams_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_number_of_tx_sectors_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_raw_amplitudes = R"doc()doc";
 
@@ -79,7 +79,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_sample_positions = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_sound_speed_at_transducer_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_start_range_sample_numbers = R"doc()doc";
 
@@ -89,33 +89,33 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_tvg_offset = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_amplitudes = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_beam_crosstrack_angles = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_beam_crosstrack_angles_in_world_frame = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_beam_crosstrack_angles_legacy = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_bottom_range_samples = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_multisectorwatercolumn_calibration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_number_of_beams_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_number_of_tx_sectors_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_raw_amplitudes = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_watercolumn_calibration = R"doc()doc";
 

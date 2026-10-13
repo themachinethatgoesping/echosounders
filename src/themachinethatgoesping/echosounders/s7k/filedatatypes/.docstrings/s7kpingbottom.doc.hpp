@@ -1,4 +1,4 @@
-//sourcehash: de61d61d3c35bda58293f0abd0ec3838240bf152d2c8bd5dd2cd499424dfa50c
+//sourcehash: 83d7be1a30c169025e55c7c71aa341d70287b413e8fdbea8633ce928f6d8f79c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -56,21 +56,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_class_name = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_number_of_beams_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_number_of_tx_sectors_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_two_way_travel_times = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_two_way_travel_times_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_get_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_has_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_has_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_has_two_way_travel_times = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_has_two_way_travel_times_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_has_xyz = R"doc()doc";
 

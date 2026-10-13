@@ -24,21 +24,8 @@ std::string I_PingBottom::class_name() const
 std::map<t_pingfeature, std::function<bool()>> I_PingBottom::primary_feature_functions() const
 {
 	auto features = t_base::primary_feature_functions();
-	features[t_pingfeature::two_way_travel_times] =
-		std::bind(&I_PingBottom::has_two_way_travel_times, this);
-	features[t_pingfeature::xyz] = std::bind(&I_PingBottom::has_xyz, this);
-
-	// to be implemented
-	// features[t_pingfeature::beam_numbers_per_tx_sector] =
-	//     std::bind(&I_PingBottom::has_beam_numbers_per_tx_sector, this);
-	// features[t_pingfeature::beam_selection_all] =
-	//     std::bind(&I_PingBottom::has_beam_selection_all, this);
-	// features[t_pingfeature::number_of_beams] =
-	//     std::bind(&I_PingBottom::has_number_of_beams, this);
-	// features[t_pingfeature::tx_sector_per_beam] =
-	//     std::bind(&I_PingBottom::has_tx_sector_per_beam, this);
-	// features[t_pingfeature::tx_sector_information] =
-	//     std::bind(&I_PingBottom::has_tx_sector_information, this);
+	__PING_REGISTER_FEATURE__(features, two_way_travel_times_legacy);
+	__PING_REGISTER_FEATURE__(features, xyz);
 
 	return features;
 }
@@ -46,12 +33,24 @@ std::map<t_pingfeature, std::function<bool()>> I_PingBottom::primary_feature_fun
 std::map<t_pingfeature, std::function<bool()>> I_PingBottom::secondary_feature_functions() const
 {
 	auto features = t_base::secondary_feature_functions();
-	features[t_pingfeature::tx_signal_parameters] =
-		std::bind(&I_PingBottom::has_tx_signal_parameters, this);
-	features[t_pingfeature::number_of_tx_sectors] =
-		std::bind(&I_PingBottom::has_number_of_tx_sectors, this);
-	features[t_pingfeature::beam_crosstrack_angles] =
-		std::bind(&I_PingBottom::has_beam_crosstrack_angles, this);
+	__PING_REGISTER_FEATURE__(features, tx_signal_parameters_legacy);
+	__PING_REGISTER_FEATURE__(features, number_of_tx_sectors_legacy);
+	__PING_REGISTER_FEATURE__(features, beam_crosstrack_angles_legacy);
+
+	// I_MBESRawDetectionInfos features
+	__PING_REGISTER_FEATURE__(features, ref_pingtime);
+	__PING_REGISTER_FEATURE__(features, ref_pose);
+	__PING_REGISTER_FEATURE__(features, surface_sound_speed);
+	__PING_REGISTER_FEATURE__(features, sector_beam_numbers);
+	__PING_REGISTER_FEATURE__(features, sector_tx_time_delays);
+	__PING_REGISTER_FEATURE__(features, sector_tx_steering_angles);
+	__PING_REGISTER_FEATURE__(features, sector_tx_offsets);
+	__PING_REGISTER_FEATURE__(features, rx_offsets);
+	__PING_REGISTER_FEATURE__(features, number_of_soundings);
+	__PING_REGISTER_FEATURE__(features, soundings_two_way_travel_times);
+	__PING_REGISTER_FEATURE__(features, soundings_rx_steering_angles);
+	__PING_REGISTER_FEATURE__(features, soundings_sector_numbers);
+
 	return features;
 }
 
@@ -64,42 +63,42 @@ I_PingBottom::I_PingBottom() = default;
 
 I_PingBottom::~I_PingBottom() = default;
 
-bool I_PingBottom::has_tx_signal_parameters() const
+bool I_PingBottom::has_tx_signal_parameters_legacy() const
 {
 	return false;
 }
 
-bool I_PingBottom::has_number_of_tx_sectors() const
+bool I_PingBottom::has_number_of_tx_sectors_legacy() const
 {
 	return false;
 }
 
-bool I_PingBottom::has_beam_numbers_per_tx_sector() const
+bool I_PingBottom::has_beam_numbers_per_tx_sector_legacy() const
 {
 	return false;
 }
 
-bool I_PingBottom::has_tx_sector_per_beam() const
+bool I_PingBottom::has_tx_sector_per_beam_legacy() const
 {
 	return false;
 }
 
 bool I_PingBottom::has_beam_selection_all() const
 {
-	return has_number_of_beams();
+	return has_number_of_beams_legacy();
 }
 
-bool I_PingBottom::has_number_of_beams() const
+bool I_PingBottom::has_number_of_beams_legacy() const
 {
 	return false;
 }
 
-bool I_PingBottom::has_beam_crosstrack_angles() const
+bool I_PingBottom::has_beam_crosstrack_angles_legacy() const
 {
 	return false;
 }
 
-bool I_PingBottom::has_two_way_travel_times() const
+bool I_PingBottom::has_two_way_travel_times_legacy() const
 {
 	return false;
 }
@@ -110,55 +109,55 @@ bool I_PingBottom::has_xyz() const
 }
 
 std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-	I_PingBottom::get_tx_signal_parameters()
+	I_PingBottom::get_tx_signal_parameters_legacy()
 {
 	throw not_implemented(__func__, this->class_name());
 }
 
-size_t I_PingBottom::get_number_of_tx_sectors()
+size_t I_PingBottom::get_number_of_tx_sectors_legacy()
 {
 	throw not_implemented(__func__, this->class_name());
 }
 
-xt::xtensor<size_t, 1> I_PingBottom::get_tx_sector_per_beam()
+xt::xtensor<size_t, 1> I_PingBottom::get_tx_sector_per_beam_legacy()
 {
-	return get_tx_sector_per_beam(get_beam_selection_all());
+	return get_tx_sector_per_beam_legacy(get_beam_selection_all());
 }
 
 xt::xtensor<size_t, 1>
-	I_PingBottom::get_tx_sector_per_beam([[maybe_unused]] const pingtools::BeamSelection& bs)
+	I_PingBottom::get_tx_sector_per_beam_legacy([[maybe_unused]] const algorithms::pingtools::BeamSelection& bs)
 {
 	throw not_implemented(__func__, class_name());
 }
 
-std::vector<std::vector<size_t>> I_PingBottom::get_beam_numbers_per_tx_sector()
+std::vector<std::vector<size_t>> I_PingBottom::get_beam_numbers_per_tx_sector_legacy()
 {
-	return get_beam_numbers_per_tx_sector(get_beam_selection_all());
+	return get_beam_numbers_per_tx_sector_legacy(get_beam_selection_all());
 }
 
-std::vector<std::vector<size_t>> I_PingBottom::get_beam_numbers_per_tx_sector(
-	[[maybe_unused]] const pingtools::BeamSelection& bs)
-{
-	throw not_implemented(__func__, class_name());
-}
-
-pingtools::BeamSelection I_PingBottom::get_beam_selection_all()
-{
-	return pingtools::BeamSelection(get_number_of_beams());
-}
-
-uint32_t I_PingBottom::get_number_of_beams()
+std::vector<std::vector<size_t>> I_PingBottom::get_beam_numbers_per_tx_sector_legacy(
+	[[maybe_unused]] const algorithms::pingtools::BeamSelection& bs)
 {
 	throw not_implemented(__func__, class_name());
 }
 
-xt::xtensor<float, 1> I_PingBottom::get_beam_crosstrack_angles()
+algorithms::pingtools::BeamSelection I_PingBottom::get_beam_selection_all()
 {
-	return get_beam_crosstrack_angles(get_beam_selection_all());
+	return algorithms::pingtools::BeamSelection(get_number_of_beams_legacy());
 }
 
-xt::xtensor<float, 1> I_PingBottom::get_beam_crosstrack_angles(
-	[[maybe_unused]] const pingtools::BeamSelection& bs)
+uint32_t I_PingBottom::get_number_of_beams_legacy()
+{
+	throw not_implemented(__func__, class_name());
+}
+
+xt::xtensor<float, 1> I_PingBottom::get_beam_crosstrack_angles_legacy()
+{
+	return get_beam_crosstrack_angles_legacy(get_beam_selection_all());
+}
+
+xt::xtensor<float, 1> I_PingBottom::get_beam_crosstrack_angles_legacy(
+	[[maybe_unused]] const algorithms::pingtools::BeamSelection& bs)
 {
 	throw not_implemented(__func__, class_name());
 }
@@ -169,7 +168,7 @@ algorithms::geoprocessing::datastructures::XYZ<1> I_PingBottom::get_xyz()
 }
 
 algorithms::geoprocessing::datastructures::XYZ<1> I_PingBottom::get_xyz(
-	[[maybe_unused]] const pingtools::BeamSelection& selection)
+	[[maybe_unused]] const algorithms::pingtools::BeamSelection& selection)
 {
 	throw not_implemented(__func__, this->class_name());
 }
@@ -179,7 +178,7 @@ float I_PingBottom::get_bottom_z()
 	return get_bottom_z(get_beam_selection_all());
 }
 
-float I_PingBottom::get_bottom_z(const pingtools::BeamSelection& selection)
+float I_PingBottom::get_bottom_z(const algorithms::pingtools::BeamSelection& selection)
 {
 	auto xyz = get_xyz(selection);
 
@@ -215,13 +214,13 @@ float I_PingBottom::get_bottom_z(const pingtools::BeamSelection& selection)
 	return bottom_z;
 }
 
-xt::xtensor<float, 1> I_PingBottom::get_two_way_travel_times()
+xt::xtensor<float, 1> I_PingBottom::get_two_way_travel_times_legacy()
 {
-	return get_two_way_travel_times(get_beam_selection_all());
+	return get_two_way_travel_times_legacy(get_beam_selection_all());
 }
 
-xt::xtensor<float, 1> I_PingBottom::get_two_way_travel_times(
-	[[maybe_unused]] const pingtools::BeamSelection& selection)
+xt::xtensor<float, 1> I_PingBottom::get_two_way_travel_times_legacy(
+	[[maybe_unused]] const algorithms::pingtools::BeamSelection& selection)
 {
 	throw not_implemented(__func__, this->class_name());
 }

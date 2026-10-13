@@ -1,4 +1,4 @@
-//sourcehash: 3727eb0105524fd61700daf2a7127a2e9b454f82e72b7530c70efc9e7233b48f
+//sourcehash: a575453e3d3bfa25418b6da4ba1254f5fca1368d2866d3787306486e3e918609
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,29 +47,29 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_class_name = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_number_of_beams_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_number_of_tx_sectors_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_two_way_travel_times = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_two_way_travel_times_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_get_xyz = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_has_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_has_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_has_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_has_number_of_tx_sectors_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_has_two_way_travel_times = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_has_two_way_travel_times_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_has_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_has_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingBottom_has_xyz = R"doc()doc";
 

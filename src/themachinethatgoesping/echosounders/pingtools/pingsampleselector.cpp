@@ -16,13 +16,13 @@ namespace themachinethatgoesping {
 namespace echosounders {
 namespace pingtools {
 
-BeamSampleSelection PingSampleSelector::apply_selection(
+algorithms::pingtools::BeamSampleSelection PingSampleSelector::apply_selection(
     filetemplates::datatypes::I_PingWatercolumn& ping_watercolumn)
 {
-    BeamSampleSelection selection;
+    algorithms::pingtools::BeamSampleSelection selection;
 
     // select beams according to the options
-    const auto number_of_beams            = ping_watercolumn.get_number_of_beams();
+    const auto number_of_beams            = ping_watercolumn.get_number_of_beams_legacy();
     
     // Handle empty beams case - return empty selection
     if (number_of_beams == 0)
@@ -35,7 +35,7 @@ BeamSampleSelection PingSampleSelector::apply_selection(
     const auto first_sample_offset_pb       = ping_watercolumn.get_first_sample_offset_per_beam();
     auto       min_sample_nr_per_beam       = first_sample_offset_pb; // absolute first sample per beam
 
-    const auto beam_crosstrack_angles = ping_watercolumn.get_beam_crosstrack_angles();
+    const auto beam_crosstrack_angles = ping_watercolumn.get_beam_crosstrack_angles_legacy();
     if (beam_crosstrack_angles.size() < number_of_beams)
         throw std::runtime_error(fmt::format(
             "Number of beam crosstrack angles ({}) is smaller than the number of beams ({})",
@@ -153,18 +153,18 @@ BeamSampleSelection PingSampleSelector::apply_selection(
     return selection;
 }
 
-BeamSelection PingSampleSelector::apply_selection(filetemplates::datatypes::I_PingBottom& ping_bottom)
+algorithms::pingtools::BeamSelection PingSampleSelector::apply_selection(filetemplates::datatypes::I_PingBottom& ping_bottom)
 {
-    BeamSelection selection;
+    algorithms::pingtools::BeamSelection selection;
 
     // select beams according to the options
-    const auto number_of_beams = ping_bottom.get_number_of_beams();
+    const auto number_of_beams = ping_bottom.get_number_of_beams_legacy();
 
     // Handle empty beams case - return empty selection
     if (number_of_beams == 0)
         return selection;
 
-    const auto beam_crosstrack_angles = ping_bottom.get_beam_crosstrack_angles();
+    const auto beam_crosstrack_angles = ping_bottom.get_beam_crosstrack_angles_legacy();
     if (beam_crosstrack_angles.size() < number_of_beams)
         throw std::runtime_error(fmt::format(
             "Number of beam crosstrack angles ({}) is smaller than the number of beams ({})",

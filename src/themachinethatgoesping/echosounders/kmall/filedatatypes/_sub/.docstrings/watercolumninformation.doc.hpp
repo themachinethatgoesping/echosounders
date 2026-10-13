@@ -1,4 +1,4 @@
-//sourcehash: 7a8bd3027205bda25eda2a20e8aeb215e927dae973eeb4e078da944ee2f443f0
+//sourcehash: 9902dd2a38f1c5adecaea92216f65aeff4e1fa11cefc32635442afd271c6cab8
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -53,6 +53,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_WaterColumnInformation_2 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_beam_crosstrack_angles = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_detected_range_in_samples = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_detected_range_in_samples_high_resolution = R"doc()doc";
@@ -83,13 +85,19 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_get_tvg_offset_in_db = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_number_of_samples_per_beam = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_read_beam_samples = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_sample_positions = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_start_range_sample_numbers = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_to_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_transmit_sector_numbers = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_sub_WaterColumnInformation_wci_infos = R"doc()doc";
 

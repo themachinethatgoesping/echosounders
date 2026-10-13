@@ -75,7 +75,7 @@ void py_create_class_kmallpingwatercolumn(nanobind::module_& m, const std::strin
                  nb::overload_cast<>(&t_KMALLPingWatercolumn::template get_raw_amplitudes<int8_t>),
                  DOC_KMALLPing(get_raw_amplitudes))
             .def("get_raw_amplitudes",
-                 nb::overload_cast<const pingtools::BeamSampleSelection&>(
+                 nb::overload_cast<const algorithms::pingtools::BeamSampleSelection&>(
                      &t_KMALLPingWatercolumn::template get_raw_amplitudes<int8_t>),
                  DOC_KMALLPing(get_raw_amplitudes),
                  nb::arg("beam_selection"))
@@ -83,7 +83,7 @@ void py_create_class_kmallpingwatercolumn(nanobind::module_& m, const std::strin
                  nb::overload_cast<>(&t_KMALLPingWatercolumn::template get_raw_amplitudes<float>),
                  DOC_KMALLPing(get_raw_amplitudes))
             .def("get_raw_amplitudes_float",
-                 nb::overload_cast<const pingtools::BeamSampleSelection&>(
+                 nb::overload_cast<const algorithms::pingtools::BeamSampleSelection&>(
                      &t_KMALLPingWatercolumn::template get_raw_amplitudes<float>),
                  DOC_KMALLPing(get_raw_amplitudes),
                  nb::arg("beam_selection"))

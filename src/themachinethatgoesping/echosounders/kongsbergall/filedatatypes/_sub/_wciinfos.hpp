@@ -25,7 +25,7 @@
 #include "../../datagrams.hpp"
 #include "../../types.hpp"
 
-#include "../../../pingtools/readsamplerange.hpp"
+#include <themachinethatgoesping/algorithms/pingtools/readsamplerange.hpp>
 
 
 namespace themachinethatgoesping {

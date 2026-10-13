@@ -204,10 +204,7 @@ sources = [
   'filetemplates/datatypes/calibration/amplitudecalibration.cpp',
   'filetemplates/datatypes/calibration/multisectorwatercolumncalibration.cpp',
   'filetemplates/datatypes/calibration/watercolumncalibration.cpp',
-  'pingtools/beamsampleselection.cpp',
-  'pingtools/beamselection.cpp',
   'pingtools/pingsampleselector.cpp',
-  'pingtools/readsamplerange.cpp',
 ]
 
 headers = [
@@ -783,14 +780,8 @@ headers = [
   'filetemplates/datatypes/.docstrings/i_pingcommon.doc.hpp',
   'filetemplates/datatypes/.docstrings/i_pingfiledata.doc.hpp',
   'filetemplates/datatypes/.docstrings/i_pingwatercolumn.doc.hpp',
-  'pingtools/beamsampleselection.hpp',
-  'pingtools/beamselection.hpp',
   'pingtools/pingsampleselector.hpp',
-  'pingtools/readsamplerange.hpp',
-  'pingtools/.docstrings/beamsampleselection.doc.hpp',
-  'pingtools/.docstrings/beamselection.doc.hpp',
   'pingtools/.docstrings/pingsampleselector.doc.hpp',
-  'pingtools/.docstrings/readsamplerange.doc.hpp',
 ]
 
 # -- targets --

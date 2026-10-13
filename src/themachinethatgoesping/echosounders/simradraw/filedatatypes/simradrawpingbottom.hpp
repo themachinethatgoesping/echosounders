@@ -66,26 +66,26 @@ class SimradRawPingBottom
 
     // --- sector infos ---
     /// TODO: these functions should react on the BeamSelection ..
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-        [[maybe_unused]] const pingtools::BeamSelection& selection) override
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam_legacy(
+        [[maybe_unused]] const algorithms::pingtools::BeamSelection& selection) override
     {
         return { 0 };
     }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-       [[maybe_unused]] const pingtools::BeamSelection& selection) override
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector_legacy(
+       [[maybe_unused]] const algorithms::pingtools::BeamSelection& selection) override
     {
         return { { 0 } };
     }
 
     // ----- I_PingCommon interface -----
 
-    uint32_t get_number_of_beams() override
+    uint32_t get_number_of_beams_legacy() override
     {
         if (has_xyz())
             return 1;
 
-        if (has_two_way_travel_times())
+        if (has_two_way_travel_times_legacy())
             return 1;
 
         return 0;
@@ -95,32 +95,32 @@ class SimradRawPingBottom
     // using t_base1::has_xyz;
     using t_base2::file_data;
 
-    bool has_beam_crosstrack_angles() const override { return has_two_way_travel_times(); }
+    bool has_beam_crosstrack_angles_legacy() const override { return has_two_way_travel_times_legacy(); }
 
     bool has_xyz() const override { return false; }
 
-    virtual bool has_two_way_travel_times() const { return false; }
+    virtual bool has_two_way_travel_times_legacy() const { return false; }
 
     // Not yet implemented
     // algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-    //     const pingtools::BeamSelection& selection) override
+    //     const algorithms::pingtools::BeamSelection& selection) override
     // {
     //     return _file_data->read_xyz(selection);
     // }
 
     // Not yet implemented
-    // xt::xtensor<float, 1> get_two_way_travel_times(
-    //     [[maybe_unused]] const pingtools::BeamSelection& selection) override
+    // xt::xtensor<float, 1> get_two_way_travel_times_legacy(
+    //     [[maybe_unused]] const algorithms::pingtools::BeamSelection& selection) override
     // {
     // }
 
     // Not yet implemented
-    // xt::xtensor<float, 1> get_beam_crosstrack_angles(
-    //     const pingtools::BeamSelection& selection) override
+    // xt::xtensor<float, 1> get_beam_crosstrack_angles_legacy(
+    //     const algorithms::pingtools::BeamSelection& selection) override
     // {
     //     auto datagram = file_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
 
-    //     return datagram.get_beam_crosstrack_angles(selection.get_beam_numbers());
+    //     return datagram.get_beam_crosstrack_angles_legacy(selection.get_beam_numbers());
     // }
 
     // ----- objectprinter -----

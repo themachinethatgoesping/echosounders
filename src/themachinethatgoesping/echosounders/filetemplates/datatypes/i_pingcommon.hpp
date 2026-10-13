@@ -64,18 +64,32 @@ enum class t_pingfeature : uint8_t
     watercolumn,
 
     /* I_PingBottom and I_PingWatercolumn */
-    tx_signal_parameters,
-    number_of_tx_sectors,
+    tx_signal_parameters_legacy,
+    number_of_tx_sectors_legacy,
 
-    beam_numbers_per_tx_sector,
+    beam_numbers_per_tx_sector_legacy,
     beam_selection_all,
-    number_of_beams,
-    tx_sector_per_beam,
+    number_of_beams_legacy,
+    tx_sector_per_beam_legacy,
 
     /* I_PingBottom */
-    beam_crosstrack_angles,
-    two_way_travel_times,
+    beam_crosstrack_angles_legacy,
+    two_way_travel_times_legacy,
     xyz,
+
+    /* I_MBESRawDetectionInfos (common to I_PingBottom and I_PingWatercolumn) */
+    ref_pingtime,
+    ref_pose,
+    surface_sound_speed,
+    sector_beam_numbers,
+    sector_tx_time_delays,
+    sector_tx_steering_angles,
+    sector_tx_offsets,
+    rx_offsets,
+    number_of_soundings,
+    soundings_two_way_travel_times,
+    soundings_rx_steering_angles,
+    soundings_sector_numbers,
 
     /* I_PingWatercolumn */
     bottom_range_samples,
@@ -96,6 +110,16 @@ enum class t_pingfeature : uint8_t
 };
 
 using o_pingfeature = themachinethatgoesping::tools::classhelper::Option<t_pingfeature>;
+
+/**
+ * @brief Register a ping feature in one line: binds the t_pingfeature enum entry `name`
+ *        to the member function `has_##name()`. Keeps the feature name, has_ getter and get_
+ *        getter in sync (the dynamic feature evaluation calls get_##name()/has_##name()).
+ *        Use inside the *_feature_functions() methods (where `features` is the map and `this`
+ *        is the ping object).
+ */
+#define __PING_REGISTER_FEATURE__(features, name)                                                  \
+    (features)[t_pingfeature::name] = [this]() { return this->has_##name(); }
 
 class I_PingCommon
 {

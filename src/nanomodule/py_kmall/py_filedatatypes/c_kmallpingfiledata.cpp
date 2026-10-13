@@ -97,7 +97,7 @@ void py_create_class_kmallPingFileData(nanobind::module_& m, const std::string& 
                  nb::overload_cast<>(&t_KMALLPingFileData::read_xyz),
                  DOC_KMALLPingFileData(read_xyz))
             .def("read_xyz",
-                 nb::overload_cast<const pingtools::BeamSelection&>(&t_KMALLPingFileData::read_xyz),
+                 nb::overload_cast<const algorithms::pingtools::BeamSelection&>(&t_KMALLPingFileData::read_xyz),
                  DOC_KMALLPingFileData(read_xyz_2),
                  nb::arg("selection"))
 

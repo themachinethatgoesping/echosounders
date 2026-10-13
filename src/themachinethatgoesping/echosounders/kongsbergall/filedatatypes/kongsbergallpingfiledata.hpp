@@ -34,7 +34,7 @@
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
 #include "../../filetemplates/datatypes/i_ping.hpp"
 #include "../../filetemplates/datatypes/i_pingfiledata.hpp"
-#include "../../pingtools/beamsampleselection.hpp"
+#include <themachinethatgoesping/algorithms/pingtools/beamsampleselection.hpp>
 #include "../datagrams.hpp"
 #include "../filedatainterfaces/kongsbergalldatagraminterface.hpp"
 #include "../filedatatypes/calibration/kongsbergallwatercolumncalibration.hpp"
@@ -476,7 +476,7 @@ class KongsbergAllPingFileData
      * @param bs beam selection
      * @return algorithms::geoprocessing::datastructures::XYZ<1>
      */
-    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(const pingtools::BeamSelection& bs)
+    algorithms::geoprocessing::datastructures::XYZ<1> read_xyz(const algorithms::pingtools::BeamSelection& bs)
     {
         auto datagram = read_first_datagram<datagrams::XYZDatagram>();
 

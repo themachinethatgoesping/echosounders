@@ -32,7 +32,7 @@
 
 
 
-#include "../../pingtools/beamsampleselection.hpp"
+#include <themachinethatgoesping/algorithms/pingtools/beamsampleselection.hpp>
 
 namespace themachinethatgoesping {
 namespace echosounders {

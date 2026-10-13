@@ -1,4 +1,4 @@
-//sourcehash: 8ed4e3ee70f0af3fb95678c0b26e2fb915c34908ff27d492eccce973d367c60a
+//sourcehash: 008dd75910e1f5af335f90c5ae9412ff4ee878619c5cbea23b60c72351f847ce
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -79,9 +79,11 @@ Args:
 
 Returns:
     std::unordered_map<std::string,
-        navigation::datastructures::GeolocationLatLonVector> Map from
-        channel_id to GeolocationLatLonVector containing timestamps
-        and positions)doc";
+    navigation::datastructures::GeolocationLatLonVector> Map from
+    channel_id to GeolocationLatLonVector containing timestamps and
+    positions
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_get_navigation_interpolator = R"doc()doc";
 
@@ -93,6 +95,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_has_navigation_interpolator = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_init_from_file = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_is_initialized = R"doc()doc";
@@ -103,7 +122,24 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_navigation_interpolators = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_read_navigation_from_file_or_cache = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datainterfaces_I_NavigationDataInterface_set_navigation_interpolator = R"doc()doc";
 

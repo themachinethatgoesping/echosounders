@@ -85,10 +85,7 @@ sources = [
   'filetemplates/datatypes/calibration/amplitudecalibration.test.cpp',
   'filetemplates/datatypes/calibration/multisectorwatercolumncalibration.test.cpp',
   'filetemplates/datatypes/calibration/watercolumncalibration.test.cpp',
-  'pingtools/beamsampleselection.test.cpp',
-  'pingtools/beamselection.test.cpp',
   'pingtools/pingsampleselector.test.cpp',
-  'pingtools/readsamplerange.test.cpp',
 ]
 
 foreach source : sources

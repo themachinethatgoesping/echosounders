@@ -66,15 +66,15 @@ class SimradRawPingWatercolumn
     virtual ~SimradRawPingWatercolumn() = default;
 
     // --- sector infos ---
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         this->beam_selection_must_be_one(__func__, selection);
         return { 0 };
     }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-        const pingtools::BeamSelection& selection) override
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         this->beam_selection_must_be_one(__func__, selection);
         std::vector<std::vector<size_t>> beam_numbers_per_tx_sector(1);
@@ -95,22 +95,22 @@ class SimradRawPingWatercolumn
     }
 
     // ----- I_PingWaterColumn interface -----
-    bool has_tx_signal_parameters() const override { return true; }
-    bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
+    bool has_tx_signal_parameters_legacy() const override { return true; }
+    bool has_beam_crosstrack_angles_legacy() const override { return has_tx_signal_parameters_legacy(); }
 
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters() const override
+    get_tx_signal_parameters_legacy() const override
     {
         return { file_data().get_parameter().get_tx_signal_parameters() };
     }
 
-    size_t get_number_of_tx_sectors() const override { return 1; }
+    size_t get_number_of_tx_sectors_legacy() const override { return 1; }
 
-    uint32_t get_number_of_beams() const override { return 1; }
+    uint32_t get_number_of_beams_legacy() const override { return 1; }
 
     // ----- getter/setters -----
-    xt::xtensor<float, 1> get_beam_crosstrack_angles(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<float, 1> get_beam_crosstrack_angles_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         this->beam_selection_must_be_one(__func__, selection);
 
@@ -118,7 +118,7 @@ class SimradRawPingWatercolumn
     }
 
     xt::xtensor<float, 1> get_beam_alongtrack_angles(
-        const pingtools::BeamSelection& selection) override
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         this->beam_selection_must_be_one(__func__, selection);
 
@@ -127,7 +127,7 @@ class SimradRawPingWatercolumn
 
     using t_base1::get_number_of_samples_per_beam;
     xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam(
-        const pingtools::BeamSelection& selection) override
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         this->beam_selection_must_be_one(__func__, selection);
 
@@ -147,7 +147,7 @@ class SimradRawPingWatercolumn
         return tx_sectors;
     }
 
-    float get_sound_speed_at_transducer() override
+    float get_sound_speed_at_transducer_legacy() override
     {
         // TODO: check if sound speed is available in the file
         //  if not, use the environment sound speed
@@ -169,7 +169,7 @@ class SimradRawPingWatercolumn
 
     bool has_bottom_range_samples() const override { return false; }
 
-    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection,
+    xt::xtensor<float, 2> get_amplitudes(const algorithms::pingtools::BeamSampleSelection& selection,
                                          [[maybe_unused]] int mp_cores = 1) override
     {
         this->beam_selection_must_be_one(__func__, selection);
@@ -222,7 +222,7 @@ class SimradRawPingWatercolumn
 
         auto& wcinfos = _file_data->get_wcinfos();
 
-        printer.register_container("beam_crosstrack_angles", wcinfos.get_beam_crosstrack_angles());
+        printer.register_container("beam_crosstrack_angles", wcinfos.get_beam_crosstrack_angles_legacy());
         printer.register_container("start_range_sample_numbers",
                                    wcinfos.get_start_range_sample_numbers());
         printer.register_container("number_of_samples_per_bean",

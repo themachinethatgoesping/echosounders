@@ -1,4 +1,4 @@
-//sourcehash: 10d9239b9b7a2f3da071c23d30e0f78b51f17822d15445ffad92990138a82949
+//sourcehash: 4859f2cf5f163b9ed105f2c4fd6b7af2d3b03281d1eb9798dc9b931d7e30fe24
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,11 +60,32 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_InstallationParameters_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_binary_hash =
+R"doc(compute a 64 bit hash of the object using xxhash and the       \
+to_binary function. This  function is called binary because the
+\ to_binary  function of the object is used
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_checksum = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_etx = R"doc(end identifier (always 0x03))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_from_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    check_buffer_is_read_completely: variable for interface
+                                     compatibility, does not do    \
+                                     anything
+                                     \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_from_stream = R"doc()doc";
 
@@ -81,26 +102,34 @@ R"doc(Get the active attitude velocity sensor (not active, 1 or 2)
    Attitude sensor 2)
 
 Returns:
-    o_KongsbergAllActiveSensor)doc";
+    o_KongsbergAllActiveSensor
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_heading_sensor =
 R"doc(Get the active heading sensor (0-9) here returned as an enum
 
 Returns:
-    o_KongsbergAllActiveSensor)doc";
+    o_KongsbergAllActiveSensor
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_heave_sensor =
 R"doc(Get the active heave sensor (2, 3, 8 or 9) here returned as an enum
 
 Returns:
-    o_KongsbergAllActiveSensor)doc";
+    o_KongsbergAllActiveSensor
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_pitch_roll_sensor =
 R"doc(Get the active roll pitch sensor (2, 3, 8 or 9) here returned as an
 enum
 
 Returns:
-    o_KongsbergAllActiveSensor)doc";
+    o_KongsbergAllActiveSensor
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_position_system_motion_compensation =
 R"doc(Check whether the positions of the active position system are motion
@@ -112,12 +141,17 @@ get_position_system_motion_compensation.
 
 Returns:
     true if the active position system's positions are motion
-    compensated)doc";
+    compensated
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_active_position_system_number =
 R"doc(Get the active position system number (APS + 1)
+
 Returns:
-    uint8_t)doc";
+    uint8_t
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_attitude_sensor_offsets =
 R"doc(Get the attitude sensor offsets of sensor 1 or 2
@@ -126,7 +160,9 @@ Args:
     sensor_number: o_KongsbergAllActiveSensor (enum)
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_attitude_sensor_offsets_2 =
 R"doc(Get the attitude sensor offsets of sensor 1 or 2
@@ -135,7 +171,9 @@ Args:
     sensor_number: must be 1 or 2
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_checksum = R"doc()doc";
 
@@ -144,13 +182,17 @@ R"doc(Get the compass sensor offsets (Gyrocompass) Includes heading offset
 only
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_depth_sensor_offsets =
 R"doc(Get the depth sensor offsets
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_etx = R"doc()doc";
 
@@ -171,7 +213,9 @@ Args:
 
 Returns:
     true if the positions are motion compensated (P{n}M = 1), false
-    otherwise (also false if the parameter is not present))doc";
+    otherwise (also false if the parameter is not present)
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_position_system_offsets =
 R"doc(Get the position system offsets of system 1, 2 or 3
@@ -180,7 +224,9 @@ Args:
     position_system_number: must be 1, 2 or 3
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_rx1_serial_number = R"doc()doc";
 
@@ -192,7 +238,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_sensor_offsets =
 R"doc(Internal function to get the sensor offsets from the installation
-parameters. Possible sensor prefixes are:
+parameters.
+
+Possible sensor prefixes are:
 - MS for attitude sensor 1 - NS for attitude sensor 2 - P1 for
   position system 1 - P2 for position system 2 - P3 for position
   system 3 - S1 for transducer 1 - S2 for transducer 2 - S3 for
@@ -205,7 +253,9 @@ Args:
     has_ypr: sensor has yaw pitch roll offsets
 
 Returns:
-    SensorPose)doc";
+    SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_system_main_head_serial_number = R"doc()doc";
 
@@ -230,7 +280,9 @@ returned.
 
 Returns:
     int SHC value (0 = use surface sound speed, 1 = do not use for ray
-    tracing))doc";
+    tracing)
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_transducer_offsets =
 R"doc(Get the transducer offsets of transducer 0, 1, 2 or 3
@@ -239,7 +291,9 @@ Args:
     position_system_number: must be 0, 1, 2 or 3
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_tx2_serial_number = R"doc()doc";
 
@@ -261,6 +315,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_get_water_line_vertical_location_in_meters = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_installation_parameters = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_installation_parameters_counter = R"doc(Sequential Number)doc";
@@ -277,11 +348,28 @@ Args:
     second: 
 
 Returns:
-    InstallationParameters)doc";
+    InstallationParameters
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_operator_eq = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_parsed_installation_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_printer = R"doc()doc";
 
@@ -294,7 +382,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_reparse_installation_parameters =
 R"doc(parse the installation parameters string into a map This happens when
 the datagram is read from a file, but must be called manually when the
-installation parameters string is changed manually.)doc";
+installation parameters string is changed manually.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_secondary_system_serial_number = R"doc()doc";
 
@@ -312,7 +402,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_data
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_system_serial_number = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_to_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    resize_buffer: variable for interface compatibility, does not do
+                   anything             \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_to_stream = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_unsupported_option_float = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_datagrams_InstallationParameters_unsupported_option_string = R"doc()doc";
 

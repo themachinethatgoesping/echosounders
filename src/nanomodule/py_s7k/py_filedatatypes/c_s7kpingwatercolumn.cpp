@@ -43,7 +43,7 @@ void py_create_class_s7kpingwatercolumn(nanobind::module_& m, const std::string&
              nb::overload_cast<>(&t_S7KPingWatercolumn::get_raw_amplitudes),
              DOC_S7KPingWatercolumn(get_raw_amplitudes))
         .def("get_raw_amplitudes",
-             nb::overload_cast<const pingtools::BeamSampleSelection&>(
+             nb::overload_cast<const algorithms::pingtools::BeamSampleSelection&>(
                  &t_S7KPingWatercolumn::get_raw_amplitudes),
              DOC_S7KPingWatercolumn(get_raw_amplitudes),
              nb::arg("beam_selection"))
@@ -51,7 +51,7 @@ void py_create_class_s7kpingwatercolumn(nanobind::module_& m, const std::string&
              nb::overload_cast<>(&t_S7KPingWatercolumn::get_raw_phase),
              DOC_S7KPingWatercolumn(get_raw_phase))
         .def("get_raw_phase",
-             nb::overload_cast<const pingtools::BeamSampleSelection&>(
+             nb::overload_cast<const algorithms::pingtools::BeamSampleSelection&>(
                  &t_S7KPingWatercolumn::get_raw_phase),
              DOC_S7KPingWatercolumn(get_raw_phase),
              nb::arg("beam_selection"))
@@ -59,7 +59,7 @@ void py_create_class_s7kpingwatercolumn(nanobind::module_& m, const std::string&
              nb::overload_cast<>(&t_S7KPingWatercolumn::get_phase),
              DOC_S7KPingWatercolumn(get_phase))
         .def("get_phase",
-             nb::overload_cast<const pingtools::BeamSampleSelection&>(
+             nb::overload_cast<const algorithms::pingtools::BeamSampleSelection&>(
                  &t_S7KPingWatercolumn::get_phase),
              DOC_S7KPingWatercolumn(get_phase),
              nb::arg("beam_selection"))

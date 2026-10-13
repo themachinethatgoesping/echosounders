@@ -1,4 +1,4 @@
-//sourcehash: 674735ef1ebe1da4148656482a56f491807aa8fdc9a79956fe47d817fc7c7409
+//sourcehash: 968aea72e642ffdcb929ebf18ac9cc077c718452aa8907fbe825f3385c6c3902
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,11 +47,32 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagra
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_ChannelConfiguration_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_binary_hash =
+R"doc(compute a 64 bit hash of the object using xxhash and the       \
+to_binary function. This  function is called binary because the
+\ to_binary  function of the object is used
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_channel = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_channel_id = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_from_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    check_buffer_is_read_completely: variable for interface
+                                     compatibility, does not do    \
+                                     anything
+                                     \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_from_stream = R"doc()doc";
 
@@ -65,11 +86,57 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagra
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_get_transducer_offsets_struct = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_sensor_offsets = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_to_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    resize_buffer: variable for interface compatibility, does not do
+                   anything             \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_ChannelConfiguration_to_stream = R"doc()doc";
 

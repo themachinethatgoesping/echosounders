@@ -1,4 +1,4 @@
-//sourcehash: 7ae77d0e315ac0b665669819c011da63ddcbc9a1986c514d97c2c66f3684589a
+//sourcehash: 46d3f1baa60a46f6e27c4be1b732ba26cbc775054703e07fa5a766702cd85753
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -57,8 +57,11 @@ can be used to print the properties of the ping data.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_I_PingFileData =
 R"doc(Constructor for I_PingFileData.
+
 Args:
-    name: The name of the ping data.)doc";
+    name: The name of the ping data.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_class_name = R"doc()doc";
 
@@ -66,66 +69,125 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_file_numbers =
 R"doc(Get the file numbers of the contained datagrams.
+
 Returns:
     std::vector<size_t> The file numbers.
 
 Raises:
-    not_implemented: Exception if not implemented.)doc";
+    not_implemented: Exception if not implemented.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_file_paths =
 R"doc(Get the file paths.
+
 Returns:
     std::vector<std::string> The file paths associated with the
-        contained datagrams.
+    contained datagrams.
 
 Raises:
-    not_implemented: Exception if not implemented.)doc";
+    not_implemented: Exception if not implemented.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_file_ping_counter =
 R"doc(Get the file ping counter.
+
 Returns:
-    size_t The file ping counter.)doc";
+    size_t The file ping counter.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_primary_file_nr =
 R"doc(Get the primary file number of this ping.
+
 Returns:
-    size_t The primary file number.)doc";
+    size_t The primary file number.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_get_primary_file_path =
 R"doc(Get the primary file path of this ping.
+
 Returns:
     std::string The primary file path of this ping.
 
 Raises:
-    not_implemented: Exception if not implemented.)doc";
+    not_implemented: Exception if not implemented.
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_not_implemented = R"doc(Exception thrown when a method is not implemented.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_not_implemented_not_implemented =
 R"doc(Constructor for not_implemented.
+
 Args:
     method_name: The name of the method.
-    name: The name of the ping data.)doc";
+    name: The name of the ping data.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_primary_file_nr = R"doc(File number of the primary file)doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_printer =
 R"doc(ObjectPrinter for I_PingFileData.
+
 Args:
     float_precision: The float precision for printing.
 
 Returns:
-    tools::classhelper::ObjectPrinter The ObjectPrinter instance.)doc";
+    tools::classhelper::ObjectPrinter The ObjectPrinter instance.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_set_file_ping_counter =
 R"doc(Set the file ping counter.
+
 Args:
-    file_ping_counter: The file ping counter to set.)doc";
+    file_ping_counter: The file ping counter to set.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingFileData_set_primary_file_nr =
 R"doc(Set the primary file number for this ping.
+
 Args:
-    primary_file_nr: The primary file number to set.)doc";
+    primary_file_nr: The primary file number to set.
+
+)doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

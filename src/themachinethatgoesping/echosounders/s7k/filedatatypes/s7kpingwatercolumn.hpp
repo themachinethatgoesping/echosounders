@@ -75,26 +75,26 @@ class S7KPingWatercolumn
 
     // un-hide the base no-argument convenience overloads (hidden by the selection overrides below)
     using t_base1::get_beam_alongtrack_angles;
-    using t_base1::get_beam_crosstrack_angles;
-    using t_base1::get_beam_numbers_per_tx_sector;
+    using t_base1::get_beam_crosstrack_angles_legacy;
+    using t_base1::get_beam_numbers_per_tx_sector_legacy;
     using t_base1::get_bottom_range_samples;
     using t_base1::get_number_of_samples_per_beam;
-    using t_base1::get_tx_sector_per_beam;
+    using t_base1::get_tx_sector_per_beam_legacy;
 
     // ----- feature checks -----
     bool has_amplitudes() const override { return _file_data->has_water_column(); }
     bool has_bottom_range_samples() const override { return _file_data->has_raw_detection(); }
-    bool has_number_of_beams() const { return has_amplitudes(); }
-    bool has_beam_crosstrack_angles() const override { return _file_data->has_raw_detection(); }
+    bool has_number_of_beams_legacy() const { return has_amplitudes(); }
+    bool has_beam_crosstrack_angles_legacy() const override { return _file_data->has_raw_detection(); }
 
-    bool has_number_of_tx_sectors() const { return has_amplitudes(); }
-    bool has_tx_sector_per_beam() const { return has_amplitudes(); }
-    bool has_beam_numbers_per_tx_sector() const { return has_amplitudes(); }
+    bool has_number_of_tx_sectors_legacy() const { return has_amplitudes(); }
+    bool has_tx_sector_per_beam_legacy() const { return has_amplitudes(); }
+    bool has_beam_numbers_per_tx_sector_legacy() const { return has_amplitudes(); }
 
     bool has_watercolumn_calibration() const override
     {
         // a (uncalibrated) calibration can always be built from the ping when amplitudes exist
-        return has_amplitudes() && get_number_of_tx_sectors() == 1;
+        return has_amplitudes() && get_number_of_tx_sectors_legacy() == 1;
     }
     bool has_multisectorwatercolumn_calibration() const override { return has_amplitudes(); }
 
@@ -111,12 +111,12 @@ class S7KPingWatercolumn
     }
 
     // ----- transmit sectors (single sector for now) -----
-    size_t get_number_of_tx_sectors() const override { return 1; }
+    size_t get_number_of_tx_sectors_legacy() const override { return 1; }
 
-    bool has_tx_signal_parameters() const override { return _file_data->has_sonar_settings(); }
+    bool has_tx_signal_parameters_legacy() const override { return _file_data->has_sonar_settings(); }
 
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters() const override
+    get_tx_signal_parameters_legacy() const override
     {
         namespace sp = algorithms::signalprocessing::datastructures;
 
@@ -133,16 +133,16 @@ class S7KPingWatercolumn
         return parameters;
     }
 
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         auto sectors = xt::xtensor<size_t, 1>::from_shape({ selection.get_number_of_beams() });
         sectors.fill(0);
         return sectors;
     }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-        const pingtools::BeamSelection& selection) override
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         std::vector<std::vector<size_t>> beam_numbers_per_tx_sector(1);
         for (size_t i = 0; i < selection.get_number_of_beams(); ++i)
@@ -151,15 +151,15 @@ class S7KPingWatercolumn
     }
 
     // ----- geometry -----
-    uint32_t get_number_of_beams() const override
+    uint32_t get_number_of_beams_legacy() const override
     {
         if (!has_amplitudes())
             return 0;
         return _file_data->get_water_column().get_number_beams();
     }
 
-    xt::xtensor<float, 1> get_beam_crosstrack_angles(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<float, 1> get_beam_crosstrack_angles_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         // Receive steering angles from the raw detection record (degrees), one value per beam.
         // The 7027 rx_angle is in the s7k sonar frame (+starboard, beam 0 = port); the ping/kmall
@@ -174,7 +174,7 @@ class S7KPingWatercolumn
     }
 
     xt::xtensor<float, 1> get_beam_alongtrack_angles(
-        const pingtools::BeamSelection& selection) override
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         // s7k transmits along a single tilt angle; broadcast the transmit steering angle
         auto angles = xt::xtensor<float, 1>::from_shape({ selection.get_number_of_beams() });
@@ -183,7 +183,7 @@ class S7KPingWatercolumn
     }
 
     xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam(
-        const pingtools::BeamSelection& selection) override
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         return index_beams(_file_data->get_water_column().get_beams().get_sample_count_tensor(),
                            selection.get_beam_numbers(),
@@ -193,7 +193,7 @@ class S7KPingWatercolumn
     xt::xtensor<uint32_t, 1> get_first_sample_offset_per_beam() override
     {
         // 7042 stores one first-sample index for the whole record
-        auto offsets = xt::xtensor<uint32_t, 1>::from_shape({ get_number_of_beams() });
+        auto offsets = xt::xtensor<uint32_t, 1>::from_shape({ get_number_of_beams_legacy() });
         offsets.fill(_file_data->get_water_column().get_first_sample());
         return offsets;
     }
@@ -204,7 +204,7 @@ class S7KPingWatercolumn
         return sample_rate > 0.f ? 1.f / sample_rate : std::numeric_limits<float>::quiet_NaN();
     }
 
-    float get_sound_speed_at_transducer() override
+    float get_sound_speed_at_transducer_legacy() override
     {
         if (_file_data->has_sonar_settings())
             return _file_data->get_sonar_settings().get_sound_velocity();
@@ -223,7 +223,7 @@ class S7KPingWatercolumn
     {
         return get_raw_amplitudes(get_beam_sample_selection_all());
     }
-    xt::xtensor<uint32_t, 2> get_raw_amplitudes(const pingtools::BeamSampleSelection& selection)
+    xt::xtensor<uint32_t, 2> get_raw_amplitudes(const algorithms::pingtools::BeamSampleSelection& selection)
     {
         return assemble_beam_samples<uint32_t>(
             selection, [](const auto& beam) { return beam.get_raw_magnitude(); });
@@ -238,7 +238,7 @@ class S7KPingWatercolumn
     {
         return get_raw_phase(get_beam_sample_selection_all());
     }
-    xt::xtensor<int16_t, 2> get_raw_phase(const pingtools::BeamSampleSelection& selection)
+    xt::xtensor<int16_t, 2> get_raw_phase(const algorithms::pingtools::BeamSampleSelection& selection)
     {
         return assemble_beam_samples<int16_t>(
             selection, [](const auto& beam) { return beam.get_raw_phase(); });
@@ -249,7 +249,7 @@ class S7KPingWatercolumn
      * contains no phase).
      */
     xt::xtensor<float, 2> get_phase() { return get_phase(get_beam_sample_selection_all()); }
-    xt::xtensor<float, 2> get_phase(const pingtools::BeamSampleSelection& selection)
+    xt::xtensor<float, 2> get_phase(const algorithms::pingtools::BeamSampleSelection& selection)
     {
         // int16 phase value / 10430 = radians -> * this = degrees (deferred, vectorized)
         constexpr float deg_scale = 180.f / (std::numbers::pi_v<float> * 10430.f);
@@ -259,7 +259,7 @@ class S7KPingWatercolumn
     }
 
     // ----- amplitudes (dB, deferred conversion) -----
-    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& selection,
+    xt::xtensor<float, 2> get_amplitudes(const algorithms::pingtools::BeamSampleSelection& selection,
                                          [[maybe_unused]] int mp_cores = 1) override
     {
         // assemble the selected raw magnitudes as float (no conversion yet) ...
@@ -279,7 +279,7 @@ class S7KPingWatercolumn
     }
 
     xt::xtensor<uint32_t, 1> get_bottom_range_samples(
-        const pingtools::BeamSelection& selection) override
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         // The 7027 detection_point is in the original (full-rate) sample domain, but the 7042
         // water-column samples use the compressed (downsampled) rate.  Divide by the
@@ -342,7 +342,7 @@ class S7KPingWatercolumn
      * @tparam t_beam_accessor callable (const CompressedWaterColumnBeam&) -> xt::xtensor<...,1>
      */
     template<typename t_out, typename t_beam_accessor>
-    xt::xtensor<t_out, 2> assemble_beam_samples(const pingtools::BeamSampleSelection& selection,
+    xt::xtensor<t_out, 2> assemble_beam_samples(const algorithms::pingtools::BeamSampleSelection& selection,
                                                 t_beam_accessor&& get_beam_samples)
     {
         auto&          water_column = _file_data->get_water_column();

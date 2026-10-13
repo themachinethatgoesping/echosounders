@@ -1,4 +1,4 @@
-//sourcehash: 76aa8015f802f3a87ced9e206accf9f29532e5e3e7846c68dd6668e29ff59e6a
+//sourcehash: cc417dbd7e029b048984c7d213df77380816e749be25cdf7fd631a322ba22f52
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -53,8 +53,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagra
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_Port = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_TalkerID = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_Telegrams = R"doc()doc";
@@ -75,6 +73,29 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagra
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_Z = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_binary_hash =
+R"doc(compute a 64 bit hash of the object using xxhash and the       \
+to_binary function. This  function is called binary because the
+\ to_binary  function of the object is used
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_from_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    check_buffer_is_read_completely: variable for interface
+                                     compatibility, does not do    \
+                                     anything
+                                     \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_from_stream = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_get_sensor_offsets =
@@ -82,7 +103,26 @@ R"doc(Return the sensor offsets as navigation::datastructures::SensorPose
 structure
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_initialize = R"doc()doc";
 
@@ -92,7 +132,36 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagra
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_parsed_completely = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_to_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    resize_buffer: variable for interface compatibility, does not do
+                   anything             \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_datagrams_xml_datagrams_XML_Configuration_Sensor_to_stream = R"doc()doc";
 

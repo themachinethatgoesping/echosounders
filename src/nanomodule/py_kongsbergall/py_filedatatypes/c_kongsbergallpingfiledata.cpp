@@ -135,7 +135,7 @@ void py_create_class_kongsbergallPingFileData(nanobind::module_& m, const std::s
                         nb::overload_cast<>(&t_KongsbergAllPingFileData::read_xyz),
                         DOC_KongsbergAllPingFileData(read_xyz))
                    .def("read_xyz",
-                        nb::overload_cast<const pingtools::BeamSelection&>(
+                        nb::overload_cast<const algorithms::pingtools::BeamSelection&>(
                             &t_KongsbergAllPingFileData::read_xyz),
                         DOC_KongsbergAllPingFileData(read_xyz_2),
                         nb::arg("selection"))

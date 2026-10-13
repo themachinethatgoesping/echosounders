@@ -1,4 +1,4 @@
-//sourcehash: a945ee9daf73aab5409efd22ab885da8c9043a4d829fd444aa35a5af49e305de
+//sourcehash: aa228b184f1912a182ac59ba0eb5070f788a30d8d9a64c86c0f372a036492808
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,6 +51,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSam
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_beam_step = R"doc(step size for beam numbers)doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_binary_hash =
+R"doc(compute a 64 bit hash of the object using xxhash and the       \
+to_binary function. This  function is called binary because the
+\ to_binary  function of the object is used
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_beam_angle_range = R"doc()doc";
@@ -73,6 +80,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSam
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_clear_transmit_sectors = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_from_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    check_buffer_is_read_completely: variable for interface
+                                     compatibility, does not do    \
+                                     anything
+                                     \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_from_stream =
 R"doc(Return a PingSampleSelector read from a binary stream
 
@@ -80,7 +103,11 @@ Args:
     is: input stream
 
 Returns:
-    PingSampleSelector)doc";
+    PingSampleSelector
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_beam_numbers_selected_by_transmit_sector = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_beam_step = R"doc()doc";
 
@@ -116,6 +143,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSam
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_get_transmit_sectors = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_angle = R"doc(max beam angle to select (°))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_max_beam_number = R"doc(max beam number to select)doc";
@@ -142,6 +186,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSam
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_operator_eq = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_printer =
 R"doc(Print function, needs __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__ macro
 See also: classhelper/objectprinter.hpp
@@ -150,7 +209,9 @@ Args:
     float_precision: Precision of floating point numbers
 
 Returns:
-    classhelper::ObjectPrinter)doc";
+    classhelper::ObjectPrinter
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_register_filter = R"doc()doc";
 
@@ -186,11 +247,27 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSam
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_set_sample_step = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_to_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    resize_buffer: variable for interface compatibility, does not do
+                   anything             \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_to_stream =
 R"doc(Write a PingSampleSelector to a binary stream
 
 Args:
-    os: output stream)doc";
+    os: output stream
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_pingtools_PingSampleSelector_transmit_sector_max_beam_angle = R"doc(select transmit sectors with angles <= _transmit_sector_max_beam_angle)doc";
 

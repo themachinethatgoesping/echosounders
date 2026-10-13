@@ -70,46 +70,46 @@ class KongsbergAllPingWatercolumn
 
     // --- sector infos ---
 
-    bool has_tx_signal_parameters() const override
+    bool has_tx_signal_parameters_legacy() const override
     {
         return _file_data->has_any_of_datagram_types(
             { t_KongsbergAllDatagramIdentifier::RawRangeAndAngle,
               t_KongsbergAllDatagramIdentifier::WatercolumnDatagram });
     }
-    bool has_number_of_tx_sectors() const { return has_tx_signal_parameters(); }
-    bool has_beam_numbers_per_tx_sector() const { return has_tx_signal_parameters(); }
-    bool has_tx_sector_per_beam() const { return has_tx_signal_parameters(); }
-    bool has_number_of_beams() const { return has_tx_signal_parameters(); }
+    bool has_number_of_tx_sectors_legacy() const { return has_tx_signal_parameters_legacy(); }
+    bool has_beam_numbers_per_tx_sector_legacy() const { return has_tx_signal_parameters_legacy(); }
+    bool has_tx_sector_per_beam_legacy() const { return has_tx_signal_parameters_legacy(); }
+    bool has_number_of_beams_legacy() const { return has_tx_signal_parameters_legacy(); }
 
-    bool has_beam_crosstrack_angles() const override { return has_tx_signal_parameters(); }
+    bool has_beam_crosstrack_angles_legacy() const override { return has_tx_signal_parameters_legacy(); }
     // kongsbergall WC beam_crosstrack_angle is re vertical (roll stabilized, gravity-referenced)
     bool has_beam_crosstrack_angles_in_world_frame() const override { return true; }
 
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters() const override
+    get_tx_signal_parameters_legacy() const override
     {
         return file_data().get_sysinfos_const().get_tx_signal_parameters();
     }
 
-    size_t get_number_of_tx_sectors() const override
+    size_t get_number_of_tx_sectors_legacy() const override
     {
         return file_data().get_sysinfos_const().get_tx_signal_parameters().size();
     }
 
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         return xt::index_view(file_data().get_wcinfos().get_transmit_sector_numbers(),
                               selection.get_beam_numbers());
     }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-        const pingtools::BeamSelection& selection) override
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         std::vector<std::vector<size_t>> beam_numbers_per_tx_sector;
-        beam_numbers_per_tx_sector.resize(get_number_of_tx_sectors());
+        beam_numbers_per_tx_sector.resize(get_number_of_tx_sectors_legacy());
 
-        auto sector_per_beam = get_tx_sector_per_beam(selection);
+        auto sector_per_beam = get_tx_sector_per_beam_legacy(selection);
 
         for (unsigned int i = 0; i < sector_per_beam.size(); ++i)
         {
@@ -141,7 +141,7 @@ class KongsbergAllPingWatercolumn
                _file_data->has_watercolumn_calibration();
     }
 
-    uint32_t get_number_of_beams() const override
+    uint32_t get_number_of_beams_legacy() const override
     {
         if (!has_amplitudes())
             return 0;
@@ -150,8 +150,8 @@ class KongsbergAllPingWatercolumn
     }
 
     // ----- getter/setters -----
-    xt::xtensor<float, 1> get_beam_crosstrack_angles(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<float, 1> get_beam_crosstrack_angles_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         const auto beam_numbers = selection.get_beam_numbers();
 
@@ -171,7 +171,7 @@ class KongsbergAllPingWatercolumn
     }
 
     xt::xtensor<float, 1> get_beam_alongtrack_angles(
-        const pingtools::BeamSelection& selection) override
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         const auto beam_numbers = selection.get_beam_numbers();
 
@@ -201,7 +201,7 @@ class KongsbergAllPingWatercolumn
     }
     using t_base1::get_number_of_samples_per_beam;
     xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam(
-        const pingtools::BeamSelection& bs) override
+        const algorithms::pingtools::BeamSelection& bs) override
     {
         xt::xtensor<uint32_t, 1> samples = xt::empty<uint32_t>({ bs.get_number_of_beams() });
         const auto&              number_of_samples_per_beam =
@@ -236,7 +236,7 @@ class KongsbergAllPingWatercolumn
         return _file_data->get_wcinfos().get_sample_positions();
     }
 
-    float get_sound_speed_at_transducer() override
+    float get_sound_speed_at_transducer_legacy() override
     {
         return _file_data->get_wcinfos().get_sound_speed_at_transducer();
     }
@@ -271,7 +271,7 @@ class KongsbergAllPingWatercolumn
 
     bool has_watercolumn_calibration() const override
     {
-        return _file_data->has_watercolumn_calibration() && get_number_of_tx_sectors() == 1;
+        return _file_data->has_watercolumn_calibration() && get_number_of_tx_sectors_legacy() == 1;
     }
 
     bool has_multisectorwatercolumn_calibration() const override
@@ -287,7 +287,7 @@ class KongsbergAllPingWatercolumn
     }
 
     template<typename t_value>
-    xt::xtensor<t_value, 2> get_raw_amplitudes(const pingtools::BeamSampleSelection& selection)
+    xt::xtensor<t_value, 2> get_raw_amplitudes(const algorithms::pingtools::BeamSampleSelection& selection)
     {
         auto& wcinfos = _file_data->get_wcinfos();
 
@@ -330,7 +330,7 @@ class KongsbergAllPingWatercolumn
         return amplitudes;
     }
 
-    xt::xtensor<float, 2> get_amplitudes(const pingtools::BeamSampleSelection& bs,
+    xt::xtensor<float, 2> get_amplitudes(const algorithms::pingtools::BeamSampleSelection& bs,
                                          [[maybe_unused]] int mp_cores = 1) override
     {
         // note: use float because we want to return NaN for missing data
@@ -338,13 +338,13 @@ class KongsbergAllPingWatercolumn
     }
 
     xt::xtensor<uint32_t, 1> get_bottom_range_samples(
-        const pingtools::BeamSelection& selection) override
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         auto bottom_range_samples =
             xt::xtensor<uint32_t, 1>::from_shape({ selection.get_number_of_beams() });
 
         auto& range_samples         = _file_data->get_wcinfos().get_detected_range_in_samples();
-        auto  number_of_beams       = get_number_of_beams();
+        auto  number_of_beams       = get_number_of_beams_legacy();
         auto& selected_beam_numbers = selection.get_beam_numbers();
 
         for (size_t i = 0; i < selected_beam_numbers.size(); ++i)
@@ -387,7 +387,7 @@ class KongsbergAllPingWatercolumn
 
         auto& wcinfos = _file_data->get_wcinfos();
 
-        printer.register_container("beam_crosstrack_angles", wcinfos.get_beam_crosstrack_angles());
+        printer.register_container("beam_crosstrack_angles", wcinfos.get_beam_crosstrack_angles_legacy());
         printer.register_container("start_range_sample_numbers",
                                    wcinfos.get_start_range_sample_numbers());
         printer.register_container("number_of_samples_per_bean",

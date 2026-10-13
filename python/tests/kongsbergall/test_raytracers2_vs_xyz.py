@@ -267,9 +267,9 @@ class TestRaytracers2VsXYZ:
                 xyz_y = np.asarray(xyz_gt.y, dtype=np.float64)
                 xyz_z = np.asarray(xyz_gt.z, dtype=np.float64)
 
-                twtt = np.asarray(ping.bottom.get_two_way_travel_times(), dtype=np.float64)
+                twtt = np.asarray(ping.bottom.get_two_way_travel_times_legacy(), dtype=np.float64)
                 crosstrack_deg_kongsberg = np.asarray(
-                    ping.bottom.get_beam_crosstrack_angles(), dtype=np.float64
+                    ping.bottom.get_beam_crosstrack_angles_legacy(), dtype=np.float64
                 )
 
                 tilt_deg_per_sector = np.asarray(

@@ -1,4 +1,4 @@
-//sourcehash: f39ff1805330678d2dde3c6df253751536b7ee2af297ec8b8c485836d675a9c5
+//sourcehash: 01109cc97c0ffb77f0b3560d7f1822848d568726d63ad375894b67525279d38b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,7 +45,14 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_I
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_IInstallationParam = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_IInstallationParam_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_binary_hash =
+R"doc(compute a 64 bit hash of the object using xxhash and the       \
+to_binary function. This  function is called binary because the
+\ to_binary  function of the object is used
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_bytes_content = R"doc(bytes of the datagram body)doc";
 
@@ -63,7 +70,25 @@ Args:
 
 Returns:
     std::map<std::string, std::string> Map of parameter names to
-        values)doc";
+    values
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_from_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    check_buffer_is_read_completely: variable for interface
+                                     compatibility, does not do    \
+                                     anything
+                                     \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_from_stream = R"doc()doc";
 
@@ -77,7 +102,9 @@ R"doc(Get the active attitude sensor number (1-4)
 Reads the U=ACTIVE field from ATTI_n entries
 
 Returns:
-    uint8_t Attitude sensor number (1-4), or 0 if none active)doc";
+    uint8_t Attitude sensor number (1-4), or 0 if none active
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_active_position_system_motion_compensation =
 R"doc(Check whether the positions of the active position system are motion
@@ -87,7 +114,9 @@ Resolves the active position system (U=ACTIVE) and returns its
 C=On/Off flag.
 
 Returns:
-    true if the active position system has C=On)doc";
+    true if the active position system has C=On
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_active_position_system_number =
 R"doc(Get the active position system number (1-4)
@@ -95,7 +124,9 @@ R"doc(Get the active position system number (1-4)
 Reads the U=ACTIVE field from POSI_n entries
 
 Returns:
-    uint8_t Position system number (1-4), or 0 if none active)doc";
+    uint8_t Position system number (1-4), or 0 if none active
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_attitude_sensor_offsets =
 R"doc(Get the attitude sensor offsets for a given sensor number
@@ -106,7 +137,9 @@ Args:
     sensor_number: Sensor number (1-4)
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_available_transducer_keys =
 R"doc(Get a list of available transducer keys present in the installation
@@ -115,7 +148,9 @@ parameters
 Checks for TRAI_HD1, TRAI_TX1, TRAI_TX2, TRAI_RX1, TRAI_RX2
 
 Returns:
-    std::vector<std::string> List of available transducer keys)doc";
+    std::vector<std::string> List of available transducer keys
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_bytes_content = R"doc()doc";
 
@@ -127,7 +162,9 @@ R"doc(Get the depth sensor offsets
 Parses DPHI entry
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_info = R"doc()doc";
 
@@ -142,7 +179,9 @@ different field types (e.g., ':' for OSCV, '_' for PU, '=' for SN).
 
 Returns:
     std::map<std::string, std::string> Map of parameter names to
-        values)doc";
+    values
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_install_txt_decoded_cached = R"doc()doc";
 
@@ -156,14 +195,18 @@ Args:
 
 Returns:
     std::string Human-readable explanation, or "Unknown key" if not
-        found)doc";
+    found
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_install_txt_key_infos =
 R"doc(Get all known install_txt key explanations
 
 Returns:
     const std::map<std::string, std::string>& Map of keys to their
-    explanations)doc";
+    explanations
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_position_system_motion_compensation =
 R"doc(Check whether the positions of the specified position system are
@@ -179,7 +222,9 @@ Args:
 
 Returns:
     true if C=On, false otherwise (also false if POSI_n or C is
-    absent))doc";
+    absent)
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_position_system_offsets =
 R"doc(Get the position system offsets for a given position system number
@@ -190,13 +235,17 @@ Args:
     position_system_number: Position system number (1-4)
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_pu_serial_number =
 R"doc(Get the PU serial number (SN field)
 
 Returns:
-    int PU serial number)doc";
+    int PU serial number
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_status = R"doc()doc";
 
@@ -213,13 +262,17 @@ Returns:
     map keyed "0" (tx port), "1" (tx center), "2" (tx starboard), "RX"
     (receive phase center); only the keys present in the file are
     returned. Offsets are SensorPoses in the transducer frame (x
-    forward, y starboard, z down, metres).)doc";
+    forward, y starboard, z down, metres).
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_system_name =
 R"doc(Get the system name (EMXV field)
 
 Returns:
-    std::string System name (e.g., "EM2040P"))doc";
+    std::string System name (e.g., "EM2040P")
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_system_transducer_configuration = R"doc()doc";
 
@@ -232,7 +285,9 @@ Args:
     transducer_key: Key like "TRAI_HD1", "TRAI_TX1", etc.
 
 Returns:
-    navigation::datastructures::SensorPose)doc";
+    navigation::datastructures::SensorPose
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_get_transducer_serial_numbers = R"doc()doc";
 
@@ -240,7 +295,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_I
 R"doc(Get the waterline offset (SWLZ from EMXI)
 
 Returns:
-    float Waterline offset in meters)doc";
+    float Waterline offset in meters
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_has_transducer_key =
 R"doc(Check if a specific transducer key is present
@@ -249,9 +306,28 @@ Args:
     key: Transducer key (e.g., "TRAI_HD1", "TRAI_TX1")
 
 Returns:
-    bool True if the key is present)doc";
+    bool True if the key is present
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_info = R"doc(Information. For future use.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_install_txt = R"doc(Runtime parameters as text format.)doc";
 
@@ -269,9 +345,28 @@ Args:
 
 Returns:
     std::map<std::string, std::string> Map of parameter names to
-        values)doc";
+    values
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_read = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_set_info = R"doc()doc";
 
@@ -280,6 +375,20 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_I
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_set_status = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_status = R"doc(Status. For future use.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_to_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    resize_buffer: variable for interface compatibility, does not do
+                   anything             \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_datagrams_IInstallationParam_to_stream = R"doc()doc";
 

@@ -66,39 +66,39 @@ class KongsbergAllPingBottom
     virtual ~KongsbergAllPingBottom() = default;
 
     // --- sector infos ---
-    bool has_tx_signal_parameters() const override
+    bool has_tx_signal_parameters_legacy() const override
     {
         return _file_data->has_any_of_datagram_types(
             { t_KongsbergAllDatagramIdentifier::RawRangeAndAngle,
               t_KongsbergAllDatagramIdentifier::WatercolumnDatagram });
     }
-    bool has_number_of_tx_sectors() const override { return has_tx_signal_parameters(); }
+    bool has_number_of_tx_sectors_legacy() const override { return has_tx_signal_parameters_legacy(); }
 
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-    get_tx_signal_parameters() override
+    get_tx_signal_parameters_legacy() override
     {
         return file_data().get_sysinfos().get_tx_signal_parameters();
     }
 
-    size_t get_number_of_tx_sectors() override
+    size_t get_number_of_tx_sectors_legacy() override
     {
         return file_data().get_sysinfos().get_tx_signal_parameters().size();
     }
 
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         return xt::index_view(file_data().get_wcinfos().get_transmit_sector_numbers(),
                               selection.get_beam_numbers());
     }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-        const pingtools::BeamSelection& selection) override
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         std::vector<std::vector<size_t>> beam_numbers_per_tx_sector;
-        beam_numbers_per_tx_sector.resize(get_number_of_tx_sectors());
+        beam_numbers_per_tx_sector.resize(get_number_of_tx_sectors_legacy());
 
-        auto sector_per_beam = get_tx_sector_per_beam(selection);
+        auto sector_per_beam = get_tx_sector_per_beam_legacy(selection);
 
         for (unsigned int i = 0; i < sector_per_beam.size(); ++i)
         {
@@ -117,14 +117,14 @@ class KongsbergAllPingBottom
     void release() override { _file_data->release_sys(); }
     bool loaded() override { return _file_data->sys_loaded(); }
 
-    uint32_t get_number_of_beams() override
+    uint32_t get_number_of_beams_legacy() override
     {
         if (has_xyz())
             return file_data()
                 .template read_first_datagram<datagrams::XYZDatagram>()
                 .get_number_of_beams();
 
-        if (has_two_way_travel_times())
+        if (has_two_way_travel_times_legacy())
             return file_data()
                 .template read_first_datagram<datagrams::RawRangeAndAngle>()
                 .get_number_of_receiver_beams();
@@ -136,7 +136,7 @@ class KongsbergAllPingBottom
     // using t_base1::has_xyz;
     using t_base2::file_data;
 
-    bool has_beam_crosstrack_angles() const override { return has_two_way_travel_times(); }
+    bool has_beam_crosstrack_angles_legacy() const override { return has_two_way_travel_times_legacy(); }
 
     bool has_xyz() const override
     {
@@ -145,7 +145,7 @@ class KongsbergAllPingBottom
                    .size() > 0;
     }
 
-    virtual bool has_two_way_travel_times() const
+    virtual bool has_two_way_travel_times_legacy() const
     {
         return file_data()
                    .get_datagram_infos_by_type(t_KongsbergAllDatagramIdentifier::RawRangeAndAngle)
@@ -153,13 +153,13 @@ class KongsbergAllPingBottom
     }
 
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz(
-        const pingtools::BeamSelection& selection) override
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         return _file_data->read_xyz(selection);
     }
 
     // algorithms::geoprocessing::datastructures::XYZ<1> get_xyz_raw(
-    //     const pingtools::BeamSelection& selection) override
+    //     const algorithms::pingtools::BeamSelection& selection) override
     // {
     //     return _file_data->read_xyz(selection);
     // }
@@ -170,16 +170,16 @@ class KongsbergAllPingBottom
     //     return get_xyz_raw(get_beam_selection_all());
     // }
 
-    xt::xtensor<float, 1> get_two_way_travel_times(
-        [[maybe_unused]] const pingtools::BeamSelection& selection) override
+    xt::xtensor<float, 1> get_two_way_travel_times_legacy(
+        [[maybe_unused]] const algorithms::pingtools::BeamSelection& selection) override
     {
         auto datagram = file_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
 
         return datagram.get_two_way_travel_times(selection.get_beam_numbers());
     }
 
-    xt::xtensor<float, 1> get_beam_crosstrack_angles(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<float, 1> get_beam_crosstrack_angles_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         auto datagram = file_data().template read_first_datagram<datagrams::RawRangeAndAngle>();
 

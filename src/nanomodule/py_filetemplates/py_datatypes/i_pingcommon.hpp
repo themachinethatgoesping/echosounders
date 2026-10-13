@@ -7,10 +7,12 @@
 
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/string_view.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/variant.h>
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
+#include <themachinethatgoesping/tools_nanobind/enumhelper.hpp>
 
 #include "../../../themachinethatgoesping/echosounders/filetemplates/datatypes/i_pingcommon.hpp"
 
@@ -27,7 +29,15 @@ namespace py_i_pingcommon {
 template<typename T_BaseClass, typename T_PyClass>
 void I_PingCommon_add_interface(T_PyClass& cls)
 {
-    namespace nb = nanobind;
+    namespace nb        = nanobind;
+    namespace datatypes = themachinethatgoesping::echosounders::filetemplates::datatypes;
+
+    // Convert a feature name string to an o_pingfeature, raising a helpful "did you mean ..."
+    // ValueError (instead of nanobind's opaque TypeError) if the name is not a valid feature.
+    auto feature_from_string = [](std::string_view name) {
+        return tools::nanobind_helper::option_from_string_verbose<datatypes::o_pingfeature>(
+            name, "ping feature");
+    };
 
     cls.def("feature_string",
             &T_BaseClass::feature_string,
@@ -43,10 +53,32 @@ void I_PingCommon_add_interface(T_PyClass& cls)
             &T_BaseClass::has_any_of_features,
             DOC_I_PingCommon(has_any_of_features),
             nb::arg("feature_names"));
+    cls.def(
+        "has_any_of_features",
+        [feature_from_string](const T_BaseClass& self, const std::vector<std::string>& names) {
+            std::vector<datatypes::o_pingfeature> features;
+            features.reserve(names.size());
+            for (const auto& name : names)
+                features.push_back(feature_from_string(name));
+            return self.has_any_of_features(features);
+        },
+        DOC_I_PingCommon(has_any_of_features),
+        nb::arg("feature_names"));
     cls.def("has_all_of_features",
             &T_BaseClass::has_all_of_features,
             DOC_I_PingCommon(has_all_of_features),
             nb::arg("feature_names"));
+    cls.def(
+        "has_all_of_features",
+        [feature_from_string](const T_BaseClass& self, const std::vector<std::string>& names) {
+            std::vector<datatypes::o_pingfeature> features;
+            features.reserve(names.size());
+            for (const auto& name : names)
+                features.push_back(feature_from_string(name));
+            return self.has_all_of_features(features);
+        },
+        DOC_I_PingCommon(has_all_of_features),
+        nb::arg("feature_names"));
     cls.def("has_features", &T_BaseClass::has_features, DOC_I_PingCommon(has_features));
     cls.def("has_primary_features",
             &T_BaseClass::has_primary_features,
@@ -61,6 +93,13 @@ void I_PingCommon_add_interface(T_PyClass& cls)
             &T_BaseClass::has_feature,
             DOC_I_PingCommon(has_feature),
             nb::arg("feature_name"));
+    cls.def(
+        "has_feature",
+        [feature_from_string](const T_BaseClass& self, std::string_view feature_name) {
+            return self.has_feature(feature_from_string(feature_name));
+        },
+        DOC_I_PingCommon(has_feature),
+        nb::arg("feature_name"));
     cls.def("available_features",
             &T_BaseClass::available_features,
             DOC_I_PingCommon(available_features),

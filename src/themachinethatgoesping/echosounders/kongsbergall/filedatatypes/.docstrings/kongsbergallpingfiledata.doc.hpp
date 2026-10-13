@@ -1,4 +1,4 @@
-//sourcehash: da07dcf8e67c5d3fead4ff37934bfb27f173e79ac2d740b265c583cf2954655a
+//sourcehash: c37e9c2808f702b055756893fc728240bfa37c99181d61b2a49096e95bb561e2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -63,7 +63,9 @@ Args:
     datagram_identifier: 
 
 Returns:
-    std::istream&)doc";
+    std::istream&
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_get_multisector_calibration = R"doc()doc";
 
@@ -101,11 +103,30 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_has_sound_speed_profile_datagram =
 R"doc(Alias for has_soundspeed_profile (matches
-get_sound_speed_profile_datagram naming).)doc";
+get_sound_speed_profile_datagram naming).
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_has_soundspeed_profile = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_has_watercolumn_calibration = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_init_watercolumn_calibration = R"doc()doc";
 
@@ -119,6 +140,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_must_have_datagrams = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_read_first_datagram = R"doc()doc";
@@ -129,7 +165,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 R"doc(read XYZ for the bottom detection datagram
 
 Returns:
-    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+    algorithms::geoprocessing::datastructures::XYZ<1>
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_read_xyz_2 =
 R"doc(read XYZ for the specified beams from the bottom detection datagram
@@ -141,7 +179,9 @@ Args:
     bs: beam selection
 
 Returns:
-    algorithms::geoprocessing::datastructures::XYZ<1>)doc";
+    algorithms::geoprocessing::datastructures::XYZ<1>
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingFileData_release_multisector_calibration = R"doc()doc";
 

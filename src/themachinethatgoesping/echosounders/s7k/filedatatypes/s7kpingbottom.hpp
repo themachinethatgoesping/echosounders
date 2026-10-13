@@ -65,24 +65,24 @@ class S7KPingBottom
     virtual ~S7KPingBottom() = default;
 
     // un-hide the base no-argument convenience overloads (hidden by the selection overrides below)
-    using t_base1::get_beam_crosstrack_angles;
-    using t_base1::get_beam_numbers_per_tx_sector;
-    using t_base1::get_tx_sector_per_beam;
-    using t_base1::get_two_way_travel_times;
+    using t_base1::get_beam_crosstrack_angles_legacy;
+    using t_base1::get_beam_numbers_per_tx_sector_legacy;
+    using t_base1::get_tx_sector_per_beam_legacy;
+    using t_base1::get_two_way_travel_times_legacy;
 
     // ----- transmit sectors (single sector for now) -----
-    size_t get_number_of_tx_sectors() override { return 1; }
+    size_t get_number_of_tx_sectors_legacy() override { return 1; }
 
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         auto sectors = xt::xtensor<size_t, 1>::from_shape({ selection.get_number_of_beams() });
         sectors.fill(0);
         return sectors;
     }
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector(
-        const pingtools::BeamSelection& selection) override
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         std::vector<std::vector<size_t>> beam_numbers_per_tx_sector(1);
         for (size_t i = 0; i < selection.get_number_of_beams(); ++i)
@@ -93,11 +93,11 @@ class S7KPingBottom
     // ----- feature checks -----
     // s7k raw detections carry angles + travel times, but no ready-made XYZ position
     bool has_xyz() const override { return false; }
-    bool has_two_way_travel_times() const override { return _file_data->has_raw_detection(); }
-    bool has_beam_crosstrack_angles() const override { return has_two_way_travel_times(); }
+    bool has_two_way_travel_times_legacy() const override { return _file_data->has_raw_detection(); }
+    bool has_beam_crosstrack_angles_legacy() const override { return has_two_way_travel_times_legacy(); }
 
     // ----- geometry -----
-    uint32_t get_number_of_beams() override
+    uint32_t get_number_of_beams_legacy() override
     {
         if (!_file_data->has_raw_detection())
             return 0;
@@ -105,11 +105,11 @@ class S7KPingBottom
         return uint32_t(_file_data->get_rx_angle_in_degrees_per_beam_number().size());
     }
 
-    xt::xtensor<float, 1> get_beam_crosstrack_angles(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<float, 1> get_beam_crosstrack_angles_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         // 7027 rx_angle is +starboard (s7k sonar frame, beam 0 = port); ping convention is +port,
-        // so negate (see S7KPingWatercolumn::get_beam_crosstrack_angles).
+        // so negate (see S7KPingWatercolumn::get_beam_crosstrack_angles_legacy).
         auto angles = index_beams(_file_data->get_rx_angle_in_degrees_per_beam_number(),
                                   selection.get_beam_numbers(),
                                   std::numeric_limits<float>::quiet_NaN());
@@ -117,8 +117,8 @@ class S7KPingBottom
         return angles;
     }
 
-    xt::xtensor<float, 1> get_two_way_travel_times(
-        const pingtools::BeamSelection& selection) override
+    xt::xtensor<float, 1> get_two_way_travel_times_legacy(
+        const algorithms::pingtools::BeamSelection& selection) override
     {
         // detected bottom sample number / sample rate -> two-way travel time in seconds
         const auto  detection_points = _file_data->get_detection_point_per_beam_number();

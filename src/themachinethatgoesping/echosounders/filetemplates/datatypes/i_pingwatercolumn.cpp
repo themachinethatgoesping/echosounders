@@ -38,20 +38,35 @@ std::map<t_pingfeature, std::function<bool()>> I_PingWatercolumn::secondary_feat
     const
 {
     auto features = t_base::secondary_feature_functions();
-    features[t_pingfeature::tx_signal_parameters] =
-        std::bind(&I_PingWatercolumn::has_tx_signal_parameters, this);
-    features[t_pingfeature::number_of_tx_sectors] =
-        std::bind(&I_PingWatercolumn::has_number_of_tx_sectors, this);
-    features[t_pingfeature::beam_numbers_per_tx_sector] =
-        std::bind(&I_PingWatercolumn::has_beam_numbers_per_tx_sector, this);
+    features[t_pingfeature::tx_signal_parameters_legacy] =
+        std::bind(&I_PingWatercolumn::has_tx_signal_parameters_legacy, this);
+    features[t_pingfeature::number_of_tx_sectors_legacy] =
+        std::bind(&I_PingWatercolumn::has_number_of_tx_sectors_legacy, this);
+    features[t_pingfeature::beam_numbers_per_tx_sector_legacy] =
+        std::bind(&I_PingWatercolumn::has_beam_numbers_per_tx_sector_legacy, this);
     features[t_pingfeature::beam_selection_all] =
         std::bind(&I_PingWatercolumn::has_beam_selection_all, this);
-    features[t_pingfeature::number_of_beams] =
-        std::bind(&I_PingWatercolumn::has_number_of_beams, this);
-    features[t_pingfeature::tx_sector_per_beam] =
-        std::bind(&I_PingWatercolumn::has_tx_sector_per_beam, this);
-    features[t_pingfeature::beam_crosstrack_angles] =
-        std::bind(&I_PingWatercolumn::has_beam_crosstrack_angles, this);
+    features[t_pingfeature::number_of_beams_legacy] =
+        std::bind(&I_PingWatercolumn::has_number_of_beams_legacy, this);
+    features[t_pingfeature::tx_sector_per_beam_legacy] =
+        std::bind(&I_PingWatercolumn::has_tx_sector_per_beam_legacy, this);
+    features[t_pingfeature::beam_crosstrack_angles_legacy] =
+        std::bind(&I_PingWatercolumn::has_beam_crosstrack_angles_legacy, this);
+
+    // I_MBESRawDetectionInfos features
+    __PING_REGISTER_FEATURE__(features, ref_pingtime);
+    __PING_REGISTER_FEATURE__(features, ref_pose);
+    __PING_REGISTER_FEATURE__(features, surface_sound_speed);
+    __PING_REGISTER_FEATURE__(features, sector_beam_numbers);
+    __PING_REGISTER_FEATURE__(features, sector_tx_time_delays);
+    __PING_REGISTER_FEATURE__(features, sector_tx_steering_angles);
+    __PING_REGISTER_FEATURE__(features, sector_tx_offsets);
+    __PING_REGISTER_FEATURE__(features, rx_offsets);
+    __PING_REGISTER_FEATURE__(features, number_of_soundings);
+    __PING_REGISTER_FEATURE__(features, soundings_two_way_travel_times);
+    __PING_REGISTER_FEATURE__(features, soundings_rx_steering_angles);
+    __PING_REGISTER_FEATURE__(features, soundings_sector_numbers);
+
     features[t_pingfeature::bottom_range_samples] =
         std::bind(&I_PingWatercolumn::has_bottom_range_samples, this);
     features[t_pingfeature::amplitudes] = std::bind(&I_PingWatercolumn::has_amplitudes, this);
@@ -76,37 +91,37 @@ std::map<t_pingfeature, std::function<bool()>> I_PingWatercolumn::feature_group_
     return t_base::feature_group_functions();
 }
 
-bool I_PingWatercolumn::has_tx_signal_parameters() const
+bool I_PingWatercolumn::has_tx_signal_parameters_legacy() const
 {
     return false;
 }
 
-bool I_PingWatercolumn::has_number_of_tx_sectors() const
+bool I_PingWatercolumn::has_number_of_tx_sectors_legacy() const
 {
     return false;
 }
 
-bool I_PingWatercolumn::has_beam_numbers_per_tx_sector() const
+bool I_PingWatercolumn::has_beam_numbers_per_tx_sector_legacy() const
 {
     return false;
 }
 
-bool I_PingWatercolumn::has_tx_sector_per_beam() const
+bool I_PingWatercolumn::has_tx_sector_per_beam_legacy() const
 {
     return false;
 }
 
 bool I_PingWatercolumn::has_beam_selection_all() const
 {
-    return has_number_of_beams();
+    return has_number_of_beams_legacy();
 }
 
-bool I_PingWatercolumn::has_number_of_beams() const
+bool I_PingWatercolumn::has_number_of_beams_legacy() const
 {
     return false;
 }
 
-bool I_PingWatercolumn::has_beam_crosstrack_angles() const
+bool I_PingWatercolumn::has_beam_crosstrack_angles_legacy() const
 {
     return false;
 }
@@ -133,7 +148,7 @@ bool I_PingWatercolumn::has_amplitudes() const
 
 bool I_PingWatercolumn::has_ap() const
 {
-    if (get_number_of_tx_sectors() == 1)
+    if (get_number_of_tx_sectors_legacy() == 1)
         return has_amplitudes() && get_watercolumn_calibration().has_ap_calibration() &&
                get_watercolumn_calibration().has_valid_absorption_db_m();
 
@@ -143,7 +158,7 @@ bool I_PingWatercolumn::has_ap() const
 
 bool I_PingWatercolumn::has_av() const
 {
-    if (get_number_of_tx_sectors() == 1)
+    if (get_number_of_tx_sectors_legacy() == 1)
         return has_amplitudes() && get_watercolumn_calibration().has_av_calibration() &&
                get_watercolumn_calibration().has_valid_absorption_db_m();
 
@@ -153,7 +168,7 @@ bool I_PingWatercolumn::has_av() const
 
 bool I_PingWatercolumn::has_power() const
 {
-    if (get_number_of_tx_sectors() == 1)
+    if (get_number_of_tx_sectors_legacy() == 1)
         return has_amplitudes() && get_watercolumn_calibration().has_power_calibration();
 
     return has_amplitudes() && get_multisectorwatercolumn_calibration().has_power_calibration();
@@ -171,7 +186,7 @@ bool I_PingWatercolumn::has_rv() const
 
 bool I_PingWatercolumn::has_pp() const
 {
-    if (get_number_of_tx_sectors() == 1)
+    if (get_number_of_tx_sectors_legacy() == 1)
         return has_amplitudes() && get_watercolumn_calibration().has_power_calibration() &&
                get_watercolumn_calibration().has_valid_absorption_db_m();
 
@@ -186,7 +201,7 @@ bool I_PingWatercolumn::has_pv() const
 
 bool I_PingWatercolumn::has_sp() const
 {
-    if (get_number_of_tx_sectors() == 1)
+    if (get_number_of_tx_sectors_legacy() == 1)
         return has_amplitudes() && get_watercolumn_calibration().has_sp_calibration() &&
                get_watercolumn_calibration().has_valid_absorption_db_m();
 
@@ -196,7 +211,7 @@ bool I_PingWatercolumn::has_sp() const
 
 bool I_PingWatercolumn::has_sv() const
 {
-    if (get_number_of_tx_sectors() == 1)
+    if (get_number_of_tx_sectors_legacy() == 1)
         return has_amplitudes() && get_watercolumn_calibration().has_sv_calibration() &&
                get_watercolumn_calibration().has_valid_absorption_db_m();
 
@@ -205,12 +220,12 @@ bool I_PingWatercolumn::has_sv() const
 }
 
 std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-I_PingWatercolumn::get_tx_signal_parameters() const
+I_PingWatercolumn::get_tx_signal_parameters_legacy() const
 {
     throw not_implemented(__func__, this->class_name());
 }
 
-size_t I_PingWatercolumn::get_number_of_tx_sectors() const
+size_t I_PingWatercolumn::get_number_of_tx_sectors_legacy() const
 {
     throw not_implemented(__func__, this->class_name());
 }
@@ -223,7 +238,7 @@ const calibration::WaterColumnCalibration& I_PingWatercolumn::get_watercolumn_ca
 const calibration::WaterColumnCalibration& I_PingWatercolumn::get_watercolumn_calibration(
     size_t sector_nr) const
 {
-    if (get_number_of_tx_sectors() == 1)
+    if (get_number_of_tx_sectors_legacy() == 1)
     {
         if (sector_nr == 0)
             return get_watercolumn_calibration();
@@ -248,43 +263,43 @@ float I_PingWatercolumn::get_sample_interval()
     throw not_implemented(__func__, class_name());
 }
 
-xt::xtensor<size_t, 1> I_PingWatercolumn::get_tx_sector_per_beam()
+xt::xtensor<size_t, 1> I_PingWatercolumn::get_tx_sector_per_beam_legacy()
 {
-    return get_tx_sector_per_beam(get_beam_selection_all());
+    return get_tx_sector_per_beam_legacy(get_beam_selection_all());
 }
 
-xt::xtensor<size_t, 1> I_PingWatercolumn::get_tx_sector_per_beam(const pingtools::BeamSelection&)
-{
-    throw not_implemented(__func__, class_name());
-}
-
-std::vector<std::vector<size_t>> I_PingWatercolumn::get_beam_numbers_per_tx_sector()
-{
-    return get_beam_numbers_per_tx_sector(get_beam_selection_all());
-}
-
-std::vector<std::vector<size_t>> I_PingWatercolumn::get_beam_numbers_per_tx_sector(
-    const pingtools::BeamSelection&)
+xt::xtensor<size_t, 1> I_PingWatercolumn::get_tx_sector_per_beam_legacy(const algorithms::pingtools::BeamSelection&)
 {
     throw not_implemented(__func__, class_name());
 }
 
-pingtools::BeamSelection I_PingWatercolumn::get_beam_selection_all()
+std::vector<std::vector<size_t>> I_PingWatercolumn::get_beam_numbers_per_tx_sector_legacy()
 {
-    return pingtools::BeamSelection(get_number_of_beams());
+    return get_beam_numbers_per_tx_sector_legacy(get_beam_selection_all());
 }
 
-uint32_t I_PingWatercolumn::get_number_of_beams() const
+std::vector<std::vector<size_t>> I_PingWatercolumn::get_beam_numbers_per_tx_sector_legacy(
+    const algorithms::pingtools::BeamSelection&)
 {
     throw not_implemented(__func__, class_name());
 }
 
-xt::xtensor<float, 1> I_PingWatercolumn::get_beam_crosstrack_angles()
+algorithms::pingtools::BeamSelection I_PingWatercolumn::get_beam_selection_all()
 {
-    return get_beam_crosstrack_angles(get_beam_selection_all());
+    return algorithms::pingtools::BeamSelection(get_number_of_beams_legacy());
 }
 
-xt::xtensor<float, 1> I_PingWatercolumn::get_beam_crosstrack_angles(const pingtools::BeamSelection&)
+uint32_t I_PingWatercolumn::get_number_of_beams_legacy() const
+{
+    throw not_implemented(__func__, class_name());
+}
+
+xt::xtensor<float, 1> I_PingWatercolumn::get_beam_crosstrack_angles_legacy()
+{
+    return get_beam_crosstrack_angles_legacy(get_beam_selection_all());
+}
+
+xt::xtensor<float, 1> I_PingWatercolumn::get_beam_crosstrack_angles_legacy(const algorithms::pingtools::BeamSelection&)
 {
     throw not_implemented(__func__, class_name());
 }
@@ -294,7 +309,7 @@ xt::xtensor<float, 1> I_PingWatercolumn::get_beam_alongtrack_angles()
     return get_beam_alongtrack_angles(get_beam_selection_all());
 }
 
-xt::xtensor<float, 1> I_PingWatercolumn::get_beam_alongtrack_angles(const pingtools::BeamSelection&)
+xt::xtensor<float, 1> I_PingWatercolumn::get_beam_alongtrack_angles(const algorithms::pingtools::BeamSelection&)
 {
     throw not_implemented(__func__, class_name());
 }
@@ -310,22 +325,22 @@ xt::xtensor<uint32_t, 1> I_PingWatercolumn::get_number_of_samples_per_beam()
 }
 
 xt::xtensor<uint32_t, 1> I_PingWatercolumn::get_number_of_samples_per_beam(
-    const pingtools::BeamSelection&)
+    const algorithms::pingtools::BeamSelection&)
 {
     throw not_implemented(__func__, class_name());
 }
 
-float I_PingWatercolumn::get_sound_speed_at_transducer()
+float I_PingWatercolumn::get_sound_speed_at_transducer_legacy()
 {
     throw not_implemented(__func__, class_name());
 }
 
 xt::xtensor<float, 1> I_PingWatercolumn::get_approximate_ranges(
-    const pingtools::BeamSampleSelection& selection)
+    const algorithms::pingtools::BeamSampleSelection& selection)
 {
     return algorithms::amplitudecorrection::functions::approximate_ranges<xt::xtensor<float, 1>>(
         get_sample_interval(),
-        get_sound_speed_at_transducer(),
+        get_sound_speed_at_transducer_legacy(),
         selection.get_sample_numbers_ensemble_1d());
 }
 
@@ -334,7 +349,7 @@ xt::xtensor<float, 1> I_PingWatercolumn::get_approximate_ranges()
     return get_approximate_ranges(get_beam_sample_selection_all());
 }
 
-const pingtools::BeamSampleSelection& I_PingWatercolumn::get_beam_sample_selection_all()
+const algorithms::pingtools::BeamSampleSelection& I_PingWatercolumn::get_beam_sample_selection_all()
 {
     if (!_beam_sample_selection_all_is_initialized)
     {
@@ -347,7 +362,7 @@ const pingtools::BeamSampleSelection& I_PingWatercolumn::get_beam_sample_selecti
                                         last_sample_number_per_beam.end());
 
         _beam_sample_selection_all =
-            pingtools::BeamSampleSelection(std::move(first_snpb), std::move(last_snpb));
+            algorithms::pingtools::BeamSampleSelection(std::move(first_snpb), std::move(last_snpb));
         _beam_sample_selection_all_is_initialized = true;
     }
 
@@ -404,68 +419,68 @@ xt::xtensor<float, 2> I_PingWatercolumn::get_sv(int mp_cores)
     return get_sv(get_beam_sample_selection_all(), mp_cores);
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_amplitudes(const pingtools::BeamSampleSelection&, int)
+xt::xtensor<float, 2> I_PingWatercolumn::get_amplitudes(const algorithms::pingtools::BeamSampleSelection&, int)
 {
     throw not_implemented(__func__, this->class_name());
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_rp(const pingtools::BeamSampleSelection& selection,
+xt::xtensor<float, 2> I_PingWatercolumn::get_rp(const algorithms::pingtools::BeamSampleSelection& selection,
                                                 int                                   mp_cores)
 {
     using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
     return this->template get_calibrated_wci<t_calibration_type::rp>(selection, mp_cores);
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_rv(const pingtools::BeamSampleSelection& selection,
+xt::xtensor<float, 2> I_PingWatercolumn::get_rv(const algorithms::pingtools::BeamSampleSelection& selection,
                                                 int                                   mp_cores)
 {
     using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
     return this->template get_calibrated_wci<t_calibration_type::rv>(selection, mp_cores);
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_pp(const pingtools::BeamSampleSelection& selection,
+xt::xtensor<float, 2> I_PingWatercolumn::get_pp(const algorithms::pingtools::BeamSampleSelection& selection,
                                                 int                                   mp_cores)
 {
     using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
     return this->template get_calibrated_wci<t_calibration_type::pp>(selection, mp_cores);
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_pv(const pingtools::BeamSampleSelection& selection,
+xt::xtensor<float, 2> I_PingWatercolumn::get_pv(const algorithms::pingtools::BeamSampleSelection& selection,
                                                 int                                   mp_cores)
 {
     using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
     return this->template get_calibrated_wci<t_calibration_type::pv>(selection, mp_cores);
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_ap(const pingtools::BeamSampleSelection& selection,
+xt::xtensor<float, 2> I_PingWatercolumn::get_ap(const algorithms::pingtools::BeamSampleSelection& selection,
                                                 int                                   mp_cores)
 {
     using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
     return this->template get_calibrated_wci<t_calibration_type::ap>(selection, mp_cores);
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_av(const pingtools::BeamSampleSelection& selection,
+xt::xtensor<float, 2> I_PingWatercolumn::get_av(const algorithms::pingtools::BeamSampleSelection& selection,
                                                 int                                   mp_cores)
 {
     using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
     return this->template get_calibrated_wci<t_calibration_type::av>(selection, mp_cores);
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_power(const pingtools::BeamSampleSelection& selection,
+xt::xtensor<float, 2> I_PingWatercolumn::get_power(const algorithms::pingtools::BeamSampleSelection& selection,
                                                    int                                   mp_cores)
 {
     using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
     return this->template get_calibrated_wci<t_calibration_type::power>(selection, mp_cores);
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_sp(const pingtools::BeamSampleSelection& selection,
+xt::xtensor<float, 2> I_PingWatercolumn::get_sp(const algorithms::pingtools::BeamSampleSelection& selection,
                                                 int                                   mp_cores)
 {
     using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
     return this->template get_calibrated_wci<t_calibration_type::sp>(selection, mp_cores);
 }
 
-xt::xtensor<float, 2> I_PingWatercolumn::get_sv(const pingtools::BeamSampleSelection& selection,
+xt::xtensor<float, 2> I_PingWatercolumn::get_sv(const algorithms::pingtools::BeamSampleSelection& selection,
                                                 int                                   mp_cores)
 {
     using t_calibration_type = typename calibration::WaterColumnCalibration::t_calibration_type;
@@ -492,7 +507,7 @@ xt::xtensor<float, 2> I_PingWatercolumn::get_wci_correction(
 }
 
 xt::xtensor<float, 2> I_PingWatercolumn::get_wci_correction(
-    const pingtools::BeamSampleSelection& selection,
+    const algorithms::pingtools::BeamSampleSelection& selection,
     const calibration::o_calibration_type calibration1,
     const calibration::o_calibration_type calibration_base,
     int                                   mp_cores)
@@ -556,7 +571,7 @@ xt::xtensor<float, 2> I_PingWatercolumn::get_wci(
 }
 
 xt::xtensor<float, 2> I_PingWatercolumn::get_wci(
-    const pingtools::BeamSampleSelection& selection,
+    const algorithms::pingtools::BeamSampleSelection& selection,
     const calibration::o_calibration_type calibration_type,
     int                                   mp_cores)
 {
@@ -591,7 +606,7 @@ xt::xtensor<uint32_t, 1> I_PingWatercolumn::get_bottom_range_samples()
 }
 
 xt::xtensor<uint32_t, 1> I_PingWatercolumn::get_bottom_range_samples(
-    const pingtools::BeamSelection&)
+    const algorithms::pingtools::BeamSelection&)
 {
     throw not_implemented(__func__, this->class_name());
 }
@@ -601,7 +616,7 @@ uint32_t I_PingWatercolumn::get_minslant_sample_nr()
     return get_minslant_sample_nr(get_beam_selection_all());
 }
 
-uint32_t I_PingWatercolumn::get_minslant_sample_nr(const pingtools::BeamSelection& selection)
+uint32_t I_PingWatercolumn::get_minslant_sample_nr(const algorithms::pingtools::BeamSelection& selection)
 {
     auto bottom_range_samples = get_bottom_range_samples(selection);
 

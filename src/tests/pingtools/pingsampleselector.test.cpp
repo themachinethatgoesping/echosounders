@@ -10,7 +10,7 @@
 // using namespace testing;
 using namespace std;
 using namespace themachinethatgoesping::echosounders::pingtools;
-#define TESTTAG "[filetemplates]"
+#define TESTTAG "[pingtools]"
 
 TEST_CASE("PingSampleselector should support common functions", TESTTAG)
 {

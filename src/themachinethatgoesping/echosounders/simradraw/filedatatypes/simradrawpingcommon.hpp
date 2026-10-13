@@ -62,7 +62,7 @@ class SimradRawPingCommon
     virtual ~SimradRawPingCommon() = default;
 
     void beam_selection_must_be_one(std::string_view                      method_name,
-                                    const pingtools::BeamSampleSelection& selection) const
+                                    const algorithms::pingtools::BeamSampleSelection& selection) const
     {
         if (selection.get_number_of_beams() == 1)
             if (selection.get_beam_numbers()[0] == 0)

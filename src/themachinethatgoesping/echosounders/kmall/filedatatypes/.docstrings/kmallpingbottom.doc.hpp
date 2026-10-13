@@ -1,4 +1,4 @@
-//sourcehash: 9ba9e5cf2a985cdf5e3625f770c4fce131baabf83ba6b2f7043b6c008c942ede
+//sourcehash: 4d751b2eddc56f2ad655f9be875af9081169338693120682cbf42b6846d8ea34
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,29 +47,29 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_class_name = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_number_of_beams_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_number_of_tx_sectors_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_two_way_travel_times = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_two_way_travel_times_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_get_xyz = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_number_of_tx_sectors_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_two_way_travel_times = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_two_way_travel_times_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingBottom_has_xyz = R"doc()doc";
 

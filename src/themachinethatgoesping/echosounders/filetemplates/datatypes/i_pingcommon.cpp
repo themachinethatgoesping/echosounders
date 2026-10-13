@@ -4,7 +4,10 @@
 
 #include "i_pingcommon.hpp"
 
+#include <algorithm>
+
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <magic_enum/magic_enum.hpp>
 
 namespace themachinethatgoesping {
@@ -102,26 +105,43 @@ bool I_PingCommon::has_feature_groups() const
 
 bool I_PingCommon::has_feature(o_pingfeature feature) const
 {
-    auto features   = this->primary_feature_functions();
-    auto it_primary = features.find(feature.value);
-    if (it_primary != features.end())
+    auto primary    = this->primary_feature_functions();
+    auto it_primary = primary.find(feature.value);
+    if (it_primary != primary.end())
         return it_primary->second();
 
-    features          = this->secondary_feature_functions();
-    auto it_secondary = features.find(feature.value);
-    if (it_secondary != features.end())
+    auto secondary    = this->secondary_feature_functions();
+    auto it_secondary = secondary.find(feature.value);
+    if (it_secondary != secondary.end())
         return it_secondary->second();
 
-    features      = this->feature_group_functions();
-    auto it_group = features.find(feature.value);
-    if (it_group != features.end())
+    auto groups   = this->feature_group_functions();
+    auto it_group = groups.find(feature.value);
+    if (it_group != groups.end())
         return it_group->second();
 
-    throw std::runtime_error(fmt::format("Error[{}::{}]! The following feature is "
-                                         "not registered: {}\n Please report!",
-                                         class_name(),
-                                         __func__,
-                                         magic_enum::enum_name(feature.value)));
+    // The requested value is a valid t_pingfeature, but this particular ping class does not register
+    // it (e.g. a watercolumn feature queried on a bottom ping, or vice versa). This is a usage error,
+    // not an internal bug, so report which features this class actually provides.
+    std::vector<t_pingfeature> registered;
+    for (const auto& feature_map : { primary, secondary, groups })
+        for (const auto& [registered_feature, has_registered_feature] : feature_map)
+            registered.push_back(registered_feature);
+    std::sort(registered.begin(), registered.end());
+
+    std::vector<std::string_view> registered_names;
+    registered_names.reserve(registered.size());
+    for (auto f : registered)
+        registered_names.push_back(magic_enum::enum_name(f));
+
+    throw std::runtime_error(fmt::format(
+        "Feature '{}' is not available on '{}': it is a valid ping feature but is not registered for "
+        "this class (it may belong to a different ping component, e.g. a watercolumn feature queried "
+        "on a bottom ping). Features registered for '{}': [{}]",
+        magic_enum::enum_name(feature.value),
+        class_name(),
+        class_name(),
+        fmt::join(registered_names, ", ")));
 }
 
 std::string I_PingCommon::feature_string(bool available, const std::string& prefix) const

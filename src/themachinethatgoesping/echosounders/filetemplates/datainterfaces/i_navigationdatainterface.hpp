@@ -399,14 +399,14 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         datatypes::FileCache file_cache(cache_it->second,
                                         navigation_data_interface_per_file.get_file_path(),
                                         navigation_data_interface_per_file.get_file_size(),
-                                        { "NavigationInterpolatorLatLon_packdev4" });
+                                        { "NavigationInterpolatorLatLon_packdev5" });
 
         // if navigation interpolator is in cache, return it
-        if (file_cache.has_cache("NavigationInterpolatorLatLon_packdev4"))
+        if (file_cache.has_cache("NavigationInterpolatorLatLon_packdev5"))
             try
             {
                 return file_cache.get_from_cache<navigation::NavigationInterpolatorLatLon>(
-                    "NavigationInterpolatorLatLon_packdev4");
+                    "NavigationInterpolatorLatLon_packdev5");
             }
             catch (std::exception& e)
             {
@@ -423,7 +423,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
         auto navigation_interpolator = navigation_data_interface_per_file.read_navigation_data();
 
         // cache navigation interpolator
-        file_cache.add_to_cache("NavigationInterpolatorLatLon_packdev4", navigation_interpolator);
+        file_cache.add_to_cache("NavigationInterpolatorLatLon_packdev5", navigation_interpolator);
         file_cache.update_file(cache_it->second);
 
         return navigation_interpolator;

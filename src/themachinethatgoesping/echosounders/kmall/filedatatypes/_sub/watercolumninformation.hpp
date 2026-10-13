@@ -19,7 +19,7 @@
 
 #include "../../datagrams.hpp"
 
-#include "../../../pingtools/readsamplerange.hpp"
+#include <themachinethatgoesping/algorithms/pingtools/readsamplerange.hpp>
 
 #include "_wciinfos.hpp"
 namespace themachinethatgoesping {
@@ -59,7 +59,7 @@ class WaterColumnInformation
 
     template<typename t_ifstream>
     auto read_beam_samples(uint16_t                          bn,
-                           const pingtools::ReadSampleRange& rsr,
+                           const algorithms::pingtools::ReadSampleRange& rsr,
                            t_ifstream&                       ifs) const
     {
         return datagrams::substructs::MWCRxBeamData::read_sample_amplitudes_05dB(

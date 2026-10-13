@@ -20,13 +20,13 @@
 
 /* themachinethatgoesping includes */
 #include <themachinethatgoesping/algorithms/geoprocessing/datastructures/xyz.hpp>
-#include <themachinethatgoesping/algorithms/geoprocessing/raytracers2/mbesrawdetectioninfos.hpp>
+#include <themachinethatgoesping/algorithms/geoprocessing/raytracers2/i_mbesrawdetectioninfos.hpp>
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include <xtensor/containers/xtensor.hpp>
 
-#include "../../pingtools/beamselection.hpp"
+#include <themachinethatgoesping/algorithms/pingtools/beamselection.hpp>
 #include "i_pingcommon.hpp"
 
 namespace themachinethatgoesping {
@@ -38,7 +38,9 @@ namespace datatypes {
  * @brief Interface for all ping bottom detection functions
  *
  */
-class I_PingBottom : public I_PingCommon, I_MBESRawDetectionInfos
+class I_PingBottom
+    : public I_PingCommon
+    , public algorithms::geoprocessing::raytracers2::I_MBESRawDetectionInfos
 {
   protected:
     std::string class_name() const override;
@@ -53,47 +55,47 @@ class I_PingBottom : public I_PingCommon, I_MBESRawDetectionInfos
     std::map<t_pingfeature, std::function<bool()>> secondary_feature_functions() const override;
     std::map<t_pingfeature, std::function<bool()>> feature_group_functions() const override;
 
-    virtual bool has_tx_signal_parameters() const;
-    virtual bool has_number_of_tx_sectors() const;
-    virtual bool has_beam_numbers_per_tx_sector() const;
-    virtual bool has_tx_sector_per_beam() const;
+    virtual bool has_tx_signal_parameters_legacy() const;
+    virtual bool has_number_of_tx_sectors_legacy() const;
+    virtual bool has_beam_numbers_per_tx_sector_legacy() const;
+    virtual bool has_tx_sector_per_beam_legacy() const;
 
     bool         has_beam_selection_all() const;
-    virtual bool has_number_of_beams() const;
-    virtual bool has_beam_crosstrack_angles() const;
+    virtual bool has_number_of_beams_legacy() const;
+    virtual bool has_beam_crosstrack_angles_legacy() const;
 
-    virtual bool has_two_way_travel_times() const;
+    virtual bool has_two_way_travel_times_legacy() const;
     virtual bool has_xyz() const;
 
     virtual std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
-        get_tx_signal_parameters();
-    virtual size_t get_number_of_tx_sectors();
+        get_tx_signal_parameters_legacy();
+    virtual size_t get_number_of_tx_sectors_legacy();
 
-    xt::xtensor<size_t, 1> get_tx_sector_per_beam();
+    xt::xtensor<size_t, 1> get_tx_sector_per_beam_legacy();
     virtual xt::xtensor<size_t, 1>
-        get_tx_sector_per_beam(const pingtools::BeamSelection& bs);
+        get_tx_sector_per_beam_legacy(const algorithms::pingtools::BeamSelection& bs);
 
-    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector();
+    std::vector<std::vector<size_t>> get_beam_numbers_per_tx_sector_legacy();
     virtual std::vector<std::vector<size_t>>
-        get_beam_numbers_per_tx_sector(const pingtools::BeamSelection& bs);
+        get_beam_numbers_per_tx_sector_legacy(const algorithms::pingtools::BeamSelection& bs);
 
-    pingtools::BeamSelection get_beam_selection_all();
-    virtual uint32_t get_number_of_beams();
+    algorithms::pingtools::BeamSelection get_beam_selection_all();
+    virtual uint32_t get_number_of_beams_legacy();
 
-    xt::xtensor<float, 1> get_beam_crosstrack_angles();
+    xt::xtensor<float, 1> get_beam_crosstrack_angles_legacy();
     virtual xt::xtensor<float, 1>
-        get_beam_crosstrack_angles(const pingtools::BeamSelection& bs);
+        get_beam_crosstrack_angles_legacy(const algorithms::pingtools::BeamSelection& bs);
 
     algorithms::geoprocessing::datastructures::XYZ<1> get_xyz();
     virtual algorithms::geoprocessing::datastructures::XYZ<1>
-        get_xyz(const pingtools::BeamSelection& selection);
+        get_xyz(const algorithms::pingtools::BeamSelection& selection);
 
     float get_bottom_z();
-    float get_bottom_z(const pingtools::BeamSelection& selection);
+    float get_bottom_z(const algorithms::pingtools::BeamSelection& selection);
 
-    xt::xtensor<float, 1> get_two_way_travel_times();
+    xt::xtensor<float, 1> get_two_way_travel_times_legacy();
     virtual xt::xtensor<float, 1>
-        get_two_way_travel_times(const pingtools::BeamSelection& selection);
+        get_two_way_travel_times_legacy(const algorithms::pingtools::BeamSelection& selection);
 
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
                                                   bool         superscript_exponents) const;

@@ -1,4 +1,4 @@
-//sourcehash: 465c184d5531c17f2f175ef67d98e3a59ac7a71b0e5b0178e7034face7ad1501
+//sourcehash: 25a1d194e3fe00af51d31933eb9c03b3d438a6f30dcd80d6c74df24d7788dfae
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,13 +49,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_feature_group_functions = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_crosstrack_angles_legacy_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_numbers_per_tx_sector_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_numbers_per_tx_sector_legacy_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_beam_selection_all = R"doc()doc";
 
@@ -63,43 +63,75 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_bottom_z_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_beams_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_number_of_tx_sectors_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_two_way_travel_times_legacy_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_sector_per_beam_legacy_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_get_xyz_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_beam_selection_all = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_number_of_beams_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_number_of_tx_sectors_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_two_way_travel_times = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_two_way_travel_times_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_has_xyz = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_primary_feature_functions = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingBottom_printer = R"doc()doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: f5ece96c434d9150c109eae3a9344f124259f18cbdbcc5d5e4473a1a855954b8
+//sourcehash: adaf9e2ff309737d35183cfd356858a6ee0ba32219b8f79fae9c35ca6b49f98f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,7 +46,6 @@ R"doc(Interface for all ping watercolumn functions
 
 
 
-
 Interface for watercolumn ping data.
 
 This class represents an interface for accessing watercolumn ping
@@ -83,13 +82,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_alongtrack_angles_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_crosstrack_angles = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_crosstrack_angles_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_crosstrack_angles_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_crosstrack_angles_legacy_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_numbers_per_tx_sector = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_numbers_per_tx_sector_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_numbers_per_tx_sector_legacy_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_beam_sample_selection_all = R"doc()doc";
 
@@ -109,13 +108,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_multisectorwatercolumn_calibration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_beams_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_samples_per_beam_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_number_of_tx_sectors_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_power = R"doc()doc";
 
@@ -139,7 +138,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sample_interval = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sound_speed_at_transducer = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sound_speed_at_transducer_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_sp = R"doc()doc";
 
@@ -151,11 +150,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_test_mode = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam_2 = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_sector_per_beam_legacy_2 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_get_watercolumn_calibration = R"doc()doc";
 
@@ -177,15 +176,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_av = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_crosstrack_angles = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_crosstrack_angles_in_world_frame =
-R"doc(Returns true if get_beam_crosstrack_angles() produces gravity-
+R"doc(Returns true if get_beam_crosstrack_angles_legacy() produces gravity-
 referenced (world-frame) angles. When false (default), angles are in
 the vessel/transducer frame and the raytracer must apply the sensor
-orientation (roll/pitch) to convert to world-frame.)doc";
+orientation (roll/pitch) to convert to world-frame.
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_numbers_per_tx_sector = R"doc()doc";
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_crosstrack_angles_legacy = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_numbers_per_tx_sector_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_beam_selection_all = R"doc()doc";
 
@@ -193,9 +194,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_multisectorwatercolumn_calibration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_number_of_beams = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_number_of_beams_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_number_of_tx_sectors = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_number_of_tx_sectors_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_power = R"doc()doc";
 
@@ -211,13 +212,45 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_dat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_sv = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_sector_per_beam = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_sector_per_beam_legacy = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_signal_parameters = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_tx_signal_parameters_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_has_watercolumn_calibration = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_primary_feature_functions = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_I_PingWatercolumn_printer = R"doc()doc";
 
