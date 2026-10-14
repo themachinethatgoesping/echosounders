@@ -57,8 +57,9 @@ class SimradRawPingBottom
     std::string class_name() const override { return "SimradRawPingBottom"; }
 
   public:
-    SimradRawPingBottom(std::shared_ptr<t_rawdata> file_data)
-        : t_base1()
+    SimradRawPingBottom(std::shared_ptr<t_rawdata>                          file_data,
+                        std::shared_ptr<pingprocessing::datatypes::PingInfo> ping_info = nullptr)
+        : t_base1(std::move(ping_info))
         , t_base2(std::move(file_data))
     {
     }

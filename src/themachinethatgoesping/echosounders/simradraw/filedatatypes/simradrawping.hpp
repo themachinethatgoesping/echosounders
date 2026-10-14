@@ -63,7 +63,7 @@ class SimradRawPing
     SimradRawPing(const datagrams::RAW3& raw3_datagram)
         : t_base1()
         , t_base2(raw3_datagram)
-        , _watercolumn(_file_data)
+        , _watercolumn(_file_data, this->get_ping_info())
     //, _file_data(std::move(datagram_info_file_data), std::move(ping_data))
     {
         auto raw_channel_id = raw3_datagram.get_channel_id();
@@ -86,9 +86,10 @@ class SimradRawPing
     void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
     {
         // update timestamp if it is much smaller or larger than the current one
-        if (_timestamp < datagram_info->get_timestamp() - 1000 ||
-            _timestamp > datagram_info->get_timestamp())
-            _timestamp = datagram_info->get_timestamp();
+        const double timestamp = this->get_timestamp();
+        if (timestamp < datagram_info->get_timestamp() - 1000 ||
+            timestamp > datagram_info->get_timestamp())
+            this->set_timestamp(datagram_info->get_timestamp());
 
         file_data().add_datagram_info(datagram_info);
     }
@@ -97,7 +98,13 @@ class SimradRawPing
     using t_base1::bottom;
     using t_base1::watercolumn;
     // SimradRawPingBottom<t_ifstream>&      bottom() override { return _bottom; }
-    SimradRawPingWatercolumn<t_ifstream>& watercolumn() override { return _watercolumn; }
+    SimradRawPingWatercolumn<t_ifstream>& watercolumn() override
+    {
+        // keep the watercolumn's PingInfo in sync with this ping (handles copies)
+        if (_watercolumn.get_ping_info() != this->get_ping_info())
+            _watercolumn.set_ping_info(this->get_ping_info());
+        return _watercolumn;
+    }
 
     // /**
     //  * @brief Compute volume backscattering strength (Sv) from raw data.

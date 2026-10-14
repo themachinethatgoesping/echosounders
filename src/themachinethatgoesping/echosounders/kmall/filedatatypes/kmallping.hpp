@@ -63,8 +63,8 @@ class KMALLPing
     KMALLPing()
         : t_base1()
         , t_base2()
-        , _bottom(_file_data)
-        , _watercolumn(_file_data)
+        , _bottom(_file_data, this->get_ping_info())
+        , _watercolumn(_file_data, this->get_ping_info())
     {
     }
     virtual ~KMALLPing() = default;
@@ -90,9 +90,10 @@ class KMALLPing
     void add_datagram_info(const type_DatagramInfo_ptr& datagram_info)
     {
         // update timestamp if it is much smaller or larger than the current one
-        if (_timestamp < datagram_info->get_timestamp() - 1000 ||
-            _timestamp > datagram_info->get_timestamp())
-            _timestamp = datagram_info->get_timestamp();
+        const double timestamp = this->get_timestamp();
+        if (timestamp < datagram_info->get_timestamp() - 1000 ||
+            timestamp > datagram_info->get_timestamp())
+            this->set_timestamp(datagram_info->get_timestamp());
 
         _file_data->add_datagram_info(datagram_info);
     }
@@ -103,8 +104,19 @@ class KMALLPing
     // ----- bottom -----
     using t_base1::bottom;
     using t_base1::watercolumn;
-    KMALLPingBottom<t_ifstream>&      bottom() override { return _bottom; }
-    KMALLPingWatercolumn<t_ifstream>& watercolumn() override { return _watercolumn; }
+    KMALLPingBottom<t_ifstream>& bottom() override
+    {
+        // keep the bottom's PingInfo in sync with this ping (handles copies / deep_copy)
+        if (_bottom.get_ping_info() != this->get_ping_info())
+            _bottom.set_ping_info(this->get_ping_info());
+        return _bottom;
+    }
+    KMALLPingWatercolumn<t_ifstream>& watercolumn() override
+    {
+        if (_watercolumn.get_ping_info() != this->get_ping_info())
+            _watercolumn.set_ping_info(this->get_ping_info());
+        return _watercolumn;
+    }
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,
