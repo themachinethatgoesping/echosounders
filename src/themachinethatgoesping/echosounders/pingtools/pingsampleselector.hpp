@@ -13,7 +13,7 @@
 #include <vector>
 
 /* ping includes */
-#include "../filetemplates/datatypes/i_ping.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/i_ping.hpp>
 #include <themachinethatgoesping/algorithms/pingtools/beamsampleselection.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
@@ -63,10 +63,10 @@ class PingSampleSelector
     bool operator==(const PingSampleSelector& other) const = default;
 
     algorithms::pingtools::BeamSampleSelection apply_selection(
-        filetemplates::datatypes::I_PingWatercolumn& ping_watercolumn);
+        pingprocessing::datatypes::I_PingWatercolumn& ping_watercolumn);
 
     // get selection
-    algorithms::pingtools::BeamSelection apply_selection(filetemplates::datatypes::I_PingBottom& ping_bottom);
+    algorithms::pingtools::BeamSelection apply_selection(pingprocessing::datatypes::I_PingBottom& ping_bottom);
 
     // getters
     auto        get_min_beam_number() const { return _min_beam_number; }

@@ -1,4 +1,4 @@
-//sourcehash: f02bf7a479b0f9f4a11c67ee63dab135e04e2b762ac70f813eee942ca71dd6ad
+//sourcehash: 567a265e1cfcafbfd1a0518517fe09876e251e89d63f43ead05072a7836f93b6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,8 +46,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 R"doc(TODO: check effective pulse length
 - for power/angle data, do I only use the nominal pulse length?)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_SimradRawWaterColumnCalibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_SimradRawWaterColumnCalibration_2 = R"doc()doc";
@@ -56,11 +54,20 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_acidity_ph = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_binary_hash =
+R"doc(compute a 64 bit hash of the object using xxhash and the       \
+to_binary function. This  function is called binary because the
+\ to_binary  function of the object is used
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_build_calibration_info =
 R"doc(Lazily build calibration provenance/documentation info.
 
 This is NOT stored as a member — it is constructed on demand from the
-current parameter values, keeping the hot construction path zero-cost.)doc";
+current parameter values, keeping the hot construction path zero-cost.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_check_can_be_initialized = R"doc()doc";
 
@@ -86,7 +93,9 @@ Args:
                          affect the result.
 
 Returns:
-    float)doc";
+    float
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_compute_filtered_transmit_pulse =
 R"doc(This function computes the filtered transmit signal from the
@@ -109,14 +118,18 @@ Template Args:
     t_xtensor_float: 
 
 Returns:
-    auto)doc";
+    auto
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_compute_internal_sampling_interval_hz =
 R"doc(Compute the interal sampling interval in Hz based on the filter stages
 (decimation factors) and the resulting final sample interval
 
 Returns:
-    float)doc";
+    float
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_compute_raw_transmit_pulse =
 R"doc(This function computes the raw, unfiltered transmit signal from the
@@ -140,7 +153,9 @@ Template Args:
     t_xtensor_float: 
 
 Returns:
-    auto)doc";
+    auto
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_computed_absorption_db_m = R"doc()doc";
 
@@ -179,6 +194,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_frequency_hz = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_frequency_nominal_hz = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_from_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    check_buffer_is_read_completely: variable for interface
+                                     compatibility, does not do    \
+                                     anything
+                                     \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_from_stream = R"doc()doc";
 
@@ -254,6 +285,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_get_wavelength_m = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_initialized = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_initialized_2 = R"doc()doc";
@@ -271,6 +319,21 @@ not yet valid. Set to 0 when working working with power/angle data. If
 translate the complex amplitudes to power applying this calibration to
 data which does not match n_complex_samples will result in incorrect
 power values)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_printer = R"doc()doc";
 
@@ -313,6 +376,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_slope_factor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_temperature_c = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_throw_because_value_is_note_finite = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_to_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    resize_buffer: variable for interface compatibility, does not do
+                   anything             \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_calibration_SimradRawWaterColumnCalibration_to_stream = R"doc()doc";
 

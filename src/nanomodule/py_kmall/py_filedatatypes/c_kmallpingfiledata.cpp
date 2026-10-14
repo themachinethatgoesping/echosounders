@@ -38,11 +38,11 @@ template<typename T_FileStream>
 void py_create_class_kmallPingFileData(nanobind::module_& m, const std::string& CLASS_NAME)
 {
     using t_KMALLPingFileData = filedatatypes::KMALLPingFileData<T_FileStream>;
-    using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+    using namespace themachinethatgoesping::pingprocessing::datatypes::calibration;
     using namespace themachinethatgoesping::echosounders::kmall::filedatatypes::calibration;
 
     auto cls =
-        nb::class_<t_KMALLPingFileData, datatypes::I_PingFileData>(
+        nb::class_<t_KMALLPingFileData, pingprocessing::datatypes::I_PingFileData>(
             m,
             (CLASS_NAME).c_str(),
             DOC(themachinethatgoesping, echosounders, kmall, filedatatypes, KMALLPingFileData))

@@ -12,7 +12,7 @@
 
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 
-#include "../../../themachinethatgoesping/echosounders/filetemplates/datacontainers/pingcontainer.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/pingcontainer.hpp>
 //
 
 namespace themachinethatgoesping {
@@ -23,7 +23,7 @@ namespace py_datacontainers {
 namespace py_pingcontainer {
 
 #define DOC_PingContainer(ARG)                                                                     \
-    DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, PingContainer, ARG)
+    DOC(themachinethatgoesping, pingprocessing, datatypes, PingContainer, ARG)
 
 template<typename T_BaseClass, typename T_PyClass>
 void _PingContainer_add_interface(T_PyClass& cls)
@@ -99,7 +99,7 @@ void _PingContainer_add_interface(T_PyClass& cls)
 template<typename T_PingType>
 void create_PingContainerType(nanobind::module_& m, const std::string& ITERATOR_NAME)
 {
-    using filetemplates::datacontainers::PingContainer;
+    using pingprocessing::datatypes::PingContainer;
     namespace nb = nanobind;
 
     using T_CONTAINER = PingContainer<T_PingType>;
@@ -108,7 +108,7 @@ void create_PingContainerType(nanobind::module_& m, const std::string& ITERATOR_
                 nb::class_<T_CONTAINER>(
             m,
             ITERATOR_NAME.c_str(),
-            DOC(themachinethatgoesping, echosounders, filetemplates, datacontainers, PingContainer))
+            DOC(themachinethatgoesping, pingprocessing, datatypes, PingContainer))
                         .def(nb::init<>(), DOC_PingContainer(PingContainer))
                         .def(nb::init<std::vector<std::shared_ptr<T_PingType>>>(),
                  DOC_PingContainer(PingContainer))

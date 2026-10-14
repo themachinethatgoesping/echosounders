@@ -31,12 +31,12 @@ void init_c_pingsampleselector(nanobind::module_& m)
 
         // --- main interface ---
           .def("apply_selection",
-                nb::overload_cast<filetemplates::datatypes::I_PingWatercolumn&>(
+                nb::overload_cast<pingprocessing::datatypes::I_PingWatercolumn&>(
                      &PingSampleSelector::apply_selection),
                 DOC_PingSampleSelector(apply_selection),
                 nb::arg("ping_watercolumn"))
           .def("apply_selection",
-                nb::overload_cast<filetemplates::datatypes::I_PingBottom&>(
+                nb::overload_cast<pingprocessing::datatypes::I_PingBottom&>(
                      &PingSampleSelector::apply_selection),
                 DOC_PingSampleSelector(apply_selection),
                 nb::arg("ping_bottom"))

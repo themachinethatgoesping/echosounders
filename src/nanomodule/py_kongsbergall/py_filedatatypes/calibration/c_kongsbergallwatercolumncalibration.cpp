@@ -11,7 +11,7 @@
 #include <themachinethatgoesping/tools_nanobind/classhelper.hpp>
 #include <xtensor-python/nanobind/pytensor.hpp>
 
-#include "../../../py_filetemplates/py_datatypes/py_calibration/c_multisectorwatercolumncalibration.hpp"
+#include <py_datatypes/py_calibration/c_multisectorwatercolumncalibration.hpp>
 #include <themachinethatgoesping/echosounders/kongsbergall/filedatatypes/calibration/kongsbergallwatercolumncalibration.hpp>
 
 namespace themachinethatgoesping {
@@ -35,7 +35,7 @@ namespace nb = nanobind;
 void init_c_kongsbergallwatercolumncalibration(nanobind::module_& m)
 {
     using namespace themachinethatgoesping::echosounders::kongsbergall::filedatatypes::calibration;
-    using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+    using namespace themachinethatgoesping::pingprocessing::datatypes::calibration;
 
     // add class
     auto c = nb::class_<KongsbergAllWaterColumnCalibration, WaterColumnCalibration>(
@@ -114,7 +114,7 @@ void init_c_kongsbergallwatercolumncalibration(nanobind::module_& m)
         ;
 
     // add multisector calibration
-    py_filetemplates::py_datatypes::py_calibration::init_multisectorcalibration<
+    pingprocessing::pymodule::py_datatypes::py_calibration::init_multisectorcalibration<
         KongsbergAllWaterColumnCalibration>(m, "KongsbergAllMultiSectorWaterColumnCalibration");
 }
 }

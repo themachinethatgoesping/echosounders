@@ -43,10 +43,10 @@ template<typename T_FileStream>
 void py_create_class_kongsbergallPingFileData(nanobind::module_& m, const std::string& CLASS_NAME)
 {
     using t_KongsbergAllPingFileData = filedatatypes::KongsbergAllPingFileData<T_FileStream>;
-    using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+    using namespace themachinethatgoesping::pingprocessing::datatypes::calibration;
     using namespace themachinethatgoesping::echosounders::kongsbergall::filedatatypes::calibration;
 
-    auto cls = nb::class_<t_KongsbergAllPingFileData, datatypes::I_PingFileData>(
+    auto cls = nb::class_<t_KongsbergAllPingFileData, pingprocessing::datatypes::I_PingFileData>(
                    m,
                    (CLASS_NAME).c_str(),
                    DOC(themachinethatgoesping,

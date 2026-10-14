@@ -39,7 +39,7 @@ void py_create_class_kongsbergallping(nanobind::module_& m, const std::string& C
 
     using t_KongsbergAllPingCommon = filedatatypes::KongsbergAllPingCommon<T_FileStream>;
 
-    auto cls = nb::class_<t_KongsbergAllPing, datatypes::I_Ping>(
+    auto cls = nb::class_<t_KongsbergAllPing, pingprocessing::datatypes::I_Ping>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, kongsbergall, filedatatypes, KongsbergAllPing))

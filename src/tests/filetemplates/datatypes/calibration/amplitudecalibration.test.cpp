@@ -12,11 +12,11 @@
 // datagram_identifier_to_string is unknown
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions/rangecorrection.hpp>
 #include <themachinethatgoesping/algorithms/amplitudecorrection/functions/wcicorrection.hpp>
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/calibration/amplitudecalibration.hpp>
+#include <themachinethatgoesping/pingprocessing/datatypes/calibration/amplitudecalibration.hpp>
 
 // using namespace testing;
 using namespace std;
-using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+using namespace themachinethatgoesping::pingprocessing::datatypes::calibration;
 using namespace themachinethatgoesping::algorithms::amplitudecorrection::functions;
 using namespace themachinethatgoesping::echosounders;
 #define TESTTAG "[AmplitudeCalibration]"

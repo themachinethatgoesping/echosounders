@@ -1,4 +1,4 @@
-//sourcehash: 49038d9009ce2c5326871310ab70cf84ef46c9d981805ce50791271e0b46deb1
+//sourcehash: 7d21c2b8bb080cea954aa3277e8740d55db5e1629443b1954c96fdde5b2b825e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,6 +51,16 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHa
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_KMALLFileHandler_4 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_add_ping_counter_extra_info =
+R"doc(Read ping counter and serial number from datagram and add as extra
+info
+
+Args:
+    datagram_info: The datagram info to read from and add extra info
+                   to
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_callback_scan_new_file_begin = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_callback_scan_new_file_end = R"doc()doc";
@@ -73,6 +83,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHa
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_get_pings = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_init_interfaces = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_link_all_and_wcd_files = R"doc()doc";
@@ -88,6 +115,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHa
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_ping_interface = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_ping_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_KMALLFileHandler_printer = R"doc()doc";
 

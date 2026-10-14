@@ -39,7 +39,7 @@ void py_create_class_kmallping(nanobind::module_& m, const std::string& CLASS_NA
 
     using t_KMALLPingCommon = filedatatypes::KMALLPingCommon<T_FileStream>;
 
-    auto cls = nb::class_<t_KMALLPing, datatypes::I_Ping>(
+    auto cls = nb::class_<t_KMALLPing, pingprocessing::datatypes::I_Ping>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, kmall, filedatatypes, KMALLPing))

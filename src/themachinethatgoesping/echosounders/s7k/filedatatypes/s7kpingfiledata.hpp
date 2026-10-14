@@ -25,7 +25,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
-#include "../../filetemplates/datatypes/i_pingfiledata.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/i_pingfiledata.hpp>
 #include "../datagrams.hpp"
 #include "../filedatainterfaces/s7kdatagraminterface.hpp"
 #include "calibration/s7kwatercolumncalibration.hpp"
@@ -46,10 +46,10 @@ namespace filedatatypes {
  */
 template<typename t_ifstream>
 class S7KPingFileData
-    : public filetemplates::datatypes::I_PingFileData
+    : public pingprocessing::datatypes::I_PingFileData
     , public filedatainterfaces::S7KDatagramInterface<t_ifstream>
 {
-    using t_base1 = filetemplates::datatypes::I_PingFileData;
+    using t_base1 = pingprocessing::datatypes::I_PingFileData;
     using t_base2 = filedatainterfaces::S7KDatagramInterface<t_ifstream>;
 
   protected:

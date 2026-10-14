@@ -87,6 +87,10 @@ if get_option('build_pythonmodule').enabled()
       tools_nanobind_dep = subproject('tools').get_variable('tools_nanobind_dep')
   endif
 
+  # shared nanobind binding-helper headers from the pingprocessing nanomodule (e.g. the
+  # init_multisectorcalibration template used to bind format-specific derived calibrations)
+  pingprocessing_nanobind_dep = subproject('pingprocessing', default_options: ['cpp_std=' + get_option('cpp_std')]).get_variable('pingprocessing_nanobind_dep')
+
   # set path where to install sources (pythonpath/site-packages/projectnamespace)
   message('python module install directory:', pymod.get_install_dir(subdir: projectnamespace))
 endif
@@ -95,6 +99,12 @@ endif
 navigation_dep = dependency('themachinethatgoesping_navigation', required: false)
 if not navigation_dep.found()
     navigation_dep = subproject('navigation', default_options: ['cpp_std=' + get_option('cpp_std')]).get_variable('navigation_dep')
+endif
+
+# pingprocessing (provides the ping interfaces / datatypes that the format readers implement)
+pingprocessing_dep = dependency('themachinethatgoesping_pingprocessing', required: false)
+if not pingprocessing_dep.found()
+    pingprocessing_dep = subproject('pingprocessing', default_options: ['cpp_std=' + get_option('cpp_std')]).get_variable('pingprocessing_dep')
 endif
 
 #themachinethatgoesping meta info

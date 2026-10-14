@@ -12,7 +12,7 @@
 
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include "../../../filetemplates/datatypes/calibration/watercolumncalibration.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/calibration/watercolumncalibration.hpp>
 #include "../../datagrams.hpp"
 #include "../sub/transceiverinformation.hpp"
 #include "functions.hpp"
@@ -48,10 +48,10 @@ namespace calibration {
  */
 
 class SimradRawWaterColumnCalibration
-    : public filetemplates::datatypes::calibration::WaterColumnCalibration
+    : public pingprocessing::datatypes::calibration::WaterColumnCalibration
 {
-    using AmplitudeCalibration = filetemplates::datatypes::calibration::AmplitudeCalibration;
-    using t_base               = filetemplates::datatypes::calibration::WaterColumnCalibration;
+    using AmplitudeCalibration = pingprocessing::datatypes::calibration::AmplitudeCalibration;
+    using t_base               = pingprocessing::datatypes::calibration::WaterColumnCalibration;
 
   protected:
     using WaterColumnCalibration::set_absorption_db_m;
@@ -326,7 +326,7 @@ class SimradRawWaterColumnCalibration
 };
 
 // boost hash
-// IGNORE_DOC:mkd_doc_themachinethatgoesping_echosounders_filetemplates_datatypes_calibration_hash_value
+// IGNORE_DOC:mkd_doc_themachinethatgoesping_pingprocessing_datatypes_calibration_hash_value
 inline std::size_t hash_value(const SimradRawWaterColumnCalibration& arg)
 {
     return arg.binary_hash();

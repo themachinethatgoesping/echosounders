@@ -9,7 +9,7 @@
 
 /* themachinethatgoesping includes */
 #include "../../filetemplates/datacontainers/datagramcontainer.hpp"
-#include "../../filetemplates/datacontainers/pingcontainer.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/pingcontainer.hpp>
 
 #include "../filedatatypes/kmallping.hpp"
 
@@ -20,7 +20,7 @@ namespace filedatacontainers {
 
 template<typename t_ifstream>
 using KMALLPingContainer =
-    filetemplates::datacontainers::PingContainer<filedatatypes::KMALLPing<t_ifstream>>;
+    pingprocessing::datatypes::PingContainer<filedatatypes::KMALLPing<t_ifstream>>;
 
 } // namespace filedatacontainers
 } // namespace kmall

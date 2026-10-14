@@ -19,7 +19,7 @@
 #include "datagrams.hpp"
 #include "types.hpp"
 
-#include "../filetemplates/datacontainers/pingcontainer.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/pingcontainer.hpp>
 #include "../filetemplates/i_inputfilehandler.hpp"
 
 // #include "filedatainterfaces/gsfconfigurationdatainterface.hpp"

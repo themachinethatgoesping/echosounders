@@ -1018,7 +1018,7 @@ xt::xtensor<std::complex<float>, 1> stage_2_coefficients{
 
 // using namespace testing;
 using namespace std;
-using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+using namespace themachinethatgoesping::pingprocessing::datatypes::calibration;
 using namespace themachinethatgoesping::echosounders::simradraw::filedatatypes::calibration;
 using namespace themachinethatgoesping::echosounders::simradraw;
 using namespace themachinethatgoesping::echosounders;

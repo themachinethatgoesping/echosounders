@@ -1,4 +1,4 @@
-//sourcehash: dc127ee022bb534fd2a1b968c3294d265b4ac9e6667288c1dff619c41588a297
+//sourcehash: b5956b9eb312fb49728c38b28f80abe36bc2f436c97f218d53fa9f4da30b04c6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,7 +61,9 @@ Args:
     other: 
 
 Returns:
-    KMALLPing<t_ifstream>)doc";
+    KMALLPing<t_ifstream>
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPing_printer = R"doc()doc";
 

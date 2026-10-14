@@ -30,7 +30,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 
-#include "../../filetemplates/datatypes/i_pingbottom.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/i_pingbottom.hpp>
 
 #include "../datagrams.hpp"
 #include "../types.hpp"
@@ -44,11 +44,11 @@ namespace filedatatypes {
 
 template<typename t_ifstream>
 class KongsbergAllPingBottom
-    : public filetemplates::datatypes::I_PingBottom
+    : public pingprocessing::datatypes::I_PingBottom
     , public KongsbergAllPingCommon<t_ifstream>
 {
   public:
-    using t_base1 = filetemplates::datatypes::I_PingBottom;
+    using t_base1 = pingprocessing::datatypes::I_PingBottom;
     using t_base2 = KongsbergAllPingCommon<t_ifstream>;
 
     using t_base2::_file_data;

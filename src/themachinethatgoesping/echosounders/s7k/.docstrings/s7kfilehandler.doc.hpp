@@ -1,4 +1,4 @@
-//sourcehash: c109b1bb80c4e00a9b637b749c7307952a07e9f0adf503bfce5f866b86f01e77
+//sourcehash: 5b20450c8254086213e100e51274909cc63d41d4d12207714405b9af53f2af75
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,14 +49,11 @@ them into the specialized file-data interfaces (configuration,
 navigation, environment, ping, other) and provides access to the raw
 datagrams via the datagram_interface().
 
-
-
-$.. note::
-
-The specialized interfaces are structurally present and the datagrams
-are already sorted into them, but their read_* processing functions
-are not implemented yet. Initializing them (and therefore get_pings())
-is deferred to a later step.)doc";
+Note:
+    The specialized interfaces are structurally present and the
+    datagrams are already sorted into them, but their read_*
+    processing functions are not implemented yet. Initializing them
+    (and therefore get_pings()) is deferred to a later step.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_S7KFileHandler = R"doc()doc";
 
@@ -88,6 +85,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandle
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_get_pings = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_init_interfaces = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_navigation_interface = R"doc()doc";
@@ -101,6 +115,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandle
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_ping_interface = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_ping_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_S7KFileHandler_printer = R"doc()doc";
 

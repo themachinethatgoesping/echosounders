@@ -37,7 +37,7 @@ void py_create_class_kmallpingbottom(nanobind::module_& m, const std::string& CL
 {
     using t_KMALLPingBottom = filedatatypes::KMALLPingBottom<T_FileStream>;
 
-    auto cls = nb::class_<t_KMALLPingBottom, datatypes::I_PingBottom>(
+    auto cls = nb::class_<t_KMALLPingBottom, pingprocessing::datatypes::I_PingBottom>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, kmall, filedatatypes, KMALLPingBottom))

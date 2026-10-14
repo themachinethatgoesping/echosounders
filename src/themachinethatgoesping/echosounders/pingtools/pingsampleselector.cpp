@@ -17,7 +17,7 @@ namespace echosounders {
 namespace pingtools {
 
 algorithms::pingtools::BeamSampleSelection PingSampleSelector::apply_selection(
-    filetemplates::datatypes::I_PingWatercolumn& ping_watercolumn)
+    pingprocessing::datatypes::I_PingWatercolumn& ping_watercolumn)
 {
     algorithms::pingtools::BeamSampleSelection selection;
 
@@ -153,7 +153,7 @@ algorithms::pingtools::BeamSampleSelection PingSampleSelector::apply_selection(
     return selection;
 }
 
-algorithms::pingtools::BeamSelection PingSampleSelector::apply_selection(filetemplates::datatypes::I_PingBottom& ping_bottom)
+algorithms::pingtools::BeamSelection PingSampleSelector::apply_selection(pingprocessing::datatypes::I_PingBottom& ping_bottom)
 {
     algorithms::pingtools::BeamSelection selection;
 

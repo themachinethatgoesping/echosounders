@@ -1,4 +1,4 @@
-//sourcehash: 1bb6e060f9e0c0dce48a29a91f490d6423666fcf4492529daad0b9e58f93c16e
+//sourcehash: e5abbc28cf40c372adbc28be08f5cb6135ec27b2cbad028761afd4e83258b0a6
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -73,6 +73,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradR
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_get_pings = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_init_interfaces = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_navigation_interface = R"doc()doc";
@@ -86,6 +103,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradR
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_ping_interface = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_ping_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_SimradRawFileHandler_printer = R"doc()doc";
 

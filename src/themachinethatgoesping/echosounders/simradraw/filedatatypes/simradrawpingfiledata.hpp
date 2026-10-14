@@ -31,8 +31,8 @@
 #include <themachinethatgoesping/tools/helper/variant.hpp>
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
-#include "../../filetemplates/datatypes/i_ping.hpp"
-#include "../../filetemplates/datatypes/i_pingfiledata.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/i_ping.hpp>
+#include <themachinethatgoesping/pingprocessing/datatypes/i_pingfiledata.hpp>
 #include "../datagrams.hpp"
 #include "../filedatainterfaces/simradrawdatagraminterface.hpp"
 #include "calibration/simradrawwatercolumncalibration.hpp"
@@ -45,10 +45,10 @@ namespace filedatatypes {
 
 template<typename t_ifstream>
 class SimradRawPingFileData
-    : public filetemplates::datatypes::I_PingFileData
+    : public pingprocessing::datatypes::I_PingFileData
     , public filedatainterfaces::SimradRawDatagramInterface<t_ifstream>
 {
-    using t_base1 = filetemplates::datatypes::I_PingFileData;
+    using t_base1 = pingprocessing::datatypes::I_PingFileData;
     using t_base2 = filedatainterfaces::SimradRawDatagramInterface<t_ifstream>;
 
     std::string class_name() const override { return "SimradRawPingFileData"; }

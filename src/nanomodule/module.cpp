@@ -28,7 +28,10 @@ NB_MODULE(MODULE_NAME, m)
 {
     //auto tools_module = nb::module_::import_("themachinethatgoesping.tools_nanopy");
     //auto navigation_module = nb::module_::import_("themachinethatgoesping.navigation_nanopy");
-    auto algorithms_module = nb::module_::import_("themachinethatgoesping.algorithms_nanopy");
+    //auto algorithms_module = nb::module_::import_("themachinethatgoesping.algorithms_nanopy");
+    // pingprocessing provides the ping interface base classes (pingprocessing.datatypes.*) that the
+    // format readers below derive from; import it first so those bases are registered.
+    auto pingprocessing_module = nb::module_::import_("themachinethatgoesping.pingprocessing_nanopy");
 
     m.doc() =
         "Python module to read, write and process single- and multibeam echosounder data formats";

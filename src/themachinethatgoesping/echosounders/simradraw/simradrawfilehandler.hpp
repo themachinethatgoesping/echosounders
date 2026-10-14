@@ -28,7 +28,7 @@
 
 
 
-#include "../filetemplates/datacontainers/pingcontainer.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/pingcontainer.hpp>
 #include "../filetemplates/i_inputfilehandler.hpp"
 
 #include "filedatainterfaces/simradrawconfigurationdatainterface.hpp"

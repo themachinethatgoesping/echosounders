@@ -29,7 +29,7 @@
 #include <themachinethatgoesping/tools/helper/defaultsharedpointermap.hpp>
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
-#include "../../filetemplates/datatypes/i_ping.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/i_ping.hpp>
 #include "../datagrams.hpp"
 
 #include "kongsbergallpingbottom.hpp"
@@ -43,14 +43,14 @@ namespace filedatatypes {
 
 template<typename t_ifstream>
 class KongsbergAllPing
-    : public filetemplates::datatypes::I_Ping
+    : public pingprocessing::datatypes::I_Ping
     , public KongsbergAllPingCommon<t_ifstream>
 {
     KongsbergAllPingBottom<t_ifstream>      _bottom;
     KongsbergAllPingWatercolumn<t_ifstream> _watercolumn;
 
   public:
-    using t_base1 = filetemplates::datatypes::I_Ping;
+    using t_base1 = pingprocessing::datatypes::I_Ping;
     using t_base2 = KongsbergAllPingCommon<t_ifstream>;
     using type_DatagramInfo_ptr =
         typename KongsbergAllPingFileData<t_ifstream>::type_DatagramInfo_ptr;

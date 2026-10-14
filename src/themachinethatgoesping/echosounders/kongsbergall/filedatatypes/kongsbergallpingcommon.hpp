@@ -31,7 +31,7 @@
 
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
-#include "../../filetemplates/datatypes/i_pingcommon.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/i_pingcommon.hpp>
 #include "../datagrams.hpp"
 
 #include "kongsbergallpingfiledata.hpp"

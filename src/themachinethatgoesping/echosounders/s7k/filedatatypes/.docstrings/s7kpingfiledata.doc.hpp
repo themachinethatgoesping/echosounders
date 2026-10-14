@@ -1,4 +1,4 @@
-//sourcehash: 4dc44e0b91719c909f39dddcca4039e85f48cff856c4c0f99b5df4efbe569433
+//sourcehash: fc9b3ad896a92807f835990e52e57e0b4b9dd2f6864f207cb235128fd32fd04e
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,22 +46,21 @@ R"doc(Raw file data of a single s7k ping. Holds the datagram index of the
 ping (via the S7KDatagramInterface base) and provides raw access to
 the ping's datagrams.
 
-
-
-$.. note::
-
-The datagram-processing functions are not implemented yet. This class
-currently only provides the structure so it can be filled in in a
-later step.
-
 Template Args:
-    t_ifstream:)doc";
+    t_ifstream: 
+
+Note:
+    The datagram-processing functions are not implemented yet. This
+    class currently only provides the structure so it can be filled in
+    in a later step.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_S7KPingFileData = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_S7KPingFileData_2 = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_class_name = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_detection_value_per_beam_number = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_detection_point_per_beam_number = R"doc(detected bottom sample number (fractional) per beam number)doc";
 
@@ -75,7 +74,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_raw_detection =
 R"doc(7027 RawDetection of the ping (cached; carries the per-beam receive
-angles and detections))doc";
+angles and detections)
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_rx_angle_in_degrees_per_beam_number = R"doc(receive steering angle (degrees) per beam number)doc";
 
@@ -83,7 +84,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_water_column =
 R"doc(7042 CompressedWaterColumn of the ping (loaded on demand, can be
-released again))doc";
+released again)
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_watercolumn_calibration = R"doc()doc";
 
@@ -99,6 +102,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_has_watercolumn_calibration = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_init_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_load_wci = R"doc()doc";
@@ -107,6 +127,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_must_have_datagrams = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_raw_detection = R"doc()doc";
@@ -114,6 +149,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_read_first_datagram = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_release_wci = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_sonar_settings = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_water_column = R"doc()doc";
 

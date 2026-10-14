@@ -10,11 +10,11 @@
 
 // note: this must be defined below the kongsbergall/simradraw includes otherwise
 // datagram_identifier_to_string is unknown
-#include <themachinethatgoesping/echosounders/filetemplates/datatypes/calibration/multisectorwatercolumncalibration.hpp>
+#include <themachinethatgoesping/pingprocessing/datatypes/calibration/multisectorwatercolumncalibration.hpp>
 
 // using namespace testing;
 using namespace std;
-using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+using namespace themachinethatgoesping::pingprocessing::datatypes::calibration;
 using namespace themachinethatgoesping::echosounders;
 #define TESTTAG "[MultiSectorWaterColumnCalibration]"
 

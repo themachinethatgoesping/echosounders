@@ -49,7 +49,7 @@ void py_create_class_simradrawping(nb::module_& m, const std::string& CLASS_NAME
 {
     using t_SimradRawPing = filedatatypes::SimradRawPing<T_FileStream>;
 
-    auto cls = nb::class_<t_SimradRawPing, datatypes::I_Ping>(
+    auto cls = nb::class_<t_SimradRawPing, pingprocessing::datatypes::I_Ping>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPing))

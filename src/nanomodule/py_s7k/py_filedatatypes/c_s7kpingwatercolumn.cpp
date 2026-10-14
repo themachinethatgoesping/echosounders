@@ -33,7 +33,7 @@ void py_create_class_s7kpingwatercolumn(nanobind::module_& m, const std::string&
 {
     using t_S7KPingWatercolumn = filedatatypes::S7KPingWatercolumn<T_FileStream>;
 
-    auto cls = nb::class_<t_S7KPingWatercolumn, datatypes::I_PingWatercolumn>(
+    auto cls = nb::class_<t_S7KPingWatercolumn, pingprocessing::datatypes::I_PingWatercolumn>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, s7k, filedatatypes, S7KPingWatercolumn))

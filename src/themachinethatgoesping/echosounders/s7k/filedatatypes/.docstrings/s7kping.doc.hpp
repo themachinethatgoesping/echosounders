@@ -1,4 +1,4 @@
-//sourcehash: 8e79b0a9ea9dd043b02e53000e7f8b5ee72f56724dd3f6db1dcc080c0c4ea677
+//sourcehash: 391674b4b8ce1929501eaaadcdb5babf3e52484b52dd97d2d435bb89fcaf5751
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -46,16 +46,13 @@ R"doc(A single ping of an s7k file. Groups all datagrams (sonar settings,
 bathymetry, water column) that belong to the same ping and exposes
 them via the bottom() and watercolumn() sub-objects.
 
-
-
-$.. note::
-
-The datagram-processing functions are not implemented yet. This class
-currently only provides the structure so the ping can be filled in in
-a later step.
-
 Template Args:
-    t_ifstream:)doc";
+    t_ifstream: 
+
+Note:
+    The datagram-processing functions are not implemented yet. This
+    class currently only provides the structure so the ping can be
+    filled in in a later step.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPing_S7KPing = R"doc()doc";
 
@@ -75,7 +72,9 @@ Args:
     other: 
 
 Returns:
-    S7KPing<t_ifstream>)doc";
+    S7KPing<t_ifstream>
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPing_printer = R"doc()doc";
 

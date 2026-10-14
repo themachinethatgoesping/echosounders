@@ -8,7 +8,7 @@
 #include ".docstrings/simradrawfiledatacontainers.doc.hpp"
 
 /* themachinethatgoesping includes */
-#include "../../filetemplates/datacontainers/pingcontainer.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/pingcontainer.hpp>
 
 #include "../filedatatypes/simradrawping.hpp"
 
@@ -19,7 +19,7 @@ namespace filedatacontainers {
 
 template<typename t_ifstream>
 using SimradRawPingContainer =
-    filetemplates::datacontainers::PingContainer<filedatatypes::SimradRawPing<t_ifstream>>;
+    pingprocessing::datatypes::PingContainer<filedatatypes::SimradRawPing<t_ifstream>>;
 
 } // namespace filedatacontainers
 } // namespace simradraw

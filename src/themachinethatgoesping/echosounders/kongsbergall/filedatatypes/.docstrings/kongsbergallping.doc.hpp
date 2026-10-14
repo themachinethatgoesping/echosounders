@@ -1,4 +1,4 @@
-//sourcehash: 6051b9fde877207face2ee1cf3bef8480a7aaa1154e0135c295a1a117fed059a
+//sourcehash: 3bfc17186e2b7c469c7493342cb02fa870796617cad183abc66f4ef6d8d06f9b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,7 +61,9 @@ Args:
     other: 
 
 Returns:
-    KongsbergAllPing<t_ifstream>)doc";
+    KongsbergAllPing<t_ifstream>
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPing_printer = R"doc()doc";
 

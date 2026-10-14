@@ -1,4 +1,4 @@
-//sourcehash: 83513bf8c2f7f3de545323438df4d0d144bda384d079f6eb281797a835bb2782
+//sourcehash: 79d50dd2fc4c42eab15f95f5cc48c2791127b41829783ed2dad494cc957897c7
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -51,7 +51,39 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_gsf_GSFFileHandle
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_GSFFileHandler_4 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_init_interfaces = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_gsf_GSFFileHandler_printer = R"doc()doc";
 

@@ -1,4 +1,4 @@
-//sourcehash: df9f4fb9768d08bd9144242ae176bbf17fa1e9f49ca07453518943cd5a890071
+//sourcehash: 3c46329c3ae34bc3e90f81f72c2e66821180e03a5ff989f38f50dc1701d4f456
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -49,7 +49,12 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_KMALLWaterColumnCalibration_3 = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_binary_hash =
+R"doc(compute a 64 bit hash of the object using xxhash and the       \
+to_binary function. This  function is called binary because the
+\ to_binary  function of the object is used
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_check_initialization = R"doc()doc";
 
@@ -59,6 +64,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_effective_pulse_duration = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_from_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    check_buffer_is_read_completely: variable for interface
+                                     compatibility, does not do    \
+                                     anything
+                                     \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_from_stream = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_get_effective_pulse_duration = R"doc()doc";
@@ -66,6 +87,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_get_sound_velocity = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_get_system_gain_offset = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_initialized = R"doc()doc";
 
@@ -75,6 +113,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_operator_eq = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_setup_kongsberg_em_calibrations = R"doc()doc";
@@ -82,6 +135,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_sound_velocity = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_system_gain_offset = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_throw_because_value_is_note_finite = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_to_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    resize_buffer: variable for interface compatibility, does not do
+                   anything             \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_calibration_KMALLWaterColumnCalibration_to_stream = R"doc()doc";
 

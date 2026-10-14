@@ -39,7 +39,7 @@ void init_c_simradrawwatercolumncalibration(nanobind::module_& m)
 {
     using namespace themachinethatgoesping::echosounders::simradraw;
     using namespace themachinethatgoesping::echosounders::simradraw::filedatatypes::calibration;
-    using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+    using namespace themachinethatgoesping::pingprocessing::datatypes::calibration;
 
     // add class
     auto c =

@@ -1,4 +1,4 @@
-//sourcehash: a7ca5957a11d5a5b0b8ea96e084b0a6acfa1970f622bdedcd8846e71ca7b253b
+//sourcehash: 40e8494f52e439b3e32f7d80161745ef7599cb6a3f7a7bdd333e2ce2c725389c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -71,7 +71,9 @@ sa correction / gain value in the transceiver Is determined by the
 index of the used pulse duration in the transceiver configuration
 
 Returns:
-    size_t)doc";
+    size_t
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_get_transceiver_information = R"doc()doc";
 
@@ -83,6 +85,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_has_watercolumn_calibration = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_init_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_must_have_datagrams = R"doc()doc";
@@ -92,6 +111,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_ping_environment = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_ping_parameter = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingFileData_printer = R"doc()doc";
 

@@ -16,7 +16,7 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
-#include "../../filetemplates/datatypes/i_ping.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/i_ping.hpp>
 #include "../datagrams.hpp"
 
 #include "s7kpingbottom.hpp"
@@ -40,14 +40,14 @@ namespace filedatatypes {
  */
 template<typename t_ifstream>
 class S7KPing
-    : public filetemplates::datatypes::I_Ping
+    : public pingprocessing::datatypes::I_Ping
     , public S7KPingCommon<t_ifstream>
 {
     S7KPingBottom<t_ifstream>      _bottom;
     S7KPingWatercolumn<t_ifstream> _watercolumn;
 
   public:
-    using t_base1               = filetemplates::datatypes::I_Ping;
+    using t_base1               = pingprocessing::datatypes::I_Ping;
     using t_base2               = S7KPingCommon<t_ifstream>;
     using type_DatagramInfo_ptr = typename S7KPingFileData<t_ifstream>::type_DatagramInfo_ptr;
 

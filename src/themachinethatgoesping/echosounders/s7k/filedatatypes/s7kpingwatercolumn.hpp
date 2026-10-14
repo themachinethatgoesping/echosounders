@@ -28,7 +28,7 @@
 #include <themachinethatgoesping/algorithms/signalprocessing/datastructures.hpp>
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
-#include "../../filetemplates/datatypes/i_pingwatercolumn.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/i_pingwatercolumn.hpp>
 
 #include "../datagrams.hpp"
 #include "../types.hpp"
@@ -52,11 +52,11 @@ namespace filedatatypes {
  */
 template<typename t_ifstream>
 class S7KPingWatercolumn
-    : public filetemplates::datatypes::I_PingWatercolumn
+    : public pingprocessing::datatypes::I_PingWatercolumn
     , public S7KPingCommon<t_ifstream>
 {
   public:
-    using t_base1 = filetemplates::datatypes::I_PingWatercolumn;
+    using t_base1 = pingprocessing::datatypes::I_PingWatercolumn;
     using t_base2 = S7KPingCommon<t_ifstream>;
 
     using t_base2::_file_data;
@@ -304,14 +304,14 @@ class S7KPingWatercolumn
     }
 
     // ----- calibration -----
-    const filetemplates::datatypes::calibration::I_MultiSectorCalibration&
+    const pingprocessing::datatypes::calibration::I_MultiSectorCalibration&
     get_multisectorwatercolumn_calibration() const override
     {
         _file_data->init_watercolumn_calibration(); // lazy: build the calibration on first access
         return _file_data->get_multisector_calibration();
     }
 
-    const filetemplates::datatypes::calibration::WaterColumnCalibration& get_watercolumn_calibration()
+    const pingprocessing::datatypes::calibration::WaterColumnCalibration& get_watercolumn_calibration()
         const override
     {
         _file_data->init_watercolumn_calibration(); // lazy: build the calibration on first access

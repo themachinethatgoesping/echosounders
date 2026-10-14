@@ -38,7 +38,7 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
         ARG)
 
 #define DOC_I_PingWatercolumn(ARG)                                                                 \
-    DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn, ARG)
+    DOC(themachinethatgoesping, pingprocessing, datatypes, I_PingWatercolumn, ARG)
 
 template<typename T_FileStream>
 void py_create_class_kongsbergallpingwatercolumn(nanobind::module_& m,
@@ -47,7 +47,7 @@ void py_create_class_kongsbergallpingwatercolumn(nanobind::module_& m,
     using t_KongsbergAllPingWatercolumn = filedatatypes::KongsbergAllPingWatercolumn<T_FileStream>;
 
     auto cls =
-        nb::class_<t_KongsbergAllPingWatercolumn, datatypes::I_PingWatercolumn>(
+        nb::class_<t_KongsbergAllPingWatercolumn, pingprocessing::datatypes::I_PingWatercolumn>(
             m,
             CLASS_NAME.c_str(),
             DOC(themachinethatgoesping,

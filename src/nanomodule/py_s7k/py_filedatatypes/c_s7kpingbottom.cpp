@@ -33,7 +33,7 @@ void py_create_class_s7kpingbottom(nanobind::module_& m, const std::string& CLAS
 {
     using t_S7KPingBottom = filedatatypes::S7KPingBottom<T_FileStream>;
 
-    auto cls = nb::class_<t_S7KPingBottom, datatypes::I_PingBottom>(
+    auto cls = nb::class_<t_S7KPingBottom, pingprocessing::datatypes::I_PingBottom>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, s7k, filedatatypes, S7KPingBottom))

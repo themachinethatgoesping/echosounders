@@ -14,7 +14,7 @@
 
 // using namespace testing;
 using namespace std;
-using namespace themachinethatgoesping::echosounders::filetemplates::datatypes::calibration;
+using namespace themachinethatgoesping::pingprocessing::datatypes::calibration;
 using namespace themachinethatgoesping::echosounders::kongsbergall::filedatatypes::calibration;
 using namespace themachinethatgoesping::echosounders;
 #define TESTTAG "[KongsbergAllWaterColumnCalibration]"

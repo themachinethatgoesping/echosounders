@@ -9,7 +9,7 @@
 
 /* themachinethatgoesping includes */
 #include "../../filetemplates/datacontainers/datagramcontainer.hpp"
-#include "../../filetemplates/datacontainers/pingcontainer.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/pingcontainer.hpp>
 
 #include "../filedatatypes/s7kping.hpp"
 
@@ -20,7 +20,7 @@ namespace filedatacontainers {
 
 template<typename t_ifstream>
 using S7KPingContainer =
-    filetemplates::datacontainers::PingContainer<filedatatypes::S7KPing<t_ifstream>>;
+    pingprocessing::datatypes::PingContainer<filedatatypes::S7KPing<t_ifstream>>;
 
 } // namespace filedatacontainers
 } // namespace s7k

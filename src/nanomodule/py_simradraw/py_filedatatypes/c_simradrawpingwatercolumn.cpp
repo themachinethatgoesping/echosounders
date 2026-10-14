@@ -39,7 +39,7 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
         ARG)
 
 #define DOC_I_PingWatercolumn(ARG)                                                                 \
-    DOC(themachinethatgoesping, echosounders, filetemplates, datatypes, I_PingWatercolumn, ARG)
+    DOC(themachinethatgoesping, pingprocessing, datatypes, I_PingWatercolumn, ARG)
 
 #define DOC_SimradRawPingCommon(ARG)                                                               \
     DOC(themachinethatgoesping,                                                                    \
@@ -54,7 +54,7 @@ void py_create_class_simradrawpingwatercolumn(nb::module_& m, const std::string&
 {
     using t_SimradRawPingWatercolumn = filedatatypes::SimradRawPingWatercolumn<T_FileStream>;
 
-    auto cls = nb::class_<t_SimradRawPingWatercolumn, datatypes::I_PingWatercolumn>(
+    auto cls = nb::class_<t_SimradRawPingWatercolumn, pingprocessing::datatypes::I_PingWatercolumn>(
         m,
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingWatercolumn))

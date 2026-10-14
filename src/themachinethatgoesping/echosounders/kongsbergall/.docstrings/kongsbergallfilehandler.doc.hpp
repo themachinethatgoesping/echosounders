@@ -1,4 +1,4 @@
-//sourcehash: 4487e98abc91474bc7b02fc36e2db534af218211c8a1d244aea043ca977fbbd6
+//sourcehash: 97d62fec48be61147ec8061ff4c4cad4e9b95b04f7fd62ca058d21eaf127ae2f
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -54,9 +54,12 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_Kong
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_add_ping_counter_extra_info =
 R"doc(Read ping counter and serial number from datagram and add as extra
 info
+
 Args:
     datagram_info: The datagram info to read from and add extra info
-                   to)doc";
+                   to
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_callback_scan_new_file_begin = R"doc()doc";
 
@@ -80,6 +83,23 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_Kong
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_get_pings = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_init_interfaces = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_link_all_and_wcd_files = R"doc()doc";
@@ -95,6 +115,21 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_Kong
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_ping_interface = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_ping_interface_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_KongsbergAllFileHandler_printer = R"doc()doc";
 

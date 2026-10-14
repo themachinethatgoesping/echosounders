@@ -31,7 +31,7 @@
 #include <themachinethatgoesping/tools/helper/variant.hpp>
 
 #include "../../filetemplates/datatypes/datagraminfo.hpp"
-#include "../../filetemplates/datatypes/i_ping.hpp"
+#include <themachinethatgoesping/pingprocessing/datatypes/i_ping.hpp>
 #include "../datagrams.hpp"
 #include "simradrawpingbottom.hpp"
 #include "simradrawpingcommon.hpp"
@@ -45,11 +45,11 @@ namespace filedatatypes {
 
 template<typename t_ifstream>
 class SimradRawPing
-    : public filetemplates::datatypes::I_Ping
+    : public pingprocessing::datatypes::I_Ping
     , public SimradRawPingCommon<t_ifstream>
 {
 
-    using t_base1 = filetemplates::datatypes::I_Ping;
+    using t_base1 = pingprocessing::datatypes::I_Ping;
     using t_base2 = SimradRawPingCommon<t_ifstream>;
 
     using type_DatagramInfo_ptr = typename SimradRawPingFileData<t_ifstream>::type_DatagramInfo_ptr;
