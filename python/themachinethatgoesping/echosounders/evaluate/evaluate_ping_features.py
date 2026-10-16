@@ -1,4 +1,8 @@
-import themachinethatgoesping as theping
+# Reference the ping interface base type directly from the compiled pingprocessing module.
+# echosounders_nanopy imports themachinethatgoesping.pingprocessing_nanopy at load time, so this
+# is always available, whereas the themachinethatgoesping.pingprocessing python wrapper pulls in
+# heavy, optional dependencies (e.g. matplotlib) that are not required to read echosounder files.
+from themachinethatgoesping.pingprocessing_nanopy import datatypes as _pingprocessing_datatypes
 from tqdm.auto import tqdm
 
 
@@ -81,7 +85,7 @@ def __eval_get_and_has_functions_are_features__(feature_group, name, throw_excep
 
 
 def evaluate_ping_features_can_be_called(ping, verbose=False, throw_exception=True):
-    if not isinstance(ping, theping.pingprocessing.datatypes.I_Ping):
+    if not isinstance(ping, _pingprocessing_datatypes.I_Ping):
         if hasattr(ping, "__iter__") or hasattr(ping, "__getitem__"):
             items = tqdm(ping, desc="Evaluating pings", unit="ping", leave=True) if verbose else ping
             for item in items:
