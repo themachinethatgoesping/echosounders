@@ -39,7 +39,6 @@ NB_MODULE(MODULE_NAME, m)
 
     py_filetemplates::init_m_filetemplates(m);
 
-    py_pingtools::init_m_pingtools(m);
     py_simradraw::init_m_simradraw(m);
     py_kongsbergall::init_m_kongsbergall(m);
     py_gsf::init_m_gsf(m);

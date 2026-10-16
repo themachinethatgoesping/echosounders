@@ -199,8 +199,6 @@ sources = [
   'py_kmall/py_filedatatypes/c_kmallpingwatercolumn.cpp',
   'py_kmall/py_filedatatypes/module.cpp',
   'py_kmall/py_filedatatypes/calibration/c_kmallwatercolumncalibration.cpp',
-  'py_pingtools/c_pingsampleselector.cpp',
-  'py_pingtools/module.cpp',
   'py_simradraw/c_file_test_functions.cpp',
   'py_simradraw/c_simradrawfilehandler.cpp',
   'py_simradraw/module.cpp',

@@ -195,7 +195,6 @@ sources = [
   'filetemplates/datatypes/cache_structures/filepackageindex.cpp',
   'filetemplates/datatypes/cache_structures/packagecache.cpp',
   'filetemplates/datatypes/cache_structures/structpackage.cpp',
-  'pingtools/pingsampleselector.cpp',
 ]
 
 headers = [
@@ -751,8 +750,6 @@ headers = [
   'filetemplates/datatypes/cache_structures/.docstrings/structpackage.doc.hpp',
   'filetemplates/datatypes/.docstrings/datagraminfo.doc.hpp',
   'filetemplates/datatypes/.docstrings/filecache.doc.hpp',
-  'pingtools/pingsampleselector.hpp',
-  'pingtools/.docstrings/pingsampleselector.doc.hpp',
 ]
 
 # -- targets --
