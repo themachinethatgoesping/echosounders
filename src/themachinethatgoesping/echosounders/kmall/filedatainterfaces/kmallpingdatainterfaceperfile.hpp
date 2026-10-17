@@ -144,14 +144,14 @@ class KMALLPingDataInterfacePerFile
         }
 
         // get sensor configurations for all channels
-        boost::flyweights::flyweight<navigation::SensorConfiguration> base_sensor_configuration(
+        pingprocessing::datatypes::SensorConfigurationFlyweight base_sensor_configuration(
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr()));
 
-        // get navigation data for this file
-        boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
-            navigation_data_interpolator =
-                this->navigation_data_interface().get_navigation_interpolator_flyweight(
-                    base_sensor_configuration.get().binary_hash());
+        // get navigation data for this file (kept as a flyweight end-to-end so the hash is not
+        // recomputed per ping)
+        auto navigation_data_interpolator =
+            this->navigation_data_interface().get_navigation_interpolator_flyweight(
+                base_sensor_configuration.get().binary_hash());
         bool navigation_is_valid = navigation_data_interpolator.get().valid();
 
         // loop through map and copy pings to vector

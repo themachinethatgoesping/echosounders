@@ -84,7 +84,7 @@ class S7KPingDataInterfacePerFile
         using t_ping          = filedatatypes::S7KPing<t_ifstream>;
         using t_ping_ptr      = std::shared_ptr<t_ping>;
 
-        boost::flyweights::flyweight<navigation::SensorConfiguration> base_sensor_configuration(
+        pingprocessing::datatypes::SensorConfigurationFlyweight base_sensor_configuration(
             this->configuration_data_interface().get_sensor_configuration(this->get_file_nr()));
         auto navigation_interpolator =
             this->navigation_data_interface().get_navigation_interpolator_flyweight(

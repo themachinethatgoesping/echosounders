@@ -37,6 +37,13 @@
 #include "i_filedatainterface.hpp"
 #include "i_navigationdatainterfaceperfile.hpp"
 
+// NavigationInterpolatorLatLonFlyweight: these navigation interpolator flyweights are handed to
+// pingprocessing::PingInfo, which lives in a static lib linked into BOTH echosounders_nanopy and
+// pingprocessing_nanopy. They therefore MUST use the intermodule_holder-based flyweight type so all
+// modules share one factory (see pinginfo.hpp for the full rationale); a default-holder flyweight
+// would corrupt the heap across the module boundary (std::bad_array_new_length on macOS/Windows).
+#include <themachinethatgoesping/pingprocessing/datatypes/pinginfo.hpp>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace filetemplates {
@@ -53,7 +60,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
 
   protected:
     std::unordered_map<uint64_t,
-                       boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>>
+                       pingprocessing::datatypes::NavigationInterpolatorLatLonFlyweight>
          _navigation_interpolators; // per sensor configuration hash
     bool _is_initialized_navigation_interpolators = false;
 
@@ -215,7 +222,7 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     void set_navigation_interpolators(
         const std::unordered_map<
             uint64_t,
-            boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>>&
+            pingprocessing::datatypes::NavigationInterpolatorLatLonFlyweight>&
             navigation_interpolators)
     {
         _navigation_interpolators = navigation_interpolators;
@@ -263,9 +270,8 @@ class I_NavigationDataInterface : public I_FileDataInterface<t_NavigationDataInt
     }
 
     void set_navigation_interpolator_flyweight(
-        uint64_t sensor_configuration_hash,
-        boost::flyweights::flyweight<navigation::NavigationInterpolatorLatLon>
-            navigation_interpolator)
+        uint64_t                                                   sensor_configuration_hash,
+        pingprocessing::datatypes::NavigationInterpolatorLatLonFlyweight navigation_interpolator)
     {
         _navigation_interpolators[sensor_configuration_hash] = navigation_interpolator;
     }
