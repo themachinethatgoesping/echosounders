@@ -57,19 +57,7 @@ class S7KConfigurationDataInterfacePerFile
     // behavior which the base init_from_file catches and falls back to an empty configuration).
     navigation::SensorConfiguration read_sensor_configuration() final
     {
-        // We do not have files with test datagrams so far, so if there is any datagram to read,
-        // fail.
-        uint64_t n_ok_datgrams = 0;
-        n_ok_datgrams +=
-            this->_datagram_infos_by_type.at_const(t_S7KDatagramIdentifier::FileHeader).size();
-
-        if (this->_datagram_infos_all.size() != n_ok_datgrams)
-        {
-            throw std::runtime_error("Datagrams available, but read_sensor_configuration is not "
-                                     "implemented for this yet.");
-        }
-
-        // If no datagram is available, return an empty navigation data object.
+        // For now just return empty sensor configuration
         auto config = navigation::SensorConfiguration();
         config.register_transducer_channel("0", "0", "0", "0");
         return config;
