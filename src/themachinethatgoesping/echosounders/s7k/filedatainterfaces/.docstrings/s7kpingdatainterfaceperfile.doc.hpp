@@ -1,4 +1,4 @@
-//sourcehash: cb0aa90e721bbb980f97a2f9e30822cc2415effee5b13293c08b9a781bd00405
+//sourcehash: 3ee27e13628bbc924d6a4c20e0787f44fa2f1e6aea338b4c0865b299d2f6b050
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -45,13 +45,47 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainter
 R"doc(Interface that reads the pings (bathymetry, water column) of a single
 .s7k file.
 
-Template Args:
-    t_ifstream: 
+Grouping is done in file order: a new ping is started at every 7000
+SonarSettings record (the record that starts a ping cycle in the 7k
+format); every following ping datagram is added to the current ping.
+For every ping the lightweight per-ping information is built early
+(and persisted into the index cache): the water-column information
+(per-beam sample positions, NOT the samples), the bottom-detection
+information and the system information. The water-column samples
+themselves are read on demand per beam and never held in memory.
 
-Note:
-    The datagram-processing function (read_pings) is not implemented
-    yet. The class currently only provides the structure so the pings
-    can be filled in in a later step.)doc";
+Template Args:
+    t_ifstream:)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler =
+R"doc(Reads / writes the per-ping water-column, detection and system
+information from / to the index cache, mirroring the KMALL ping cache
+handler. If no index cache is available the information is simply
+(re)read from the file.)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_S7KPingCacheHandler = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_S7KPingCacheHandler_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_buffer_detectioninformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_buffer_systeminformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_buffer_watercolumninformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_file_cache = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_index_path = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_read_or_get_detectioninformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_read_or_get_systeminformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_read_or_get_watercolumninformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_update_index = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingCacheHandler_update_index_file = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_S7KPingDataInterfacePerFile = R"doc()doc";
 
@@ -59,28 +93,7 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainter
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_read_pings =
-R"doc(Group this file's ping datagrams into pings.
-
-This first version only assembles the per-ping datagram index
-(ping.file_data) so that all datagrams belonging to a ping can be
-listed via ping.file_data.datagrams(). The bottom and water-column
-data are not read yet (that is a later step).
-
-Grouping is done in file order: a new ping is started at every 7000
-SonarSettings record (the record that starts a ping cycle in the 7k
-format); every following ping datagram is added to the current ping.
-Datagrams that appear before the first SonarSettings record are
-collected into a leading ping so no datagram is lost.
-
-Note:
-    This simple file-order grouping assumes each ping starts with a
-    SonarSettings record. Multi-head / multi-ping files (interleaved
-    SonarSettings) and files without SonarSettings are not handled
-    precisely yet and can be refined later (e.g. by grouping on the
-    record ping_number).
-
-)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatainterfaces_S7KPingDataInterfacePerFile_read_pings = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

@@ -15,6 +15,7 @@
 #include <memory>
 #include <numbers>
 #include <type_traits>
+#include <variant>
 #include <vector>
 
 #include <fmt/format.h>
@@ -103,9 +104,16 @@ class S7KPingWatercolumn
     void load(bool force = false) override
     {
         _file_data->load_wci(force);
+        _file_data->load_detection(force);
+        _file_data->load_sys(force);
         _file_data->init_watercolumn_calibration(force);
     }
-    void release() override { _file_data->release_wci(); }
+    void release() override
+    {
+        _file_data->release_wci();
+        _file_data->release_detection();
+        _file_data->release_sys();
+    }
     bool loaded() override
     {
         return _file_data->wci_loaded() && _file_data->has_watercolumn_calibration();
@@ -119,19 +127,9 @@ class S7KPingWatercolumn
     std::vector<algorithms::signalprocessing::datastructures::TxSignalParameters>
     get_tx_signal_parameters_legacy() const override
     {
-        namespace sp = algorithms::signalprocessing::datastructures;
-
-        std::vector<sp::TxSignalParameters> parameters;
         if (_file_data->has_sonar_settings())
-        {
-            const auto& sonar_settings = _file_data->get_sonar_settings();
-            // treat every s7k transmit as a single CW-like sector for now (the backend only needs
-            // center frequency + effective pulse duration)
-            parameters.push_back(sp::CWSignalParameters(sonar_settings.get_frequency(),
-                                                        sonar_settings.get_receiver_bandwidth(),
-                                                        sonar_settings.get_tx_pulse_width()));
-        }
-        return parameters;
+            return _file_data->get_sysinfos().get_tx_signal_parameters();
+        return {};
     }
 
     xt::xtensor<size_t, 1> get_tx_sector_per_beam_legacy(
@@ -156,7 +154,7 @@ class S7KPingWatercolumn
     {
         if (!has_amplitudes())
             return 0;
-        return _file_data->get_water_column().get_number_beams();
+        return uint32_t(_file_data->get_wcinfos().get_number_of_beams());
     }
 
     xt::xtensor<float, 1> get_beam_crosstrack_angles_legacy(
@@ -179,14 +177,14 @@ class S7KPingWatercolumn
     {
         // s7k transmits along a single tilt angle; broadcast the transmit steering angle
         auto angles = xt::xtensor<float, 1>::from_shape({ selection.get_number_of_beams() });
-        angles.fill(_file_data->get_raw_detection().get_tx_angle_in_degrees());
+        angles.fill(_file_data->get_detectioninfos().get_tx_angle_in_degrees());
         return angles;
     }
 
     xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam(
         const algorithms::pingtools::BeamSelection& selection) override
     {
-        return index_beams(_file_data->get_water_column().get_beams().get_sample_count_tensor(),
+        return index_beams(_file_data->get_wcinfos().get_sample_counts(),
                            selection.get_beam_numbers(),
                            uint32_t(0));
     }
@@ -195,20 +193,20 @@ class S7KPingWatercolumn
     {
         // 7042 stores one first-sample index for the whole record
         auto offsets = xt::xtensor<uint32_t, 1>::from_shape({ get_number_of_beams_legacy() });
-        offsets.fill(_file_data->get_water_column().get_first_sample());
+        offsets.fill(_file_data->get_wcinfos().get_first_sample());
         return offsets;
     }
 
     float get_sample_interval() override
     {
-        float sample_rate = _file_data->get_water_column().get_sample_rate();
+        float sample_rate = _file_data->get_wcinfos().get_sample_rate();
         return sample_rate > 0.f ? 1.f / sample_rate : std::numeric_limits<float>::quiet_NaN();
     }
 
     float get_sound_speed_at_transducer_legacy() override
     {
         if (_file_data->has_sonar_settings())
-            return _file_data->get_sonar_settings().get_sound_velocity();
+            return _file_data->get_sysinfos().get_sound_velocity();
         return std::numeric_limits<float>::quiet_NaN();
     }
 
@@ -226,8 +224,7 @@ class S7KPingWatercolumn
     }
     xt::xtensor<uint32_t, 2> get_raw_amplitudes(const algorithms::pingtools::BeamSampleSelection& selection)
     {
-        return assemble_beam_samples<uint32_t>(
-            selection, [](const auto& beam) { return beam.get_raw_magnitude(); });
+        return assemble_beam_samples<uint32_t>(selection, extract_raw_magnitude);
     }
 
     /**
@@ -241,8 +238,7 @@ class S7KPingWatercolumn
     }
     xt::xtensor<int16_t, 2> get_raw_phase(const algorithms::pingtools::BeamSampleSelection& selection)
     {
-        return assemble_beam_samples<int16_t>(
-            selection, [](const auto& beam) { return beam.get_raw_phase(); });
+        return assemble_beam_samples<int16_t>(selection, extract_raw_phase);
     }
 
     /**
@@ -254,8 +250,7 @@ class S7KPingWatercolumn
     {
         // int16 phase value / 10430 = radians -> * this = degrees (deferred, vectorized)
         constexpr float deg_scale = 180.f / (std::numbers::pi_v<float> * 10430.f);
-        auto            phase     = assemble_beam_samples<float>(
-            selection, [](const auto& beam) { return beam.get_raw_phase(); });
+        auto            phase     = assemble_beam_samples<float>(selection, extract_raw_phase);
         return phase * deg_scale;
     }
 
@@ -264,12 +259,10 @@ class S7KPingWatercolumn
                                          [[maybe_unused]] int mp_cores = 1) override
     {
         // assemble the selected raw magnitudes as float (no conversion yet) ...
-        auto amplitudes = assemble_beam_samples<float>(
-            selection, [](const auto& beam) { return beam.get_raw_magnitude(); });
+        auto amplitudes = assemble_beam_samples<float>(selection, extract_raw_magnitude);
 
         // ... then convert only the selected samples to dB (vectorized / xsimd-friendly)
-        amplitudes = _file_data->get_water_column().get_beams().convert_magnitude_to_db(
-            std::move(amplitudes));
+        amplitudes = _file_data->get_wcinfos().convert_magnitude_to_db(std::move(amplitudes));
 
         // 20*log10(0) yields -inf for zero-magnitude samples; map non-finite values to -120 dB so
         // downstream min/max (color scaling, echograms) stay finite
@@ -285,10 +278,10 @@ class S7KPingWatercolumn
         // The 7027 detection_point is in the original (full-rate) sample domain, but the 7042
         // water-column samples use the compressed (downsampled) rate.  Divide by the
         // downsampling divisor to convert to the same sample-number domain as the WCI.
-        const auto  detection_points = _file_data->get_detection_point_per_beam_number();
+        const auto& detection_points = _file_data->get_detection_point_per_beam_number();
         const auto& beam_numbers     = selection.get_beam_numbers();
         const float divisor =
-            float(std::max(uint8_t(1), _file_data->get_water_column().get_downsampling_divisor()));
+            float(std::max(uint8_t(1), _file_data->get_wcinfos().get_downsampling_divisor()));
 
         auto bottom_range_samples = xt::xtensor<uint32_t, 1>::from_shape({ beam_numbers.size() });
         for (size_t i = 0; i < beam_numbers.size(); ++i)
@@ -332,25 +325,42 @@ class S7KPingWatercolumn
     }
 
   private:
+    // native-encoding sample extractors (used with assemble_beam_samples); each receives the beam's
+    // samples as read from the file and returns the raw magnitude / phase
+    static xt::xtensor<uint32_t, 1> extract_raw_magnitude(
+        const datagrams::substructs::CompressedWaterColumnDataVariant& samples)
+    {
+        return std::visit([](const auto& data) { return data.get_raw_magnitude(); }, samples);
+    }
+    static xt::xtensor<int16_t, 1> extract_raw_phase(
+        const datagrams::substructs::CompressedWaterColumnDataVariant& samples)
+    {
+        return std::visit([](const auto& data) { return data.get_raw_phase(); }, samples);
+    }
+
     /**
      * @brief Assemble per-beam sample data into a [beams, samples] ensemble for a selection.
      *
-     * Mirrors the kmall get_raw_amplitudes assembly: for each selected beam the accessor returns the
-     * beam's native 1D samples, the selected sample range is copied into the output row (cast to
-     * t_out on assignment). Missing beams/samples are NaN (floating point) or 0 (integer).
+     * For each selected beam only the selected sample range is read directly from the file (via the
+     * stored per-beam file position) and copied into the output row (cast to t_out on assignment).
+     * The water-column samples are therefore never held in memory - they are read on demand and
+     * returned. Missing beams/samples are NaN (floating point) or 0 (integer).
      *
      * @tparam t_out output value type
-     * @tparam t_beam_accessor callable (const CompressedWaterColumnBeam&) -> xt::xtensor<...,1>
+     * @tparam t_sample_extractor callable (const CompressedWaterColumnDataVariant&) ->
+     * xt::xtensor<...,1> returning the (already sub-ranged) magnitude or phase samples
      */
-    template<typename t_out, typename t_beam_accessor>
+    template<typename t_out, typename t_sample_extractor>
     xt::xtensor<t_out, 2> assemble_beam_samples(const algorithms::pingtools::BeamSampleSelection& selection,
-                                                t_beam_accessor&& get_beam_samples)
+                                                t_sample_extractor&& extract_samples)
     {
-        auto&          water_column = _file_data->get_water_column();
-        const auto&    beams        = water_column.get_beams();
-        const uint32_t first_sample = water_column.get_first_sample();
-        const auto&    beam_vector  = beams.get_beams();
-        const size_t   n_beams      = beam_vector.size();
+        const auto&    wcinfos       = _file_data->get_wcinfos();
+        const auto&    sample_counts = wcinfos.get_sample_counts();
+        const uint32_t first_sample  = wcinfos.get_first_sample();
+        const size_t   n_beams       = wcinfos.get_number_of_beams();
+
+        auto& ifs =
+            _file_data->get_ifs(t_S7KDatagramIdentifier::CompressedWaterColumnData);
 
         auto out = xt::xtensor<t_out, 2>::from_shape(
             { selection.get_number_of_beams(), selection.get_number_of_samples_ensemble() });
@@ -366,19 +376,24 @@ class S7KPingWatercolumn
         {
             if (bn < n_beams)
             {
-                auto samples = get_beam_samples(beam_vector[bn]);
-                auto rsr     = selection.get_read_sample_range(
-                    uint32_t(output_bn), first_sample, uint32_t(samples.size()));
+                auto rsr = selection.get_read_sample_range(
+                    uint32_t(output_bn), first_sample, sample_counts.unchecked(bn));
 
                 if (rsr.get_number_of_samples_to_read() > 0)
+                {
+                    // read only the requested sub-range of this beam's samples from the file
+                    auto samples = extract_samples(wcinfos.read_beam_samples(
+                        uint16_t(bn),
+                        rsr.get_first_sample_to_read(),
+                        rsr.get_number_of_samples_to_read(),
+                        ifs));
+
                     xt::view(out,
                              output_bn,
                              xt::range(rsr.get_first_read_sample_offset() - ensemble_offset,
                                        rsr.get_last_read_sample_offset() + 1 - ensemble_offset)) =
-                        xt::view(samples,
-                                 xt::range(rsr.get_first_sample_to_read(),
-                                           rsr.get_first_sample_to_read() +
-                                               rsr.get_number_of_samples_to_read()));
+                        samples;
+                }
             }
             ++output_bn;
         }

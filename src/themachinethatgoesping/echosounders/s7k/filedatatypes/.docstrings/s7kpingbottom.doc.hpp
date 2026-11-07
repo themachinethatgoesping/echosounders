@@ -1,4 +1,4 @@
-//sourcehash: 4f4bdd0c9402309802446f52b8d7917b7e05f809aa316bfecf3a5a6b5c8f6f72
+//sourcehash: 57039d454d0e6056372a89e80f33b56bb031bbbfeebf2ccdb0a3094592a943aa
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -76,7 +76,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_index_beams = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_load = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_loaded = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_printer = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingBottom_release = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

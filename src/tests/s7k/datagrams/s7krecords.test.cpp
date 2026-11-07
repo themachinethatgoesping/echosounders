@@ -5,7 +5,11 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
+#include <variant>
+
 #include <xtensor/containers/xtensor.hpp>
+
+#include <themachinethatgoesping/tools/helper/isviewstream.hpp>
 
 #include "../themachinethatgoesping/echosounders/s7k/datagrams/attitude.hpp"
 #include "../themachinethatgoesping/echosounders/s7k/datagrams/beamgeometry.hpp"
@@ -16,6 +20,8 @@
 #include "../themachinethatgoesping/echosounders/s7k/datagrams/snippetdata.hpp"
 #include "../themachinethatgoesping/echosounders/s7k/datagrams/sonarsettings.hpp"
 #include "../themachinethatgoesping/echosounders/s7k/datagrams/soundvelocity.hpp"
+
+#include "../themachinethatgoesping/echosounders/s7k/filedatatypes/_sub/watercolumninformation.hpp"
 
 using namespace themachinethatgoesping::echosounders::s7k;
 using namespace themachinethatgoesping::echosounders::s7k::datagrams;
@@ -228,6 +234,75 @@ TEST_CASE("CompressedWaterColumn should decode and round trip", TESTTAG)
     // binary round trip
     REQUIRE(dat == CompressedWaterColumn(dat.from_binary(dat.to_binary())));
     REQUIRE(dat.info_string().size() != 0);
+}
+
+TEST_CASE("CompressedWaterColumn lazy skip-read + WaterColumnInformation sample reading", TESTTAG)
+{
+    // 3 beams, 16-bit magnitude, no phase, with known per-beam samples
+    const std::vector<xt::xtensor<uint16_t, 1>> expected = {
+        { 10, 20, 30, 40 }, { 1, 2, 3 }, { 7, 8, 9, 10, 11 }
+    };
+
+    CompressedWaterColumn dat;
+    dat.set_ping_number(42);
+    dat.set_number_beams(uint16_t(expected.size()));
+    dat.set_first_sample(0);
+    dat.set_sample_rate(1000.f);
+    dat.set_flags(CompressedWaterColumn::FLAG_MAGNITUDE_ONLY); // no phase, 16-bit magnitude
+
+    dat.beams().set_magnitude_bytes(2);
+    dat.beams().set_has_phase(false);
+
+    auto& beams = dat.beams().beams();
+    beams.resize(expected.size());
+    uint32_t total_samples = 0;
+    for (size_t i = 0; i < expected.size(); ++i)
+    {
+        beams[i].set_beam_number(uint16_t(i));
+        beams[i].set_sample_count(uint32_t(expected[i].size()));
+        beams[i].set_samples(substructs::CompressedWaterColumnDataMagnitude16(expected[i]));
+        total_samples += uint32_t(expected[i].size());
+    }
+    // DRF(64) + content(44) + per-beam(beam_number 2 + count 4 + samples*2) + checksum(4)
+    const size_t beams_bytes = expected.size() * (2 + 4) + size_t(total_samples) * 2;
+    dat.set_size(uint32_t(64 + 44 + beams_bytes + 4));
+
+    const std::string buffer = dat.to_binary();
+
+    // read back with skip_data = true: walks the per-beam headers, records sample positions,
+    // does NOT load the samples
+    themachinethatgoesping::tools::helper::isviewstream is(buffer);
+    auto wc = CompressedWaterColumn::from_stream(is, true);
+
+    REQUIRE(wc.get_number_beams() == expected.size());
+    REQUIRE(wc.beams().get_beams().size() == expected.size());
+    REQUIRE(wc.beams().get_beams()[0].get_sample_position() > 0);
+
+    // build the lightweight water-column information (per-beam counts + file positions, no samples)
+    filedatatypes::_sub::WaterColumnInformation wci(wc);
+    REQUIRE(wci.get_number_of_beams() == expected.size());
+    REQUIRE(wci.get_sample_counts()(0) == 4u);
+    REQUIRE(wci.get_sample_counts()(1) == 3u);
+    REQUIRE(wci.get_sample_counts()(2) == 5u);
+
+    // read every beam's samples lazily from the SAME stream and compare to the originals
+    for (uint16_t bn = 0; bn < expected.size(); ++bn)
+    {
+        auto variant =
+            wci.read_beam_samples(bn, 0u, uint32_t(expected[bn].size()), is);
+        auto raw = std::visit([](const auto& d) { return d.get_raw_magnitude(); }, variant);
+        REQUIRE(raw.size() == expected[bn].size());
+        for (size_t s = 0; s < expected[bn].size(); ++s)
+            REQUIRE(raw(s) == uint32_t(expected[bn](s)));
+    }
+
+    // sub-range read: beam 2, samples [1, 4) -> {8, 9, 10}
+    auto sub    = wci.read_beam_samples(uint16_t(2), 1u, 3u, is);
+    auto subraw = std::visit([](const auto& d) { return d.get_raw_magnitude(); }, sub);
+    REQUIRE(subraw.size() == 3u);
+    REQUIRE(subraw(0) == 8u);
+    REQUIRE(subraw(1) == 9u);
+    REQUIRE(subraw(2) == 10u);
 }
 
 TEST_CASE("SoundVelocity should round trip with and without optional temperature/pressure", TESTTAG)

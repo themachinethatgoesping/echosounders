@@ -29,6 +29,10 @@ uint32_t CompressedWaterColumnBeam::get_sample_count() const
 {
     return _sample_count;
 }
+int64_t CompressedWaterColumnBeam::get_sample_position() const
+{
+    return _sample_position;
+}
 
 void CompressedWaterColumnBeam::set_beam_number(uint16_t val)
 {
@@ -81,6 +85,24 @@ void CompressedWaterColumnBeam::read(std::istream&                   is,
 
     // read the samples straight into the matching native-typed variant alternative (no conversion)
     _samples = compressed_water_column_data_from_stream(is, type, _sample_count);
+}
+
+void CompressedWaterColumnBeam::read_skipping_samples(std::istream&                   is,
+                                                      bool                            has_segment,
+                                                      t_CompressedWaterColumnDataType type)
+{
+    is.read(reinterpret_cast<char*>(&_beam_number), sizeof(_beam_number));
+    if (has_segment)
+        is.read(reinterpret_cast<char*>(&_segment_number), sizeof(_segment_number));
+    is.read(reinterpret_cast<char*>(&_sample_count), sizeof(_sample_count));
+
+    // remember where the samples start so they can be read lazily (per beam), then skip over them
+    _sample_position = int64_t(is.tellg());
+    _samples         = CompressedWaterColumnDataSkipped();
+
+    const int64_t sample_bytes =
+        int64_t(_sample_count) * compressed_water_column_bytes_per_sample(type);
+    is.seekg(sample_bytes, std::ios_base::cur);
 }
 
 void CompressedWaterColumnBeam::to_stream(std::ostream& os, bool has_segment) const

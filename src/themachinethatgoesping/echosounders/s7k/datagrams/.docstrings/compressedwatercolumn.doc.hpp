@@ -1,4 +1,4 @@
-//sourcehash: 4d98982bcfaf92141a4f84eb6ae0da8bad4a24b454a3164d2b1e5cd9f1679e83
+//sourcehash: 722da08aeec9ad6e77e55942d442039c9e618f03a0887212a92d85243c2289b2
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -52,6 +52,8 @@ the magnitude to float and the phase to radians for convenient access.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_CompressedWaterColumn = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_CompressedWaterColumn_2 = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_Content = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_Content_compressed_samples = R"doc(maximum number of samples over all beams)doc";
@@ -78,15 +80,36 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_Content_serial_number = R"doc(sonar serial number)doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_STREAM_DEFAULT_TOFROM_BINARY_FUNCTIONS = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_beams = R"doc(per-beam magnitude/phase data)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_beams_2 = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_binary_hash =
+R"doc(compute a 64 bit hash of the object using xxhash and the       \
+to_binary function. This  function is called binary because the
+\ to_binary  function of the object is used
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_checksum = R"doc(record checksum (last 4 bytes; see S7KDatagram, debugging only))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_content = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_from_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    check_buffer_is_read_completely: variable for interface
+                                     compatibility, does not do    \
+                                     anything
+                                     \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_from_stream = R"doc()doc";
 
@@ -112,7 +135,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_compression_factor_available =
 R"doc(Bit 13: a custom compression factor is available (else a factor of 40
-is used).)doc";
+is used).
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_first_sample_is_rxdelay = R"doc(Bit 15: the first sample contains the RxDelay value.)doc";
 
@@ -120,13 +145,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_magnitude_to_db =
 R"doc(Bit 2: magnitude is converted to dB and stored as an 8-bit value
-(phase as 8-bit).)doc";
+(phase as 8-bit).
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_segment_numbers_available = R"doc(Bit 14: per-beam segment numbers are available.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flag_use_maximum_bottom_detection =
 R"doc(Bit 0: water column data is limited to the bottom detection point
-(+10%).)doc";
+(+10%).
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_flags = R"doc()doc";
 
@@ -136,7 +165,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_magnitude_is_db =
 R"doc(whether the magnitude is stored as 8-bit dB values (derived from bit
-2))doc";
+2)
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_multi_ping = R"doc()doc";
 
@@ -150,19 +181,56 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_get_serial_number = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_read = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_read_beam_headers_skip_samples = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_read_beams = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_read_samples =
 R"doc(Read the (previously skipped) per-beam samples from the stream.
+
 Args:
     is: Input stream. Must be the same file the record was originally
-        read from.)doc";
+        read from.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_set_beams = R"doc()doc";
 
@@ -187,6 +255,20 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_Com
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_set_samples = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_set_serial_number = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_to_binary =
+R"doc(convert object to vector of bytes
+\ \
+
+Args:
+    resize_buffer: variable for interface compatibility, does not do
+                   anything             \ \
+
+Returns:
+    vector of bytes
+    \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_CompressedWaterColumn_to_stream = R"doc()doc";
 

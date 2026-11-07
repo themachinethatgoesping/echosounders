@@ -1,4 +1,4 @@
-//sourcehash: fc9b3ad896a92807f835990e52e57e0b4b9dd2f6864f207cb235128fd32fd04e
+//sourcehash: 30effe93f7c3dcb3673aa5fd311e40c760bc2680de36c6eaf52b4715da3ceb70
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,37 +60,47 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_class_name = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_detection_value_per_beam_number = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_detection_loaded = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_detectioninformation = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_detection_point_per_beam_number = R"doc(detected bottom sample number (fractional) per beam number)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_detectioninfos = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_detectioninfos_const = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_file_numbers = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_file_paths = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_ifs =
+R"doc(Input stream of the first datagram of the given type (for lazy, on-
+demand reads).
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_multisector_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_primary_file_path = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_raw_detection =
-R"doc(7027 RawDetection of the ping (cached; carries the per-beam receive
-angles and detections)
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_rx_angle_in_degrees_per_beam_number =
+R"doc(receive steering angle (degrees) per beam number (nudged strictly
+increasing)
 
 )doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_rx_angle_in_degrees_per_beam_number = R"doc(receive steering angle (degrees) per beam number)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_sysinfos = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_sonar_settings = R"doc(7000 SonarSettings of the ping (cached; small fixed record))doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_water_column =
-R"doc(7042 CompressedWaterColumn of the ping (loaded on demand, can be
-released again)
-
-)doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_sysinfos_const = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_watercolumn_calibration_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_wcinfos = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_wcinfos_const = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_has_datagram_type = R"doc()doc";
 
@@ -121,7 +131,18 @@ Returns:
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_init_watercolumn_calibration = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_load_wci = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_load_detection = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_load_sys = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_load_wci =
+R"doc(Lightweight water-column information (per-beam sample counts + file
+positions + the record-wide encoding). The water-column samples
+themselves are NOT loaded here - they are read on demand per beam via
+S7KPingWatercolumn. Reading metadata therefore no longer pulls the
+whole 7042 record into memory.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_multisector_calibration = R"doc()doc";
 
@@ -144,15 +165,25 @@ Args:
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_printer = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_raw_detection = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_read_first_datagram = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_release_detection = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_release_sys = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_release_wci = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_sonar_settings = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_set_detectioninformation = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_water_column = R"doc()doc";
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_set_systeminformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_set_watercolumninformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_sys_loaded = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_systeminformation = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_watercolumninformation = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_wci_loaded = R"doc()doc";
 

@@ -91,6 +91,11 @@ class S7KPingBottom
         return beam_numbers_per_tx_sector;
     }
 
+    // ----- I_PingCommon interface -----
+    void load(bool force = false) override { _file_data->load_detection(force); }
+    void release() override { _file_data->release_detection(); }
+    bool loaded() override { return _file_data->detection_loaded(); }
+
     // ----- feature checks -----
     // s7k raw detections carry angles + travel times, but no ready-made XYZ position
     bool has_xyz() const override { return false; }
@@ -122,8 +127,8 @@ class S7KPingBottom
         const algorithms::pingtools::BeamSelection& selection) override
     {
         // detected bottom sample number / sample rate -> two-way travel time in seconds
-        const auto  detection_points = _file_data->get_detection_point_per_beam_number();
-        const float sampling_rate    = _file_data->get_raw_detection().get_sampling_rate();
+        const auto& detection_points = _file_data->get_detection_point_per_beam_number();
+        const float sampling_rate    = _file_data->get_detectioninfos().get_sampling_rate();
 
         const auto& beam_numbers = selection.get_beam_numbers();
         auto twtt = xt::xtensor<float, 1>::from_shape({ beam_numbers.size() });

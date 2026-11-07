@@ -163,6 +163,7 @@ class CompressedWaterColumn : public S7KDatagram
     explicit CompressedWaterColumn(S7KDatagram header);
     void __read__(std::istream& is, bool skip_data = false);
     void __read_beams__(std::istream& is);
+    void __read_beam_headers_skip_samples__(std::istream& is);
 };
 
 } // namespace datagrams

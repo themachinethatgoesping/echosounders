@@ -1,4 +1,4 @@
-//sourcehash: b37b267cc2df1db4280c6dbb6ae33d8c19f2d8f9bd4978acca9451cb2296cc0a
+//sourcehash: 18a601ad4d73e88ef82b8d37acc0f374131b954183b843deeb4a307d87be413d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -60,19 +60,27 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 R"doc(Assemble per-beam sample data into a [beams, samples] ensemble for a
 selection.
 
-Mirrors the kmall get_raw_amplitudes assembly: for each selected beam
-the accessor returns the beam's native 1D samples, the selected sample
-range is copied into the output row (cast to t_out on assignment).
-Missing beams/samples are NaN (floating point) or 0 (integer).
+For each selected beam only the selected sample range is read directly
+from the file (via the stored per-beam file position) and copied into
+the output row (cast to t_out on assignment). The water-column samples
+are therefore never held in memory - they are read on demand and
+returned. Missing beams/samples are NaN (floating point) or 0
+(integer).
 
 Template Args:
     t_out: output value type
-    t_beam_accessor: callable (const CompressedWaterColumnBeam&) ->
-                     xt::xtensor<...,1>
+    t_sample_extractor: callable (const
+                        CompressedWaterColumnDataVariant&) ->
+                        xt::xtensor<...,1> returning the (already sub-
+                        ranged) magnitude or phase samples
 
 )doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_class_name = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_extract_raw_magnitude = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_extract_raw_phase = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_amplitudes = R"doc()doc";
 

@@ -44,6 +44,9 @@ class CompressedWaterColumnBeam
 
     CompressedWaterColumnDataVariant _samples; ///< per-beam samples in their native encoding
 
+    int64_t _sample_position = -1; ///< file position of this beam's samples (set when samples were
+                                   ///< skipped; used for lazy / subset reads)
+
   public:
     CompressedWaterColumnBeam()  = default;
     ~CompressedWaterColumnBeam() = default;
@@ -52,6 +55,9 @@ class CompressedWaterColumnBeam
     uint16_t get_beam_number() const;
     uint8_t  get_segment_number() const;
     uint32_t get_sample_count() const;
+
+    /// file position of this beam's samples (only valid if the samples were skipped on read)
+    int64_t get_sample_position() const;
 
     void set_beam_number(uint16_t val);
     void set_segment_number(uint8_t val);
@@ -71,6 +77,18 @@ class CompressedWaterColumnBeam
 
     // ----- stream i/o -----
     void read(std::istream& is, bool has_segment, t_CompressedWaterColumnDataType type);
+    /**
+     * @brief Read only this beam's header (beam/segment number + sample count), remember the file
+     * position of its samples and skip over them. Used to build the lightweight water-column
+     * information (per-beam sample positions) without loading any samples.
+     *
+     * @param is input stream, positioned at the start of this beam
+     * @param has_segment whether a segment number is present in the beam header
+     * @param type the record-wide sample encoding (used to compute the samples byte size to skip)
+     */
+    void read_skipping_samples(std::istream&                   is,
+                               bool                            has_segment,
+                               t_CompressedWaterColumnDataType type);
     void to_stream(std::ostream& os, bool has_segment) const;
 
     // ----- operators -----

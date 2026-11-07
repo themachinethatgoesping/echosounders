@@ -30,6 +30,10 @@
 #include "../filedatainterfaces/s7kdatagraminterface.hpp"
 #include "calibration/s7kwatercolumncalibration.hpp"
 
+#include "_sub/detectioninformation.hpp"
+#include "_sub/systeminformation.hpp"
+#include "_sub/watercolumninformation.hpp"
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace s7k {
@@ -63,22 +67,22 @@ class S7KPingFileData
     }
     ~S7KPingFileData() = default;
 
-    // deep-copy the lazily cached datagrams / calibration (unique_ptr members are not copyable)
+    // deep-copy the lazily cached information / calibration (unique_ptr members are not copyable)
     S7KPingFileData(const S7KPingFileData& other)
         : t_base1(other)
         , t_base2(other)
     {
-        _sonar_settings =
-            other._sonar_settings
-                ? std::make_unique<datagrams::SonarSettings>(*other._sonar_settings)
+        _watercolumninformation =
+            other._watercolumninformation
+                ? std::make_unique<_sub::WaterColumnInformation>(*other._watercolumninformation)
                 : nullptr;
-        _raw_detection =
-            other._raw_detection
-                ? std::make_unique<datagrams::RawDetection>(*other._raw_detection)
+        _detectioninformation =
+            other._detectioninformation
+                ? std::make_unique<_sub::DetectionInformation>(*other._detectioninformation)
                 : nullptr;
-        _water_column =
-            other._water_column
-                ? std::make_unique<datagrams::CompressedWaterColumn>(*other._water_column)
+        _systeminformation =
+            other._systeminformation
+                ? std::make_unique<_sub::SystemInformation>(*other._systeminformation)
                 : nullptr;
         _multisector_calibration =
             other._multisector_calibration
@@ -159,66 +163,120 @@ class S7KPingFileData
     bool has_raw_detection() const { return has_datagram_type<datagrams::RawDetection>(); }
     bool has_water_column() const { return has_datagram_type<datagrams::CompressedWaterColumn>(); }
 
-    /// 7000 SonarSettings of the ping (cached; small fixed record)
-    const datagrams::SonarSettings& get_sonar_settings()
+    /**
+     * @brief Input stream of the first datagram of the given type (for lazy, on-demand reads).
+     */
+    auto& get_ifs(t_S7KDatagramIdentifier datagram_identifier) const
     {
-        if (!_sonar_settings)
-            _sonar_settings = std::make_unique<datagrams::SonarSettings>(
-                read_first_datagram<datagrams::SonarSettings>());
-        return *_sonar_settings;
+        return this->get_datagram_infos_by_type(datagram_identifier).at(0)->get_stream();
     }
 
-    /// 7027 RawDetection of the ping (cached; carries the per-beam receive angles and detections)
-    const datagrams::RawDetection& get_raw_detection()
-    {
-        if (!_raw_detection)
-            _raw_detection = std::make_unique<datagrams::RawDetection>(
-                read_first_datagram<datagrams::RawDetection>());
-        return *_raw_detection;
-    }
-
-    /// 7042 CompressedWaterColumn of the ping (loaded on demand, can be released again)
-    datagrams::CompressedWaterColumn& get_water_column()
-    {
-        load_wci();
-        return *_water_column;
-    }
+    // ----- water column information (7042; lazily built, samples read on demand, not stored) -----
+    /**
+     * @brief Lightweight water-column information (per-beam sample counts + file positions + the
+     * record-wide encoding). The water-column samples themselves are NOT loaded here - they are read
+     * on demand per beam via S7KPingWatercolumn. Reading metadata therefore no longer pulls the
+     * whole 7042 record into memory.
+     */
     void load_wci(bool force = false)
     {
-        if (_water_column && !force)
+        if (wci_loaded() && !force)
             return;
-        _water_column = std::make_unique<datagrams::CompressedWaterColumn>(
-            read_first_datagram<datagrams::CompressedWaterColumn>());
+        if (has_water_column())
+            _watercolumninformation = std::make_unique<_sub::WaterColumnInformation>(
+                read_first_datagram<datagrams::CompressedWaterColumn, true>());
     }
-    void release_wci() { _water_column.reset(); }
-    bool wci_loaded() const { return _water_column != nullptr; }
+    void release_wci() { _watercolumninformation.reset(); }
+    bool wci_loaded() const { return _watercolumninformation != nullptr; }
 
-    // ----- per-beam-number detection values -----
-    // The 7027 RawDetection may hold several detections per beam (multi-detect), keyed by the
-    // per-row beam_descriptor. These helpers reduce the rows to one value per beam number (the first
-    // detection of each beam) so they can be indexed by beam number like the water-column beams.
-    /// receive steering angle (degrees) per beam number
-    xt::xtensor<float, 1> get_rx_angle_in_degrees_per_beam_number()
+    void set_watercolumninformation(std::unique_ptr<_sub::WaterColumnInformation> wci)
     {
-        auto angles = detection_value_per_beam_number(
-            [](const auto& beams) { return beams.get_rx_angle_in_degrees_tensor(); });
+        _watercolumninformation = std::move(wci);
+    }
 
-        // the recorded receive angles are quantized and repeat for adjacent (outer) beams; nudge
-        // the duplicates so the per-beam angles are strictly increasing (the water-column image
-        // interpolator requires strictly ascending beam angles). The drift is < 0.1 deg.
-        constexpr float epsilon = 1e-3f;
-        for (size_t bn = 1; bn < angles.size(); ++bn)
-            if (std::isfinite(angles.unchecked(bn)) && std::isfinite(angles.unchecked(bn - 1)) &&
-                angles.unchecked(bn) <= angles.unchecked(bn - 1))
-                angles.unchecked(bn) = angles.unchecked(bn - 1) + epsilon;
+    const _sub::WaterColumnInformation& get_wcinfos()
+    {
+        load_wci();
+        return *_watercolumninformation;
+    }
+    const _sub::WaterColumnInformation& get_wcinfos_const() const
+    {
+        if (!wci_loaded())
+            throw std::runtime_error("Error[S7KPingFileData::get_wcinfos_const]: Water column "
+                                     "information not loaded!");
+        return *_watercolumninformation;
+    }
 
-        return angles;
+    // ----- detection information (7027; reduced per-beam arrays, full record not retained) -----
+    void load_detection(bool force = false)
+    {
+        if (detection_loaded() && !force)
+            return;
+        if (has_raw_detection())
+            _detectioninformation = std::make_unique<_sub::DetectionInformation>(
+                read_first_datagram<datagrams::RawDetection>());
+    }
+    void release_detection() { _detectioninformation.reset(); }
+    bool detection_loaded() const { return _detectioninformation != nullptr; }
+
+    void set_detectioninformation(std::unique_ptr<_sub::DetectionInformation> detection)
+    {
+        _detectioninformation = std::move(detection);
+    }
+
+    const _sub::DetectionInformation& get_detectioninfos()
+    {
+        load_detection();
+        return *_detectioninformation;
+    }
+    const _sub::DetectionInformation& get_detectioninfos_const() const
+    {
+        if (!detection_loaded())
+            throw std::runtime_error("Error[S7KPingFileData::get_detectioninfos_const]: Detection "
+                                     "information not loaded!");
+        return *_detectioninformation;
+    }
+
+    // ----- system information (7000; tx parameters + calibration inputs, record not retained) -----
+    void load_sys(bool force = false)
+    {
+        if (sys_loaded() && !force)
+            return;
+        if (has_sonar_settings())
+            _systeminformation = std::make_unique<_sub::SystemInformation>(
+                read_first_datagram<datagrams::SonarSettings>());
+    }
+    void release_sys() { _systeminformation.reset(); }
+    bool sys_loaded() const { return _systeminformation != nullptr; }
+
+    void set_systeminformation(std::unique_ptr<_sub::SystemInformation> sys)
+    {
+        _systeminformation = std::move(sys);
+    }
+
+    const _sub::SystemInformation& get_sysinfos()
+    {
+        load_sys();
+        return *_systeminformation;
+    }
+    const _sub::SystemInformation& get_sysinfos_const() const
+    {
+        if (!sys_loaded())
+            throw std::runtime_error("Error[S7KPingFileData::get_sysinfos_const]: System "
+                                     "information not loaded!");
+        return *_systeminformation;
+    }
+
+    // ----- per-beam-number detection values (reduced from the 7027 RawDetection) -----
+    /// receive steering angle (degrees) per beam number (nudged strictly increasing)
+    const xt::xtensor<float, 1>& get_rx_angle_in_degrees_per_beam_number()
+    {
+        return get_detectioninfos().get_rx_angle_in_degrees_per_beam_number();
     }
     /// detected bottom sample number (fractional) per beam number
-    xt::xtensor<float, 1> get_detection_point_per_beam_number()
+    const xt::xtensor<float, 1>& get_detection_point_per_beam_number()
     {
-        return detection_value_per_beam_number(
-            [](const auto& beams) { return beams.get_detection_point_tensor(); });
+        return get_detectioninfos().get_detection_point_per_beam_number();
     }
 
     // ----- water column calibration -----
@@ -236,13 +294,13 @@ class S7KPingFileData
         float absorption_db_m  = std::numeric_limits<float>::quiet_NaN(); // absorption to (un)apply
         if (has_sonar_settings())
         {
-            const auto& sonar_settings = get_sonar_settings();
-            sound_velocity             = sonar_settings.get_sound_velocity();
-            pulse_duration             = sonar_settings.get_tx_pulse_width();
+            const auto& sysinfos = get_sysinfos();
+            sound_velocity       = sysinfos.get_sound_velocity();
+            pulse_duration       = sysinfos.get_pulse_duration();
             // "spreading" is the TVG log-range factor already applied to the recorded data (0/20/40)
-            tvg_factor = sonar_settings.get_spreading();
-            // 7000 absorption is in dB/km -> dB/m
-            absorption_db_m = sonar_settings.get_absorption() * 0.001f;
+            tvg_factor = sysinfos.get_tvg_factor();
+            // 7000 absorption is in dB/km -> dB/m (converted inside SystemInformation)
+            absorption_db_m = sysinfos.get_absorption_db_m();
         }
 
         // tvg_absorption_db_m (applied) == absorption to apply -> absorption is a no-op change and av
@@ -307,33 +365,11 @@ class S7KPingFileData
     __CLASSHELPER_DEFAULT_PRINTING_FUNCTIONS__
 
   private:
-    // reduce the (possibly multi-detect) raw detection rows to one value per beam number
-    template<typename t_getter>
-    xt::xtensor<float, 1> detection_value_per_beam_number(t_getter&& get_value_tensor)
-    {
-        const auto& detection_beams = get_raw_detection().get_beams();
-        const auto  descriptors     = detection_beams.get_beam_descriptor_tensor();
-        const auto  values          = get_value_tensor(detection_beams);
-
-        uint16_t max_beam_number = 0;
-        for (size_t row = 0; row < descriptors.size(); ++row)
-            max_beam_number = std::max<uint16_t>(max_beam_number, descriptors.unchecked(row));
-
-        auto result = xt::xtensor<float, 1>::from_shape({ size_t(max_beam_number) + 1 });
-        result.fill(std::numeric_limits<float>::quiet_NaN());
-        for (size_t row = 0; row < descriptors.size(); ++row)
-        {
-            auto beam_number = descriptors.unchecked(row);
-            if (std::isnan(result.unchecked(beam_number))) // keep the first detection of each beam
-                result.unchecked(beam_number) = float(values.unchecked(row));
-        }
-        return result;
-    }
-
-    // lazily cached ping datagrams + calibration (deep-copied by the copy constructor)
-    std::unique_ptr<datagrams::SonarSettings>         _sonar_settings;
-    std::unique_ptr<datagrams::RawDetection>          _raw_detection;
-    std::unique_ptr<datagrams::CompressedWaterColumn> _water_column;
+    // lazily built, lightweight per-ping information + calibration (deep-copied by the copy
+    // constructor). None of these hold the water-column samples - those are read on demand.
+    std::unique_ptr<_sub::WaterColumnInformation> _watercolumninformation;
+    std::unique_ptr<_sub::DetectionInformation>   _detectioninformation;
+    std::unique_ptr<_sub::SystemInformation>      _systeminformation;
     std::unique_ptr<boost::flyweight<calibration::S7KMultiSectorWaterColumnCalibration>>
         _multisector_calibration;
 };

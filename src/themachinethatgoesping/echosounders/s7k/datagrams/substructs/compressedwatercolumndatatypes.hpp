@@ -507,6 +507,36 @@ inline t_CompressedWaterColumnDataType compressed_water_column_data_type(uint8_t
 }
 
 /**
+ * @brief Number of bytes one sample occupies on disk for a given encoding.
+ *
+ * Magnitude and phase are stored contiguously per sample (interleaved for the combined encodings),
+ * so a sub-range of samples is a contiguous block of @c number_of_samples * this value bytes. This
+ * is used to seek to an arbitrary first sample inside a beam when only a subset is read lazily.
+ */
+inline int compressed_water_column_bytes_per_sample(t_CompressedWaterColumnDataType type)
+{
+    switch (type)
+    {
+        case t_CompressedWaterColumnDataType::Magnitude8:
+            return 1;
+        case t_CompressedWaterColumnDataType::Magnitude16:
+            [[fallthrough]];
+        case t_CompressedWaterColumnDataType::Magnitude8Phase8:
+            return 2;
+        case t_CompressedWaterColumnDataType::Magnitude16Phase16:
+            [[fallthrough]];
+        case t_CompressedWaterColumnDataType::Magnitude32:
+            return 4;
+        case t_CompressedWaterColumnDataType::Magnitude32Phase8:
+            return 5;
+        case t_CompressedWaterColumnDataType::Skipped:
+            [[fallthrough]];
+        default:
+            return 0;
+    }
+}
+
+/**
  * @brief Read one beam's samples from the stream into the matching variant alternative.
  */
 inline CompressedWaterColumnDataVariant compressed_water_column_data_from_stream(

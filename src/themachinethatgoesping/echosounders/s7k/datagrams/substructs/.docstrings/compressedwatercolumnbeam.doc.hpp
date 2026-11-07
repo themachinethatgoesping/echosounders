@@ -1,4 +1,4 @@
-//sourcehash: 6f4b806711ff0cca9f35dea136a0c1e3a12e4125c887cd22b37c0865e84219c8
+//sourcehash: 31b95d6326475f8be602732030d86fdfd0137d4983706705b0ca3ef2a67df7ac
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,9 +61,17 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_raw_phase =
 R"doc(phase samples in their raw (unconverted) int16 values (empty if there
-is no phase))doc";
+is no phase)
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_sample_count = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_sample_position =
+R"doc(file position of this beam's samples (only valid if the samples were
+skipped on read)
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_get_samples = R"doc()doc";
 
@@ -71,13 +79,64 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_has_phase = R"doc(whether this beam holds phase data)doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_info_string =
+R"doc(                                                                                           \
+return an info string using the class __printer__ object
+\
+
+Args:
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+Returns:
+    std::string
+    \
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_print =
+R"doc(                                                                                           \
+print the object information to the given outpustream
+\ \
+
+Args:
+    os: output stream, e.g. file stream or std::out or std::cerr
+        \
+    float_precision: number of digits for floating point values
+                     \
+    superscript_exponents: print exponents in superscript
+                           \
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_read = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_read_skipping_samples =
+R"doc(Read only this beam's header (beam/segment number + sample count),
+remember the file position of its samples and skip over them. Used to
+build the lightweight water-column information (per-beam sample
+positions) without loading any samples.
+
+Args:
+    is: input stream, positioned at the start of this beam
+    has_segment: whether a segment number is present in the beam
+                 header
+    type: the record-wide sample encoding (used to compute the samples
+          byte size to skip)
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_sample_count = R"doc(number of samples for this beam)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_sample_position =
+R"doc(file position of this beam's samples (set when samples were skipped;
+used for lazy / subset reads))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_CompressedWaterColumnBeam_samples = R"doc(per-beam samples in their native encoding)doc";
 

@@ -189,16 +189,23 @@ void CompressedWaterColumn::__read__(std::istream& is, bool skip_data)
 {
     is.read(reinterpret_cast<char*>(&_content), __content_size);
 
-    const int64_t sample_position = int64_t(is.tellg());
+    // position right after the record type header = start of the first beam
+    const int64_t content_end = int64_t(is.tellg());
 
     if (skip_data)
     {
-        // remember the sample position so the samples can be read lazily later, then seek past them
-        // (up to the trailing 4-byte checksum, which is read here)
-        _beams.set_skipped(sample_position);
-        is.seekg(std::streamoff(compute_size_content()) - std::streamoff(__content_size) -
-                     std::streamoff(sizeof(_checksum)),
-                 std::ios::cur);
+        // walk the per-beam headers (recording each beam's sample position) without reading any
+        // samples, so the water column can later be read lazily per beam (a subset of beams at a
+        // time) from the file instead of being held in memory
+        __read_beam_headers_skip_samples__(is);
+
+        // keep the container-wide skip state so the (full-record) lazy read_samples() path still
+        // works (it re-reads every beam from this position)
+        _beams.set_skipped(content_end);
+
+        // seek to the trailing 4-byte checksum (robust to any trailing data after the beams)
+        is.seekg(content_end + std::streamoff(compute_size_content()) -
+                 std::streamoff(__content_size) - std::streamoff(sizeof(_checksum)));
         is.read(reinterpret_cast<char*>(&_checksum), sizeof(_checksum));
         return;
     }
@@ -207,6 +214,24 @@ void CompressedWaterColumn::__read__(std::istream& is, bool skip_data)
 
     // read the trailing 4-byte checksum (stored for debugging only, not verified)
     is.read(reinterpret_cast<char*>(&_checksum), sizeof(_checksum));
+}
+
+void CompressedWaterColumn::__read_beam_headers_skip_samples__(std::istream& is)
+{
+    // record-wide sample encoding (from the flags), stored once on the container
+    _beams.set_magnitude_bytes(uint8_t(get_magnitude_bytes()));
+    _beams.set_has_phase(get_has_phase());
+    _beams.set_magnitude_is_db(get_magnitude_is_db());
+
+    const bool has_segment = (_content._flags & FLAG_SEGMENT_NUMBERS) != 0;
+    const auto type        = _beams.get_data_type();
+
+    auto& beams = _beams.beams();
+    beams.resize(_content._number_beams);
+
+    // each beam reads only its header + records its sample position, then skips over its samples
+    for (auto& beam : beams)
+        beam.read_skipping_samples(is, has_segment, type);
 }
 
 void CompressedWaterColumn::__read_beams__(std::istream& is)

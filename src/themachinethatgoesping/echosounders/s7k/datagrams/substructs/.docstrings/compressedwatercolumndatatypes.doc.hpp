@@ -1,4 +1,4 @@
-//sourcehash: 49c4ec2d4dcf0d68b89af1ad9032a8a3d7bcc841e643a5d9a8622e42b4c57756
+//sourcehash: c3ed39d5aab62fd56a81e07b5fabe7cf17aac178a03029cb5d37d9b7e1e14997
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -245,7 +245,9 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_I_CompressedWaterColumnData_get_raw_phase =
 R"doc(phase samples in their raw (unconverted) values, widened to the int16
-phase scale (empty if there is no phase). radians = raw_phase / 10430)doc";
+phase scale (empty if there is no phase). radians = raw_phase / 10430
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_I_CompressedWaterColumnData_has_magnitude = R"doc()doc";
 
@@ -253,9 +255,22 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_sub
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_I_CompressedWaterColumnData_name = R"doc(name of the concrete type (for printing / error messages))doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_compressed_water_column_bytes_per_sample =
+R"doc(Number of bytes one sample occupies on disk for a given encoding.
+
+Magnitude and phase are stored contiguously per sample (interleaved
+for the combined encodings), so a sub-range of samples is a contiguous
+block of ``number_of_samples`` * this value bytes. This is used to
+seek to an arbitrary first sample inside a beam when only a subset is
+read lazily.
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_compressed_water_column_data_from_stream =
 R"doc(Read one beam's samples from the stream into the matching variant
-alternative.)doc";
+alternative.
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_compressed_water_column_data_type =
 R"doc(Determine the per-sample encoding of a 7042 record from its flags.
@@ -263,7 +278,9 @@ R"doc(Determine the per-sample encoding of a 7042 record from its flags.
 Args:
     magnitude_bytes: number of magnitude bytes as stored on disk (1, 2
                      or 4)
-    has_phase: whether the record contains phase data)doc";
+    has_phase: whether the record contains phase data
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_datagrams_substructs_t_CompressedWaterColumnDataType =
 R"doc(The possible per-sample encodings of a 7042 CompressedWaterColumnData
