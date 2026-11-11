@@ -40,6 +40,7 @@ class _WCIInfos
     // serialized (and hashed) as the first __binary_size bytes -> keep these contiguous & padding
     // free (float/uint32 first, then the single bytes); the trailing struct padding is never used.
     float    _sample_rate          = 0.f; ///< effective sample rate after downsampling (Hz)
+    float    _magnitude_compression_factor = 0.f; ///< 8-bit dB compression factor (0 if not dB)
     uint32_t _first_sample         = 0;   ///< first sample index (same for every beam)
     uint16_t _number_beams         = 0;   ///< number of beams
     uint8_t  _downsampling_divisor = 1;   ///< downsampling divisor (1 = no downsampling)
@@ -50,7 +51,7 @@ class _WCIInfos
   public:
     /// number of logical (padding-free) bytes used for serialization / hashing
     static constexpr std::size_t __binary_size =
-        sizeof(float) + sizeof(uint32_t) + sizeof(uint16_t) + 4 * sizeof(uint8_t);
+        2 * sizeof(float) + sizeof(uint32_t) + sizeof(uint16_t) + 4 * sizeof(uint8_t);
 
     _WCIInfos() = default;
 
@@ -66,6 +67,9 @@ class _WCIInfos
     uint8_t  get_magnitude_bytes() const { return _magnitude_bytes; }
     bool     get_has_phase() const { return _has_phase != 0; }
     bool     get_magnitude_is_db() const { return _magnitude_is_db != 0; }
+    /// factor used to compress magnitude into 8-bit dB (stored = factor*log10(mag); DFD App. I);
+    /// 0 when the magnitude is not stored as 8-bit dB
+    float    get_magnitude_compression_factor() const { return _magnitude_compression_factor; }
 
     // ----- derived -----
     bool get_magnitude_is_32bit() const { return _magnitude_bytes == 4; }

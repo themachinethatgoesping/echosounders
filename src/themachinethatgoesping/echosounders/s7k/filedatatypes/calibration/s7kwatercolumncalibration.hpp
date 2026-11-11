@@ -25,12 +25,16 @@ namespace filedatatypes {
 namespace calibration {
 
 /**
- * @brief Water column calibration for Teledyne RESON 7k systems.
+ * @brief Water column calibration for Teledyne RESON 7k (and Norbit) systems.
  *
- * This is a first, uncalibrated setup: the power/ap/av calibrations only carry the volume/point
- * conversion factor derived from the pulse duration and sound velocity (no system offset, no
- * per-beam/per-range calibration curves). av is therefore an uncalibrated Sv (a first guess of Sv);
- * a real Sv calibration (system offset, beam pattern, ...) still has to be added.
+ * This is a first, uncalibrated setup. The power/ap/av calibrations carry the per-ping system gain
+ * offset (transmit source level "power selection" + receiver "gain selection") and, for av, the
+ * volume-scattering conversion factor derived from the effective pulse duration and sound velocity.
+ * For CW the effective pulse duration is the nominal transmit pulse width; for a linear chirp (FM)
+ * it is the matched-filter compressed duration (~ 1 / bandwidth), because the water column is the
+ * compressed envelope. av is therefore an uncalibrated Sv (a first guess of Sv); the remaining fixed
+ * calibration constant (equivalent beam angle, beam pattern, electronics offset) still has to be
+ * added via a dedicated calibration before the result may be called a true Sv.
  */
 class S7KWaterColumnCalibration
     : public pingprocessing::datatypes::calibration::WaterColumnCalibration
@@ -43,6 +47,7 @@ class S7KWaterColumnCalibration
     float _effective_pulse_duration = std::numeric_limits<float>::quiet_NaN();
     float _system_gain_offset       = std::numeric_limits<float>::quiet_NaN();
 
+    bool _is_fm       = false; ///< whether the transmit pulse is a linear chirp (FM) rather than CW
     bool _initialized = false;
 
   public:
@@ -60,12 +65,15 @@ class S7KWaterColumnCalibration
                               float effective_pulse_duration,
                               float system_gain_offset,
                               float tvg_absorption_db_m,
-                              float tvg_factor);
+                              float tvg_factor,
+                              bool  is_fm = false);
 
     // ------ getters ------
     float get_sound_velocity() const { return _sound_velocity; }
     float get_effective_pulse_duration() const { return _effective_pulse_duration; }
     float get_system_gain_offset() const { return _system_gain_offset; }
+    /// whether the effective pulse duration is the FM (matched-filter compressed) duration
+    bool  is_fm() const { return _is_fm; }
 
     // ----- setup calibration for reson 7k systems -----
     void setup_s7k_calibrations();

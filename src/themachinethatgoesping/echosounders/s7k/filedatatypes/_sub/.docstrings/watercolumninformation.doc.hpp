@@ -1,4 +1,4 @@
-//sourcehash: 620caa56ce9a4362027701b6013d9e010607fb0b8475478a334353421df44322
+//sourcehash: 329396d7b343f0cb02b345d84271a83197a544213590242be438ff933e8a3416
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -72,9 +72,11 @@ R"doc(Convert raw magnitude values (as float) to dB according to the record
 encoding.
 
 Vectorized (xsimd friendly) expression reused by the ping water-column
-accessor to convert only the selected beams/samples. 8-bit values are
-already in a (compressed) dB scale and pass through; 16/32-bit values
-are 20*log10(mag/full_scale).
+accessor to convert only the selected beams/samples. 16/32-bit values
+are 20*log10(mag/full_scale). 8-bit values store
+floor(factor*log10(mag)+0.5) (a compressed dB; DFD Appendix I) and are
+expanded back to the same full-scale-referenced dB scale using the
+record's compression factor.
 
 )doc";
 
@@ -89,6 +91,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WaterColumnInformation_get_first_sample = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WaterColumnInformation_get_has_phase = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WaterColumnInformation_get_magnitude_compression_factor = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WaterColumnInformation_get_magnitude_is_32bit = R"doc()doc";
 

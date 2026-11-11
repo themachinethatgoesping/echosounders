@@ -1,4 +1,4 @@
-//sourcehash: 30effe93f7c3dcb3673aa5fd311e40c760bc2680de36c6eaf52b4715da3ceb70
+//sourcehash: 4cc02ea4a057ceb49e13d27fbbe382639a049f2ba3e1319e02802b9e28af6429
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -103,6 +103,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_get_wcinfos_const = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_has_datagram_type = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_has_match_filter = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingFileData_has_raw_detection = R"doc()doc";
 

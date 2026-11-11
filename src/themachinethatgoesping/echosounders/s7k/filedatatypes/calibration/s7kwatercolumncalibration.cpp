@@ -23,11 +23,13 @@ S7KWaterColumnCalibration::S7KWaterColumnCalibration(float sound_velocity,
                                                      float effective_pulse_duration,
                                                      float system_gain_offset,
                                                      float tvg_absorption_db_m,
-                                                     float tvg_factor)
+                                                     float tvg_factor,
+                                                     bool  is_fm)
     : t_base(tvg_absorption_db_m, tvg_factor)
     , _sound_velocity(sound_velocity)
     , _effective_pulse_duration(effective_pulse_duration)
     , _system_gain_offset(system_gain_offset)
+    , _is_fm(is_fm)
 {
     setup_s7k_calibrations();
 }
@@ -59,7 +61,8 @@ bool S7KWaterColumnCalibration::operator==(const S7KWaterColumnCalibration& othe
 
     return tools::helper::float_equals(_sound_velocity, other._sound_velocity) &&
            tools::helper::float_equals(_effective_pulse_duration, other._effective_pulse_duration) &&
-           tools::helper::float_equals(_system_gain_offset, other._system_gain_offset);
+           tools::helper::float_equals(_system_gain_offset, other._system_gain_offset) &&
+           _is_fm == other._is_fm;
 }
 
 void S7KWaterColumnCalibration::check_initialized() const
@@ -84,7 +87,7 @@ S7KWaterColumnCalibration S7KWaterColumnCalibration::from_stream(std::istream& i
     S7KWaterColumnCalibration calibration(t_base::from_stream(is));
 
     is.read(reinterpret_cast<char*>(&calibration._sound_velocity), sizeof(float) * 3);
-    is.read(reinterpret_cast<char*>(&calibration._initialized), sizeof(bool));
+    is.read(reinterpret_cast<char*>(&calibration._is_fm), sizeof(bool) * 2);
 
     return calibration;
 }
@@ -94,7 +97,7 @@ void S7KWaterColumnCalibration::to_stream(std::ostream& os) const
     WaterColumnCalibration::to_stream(os);
 
     os.write(reinterpret_cast<const char*>(&_sound_velocity), sizeof(float) * 3);
-    os.write(reinterpret_cast<const char*>(&_initialized), sizeof(bool));
+    os.write(reinterpret_cast<const char*>(&_is_fm), sizeof(bool) * 2);
 }
 
 tools::classhelper::ObjectPrinter S7KWaterColumnCalibration::__printer__(
@@ -106,6 +109,7 @@ tools::classhelper::ObjectPrinter S7KWaterColumnCalibration::__printer__(
 
     printer.register_section("Reson 7k calibration");
     printer.register_value("Sound velocity", _sound_velocity, "m/s");
+    printer.register_string("Pulse type", _is_fm ? "FM (chirp)" : "CW");
     printer.register_value("Effective pulse duration", _effective_pulse_duration, "s");
     printer.register_value("System gain offset", _system_gain_offset, "dB");
 

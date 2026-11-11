@@ -21,13 +21,23 @@ _WCIInfos::_WCIInfos(const datagrams::CompressedWaterColumn& water_column_datagr
     _magnitude_bytes      = uint8_t(water_column_datagram.get_magnitude_bytes());
     _has_phase            = water_column_datagram.get_has_phase() ? 1 : 0;
     _magnitude_is_db      = water_column_datagram.get_magnitude_is_db() ? 1 : 0;
+
+    // 8-bit dB magnitude is stored as floor(factor*log10(magnitude)+0.5) (DFD Appendix I); the
+    // factor comes from the record when bit 13 is set, otherwise the default of 40 is used. Only
+    // meaningful when the magnitude is stored as 8-bit dB (0 otherwise).
+    _magnitude_compression_factor =
+        water_column_datagram.get_magnitude_is_db()
+            ? (water_column_datagram.get_flag_compression_factor_available()
+                   ? water_column_datagram.get_compression_factor()
+                   : 40.0f)
+            : 0.f;
 }
 
 _WCIInfos _WCIInfos::from_binary(std::string_view buffer)
 {
     _WCIInfos dat;
     // copy into the first member (a scalar pointer), not &dat: the members are a padding-free
-    // 14-byte block, but sizeof(_WCIInfos) is padded to 16, so memcpy'ing into the class object
+    // 18-byte block, but sizeof(_WCIInfos) is padded to 20, so memcpy'ing into the class object
     // would trip -Wclass-memaccess ("leaves 2 bytes unchanged"). Same idiom as kmall's _WCIInfos.
     std::memcpy(&dat._sample_rate, buffer.data(), __binary_size);
     return dat;

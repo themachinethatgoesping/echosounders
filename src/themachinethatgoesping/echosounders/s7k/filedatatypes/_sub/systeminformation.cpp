@@ -23,6 +23,9 @@ _SysInfos::_SysInfos(const datagrams::SonarSettings& sonar_settings)
     _sound_velocity     = sonar_settings.get_sound_velocity();
     _spreading          = sonar_settings.get_spreading();
     _absorption         = sonar_settings.get_absorption();
+    _power_selection    = sonar_settings.get_power_selection();
+    _gain_selection     = sonar_settings.get_gain_selection();
+    _tx_pulse_type      = uint32_t(sonar_settings.get_tx_pulse_type().value);
 }
 
 _SysInfos _SysInfos::from_binary(std::string_view buffer)

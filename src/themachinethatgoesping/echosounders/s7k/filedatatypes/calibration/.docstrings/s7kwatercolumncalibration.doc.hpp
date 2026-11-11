@@ -1,4 +1,4 @@
-//sourcehash: 0674be7347cd3fb47105c96255e5a2641475b2b97ed46645b2c16da5171ba872
+//sourcehash: b0e3bc5a5558d9f9425e9dbe4975c5fa176749eb108b80f35c3a67fc0aa59108
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -42,14 +42,19 @@
 
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_calibration_S7KWaterColumnCalibration =
-R"doc(Water column calibration for Teledyne RESON 7k systems.
+R"doc(Water column calibration for Teledyne RESON 7k (and Norbit) systems.
 
-This is a first, uncalibrated setup: the power/ap/av calibrations only
-carry the volume/point conversion factor derived from the pulse
-duration and sound velocity (no system offset, no per-beam/per-range
-calibration curves). av is therefore an uncalibrated Sv (a first guess
-of Sv); a real Sv calibration (system offset, beam pattern, ...) still
-has to be added.)doc";
+This is a first, uncalibrated setup. The power/ap/av calibrations
+carry the per-ping system gain offset (transmit source level "power
+selection" + receiver "gain selection") and, for av, the volume-
+scattering conversion factor derived from the effective pulse duration
+and sound velocity. For CW the effective pulse duration is the nominal
+transmit pulse width; for a linear chirp (FM) it is the matched-filter
+compressed duration (~ 1 / bandwidth), because the water column is the
+compressed envelope. av is therefore an uncalibrated Sv (a first guess
+of Sv); the remaining fixed calibration constant (equivalent beam
+angle, beam pattern, electronics offset) still has to be added via a
+dedicated calibration before the result may be called a true Sv.)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_calibration_S7KWaterColumnCalibration_S7KWaterColumnCalibration = R"doc()doc";
 
@@ -114,6 +119,14 @@ Returns:
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_calibration_S7KWaterColumnCalibration_initialized = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_calibration_S7KWaterColumnCalibration_initialized_2 = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_calibration_S7KWaterColumnCalibration_is_fm = R"doc(whether the transmit pulse is a linear chirp (FM) rather than CW)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_calibration_S7KWaterColumnCalibration_is_fm_2 =
+R"doc(whether the effective pulse duration is the FM (matched-filter
+compressed) duration
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_calibration_S7KWaterColumnCalibration_operator_eq = R"doc()doc";
 

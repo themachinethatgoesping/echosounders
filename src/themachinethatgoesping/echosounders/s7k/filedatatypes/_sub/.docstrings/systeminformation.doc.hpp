@@ -1,4 +1,4 @@
-//sourcehash: 3b0f838b8f56a9efd29bcf498d8799db739ea2d2c0a154df34ce88e00fe72fa0
+//sourcehash: 227d4d70b7de3dc672fced67a8456547b2d2a75a8050f122ccc477313b060b7c
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -47,9 +47,9 @@ SonarSettings record.
 
 All fields are small scalars that are constant for a given sonar
 configuration, so the whole structure is held as a flyweight
-(identical configurations across pings are stored once). 6 contiguous
-floats -> no padding, so the raw bytes are used for serialization and
-hashing.
+(identical configurations across pings are stored once). 8 contiguous
+floats followed by one uint32 -> no padding, so the raw bytes are used
+for serialization and hashing.
 
 Note this is a private substructure and thus not part of the public
 API or nanobind interface.)doc";
@@ -64,9 +64,15 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_from_binary = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_gain_selection = R"doc(receiver gain selection (dB))doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_get_absorption = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_get_frequency = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_get_gain_selection = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_get_power_selection = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_get_receiver_bandwidth = R"doc()doc";
 
@@ -76,7 +82,11 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_get_tx_pulse_width = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_is_fm = R"doc(whether the transmit pulse is a linear chirp (FM) rather than CW)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_power_selection = R"doc(transmit power / source level (dB re 1 uPa @ 1m))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_receiver_bandwidth = R"doc(receiver bandwidth (Hz))doc";
 
@@ -85,6 +95,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_spreading = R"doc(spreading loss / applied TVG log factor)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_to_binary = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_tx_pulse_type = R"doc(0 = CW, 1 = linear chirp (FM))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SysInfos_tx_pulse_width = R"doc(transmit pulse length (s))doc";
 
@@ -109,15 +121,35 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_absorption_db_m = R"doc(absorption to (un)apply in dB/m (7000 absorption is dB/km))doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_effective_pulse_duration =
+R"doc(Effective transmit pulse duration (s) used for the volume-scattering
+conversion. For CW this is the nominal transmit pulse width; for a
+linear chirp (FM) the water column is the matched-filter (pulse-
+compressed) envelope, so the effective duration is ~ 1 / bandwidth. If
+the FM bandwidth is unknown (0) the value is NaN (av/sv then
+unavailable).
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_gain_selection = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_number_of_tx_sectors = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_power_selection = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_pulse_duration = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_receiver_bandwidth = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_sound_velocity = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_system_gain_offset = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_tvg_factor = R"doc(applied TVG log-range factor ("spreading": 0 / 20 / 40))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_tx_signal_parameters = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_is_fm = R"doc(whether the transmit pulse is a linear chirp (FM) rather than CW)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_operator_eq = R"doc()doc";
 

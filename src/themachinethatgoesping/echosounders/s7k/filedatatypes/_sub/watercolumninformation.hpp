@@ -8,6 +8,7 @@
 #include ".docstrings/watercolumninformation.doc.hpp"
 
 /* std includes */
+#include <cmath>
 #include <cstdint>
 #include <string>
 #include <unordered_map>
@@ -78,6 +79,10 @@ class WaterColumnInformation
     bool     get_has_phase() const { return _wci_infos.get().get_has_phase(); }
     bool     get_magnitude_is_db() const { return _wci_infos.get().get_magnitude_is_db(); }
     bool     get_magnitude_is_32bit() const { return _wci_infos.get().get_magnitude_is_32bit(); }
+    float    get_magnitude_compression_factor() const
+    {
+        return _wci_infos.get().get_magnitude_compression_factor();
+    }
 
     datagrams::substructs::t_CompressedWaterColumnDataType get_data_type() const
     {
@@ -114,14 +119,23 @@ class WaterColumnInformation
      * @brief Convert raw magnitude values (as float) to dB according to the record encoding.
      *
      * Vectorized (xsimd friendly) expression reused by the ping water-column accessor to convert
-     * only the selected beams/samples. 8-bit values are already in a (compressed) dB scale and pass
-     * through; 16/32-bit values are 20*log10(mag/full_scale).
+     * only the selected beams/samples. 16/32-bit values are 20*log10(mag/full_scale). 8-bit values
+     * store floor(factor*log10(mag)+0.5) (a compressed dB; DFD Appendix I) and are expanded back to
+     * the same full-scale-referenced dB scale using the record's compression factor.
      */
     template<class Tensor>
     Tensor convert_magnitude_to_db(Tensor magnitude) const
     {
         if (_wci_infos.get().get_magnitude_is_db())
-            return magnitude;
+        {
+            // stored = factor*log10(mag) -> 20*log10(mag) = stored * 20/factor. Reference it to full
+            // scale (65535) so 8-bit data lands on the same dB scale as the 16-bit path (the
+            // constant offset is otherwise absorbed by the system gain offset).
+            const float factor        = _wci_infos.get().get_magnitude_compression_factor();
+            const float scale         = (factor > 0.f) ? (20.f / factor) : 1.f;
+            const float full_scale_db = 20.f * std::log10(65535.f);
+            return xt::eval(magnitude * scale - full_scale_db);
+        }
 
         const float full_scale = _wci_infos.get().get_magnitude_is_32bit() ? 1.f : 65535.f;
         magnitude              = xt::eval(20.f * xt::log10(magnitude / full_scale));

@@ -162,6 +162,7 @@ class S7KPingFileData
     bool has_sonar_settings() const { return has_datagram_type<datagrams::SonarSettings>(); }
     bool has_raw_detection() const { return has_datagram_type<datagrams::RawDetection>(); }
     bool has_water_column() const { return has_datagram_type<datagrams::CompressedWaterColumn>(); }
+    bool has_match_filter() const { return has_datagram_type<datagrams::MatchFilter>(); }
 
     /**
      * @brief Input stream of the first datagram of the given type (for lazy, on-demand reads).
@@ -288,28 +289,51 @@ class S7KPingFileData
         // s7k transmits a single sector per ping (for now), so one calibration is enough. The
         // parameters come from the 7000 SonarSettings; if it is missing (e.g. an incomplete leading
         // ping) the calibration is still built (power works, av does not).
-        float sound_velocity   = std::numeric_limits<float>::quiet_NaN();
-        float pulse_duration   = std::numeric_limits<float>::quiet_NaN();
-        float tvg_factor       = 0.f;                                     // TVG log-factor applied
+        float sound_velocity           = std::numeric_limits<float>::quiet_NaN();
+        float effective_pulse_duration = std::numeric_limits<float>::quiet_NaN();
+        float system_gain_offset       = 0.f; // uncalibrated passthrough if 7000 is missing
+        float tvg_factor               = 0.f; // TVG log-factor applied
         float absorption_db_m  = std::numeric_limits<float>::quiet_NaN(); // absorption to (un)apply
+        bool  is_fm            = false;                                   // CW unless 7000 says FM
         if (has_sonar_settings())
         {
             const auto& sysinfos = get_sysinfos();
             sound_velocity       = sysinfos.get_sound_velocity();
-            pulse_duration       = sysinfos.get_pulse_duration();
+            is_fm                = sysinfos.is_fm();
+            // effective pulse duration: CW -> nominal tx pulse width; FM (chirp) -> matched-filter
+            // compressed duration (~ 1 / bandwidth), because the water column is the compressed
+            // envelope and the ensonified volume scales with the compressed, not the transmit, pulse
+            effective_pulse_duration = sysinfos.get_effective_pulse_duration();
+            // system gain offset = source level (power selection) + receiver gain (gain selection).
+            // This removes the per-ping power/gain settings; the remaining fixed calibration constant
+            // (beam pattern, equivalent beam angle, electronics) still has to be added for a true Sv.
+            system_gain_offset = sysinfos.get_system_gain_offset();
             // "spreading" is the TVG log-range factor already applied to the recorded data (0/20/40)
             tvg_factor = sysinfos.get_tvg_factor();
             // 7000 absorption is in dB/km -> dB/m (converted inside SystemInformation)
             absorption_db_m = sysinfos.get_absorption_db_m();
+
+            // If a 7002 MatchFilter record is present it carries the authoritative effective pulse
+            // width (it accounts for the pulse shape and the FM match-filter compression), so prefer
+            // it over the 1/bandwidth approximation. 7k sonar source <= 5.9.0.1 does not compute it
+            // and writes a large negative placeholder, so only use finite positive values.
+            if (has_match_filter())
+            {
+                const float mf_effective_pulse_width =
+                    read_first_datagram<datagrams::MatchFilter>().get_effective_pulse_width();
+                if (std::isfinite(mf_effective_pulse_width) && mf_effective_pulse_width > 0.f)
+                    effective_pulse_duration = mf_effective_pulse_width;
+            }
         }
 
         // tvg_absorption_db_m (applied) == absorption to apply -> absorption is a no-op change and av
         // only corrects the log-range TVG (20 log r for volume) vs the applied "spreading" factor
         calibration::S7KWaterColumnCalibration cal(sound_velocity,
-                                                   pulse_duration,
-                                                   0.f, // system gain offset (uncalibrated)
+                                                   effective_pulse_duration,
+                                                   system_gain_offset,
                                                    absorption_db_m,
-                                                   tvg_factor);
+                                                   tvg_factor,
+                                                   is_fm);
         cal.set_absorption_db_m(absorption_db_m); // makes av/sv available (has_valid_absorption_db_m)
 
         std::vector<calibration::S7KWaterColumnCalibration> calibrations;

@@ -1,4 +1,4 @@
-//sourcehash: 49c47c37af0e41301dcd6979fdad33ed02767f937262c2f13f6857f395f03e71
+//sourcehash: 42ca63b9f3a39a2328edeb231332739f2d6fe1c28b5843ad6e7d3b241366dabd
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -75,6 +75,13 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WCIInfos_get_magnitude_bytes = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WCIInfos_get_magnitude_compression_factor =
+R"doc(factor used to compress magnitude into 8-bit dB (stored =
+factor*log10(mag); DFD App. I); 0 when the magnitude is not stored as
+8-bit dB
+
+)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WCIInfos_get_magnitude_is_32bit = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WCIInfos_get_magnitude_is_db = R"doc()doc";
@@ -86,6 +93,8 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WCIInfos_has_phase = R"doc(whether the record contains phase data)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WCIInfos_magnitude_bytes = R"doc(bytes per magnitude sample on disk (1, 2 or 4))doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WCIInfos_magnitude_compression_factor = R"doc(8-bit dB compression factor (0 if not dB))doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_WCIInfos_magnitude_is_db = R"doc(whether the 8-bit magnitude is already in dB)doc";
 

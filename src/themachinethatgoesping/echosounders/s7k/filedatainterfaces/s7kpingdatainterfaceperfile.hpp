@@ -184,10 +184,10 @@ class S7KPingDataInterfacePerFile
             filetemplates::datatypes::cache_structures::FilePackageCache<
                 filedatatypes::_sub::SystemInformation>;
 
-        static constexpr const char* _name_wci = "FilePackageCache<S7KWaterColumnInformation_V2>";
+        static constexpr const char* _name_wci = "FilePackageCache<S7KWaterColumnInformation_V3>";
         static constexpr const char* _name_detection =
             "FilePackageCache<S7KDetectionInformation_V2>";
-        static constexpr const char* _name_sys = "FilePackageCache<S7KSystemInformation_V2>";
+        static constexpr const char* _name_sys = "FilePackageCache<S7KSystemInformation_V3>";
 
         bool                         _update_index = false;
         std::string                  _index_path;
