@@ -202,6 +202,7 @@ class FilePackageCache
         {
             size_t map_size;
             is.read(reinterpret_cast<char*>(&map_size), sizeof(size_t));
+            data._hash_cache.reserve(map_size);
             for (size_t i = 0; i < map_size; i++)
             {
                 size_t hash;
@@ -219,6 +220,7 @@ class FilePackageCache
         {
             size_t map_size;
             is.read(reinterpret_cast<char*>(&map_size), sizeof(size_t));
+            data._package_buffer.reserve(map_size);
             for (size_t i = 0; i < map_size; i++)
             {
                 size_t file_pos;
