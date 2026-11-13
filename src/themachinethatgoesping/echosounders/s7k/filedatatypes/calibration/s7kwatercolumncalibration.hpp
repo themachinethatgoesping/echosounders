@@ -76,6 +76,20 @@ class S7KWaterColumnCalibration
     bool  is_fm() const { return _is_fm; }
 
     // ----- setup calibration for reson 7k systems -----
+    /**
+     * @brief Modify individual calibration parameters and recompute the power/ap/av calibrations.
+     *
+     * Only the supplied (non-nullopt) parameters are changed; the rest keep their current value.
+     * This mirrors the kmall modify_* updater and is the supported way to tweak the (immutable)
+     * base calibrations.
+     */
+    void modify_s7k_calibrations(std::optional<float> sound_velocity           = std::nullopt,
+                                 std::optional<float> effective_pulse_duration = std::nullopt,
+                                 std::optional<float> system_gain_offset       = std::nullopt,
+                                 std::optional<float> tvg_absorption_db_m      = std::nullopt,
+                                 std::optional<float> tvg_factor               = std::nullopt,
+                                 std::optional<bool>  is_fm                    = std::nullopt);
+
     void setup_s7k_calibrations();
 
     // operator overloads

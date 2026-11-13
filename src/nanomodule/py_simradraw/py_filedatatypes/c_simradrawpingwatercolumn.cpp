@@ -20,6 +20,8 @@
 #include "../../../themachinethatgoesping/echosounders/simradraw/filedatatypes/simradrawpingwatercolumn.hpp"
 #include "../../../themachinethatgoesping/echosounders/simradraw/types.hpp"
 
+#include <py_datatypes/c_i_pingwatercolumn.hpp>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
@@ -37,9 +39,6 @@ using namespace themachinethatgoesping::echosounders::filetemplates;
         filedatatypes,                                                                             \
         SimradRawPingWatercolumn,                                                                  \
         ARG)
-
-#define DOC_I_PingWatercolumn(ARG)                                                                 \
-    DOC(themachinethatgoesping, pingprocessing, datatypes, I_PingWatercolumn, ARG)
 
 #define DOC_SimradRawPingCommon(ARG)                                                               \
     DOC(themachinethatgoesping,                                                                    \
@@ -59,12 +58,6 @@ void py_create_class_simradrawpingwatercolumn(nb::module_& m, const std::string&
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, simradraw, filedatatypes, SimradRawPingWatercolumn))
 
-            // --- interface overwrites (necessary when type is changes) ---
-            .def("get_watercolumn_calibration",
-                 nb::overload_cast<>(&t_SimradRawPingWatercolumn::get_watercolumn_calibration,
-                                     nb::const_),
-                 DOC_I_PingWatercolumn(get_watercolumn_calibration))
-                 
         // --- pingwatercolumn interface extension ---
         // --- variable access ---
 
@@ -83,6 +76,9 @@ void py_create_class_simradrawpingwatercolumn(nb::module_& m, const std::string&
         // end SimradRawPingWatercolumn
         ;
 
+    // specialized (covariant) single-sector calibration accessor (reusable helper)
+    pingprocessing::pymodule::py_datatypes::py_i_pingwatercolumn::
+        PingWatercolumn_add_watercolumn_calibration<t_SimradRawPingWatercolumn>(cls);
 }
 
 void init_c_simradrawpingwatercolumn(nanobind::module_& m)

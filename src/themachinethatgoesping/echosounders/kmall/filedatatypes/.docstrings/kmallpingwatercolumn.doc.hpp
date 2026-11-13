@@ -1,4 +1,4 @@
-//sourcehash: 8de10075d64bdcdc3b1f1e0c47fa3713ad0e87131e28d89e09b5aa1f8cc252cd
+//sourcehash: 83d4961e7ce4937c895cec0b43bf930202d9d067068f08f2dc1173fa2dd9bcff
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -63,8 +63,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_multisectorwatercolumn_calibration = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_number_of_beams_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
@@ -92,8 +90,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_tx_sector_per_beam_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_tx_signal_parameters_legacy = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_get_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_has_amplitudes = R"doc()doc";
 
@@ -126,8 +122,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatyp
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_release = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kmall_filedatatypes_KMALLPingWatercolumn_update_calibration = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

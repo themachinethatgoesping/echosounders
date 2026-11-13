@@ -34,10 +34,12 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include <themachinethatgoesping/pingprocessing/datatypes/i_pingwatercolumn.hpp>
+#include <themachinethatgoesping/pingprocessing/datatypes/i_pingwatercolumncalibration.hpp>
 
 #include "../datagrams.hpp"
 #include "../types.hpp"
 
+#include "calibration/kmallwatercolumncalibration.hpp"
 #include "kmallpingcommon.hpp"
 
 namespace themachinethatgoesping {
@@ -47,11 +49,17 @@ namespace filedatatypes {
 
 template<typename t_ifstream>
 class KMALLPingWatercolumn
-    : public pingprocessing::datatypes::I_PingWatercolumn
+    : public pingprocessing::datatypes::I_PingWatercolumnMultiSectorCalibration<
+          KMALLPingWatercolumn<t_ifstream>,
+          calibration::KMALLWaterColumnCalibration,
+          calibration::KMALLMultiSectorWaterColumnCalibration>
     , public KMALLPingCommon<t_ifstream>
 {
   public:
-    using t_base1 = pingprocessing::datatypes::I_PingWatercolumn;
+    using t_base1 = pingprocessing::datatypes::I_PingWatercolumnMultiSectorCalibration<
+        KMALLPingWatercolumn<t_ifstream>,
+        calibration::KMALLWaterColumnCalibration,
+        calibration::KMALLMultiSectorWaterColumnCalibration>;
     using t_base2 = KMALLPingCommon<t_ifstream>;
 
     using t_base2::_file_data;
@@ -198,6 +206,7 @@ class KMALLPingWatercolumn
     {
         return _file_data->get_wcinfos().get_start_range_sample_numbers();
     }
+    using t_base1::get_beam_sample_selection_all;
     using t_base1::get_number_of_samples_per_beam;
     xt::xtensor<uint32_t, 1> get_number_of_samples_per_beam(
         const algorithms::pingtools::BeamSelection& bs) override
@@ -360,23 +369,8 @@ class KMALLPingWatercolumn
         return bottom_range_samples;
     }
 
-    const calibration::KMALLMultiSectorWaterColumnCalibration&
-    get_multisectorwatercolumn_calibration() const override
-    {
-        return _file_data->get_multisector_calibration();
-    }
-
-    const calibration::KMALLWaterColumnCalibration& get_watercolumn_calibration() const
-    {
-        return _file_data->get_watercolumn_calibration();
-    }
-
-    void update_calibration(
-        const boost::flyweight<calibration::KMALLMultiSectorWaterColumnCalibration>&
-            calibration)
-    {
-        _file_data->update_calibration(calibration);
-    }
+    // get_watercolumn_calibration() / get_multisectorwatercolumn_calibration() / update_calibration()
+    // come from the I_PingWatercolumnMultiSectorCalibration CRTP base (covariant specialized return).
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,

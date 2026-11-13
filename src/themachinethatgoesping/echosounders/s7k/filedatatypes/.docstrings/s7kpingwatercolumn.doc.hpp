@@ -1,4 +1,4 @@
-//sourcehash: 18a601ad4d73e88ef82b8d37acc0f374131b954183b843deeb4a307d87be413d
+//sourcehash: d7738dcad2de0f370718a402149b15167b45eb20cf8e37e74925651c47c93b4d
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -94,8 +94,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_multisectorwatercolumn_calibration = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_number_of_beams_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
@@ -139,8 +137,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_tx_sector_per_beam_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_tx_signal_parameters_legacy = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_get_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_S7KPingWatercolumn_has_amplitudes = R"doc()doc";
 

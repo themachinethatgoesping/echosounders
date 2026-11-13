@@ -30,10 +30,12 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include <themachinethatgoesping/pingprocessing/datatypes/i_pingwatercolumn.hpp>
+#include <themachinethatgoesping/pingprocessing/datatypes/i_pingwatercolumncalibration.hpp>
 
 #include "../datagrams.hpp"
 #include "../types.hpp"
 
+#include "calibration/s7kwatercolumncalibration.hpp"
 #include "s7kpingcommon.hpp"
 
 namespace themachinethatgoesping {
@@ -53,11 +55,17 @@ namespace filedatatypes {
  */
 template<typename t_ifstream>
 class S7KPingWatercolumn
-    : public pingprocessing::datatypes::I_PingWatercolumn
+    : public pingprocessing::datatypes::I_PingWatercolumnMultiSectorCalibration<
+          S7KPingWatercolumn<t_ifstream>,
+          calibration::S7KWaterColumnCalibration,
+          calibration::S7KMultiSectorWaterColumnCalibration>
     , public S7KPingCommon<t_ifstream>
 {
   public:
-    using t_base1 = pingprocessing::datatypes::I_PingWatercolumn;
+    using t_base1 = pingprocessing::datatypes::I_PingWatercolumnMultiSectorCalibration<
+        S7KPingWatercolumn<t_ifstream>,
+        calibration::S7KWaterColumnCalibration,
+        calibration::S7KMultiSectorWaterColumnCalibration>;
     using t_base2 = S7KPingCommon<t_ifstream>;
 
     using t_base2::_file_data;
@@ -79,6 +87,7 @@ class S7KPingWatercolumn
     using t_base1::get_beam_alongtrack_angles;
     using t_base1::get_beam_crosstrack_angles_legacy;
     using t_base1::get_beam_numbers_per_tx_sector_legacy;
+    using t_base1::get_beam_sample_selection_all;
     using t_base1::get_bottom_range_samples;
     using t_base1::get_number_of_samples_per_beam;
     using t_base1::get_tx_sector_per_beam_legacy;
@@ -262,7 +271,7 @@ class S7KPingWatercolumn
         auto amplitudes = assemble_beam_samples<float>(selection, extract_raw_magnitude);
 
         // ... then convert only the selected samples to dB (vectorized / xsimd-friendly)
-        amplitudes = _file_data->get_wcinfos().convert_magnitude_to_db(std::move(amplitudes));
+        _file_data->get_wcinfos().convert_magnitude_to_db(amplitudes);
 
         // 20*log10(0) yields -inf for zero-magnitude samples; map non-finite values to -120 dB so
         // downstream min/max (color scaling, echograms) stay finite
@@ -298,19 +307,8 @@ class S7KPingWatercolumn
     }
 
     // ----- calibration -----
-    const pingprocessing::datatypes::calibration::I_MultiSectorCalibration&
-    get_multisectorwatercolumn_calibration() const override
-    {
-        _file_data->init_watercolumn_calibration(); // lazy: build the calibration on first access
-        return _file_data->get_multisector_calibration();
-    }
-
-    const pingprocessing::datatypes::calibration::WaterColumnCalibration& get_watercolumn_calibration()
-        const override
-    {
-        _file_data->init_watercolumn_calibration(); // lazy: build the calibration on first access
-        return _file_data->get_watercolumn_calibration();
-    }
+    // get_watercolumn_calibration() / get_multisectorwatercolumn_calibration() / update_calibration()
+    // come from the I_PingWatercolumnMultiSectorCalibration CRTP base (covariant specialized return).
 
     // ----- objectprinter -----
     tools::classhelper::ObjectPrinter __printer__(unsigned int float_precision,

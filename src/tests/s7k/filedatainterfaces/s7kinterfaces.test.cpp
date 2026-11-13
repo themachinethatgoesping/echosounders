@@ -6,6 +6,8 @@
 
 #include <fstream>
 #include <memory>
+#include <type_traits>
+#include <utility>
 
 #include "../themachinethatgoesping/echosounders/s7k/filedatacontainers/s7kpingcontainer.hpp"
 #include "../themachinethatgoesping/echosounders/s7k/filedatainterfaces/s7kconfigurationdatainterface.hpp"
@@ -19,6 +21,30 @@
 using namespace themachinethatgoesping::echosounders::s7k;
 
 #define TESTTAG "[s7k]"
+
+// Compile-time guard for the covariant water column calibration return type (request: the concrete
+// ping water column returns the specialized calibration, while the generic I_PingWatercolumn
+// interface keeps returning the generic calibration). Provided by the
+// I_PingWatercolumnMultiSectorCalibration CRTP base.
+namespace {
+using t_S7KPingWatercolumn = filedatatypes::S7KPingWatercolumn<std::ifstream>;
+static_assert(
+    std::is_same_v<decltype(std::declval<const t_S7KPingWatercolumn&>().get_watercolumn_calibration()),
+                   const filedatatypes::calibration::S7KWaterColumnCalibration&>,
+    "S7KPingWatercolumn::get_watercolumn_calibration() must return the specialized calibration");
+static_assert(
+    std::is_same_v<decltype(std::declval<const t_S7KPingWatercolumn&>()
+                                .get_multisectorwatercolumn_calibration()),
+                   const filedatatypes::calibration::S7KMultiSectorWaterColumnCalibration&>,
+    "S7KPingWatercolumn::get_multisectorwatercolumn_calibration() must return the specialized type");
+static_assert(
+    std::is_same_v<decltype(std::declval<const themachinethatgoesping::pingprocessing::datatypes::
+                                             I_PingWatercolumn&>()
+                                .get_watercolumn_calibration()),
+                   const themachinethatgoesping::pingprocessing::datatypes::calibration::
+                       WaterColumnCalibration&>,
+    "I_PingWatercolumn::get_watercolumn_calibration() must stay generic");
+} // namespace
 
 // The file-data interfaces and ping types are structural shells at this step (the datagram-
 // processing functions are not implemented yet). These tests only verify that the interfaces can be

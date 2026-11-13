@@ -1,4 +1,4 @@
-//sourcehash: 351eea04e6f94aaff310501c6d9072a554efdee4e400ea7c3c2a41bb4d00f024
+//sourcehash: c499c57219510d3a0c9614aacd32f5c6d06bf509c77ff56701e72f7369606d27
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -61,8 +61,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_first_sample_offset_per_beam = R"doc()doc";
 
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_multisectorwatercolumn_calibration = R"doc()doc";
-
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_number_of_beams_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_number_of_samples_per_beam = R"doc()doc";
@@ -90,8 +88,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_tx_sector_per_beam_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_tx_signal_parameters_legacy = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_get_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_has_amplitudes = R"doc()doc";
 
@@ -124,8 +120,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_file
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_printer = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_release = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_kongsbergall_filedatatypes_KongsbergAllPingWatercolumn_update_calibration = R"doc()doc";
 
 #if defined(__GNUG__)
 #pragma GCC diagnostic pop

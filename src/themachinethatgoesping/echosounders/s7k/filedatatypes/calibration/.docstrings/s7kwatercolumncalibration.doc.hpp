@@ -1,4 +1,4 @@
-//sourcehash: b0e3bc5a5558d9f9425e9dbe4975c5fa176749eb108b80f35c3a67fc0aa59108
+//sourcehash: ba1c8ec49e42a8297d9f5c7ae1c4957e8f4aadf4f953b1d526806b3043168f0b
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -125,6 +125,16 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_calibration_S7KWaterColumnCalibration_is_fm_2 =
 R"doc(whether the effective pulse duration is the FM (matched-filter
 compressed) duration
+
+)doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_calibration_S7KWaterColumnCalibration_modify_s7k_calibrations =
+R"doc(Modify individual calibration parameters and recompute the power/ap/av
+calibrations.
+
+Only the supplied (non-nullopt) parameters are changed; the rest keep
+their current value. This mirrors the kmall modify_* updater and is
+the supported way to tweak the (immutable) base calibrations.
 
 )doc";
 

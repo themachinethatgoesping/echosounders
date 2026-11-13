@@ -124,7 +124,7 @@ class WaterColumnInformation
      * the same full-scale-referenced dB scale using the record's compression factor.
      */
     template<class Tensor>
-    Tensor convert_magnitude_to_db(Tensor magnitude) const
+    void convert_magnitude_to_db(Tensor& magnitude) const
     {
         if (_wci_infos.get().get_magnitude_is_db())
         {
@@ -134,12 +134,12 @@ class WaterColumnInformation
             const float factor        = _wci_infos.get().get_magnitude_compression_factor();
             const float scale         = (factor > 0.f) ? (20.f / factor) : 1.f;
             const float full_scale_db = 20.f * std::log10(65535.f);
-            return xt::eval(magnitude * scale - full_scale_db);
+            magnitude = xt::eval(magnitude * scale - full_scale_db);
+            return;
         }
 
         const float full_scale = _wci_infos.get().get_magnitude_is_32bit() ? 1.f : 65535.f;
         magnitude              = xt::eval(20.f * xt::log10(magnitude / full_scale));
-        return magnitude;
     }
 
     // ----- functions used for PackageCache -----

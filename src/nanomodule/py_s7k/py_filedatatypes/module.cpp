@@ -15,6 +15,10 @@ namespace py_filedatatypes {
 namespace nb = nanobind;
 
 // -- submodule declarations --
+namespace py_calibration {
+void init_c_s7kwatercolumncalibration(nanobind::module_& m); // c_s7kwatercolumncalibration.cpp
+}
+
 void init_c_s7kpingfiledata(nanobind::module_& m);    // c_s7kpingfiledata.cpp
 void init_c_s7kpingcommon(nanobind::module_& m);      // c_s7kpingcommon.cpp
 void init_c_s7kpingbottom(nanobind::module_& m);      // c_s7kpingbottom.cpp
@@ -26,6 +30,7 @@ void init_m_s7kfiledatatypes(nanobind::module_& m)
 {
     auto subm = m.def_submodule("filedatatypes", "Teledyne RESON .s7k (7k) file data types");
 
+    py_calibration::init_c_s7kwatercolumncalibration(subm);
     init_c_s7kpingfiledata(subm);
     init_c_s7kpingcommon(subm);
     init_c_s7kpingbottom(subm);

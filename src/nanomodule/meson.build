@@ -133,6 +133,7 @@ sources = [
   'py_s7k/py_datagrams/substructs/c_snippetdataamplitudes.cpp',
   'py_s7k/py_datagrams/substructs/c_snippetdatabeam.cpp',
   'py_s7k/py_datagrams/substructs/c_snippetdatabeamcontainer.cpp',
+  'py_s7k/py_filedatatypes/calibration/c_s7kwatercolumncalibration.cpp',
   'py_s7k/py_filedatatypes/c_s7kping.cpp',
   'py_s7k/py_filedatatypes/c_s7kpingbottom.cpp',
   'py_s7k/py_filedatatypes/c_s7kpingcommon.cpp',

@@ -1,4 +1,4 @@
-//sourcehash: 227d4d70b7de3dc672fced67a8456547b2d2a75a8050f122ccc477313b060b7c
+//sourcehash: 4df955ec27dd0f62daf98561fbc15428fd6d3b84dbde7eb8fd6e6062d7a5e1b4
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -127,11 +127,21 @@ conversion. For CW this is the nominal transmit pulse width; for a
 linear chirp (FM) the water column is the matched-filter (pulse-
 compressed) envelope, so the effective duration is ~ 1 / bandwidth. If
 the FM bandwidth is unknown (0) the value is NaN (av/sv then
-unavailable).
+unavailable). This does NOT fold in a 7002 MatchFilter value - see
+get_mf_effective_pulse_duration() (used by the calibration).
 
 )doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_gain_selection = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_mf_effective_pulse_duration =
+R"doc(Effective pulse duration (s) from a 7002 MatchFilter record if one was
+present and valid, otherwise 0 (= not available). This is the
+authoritative effective pulse width used for the water-column
+calibration (it accounts for the pulse shape and FM match-filter
+compression).
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_number_of_tx_sectors = R"doc()doc";
 
@@ -149,9 +159,24 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_get_tx_signal_parameters = R"doc()doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_has_mf_effective_pulse_duration = R"doc()doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_is_fm = R"doc(whether the transmit pulse is a linear chirp (FM) rather than CW)doc";
 
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_mf_effective_pulse_duration =
+R"doc(Effective pulse duration (s) taken from a 7002 MatchFilter record if
+one is present and valid (> 0), otherwise 0 (= not available). Cached
+here so the match filter does not have to be re-read from the file on
+every (cached) ping initialization.)doc";
+
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_operator_eq = R"doc()doc";
+
+static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_set_mf_effective_pulse_duration =
+R"doc(Set the effective pulse duration (s) read from a 7002 MatchFilter
+record (authoritative; see get_effective_pulse_duration). Values <= 0
+/ non-finite are ignored (treated as "not set").
+
+)doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_s7k_filedatatypes_sub_SystemInformation_sysinfos = R"doc()doc";
 

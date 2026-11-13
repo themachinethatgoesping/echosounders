@@ -15,6 +15,8 @@
 #include <themachinethatgoesping/echosounders/s7k/filedatatypes/s7kpingwatercolumn.hpp>
 #include <themachinethatgoesping/echosounders/s7k/types.hpp>
 
+#include <py_datatypes/c_i_pingwatercolumn.hpp>
+
 namespace themachinethatgoesping {
 namespace echosounders {
 namespace pymodule {
@@ -68,6 +70,10 @@ void py_create_class_s7kpingwatercolumn(nanobind::module_& m, const std::string&
         __PYCLASS_DEFAULT_COPY__(t_S7KPingWatercolumn)
         //
         ;
+
+    // specialized (covariant) calibration accessors + update_calibration (reusable helper)
+    pingprocessing::pymodule::py_datatypes::py_i_pingwatercolumn::
+        PingWatercolumn_add_multisectorwatercolumn_calibration<t_S7KPingWatercolumn>(cls);
 }
 
 void init_c_s7kpingwatercolumn(nanobind::module_& m)

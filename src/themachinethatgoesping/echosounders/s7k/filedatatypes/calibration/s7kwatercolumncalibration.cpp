@@ -34,6 +34,29 @@ S7KWaterColumnCalibration::S7KWaterColumnCalibration(float sound_velocity,
     setup_s7k_calibrations();
 }
 
+void S7KWaterColumnCalibration::modify_s7k_calibrations(std::optional<float> sound_velocity,
+                                                       std::optional<float> effective_pulse_duration,
+                                                       std::optional<float> system_gain_offset,
+                                                       std::optional<float> tvg_absorption_db_m,
+                                                       std::optional<float> tvg_factor,
+                                                       std::optional<bool>  is_fm)
+{
+    if (sound_velocity)
+        _sound_velocity = *sound_velocity;
+    if (effective_pulse_duration)
+        _effective_pulse_duration = *effective_pulse_duration;
+    if (system_gain_offset)
+        _system_gain_offset = *system_gain_offset;
+    if (tvg_absorption_db_m)
+        _tvg_absorption_db_m = *tvg_absorption_db_m;
+    if (tvg_factor)
+        _tvg_factor = *tvg_factor;
+    if (is_fm)
+        _is_fm = *is_fm;
+
+    setup_s7k_calibrations();
+}
+
 void S7KWaterColumnCalibration::setup_s7k_calibrations()
 {
     // power is the raw amplitude data minus the system gain offset

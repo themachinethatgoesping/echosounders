@@ -31,10 +31,12 @@
 #include <themachinethatgoesping/tools/classhelper/objectprinter.hpp>
 
 #include <themachinethatgoesping/pingprocessing/datatypes/i_pingwatercolumn.hpp>
+#include <themachinethatgoesping/pingprocessing/datatypes/i_pingwatercolumncalibration.hpp>
 
 #include "../datagrams.hpp"
 #include "../types.hpp"
 
+#include "calibration/simradrawwatercolumncalibration.hpp"
 #include "simradrawpingcommon.hpp"
 
 namespace themachinethatgoesping {
@@ -44,11 +46,15 @@ namespace filedatatypes {
 
 template<typename t_ifstream>
 class SimradRawPingWatercolumn
-    : public pingprocessing::datatypes::I_PingWatercolumn
+    : public pingprocessing::datatypes::I_PingWatercolumnCalibration<
+          SimradRawPingWatercolumn<t_ifstream>,
+          calibration::SimradRawWaterColumnCalibration>
     , public SimradRawPingCommon<t_ifstream>
 {
   public:
-    using t_base1 = pingprocessing::datatypes::I_PingWatercolumn;
+    using t_base1 = pingprocessing::datatypes::I_PingWatercolumnCalibration<
+        SimradRawPingWatercolumn<t_ifstream>,
+        calibration::SimradRawWaterColumnCalibration>;
     using t_base2 = SimradRawPingCommon<t_ifstream>;
 
     using t_base2::_file_data;
@@ -90,10 +96,8 @@ class SimradRawPingWatercolumn
         return _file_data->has_watercolumn_calibration();
     }
 
-    const calibration::SimradRawWaterColumnCalibration& get_watercolumn_calibration() const
-    {
-        return _file_data->get_watercolumn_calibration();
-    }
+    // get_watercolumn_calibration() comes from the I_PingWatercolumnCalibration CRTP base
+    // (covariant specialized return). simradraw is single-sector, so there is no multi-sector getter.
 
     // ----- I_PingWaterColumn interface -----
     bool has_tx_signal_parameters_legacy() const override { return true; }

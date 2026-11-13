@@ -61,6 +61,8 @@ void SystemInformation::to_stream(std::ostream&                            os,
         hash_cache[hash] = _sysinfos.get().to_binary();
 
     os.write(reinterpret_cast<const char*>(&hash), sizeof(size_t));
+    // match-filter effective pulse duration (per ping, cached so the 7002 record is not re-read)
+    os.write(reinterpret_cast<const char*>(&_mf_effective_pulse_duration), sizeof(float));
 }
 
 SystemInformation SystemInformation::from_stream(
@@ -71,6 +73,7 @@ SystemInformation SystemInformation::from_stream(
     is.read(reinterpret_cast<char*>(&hash), sizeof(size_t));
 
     SystemInformation dat;
+    is.read(reinterpret_cast<char*>(&dat._mf_effective_pulse_duration), sizeof(float));
 
     static thread_local std::unordered_map<size_t, boost::flyweights::flyweight<_SysInfos>>
         fw_cache_sysinfos;

@@ -102,6 +102,11 @@ class SystemInformation
 {
     boost::flyweights::flyweight<_SysInfos> _sysinfos;
 
+    /// Effective pulse duration (s) taken from a 7002 MatchFilter record if one is present and
+    /// valid (> 0), otherwise 0 (= not available). Cached here so the match filter does not have to
+    /// be re-read from the file on every (cached) ping initialization.
+    float _mf_effective_pulse_duration = 0.f;
+
     SystemInformation() = default; // for from_stream
 
   public:
@@ -132,6 +137,21 @@ class SystemInformation
 
     size_t get_number_of_tx_sectors() const { return 1; }
 
+    /// Set the effective pulse duration (s) read from a 7002 MatchFilter record (authoritative; see
+    /// get_effective_pulse_duration). Values <= 0 / non-finite are ignored (treated as "not set").
+    void set_mf_effective_pulse_duration(float mf_effective_pulse_duration)
+    {
+        _mf_effective_pulse_duration =
+            (std::isfinite(mf_effective_pulse_duration) && mf_effective_pulse_duration > 0.f)
+                ? mf_effective_pulse_duration
+                : 0.f;
+    }
+    /// Effective pulse duration (s) from a 7002 MatchFilter record if one was present and valid,
+    /// otherwise 0 (= not available). This is the authoritative effective pulse width used for the
+    /// water-column calibration (it accounts for the pulse shape and FM match-filter compression).
+    float get_mf_effective_pulse_duration() const { return _mf_effective_pulse_duration; }
+    bool  has_mf_effective_pulse_duration() const { return _mf_effective_pulse_duration > 0.f; }
+
     // ----- calibration inputs -----
     float get_sound_velocity() const { return _sysinfos.get().get_sound_velocity(); }
     float get_pulse_duration() const { return _sysinfos.get().get_tx_pulse_width(); }
@@ -155,7 +175,8 @@ class SystemInformation
     /// Effective transmit pulse duration (s) used for the volume-scattering conversion. For CW this
     /// is the nominal transmit pulse width; for a linear chirp (FM) the water column is the
     /// matched-filter (pulse-compressed) envelope, so the effective duration is ~ 1 / bandwidth. If
-    /// the FM bandwidth is unknown (0) the value is NaN (av/sv then unavailable).
+    /// the FM bandwidth is unknown (0) the value is NaN (av/sv then unavailable). This does NOT fold
+    /// in a 7002 MatchFilter value - see get_mf_effective_pulse_duration() (used by the calibration).
     float get_effective_pulse_duration() const
     {
         const auto& si = _sysinfos.get();

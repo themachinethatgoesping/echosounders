@@ -139,14 +139,23 @@ class S7KPingFileData
     template<typename t_datagram>
     bool has_datagram_type() const
     {
-        return !this->get_datagram_infos_by_type(t_datagram::DatagramIdentifier).empty();
+        return this->_datagram_infos_by_type.at_const(t_datagram::DatagramIdentifier).size() >
+               0;
+    }
+
+    /**
+     * @brief Reference to the (per-type) datagram infos of the given type (no copy).
+     */
+    auto& get_datagram_infos(t_S7KDatagramIdentifier datagram_identifier) const
+    {
+        return this->_datagram_infos_by_type.at_const(datagram_identifier);
     }
 
     template<typename t_datagram, bool skip_data = false>
     auto read_first_datagram() const
     {
-        const auto datagram_infos =
-            this->get_datagram_infos_by_type(t_datagram::DatagramIdentifier);
+        const auto& datagram_infos =
+            this->_datagram_infos_by_type.at_const(t_datagram::DatagramIdentifier);
 
         if (datagram_infos.empty())
             throw std::runtime_error(
@@ -169,7 +178,7 @@ class S7KPingFileData
      */
     auto& get_ifs(t_S7KDatagramIdentifier datagram_identifier) const
     {
-        return this->get_datagram_infos_by_type(datagram_identifier).at(0)->get_stream();
+        return this->_datagram_infos_by_type.at_const(datagram_identifier).at(0)->get_stream();
     }
 
     // ----- water column information (7042; lazily built, samples read on demand, not stored) -----
@@ -239,13 +248,29 @@ class S7KPingFileData
     }
 
     // ----- system information (7000; tx parameters + calibration inputs, record not retained) -----
+    /**
+     * @brief Build the per-ping SystemInformation from the 7000 SonarSettings record, folding in the
+     * authoritative effective pulse duration from a 7002 MatchFilter record if one is present. The
+     * match filter is read here (once, when the info is built / cached) so the water-column
+     * calibration no longer has to re-read it from the file on every (cached) ping initialization.
+     */
+    _sub::SystemInformation build_systeminformation() const
+    {
+        _sub::SystemInformation sys(read_first_datagram<datagrams::SonarSettings>());
+
+        if (has_match_filter())
+            sys.set_mf_effective_pulse_duration(
+                read_first_datagram<datagrams::MatchFilter>().get_effective_pulse_width());
+
+        return sys;
+    }
+
     void load_sys(bool force = false)
     {
         if (sys_loaded() && !force)
             return;
         if (has_sonar_settings())
-            _systeminformation = std::make_unique<_sub::SystemInformation>(
-                read_first_datagram<datagrams::SonarSettings>());
+            _systeminformation = std::make_unique<_sub::SystemInformation>(build_systeminformation());
     }
     void release_sys() { _systeminformation.reset(); }
     bool sys_loaded() const { return _systeminformation != nullptr; }
@@ -313,17 +338,12 @@ class S7KPingFileData
             // 7000 absorption is in dB/km -> dB/m (converted inside SystemInformation)
             absorption_db_m = sysinfos.get_absorption_db_m();
 
-            // If a 7002 MatchFilter record is present it carries the authoritative effective pulse
+            // If a 7002 MatchFilter record was present it carries the authoritative effective pulse
             // width (it accounts for the pulse shape and the FM match-filter compression), so prefer
-            // it over the 1/bandwidth approximation. 7k sonar source <= 5.9.0.1 does not compute it
-            // and writes a large negative placeholder, so only use finite positive values.
-            if (has_match_filter())
-            {
-                const float mf_effective_pulse_width =
-                    read_first_datagram<datagrams::MatchFilter>().get_effective_pulse_width();
-                if (std::isfinite(mf_effective_pulse_width) && mf_effective_pulse_width > 0.f)
-                    effective_pulse_duration = mf_effective_pulse_width;
-            }
+            // it over the 1/bandwidth approximation. The value is read once when the SystemInformation
+            // is built/cached (see build_systeminformation), so no 7002 record is read here per ping.
+            if (sysinfos.has_mf_effective_pulse_duration())
+                effective_pulse_duration = sysinfos.get_mf_effective_pulse_duration();
         }
 
         // tvg_absorption_db_m (applied) == absorption to apply -> absorption is a no-op change and av
@@ -352,6 +372,33 @@ class S7KPingFileData
         return _multisector_calibration->get();
     }
 
+    // s7k is single-sector, so a valid calibration always wraps exactly one sector.
+    void update_calibration(
+        boost::flyweight<calibration::S7KMultiSectorWaterColumnCalibration> calibration)
+    {
+        if (calibration.get().get_number_of_sectors() != 1)
+            throw std::runtime_error(
+                "Error[S7KPingFileData::update_calibration]: s7k is single-sector, expected "
+                "exactly one calibration sector!");
+
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<calibration::S7KMultiSectorWaterColumnCalibration>>(
+                calibration);
+    }
+
+    void set_multisector_calibration(
+        const calibration::S7KMultiSectorWaterColumnCalibration& multisector_calibration)
+    {
+        if (multisector_calibration.get_number_of_sectors() != 1)
+            throw std::runtime_error(
+                "Error[S7KPingFileData::set_multisector_calibration]: s7k is single-sector, "
+                "expected exactly one calibration sector!");
+
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<calibration::S7KMultiSectorWaterColumnCalibration>>(
+                multisector_calibration);
+    }
+
     const calibration::S7KWaterColumnCalibration& get_watercolumn_calibration(size_t tx_sector) const
     {
         if (get_multisector_calibration().get_number_of_sectors() <= tx_sector)
@@ -370,6 +417,28 @@ class S7KPingFileData
                                      "specified!");
 
         return get_watercolumn_calibration(0);
+    }
+
+    // s7k is single-sector: a single calibration is wrapped into a one-sector multisector container.
+    void set_watercolumn_calibration(const calibration::S7KWaterColumnCalibration& calibration)
+    {
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<calibration::S7KMultiSectorWaterColumnCalibration>>(
+                calibration::S7KMultiSectorWaterColumnCalibration({ calibration }));
+    }
+
+    void set_watercolumn_calibration(
+        const std::vector<calibration::S7KWaterColumnCalibration>& calibrations)
+    {
+        if (calibrations.size() != 1)
+            throw std::runtime_error(fmt::format(
+                "Error[S7KPingFileData::set_watercolumn_calibration]: s7k is single-sector, "
+                "expected exactly one calibration, got {}!",
+                calibrations.size()));
+
+        _multisector_calibration =
+            std::make_unique<boost::flyweight<calibration::S7KMultiSectorWaterColumnCalibration>>(
+                calibrations);
     }
 
     // ----- objectprinter -----

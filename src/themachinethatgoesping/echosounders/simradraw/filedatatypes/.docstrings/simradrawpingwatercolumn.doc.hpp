@@ -1,4 +1,4 @@
-//sourcehash: 6275eb4ee0223d744f63d0725174092869d224c59f69d336e93c0f38798db24e
+//sourcehash: e47f07b79cd456400a91d19a00134b5d3f1ef4153e4c456947dde6c24c2f6755
 
 /*
   This file contains docstrings for use in the Python bindings.
@@ -72,8 +72,6 @@ static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedat
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_tx_sector_per_beam_legacy = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_tx_signal_parameters_legacy = R"doc()doc";
-
-static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_get_watercolumn_calibration = R"doc()doc";
 
 static const char *mkd_doc_themachinethatgoesping_echosounders_simradraw_filedatatypes_SimradRawPingWatercolumn_has_amplitudes = R"doc()doc";
 

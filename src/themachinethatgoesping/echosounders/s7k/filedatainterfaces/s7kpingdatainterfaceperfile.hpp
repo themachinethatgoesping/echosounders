@@ -84,18 +84,12 @@ class S7KPingDataInterfacePerFile
         // index cache handler for this file (reads cached infos if present, collects new ones)
         S7KPingCacheHandler cache_handler(index_paths, *this);
 
-        // process the datagrams in file order (sort a copy so grouping is robust to storage order)
-        auto datagram_infos = this->_datagram_infos_all;
-        std::sort(datagram_infos.begin(), datagram_infos.end(), [](const auto& a, const auto& b) {
-            if (a->get_file_nr() != b->get_file_nr())
-                return a->get_file_nr() < b->get_file_nr();
-            return a->get_file_pos() < b->get_file_pos();
-        });
-
+        // group the datagrams into pings in file order (the datagram infos are indexed in file
+        // order, so - like the KMALL interface - no extra sort is needed)
         std::vector<t_ping_ptr> ping_list;
         t_ping_ptr              current_ping = nullptr;
 
-        for (const auto& datagram_info : datagram_infos)
+        for (const auto& datagram_info : this->_datagram_infos_all)
         {
             const bool starts_new_ping = datagram_info->get_datagram_identifier() ==
                                          t_S7KDatagramIdentifier::SonarSettings; // 7000
@@ -187,7 +181,7 @@ class S7KPingDataInterfacePerFile
         static constexpr const char* _name_wci = "FilePackageCache<S7KWaterColumnInformation_V3>";
         static constexpr const char* _name_detection =
             "FilePackageCache<S7KDetectionInformation_V2>";
-        static constexpr const char* _name_sys = "FilePackageCache<S7KSystemInformation_V3>";
+        static constexpr const char* _name_sys = "FilePackageCache<S7KSystemInformation_V4>";
 
         bool                         _update_index = false;
         std::string                  _index_path;
@@ -231,9 +225,9 @@ class S7KPingDataInterfacePerFile
         std::unique_ptr<filedatatypes::_sub::WaterColumnInformation>
         read_or_get_watercolumninformation(t_ping& ping)
         {
-            const auto datagram_info =
+            const auto& datagram_info =
                 ping.file_data()
-                    .get_datagram_infos_by_type(t_S7KDatagramIdentifier::CompressedWaterColumnData)
+                    .get_datagram_infos(t_S7KDatagramIdentifier::CompressedWaterColumnData)
                     .at(0);
 
             if (!_file_cache)
@@ -262,10 +256,8 @@ class S7KPingDataInterfacePerFile
         std::unique_ptr<filedatatypes::_sub::DetectionInformation> read_or_get_detectioninformation(
             t_ping& ping)
         {
-            const auto datagram_info =
-                ping.file_data()
-                    .get_datagram_infos_by_type(t_S7KDatagramIdentifier::RawDetectionData)
-                    .at(0);
+            const auto& datagram_info =
+                ping.file_data().get_datagram_infos(t_S7KDatagramIdentifier::RawDetectionData).at(0);
 
             if (!_file_cache)
                 return std::make_unique<filedatatypes::_sub::DetectionInformation>(
@@ -291,14 +283,12 @@ class S7KPingDataInterfacePerFile
         std::unique_ptr<filedatatypes::_sub::SystemInformation> read_or_get_systeminformation(
             t_ping& ping)
         {
-            const auto datagram_info =
-                ping.file_data()
-                    .get_datagram_infos_by_type(t_S7KDatagramIdentifier::SonarSettings)
-                    .at(0);
+            const auto& datagram_info =
+                ping.file_data().get_datagram_infos(t_S7KDatagramIdentifier::SonarSettings).at(0);
 
             if (!_file_cache)
                 return std::make_unique<filedatatypes::_sub::SystemInformation>(
-                    ping.file_data().template read_first_datagram<datagrams::SonarSettings>());
+                    ping.file_data().build_systeminformation());
 
             if (_buffer_systeminformation.has_package(datagram_info->get_file_pos()))
                 return _buffer_systeminformation.get_package(datagram_info->get_file_pos(),
@@ -306,7 +296,7 @@ class S7KPingDataInterfacePerFile
 
             _update_index = true;
             auto dat      = std::make_unique<filedatatypes::_sub::SystemInformation>(
-                ping.file_data().template read_first_datagram<datagrams::SonarSettings>());
+                ping.file_data().build_systeminformation());
 
             _buffer_systeminformation.add_package(
                 datagram_info->get_file_pos(),

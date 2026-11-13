@@ -39,6 +39,44 @@ void py_create_class_s7kpingfiledata(nanobind::module_& m, const std::string& CL
         CLASS_NAME.c_str(),
         DOC(themachinethatgoesping, echosounders, s7k, filedatatypes, S7KPingFileData))
 
+        // --- watercolumn calibration access ---
+        .def("init_watercolumn_calibration",
+             &t_S7KPingFileData::init_watercolumn_calibration,
+             DOC_S7KPingFileData(init_watercolumn_calibration),
+             nb::arg("force") = false)
+        .def("has_watercolumn_calibration",
+             &t_S7KPingFileData::has_watercolumn_calibration,
+             DOC_S7KPingFileData(has_watercolumn_calibration))
+        .def("set_watercolumn_calibration",
+             nb::overload_cast<const filedatatypes::calibration::S7KWaterColumnCalibration&>(
+                 &t_S7KPingFileData::set_watercolumn_calibration),
+             DOC_S7KPingFileData(set_watercolumn_calibration),
+             nb::arg("calibration"))
+        .def("set_watercolumn_calibration",
+             nb::overload_cast<
+                 const std::vector<filedatatypes::calibration::S7KWaterColumnCalibration>&>(
+                 &t_S7KPingFileData::set_watercolumn_calibration),
+             DOC_S7KPingFileData(set_watercolumn_calibration_2),
+             nb::arg("calibrations"))
+        .def("get_watercolumn_calibration",
+             nb::overload_cast<size_t>(&t_S7KPingFileData::get_watercolumn_calibration, nb::const_),
+             DOC_S7KPingFileData(get_watercolumn_calibration),
+             nb::arg("tx_sector"))
+        .def("get_watercolumn_calibration",
+             nb::overload_cast<>(&t_S7KPingFileData::get_watercolumn_calibration, nb::const_),
+             DOC_S7KPingFileData(get_watercolumn_calibration_2))
+        .def("get_multisector_calibration",
+             &t_S7KPingFileData::get_multisector_calibration,
+             DOC_S7KPingFileData(get_multisector_calibration))
+        .def("set_multisector_calibration",
+             &t_S7KPingFileData::set_multisector_calibration,
+             DOC_S7KPingFileData(set_multisector_calibration),
+             nb::arg("calibration"))
+        .def("update_calibration",
+             &t_S7KPingFileData::update_calibration,
+             DOC_S7KPingFileData(update_calibration),
+             nb::arg("calibration"))
+
         // ----- nanobind macros -----
         __PYCLASS_DEFAULT_COPY__(t_S7KPingFileData)
             __PYCLASS_DEFAULT_PRINTING__(t_S7KPingFileData)
